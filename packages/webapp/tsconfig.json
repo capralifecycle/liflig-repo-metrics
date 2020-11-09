@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "strict": true,
+    "module": "es6",
+    "jsx": "react",
+    "target": "es5",
+    "lib": ["dom", "es2017"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src", "*.js"]
+}

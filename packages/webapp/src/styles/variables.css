@@ -1,0 +1,11 @@
+:root {
+  --color-primary: blue;
+  --color-secondary: lightgrey;
+  --color-warning: orange;
+  --color-danger: red;
+  --color-success: green;
+
+  --spacing-normal: 12px;
+  --spacing-large: calc(var(--spacing-normal) * 2);
+  --spacing-small: calc(var(--spacing-normal) / 2);
+}
