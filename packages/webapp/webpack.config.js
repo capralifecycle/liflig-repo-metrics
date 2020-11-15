@@ -122,6 +122,13 @@ module.exports = (env) => {
       contentBase: "./build",
       port: 3000,
       historyApiFallback: true,
+      proxy: {
+        // See "serve" in repo-collector.
+        "/data": {
+          target: "http://localhost:8383/",
+          pathRewrite: { "^/data": "" },
+        },
+      },
     },
     module: {
       rules: [

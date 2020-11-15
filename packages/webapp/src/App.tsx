@@ -8,7 +8,7 @@ function useData(): [boolean, MetricRepoSnapshot[] | null] {
 
   React.useEffect(() => {
     setIsLoading(true)
-    fetch("http://localhost:8383/result.json")
+    fetch("/data/result.json")
       .then((it) => it.json())
       .then((it) => {
         setData(it)
