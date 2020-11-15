@@ -20,7 +20,7 @@ const smp = new SpeedMeasurePlugin({
 })
 
 module.exports = (env) => {
-  const isProd = env && env.production
+  const isProd = env === "production"
 
   const config = {
     entry: "./src/index.tsx",
