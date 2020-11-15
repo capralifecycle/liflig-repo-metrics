@@ -24,7 +24,7 @@
   "dependencies": {
     "@capraconsulting/cals-cli": "2.16.0",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
-    "@types/lodash": "4.14.164",
+    "@types/lodash": "4.14.165",
     "lodash": "4.17.20"
   }
 }
