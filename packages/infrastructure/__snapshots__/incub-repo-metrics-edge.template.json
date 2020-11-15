@@ -1,0 +1,1063 @@
+{
+  "Resources": {
+    "AuthLambdasServiceRoleF10A0667": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com",
+                  "edgelambda.amazonaws.com"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-edge"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/ServiceRole/Resource"
+      }
+    },
+    "AuthLambdasCheckAuthFunction6B3C9473": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "snapshot-value"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AuthLambdasServiceRoleF10A0667",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-edge"
+          }
+        ],
+        "Timeout": 5
+      },
+      "DependsOn": [
+        "AuthLambdasServiceRoleF10A0667"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/CheckAuthFunction/Resource",
+        "aws:asset:path": "asset.snapshot-value",
+        "aws:asset:property": "Code"
+      }
+    },
+    "AuthLambdasCheckAuthFunctionCurrentVersionF10C4D62xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx": {
+      "Type": "AWS::Lambda::Version",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AuthLambdasCheckAuthFunction6B3C9473"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/CheckAuthFunction/CurrentVersion/Resource"
+      }
+    },
+    "AuthLambdasCheckAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicy088F1114": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ssm:PutParameter",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "ssm:DeleteParameter",
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AuthLambdasCheckAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicy088F1114",
+        "Roles": [
+          {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/CheckAuthFunctionVersionParam/Parameu-west-1/Resoure/CustomResourcePolicy/Resource"
+      }
+    },
+    "AuthLambdasCheckAuthFunctionVersionParamParameuwest1Resoure8ACD3434": {
+      "Type": "Custom::AWS",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+            "Arn"
+          ]
+        },
+        "Create": {
+          "service": "SSM",
+          "action": "putParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-CheckAuthFunction-function-arn",
+            "Value": {
+              "Ref": "AuthLambdasCheckAuthFunctionCurrentVersionF10C4D62xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            "Type": "String",
+            "Overwrite": "TRUE:BOOLEAN"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-CheckAuthFunction-function-arn"
+          }
+        },
+        "Update": {
+          "service": "SSM",
+          "action": "putParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-CheckAuthFunction-function-arn",
+            "Value": {
+              "Ref": "AuthLambdasCheckAuthFunctionCurrentVersionF10C4D62xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            "Type": "String",
+            "Overwrite": "TRUE:BOOLEAN"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-CheckAuthFunction-function-arn"
+          }
+        },
+        "Delete": {
+          "service": "SSM",
+          "action": "deleteParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-CheckAuthFunction-function-arn"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-CheckAuthFunction-function-arn"
+          }
+        },
+        "InstallLatestAwsSdk": true
+      },
+      "DependsOn": [
+        "AuthLambdasCheckAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicy088F1114"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/CheckAuthFunctionVersionParam/Parameu-west-1/Resoure/Resource/Default"
+      }
+    },
+    "AuthLambdasHttpHeadersFunctionC7A2BAB9": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "snapshot-value"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AuthLambdasServiceRoleF10A0667",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-edge"
+          }
+        ],
+        "Timeout": 5
+      },
+      "DependsOn": [
+        "AuthLambdasServiceRoleF10A0667"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/HttpHeadersFunction/Resource",
+        "aws:asset:path": "asset.snapshot-value",
+        "aws:asset:property": "Code"
+      }
+    },
+    "AuthLambdasHttpHeadersFunctionCurrentVersion8B8CDE2Exxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx": {
+      "Type": "AWS::Lambda::Version",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AuthLambdasHttpHeadersFunctionC7A2BAB9"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/HttpHeadersFunction/CurrentVersion/Resource"
+      }
+    },
+    "AuthLambdasHttpHeadersFunctionVersionParamParameuwest1ResoureCustomResourcePolicyC99B8AA6": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ssm:PutParameter",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "ssm:DeleteParameter",
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AuthLambdasHttpHeadersFunctionVersionParamParameuwest1ResoureCustomResourcePolicyC99B8AA6",
+        "Roles": [
+          {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/HttpHeadersFunctionVersionParam/Parameu-west-1/Resoure/CustomResourcePolicy/Resource"
+      }
+    },
+    "AuthLambdasHttpHeadersFunctionVersionParamParameuwest1Resoure0C3C81F2": {
+      "Type": "Custom::AWS",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+            "Arn"
+          ]
+        },
+        "Create": {
+          "service": "SSM",
+          "action": "putParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-HttpHeadersFunction-function-arn",
+            "Value": {
+              "Ref": "AuthLambdasHttpHeadersFunctionCurrentVersion8B8CDE2Exxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            "Type": "String",
+            "Overwrite": "TRUE:BOOLEAN"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-HttpHeadersFunction-function-arn"
+          }
+        },
+        "Update": {
+          "service": "SSM",
+          "action": "putParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-HttpHeadersFunction-function-arn",
+            "Value": {
+              "Ref": "AuthLambdasHttpHeadersFunctionCurrentVersion8B8CDE2Exxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            "Type": "String",
+            "Overwrite": "TRUE:BOOLEAN"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-HttpHeadersFunction-function-arn"
+          }
+        },
+        "Delete": {
+          "service": "SSM",
+          "action": "deleteParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-HttpHeadersFunction-function-arn"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-HttpHeadersFunction-function-arn"
+          }
+        },
+        "InstallLatestAwsSdk": true
+      },
+      "DependsOn": [
+        "AuthLambdasHttpHeadersFunctionVersionParamParameuwest1ResoureCustomResourcePolicyC99B8AA6"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/HttpHeadersFunctionVersionParam/Parameu-west-1/Resoure/Resource/Default"
+      }
+    },
+    "AuthLambdasParseAuthFunctionC04A121B": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "snapshot-value"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AuthLambdasServiceRoleF10A0667",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-edge"
+          }
+        ],
+        "Timeout": 5
+      },
+      "DependsOn": [
+        "AuthLambdasServiceRoleF10A0667"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/ParseAuthFunction/Resource",
+        "aws:asset:path": "asset.snapshot-value",
+        "aws:asset:property": "Code"
+      }
+    },
+    "AuthLambdasParseAuthFunctionCurrentVersionA32A5991xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx": {
+      "Type": "AWS::Lambda::Version",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AuthLambdasParseAuthFunctionC04A121B"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/ParseAuthFunction/CurrentVersion/Resource"
+      }
+    },
+    "AuthLambdasParseAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicyCEAE27DB": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ssm:PutParameter",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "ssm:DeleteParameter",
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AuthLambdasParseAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicyCEAE27DB",
+        "Roles": [
+          {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/ParseAuthFunctionVersionParam/Parameu-west-1/Resoure/CustomResourcePolicy/Resource"
+      }
+    },
+    "AuthLambdasParseAuthFunctionVersionParamParameuwest1Resoure934661C6": {
+      "Type": "Custom::AWS",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+            "Arn"
+          ]
+        },
+        "Create": {
+          "service": "SSM",
+          "action": "putParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-ParseAuthFunction-function-arn",
+            "Value": {
+              "Ref": "AuthLambdasParseAuthFunctionCurrentVersionA32A5991xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            "Type": "String",
+            "Overwrite": "TRUE:BOOLEAN"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-ParseAuthFunction-function-arn"
+          }
+        },
+        "Update": {
+          "service": "SSM",
+          "action": "putParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-ParseAuthFunction-function-arn",
+            "Value": {
+              "Ref": "AuthLambdasParseAuthFunctionCurrentVersionA32A5991xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            "Type": "String",
+            "Overwrite": "TRUE:BOOLEAN"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-ParseAuthFunction-function-arn"
+          }
+        },
+        "Delete": {
+          "service": "SSM",
+          "action": "deleteParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-ParseAuthFunction-function-arn"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-ParseAuthFunction-function-arn"
+          }
+        },
+        "InstallLatestAwsSdk": true
+      },
+      "DependsOn": [
+        "AuthLambdasParseAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicyCEAE27DB"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/ParseAuthFunctionVersionParam/Parameu-west-1/Resoure/Resource/Default"
+      }
+    },
+    "AuthLambdasRefreshAuthFunction4B0B3BD6": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "snapshot-value"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AuthLambdasServiceRoleF10A0667",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-edge"
+          }
+        ],
+        "Timeout": 5
+      },
+      "DependsOn": [
+        "AuthLambdasServiceRoleF10A0667"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/RefreshAuthFunction/Resource",
+        "aws:asset:path": "asset.snapshot-value",
+        "aws:asset:property": "Code"
+      }
+    },
+    "AuthLambdasRefreshAuthFunctionCurrentVersion632285F6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx": {
+      "Type": "AWS::Lambda::Version",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AuthLambdasRefreshAuthFunction4B0B3BD6"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/RefreshAuthFunction/CurrentVersion/Resource"
+      }
+    },
+    "AuthLambdasRefreshAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicy095CEC70": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ssm:PutParameter",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "ssm:DeleteParameter",
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AuthLambdasRefreshAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicy095CEC70",
+        "Roles": [
+          {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/RefreshAuthFunctionVersionParam/Parameu-west-1/Resoure/CustomResourcePolicy/Resource"
+      }
+    },
+    "AuthLambdasRefreshAuthFunctionVersionParamParameuwest1Resoure0C0D8913": {
+      "Type": "Custom::AWS",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+            "Arn"
+          ]
+        },
+        "Create": {
+          "service": "SSM",
+          "action": "putParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-RefreshAuthFunction-function-arn",
+            "Value": {
+              "Ref": "AuthLambdasRefreshAuthFunctionCurrentVersion632285F6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            "Type": "String",
+            "Overwrite": "TRUE:BOOLEAN"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-RefreshAuthFunction-function-arn"
+          }
+        },
+        "Update": {
+          "service": "SSM",
+          "action": "putParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-RefreshAuthFunction-function-arn",
+            "Value": {
+              "Ref": "AuthLambdasRefreshAuthFunctionCurrentVersion632285F6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            "Type": "String",
+            "Overwrite": "TRUE:BOOLEAN"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-RefreshAuthFunction-function-arn"
+          }
+        },
+        "Delete": {
+          "service": "SSM",
+          "action": "deleteParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-RefreshAuthFunction-function-arn"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-RefreshAuthFunction-function-arn"
+          }
+        },
+        "InstallLatestAwsSdk": true
+      },
+      "DependsOn": [
+        "AuthLambdasRefreshAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicy095CEC70"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/RefreshAuthFunctionVersionParam/Parameu-west-1/Resoure/Resource/Default"
+      }
+    },
+    "AuthLambdasSignOutFunction251863E4": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "snapshot-value"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AuthLambdasServiceRoleF10A0667",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-edge"
+          }
+        ],
+        "Timeout": 5
+      },
+      "DependsOn": [
+        "AuthLambdasServiceRoleF10A0667"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/SignOutFunction/Resource",
+        "aws:asset:path": "asset.snapshot-value",
+        "aws:asset:property": "Code"
+      }
+    },
+    "AuthLambdasSignOutFunctionCurrentVersion0576BBB1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx": {
+      "Type": "AWS::Lambda::Version",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AuthLambdasSignOutFunction251863E4"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/SignOutFunction/CurrentVersion/Resource"
+      }
+    },
+    "AuthLambdasSignOutFunctionVersionParamParameuwest1ResoureCustomResourcePolicy16B30BE4": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "ssm:PutParameter",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "ssm:DeleteParameter",
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AuthLambdasSignOutFunctionVersionParamParameuwest1ResoureCustomResourcePolicy16B30BE4",
+        "Roles": [
+          {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/SignOutFunctionVersionParam/Parameu-west-1/Resoure/CustomResourcePolicy/Resource"
+      }
+    },
+    "AuthLambdasSignOutFunctionVersionParamParameuwest1Resoure18583D2D": {
+      "Type": "Custom::AWS",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
+            "Arn"
+          ]
+        },
+        "Create": {
+          "service": "SSM",
+          "action": "putParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-SignOutFunction-function-arn",
+            "Value": {
+              "Ref": "AuthLambdasSignOutFunctionCurrentVersion0576BBB1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            "Type": "String",
+            "Overwrite": "TRUE:BOOLEAN"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-SignOutFunction-function-arn"
+          }
+        },
+        "Update": {
+          "service": "SSM",
+          "action": "putParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-SignOutFunction-function-arn",
+            "Value": {
+              "Ref": "AuthLambdasSignOutFunctionCurrentVersion0576BBB1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            },
+            "Type": "String",
+            "Overwrite": "TRUE:BOOLEAN"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-SignOutFunction-function-arn"
+          }
+        },
+        "Delete": {
+          "service": "SSM",
+          "action": "deleteParameter",
+          "parameters": {
+            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-SignOutFunction-function-arn"
+          },
+          "region": "eu-west-1",
+          "physicalResourceId": {
+            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-SignOutFunction-function-arn"
+          }
+        },
+        "InstallLatestAwsSdk": true
+      },
+      "DependsOn": [
+        "AuthLambdasSignOutFunctionVersionParamParameuwest1ResoureCustomResourcePolicy16B30BE4"
+      ],
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AuthLambdas/SignOutFunctionVersionParam/Parameu-west-1/Resoure/Resource/Default"
+      }
+    },
+    "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-edge"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AWS679f53fac002430cb0da5b7982bd2287/ServiceRole/Resource"
+      }
+    },
+    "AWS679f53fac002430cb0da5b7982bd22872D164C4C": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "snapshot-value"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-edge"
+          }
+        ],
+        "Timeout": 120
+      },
+      "DependsOn": [
+        "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-edge/AWS679f53fac002430cb0da5b7982bd2287/Resource",
+        "aws:asset:path": "asset.snapshot-value",
+        "aws:asset:property": "Code"
+      }
+    }
+  },
+  "Parameters": {}
+}

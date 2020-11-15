@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "commonjs",
+    "lib": ["es2018", "es2019"],
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true
+  },
+  "exclude": ["cdk.out"]
+}
