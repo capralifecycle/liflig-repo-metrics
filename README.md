@@ -2,6 +2,8 @@
 
 See https://confluence.capraconsulting.no/x/7_IBC
 
+## Running locally
+
 ```bash
 npm ci
 npx lerna bootstrap --hoist
@@ -15,6 +17,13 @@ cd packages/repo-collector
 npx ts-node metrics.ts
 ```
 
+Serve the metrics locally so the webapp can reach it:
+
+```bash
+cd packages/repo-collector
+npm run serve
+```
+
 Serve webapp:
 
 ```bash
@@ -23,6 +32,11 @@ npm start
 ```
 
 http://localhost:3000
+
+## Tips for local development
+
+* Open each package in a separate VS Code window for it to
+  identify the expected packages.
 
 ## Keys setup
 
