@@ -44,6 +44,6 @@
     "@aws-cdk/core": "1.73.0",
     "@henrist/cdk-cloudfront-auth": "1.1.3",
     "@henrist/cdk-lambda-config": "1.0.3",
-    "@liflig/cdk": "1.21.0"
+    "@liflig/cdk": "1.21.1"
   }
 }
