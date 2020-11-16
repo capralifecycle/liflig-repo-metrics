@@ -3,6 +3,7 @@ import * as React from "react"
 
 interface Props {
   data: WebappMetricDataRepo
+  showPrList: boolean
   showDepList: boolean
   showVulList: boolean
 }
@@ -40,19 +41,23 @@ const SnykItem: React.FC<{
   </span>
 )
 
-export const Repo: React.FC<Props> = ({ data, showDepList, showVulList }) => {
+export const Repo: React.FC<Props> = ({
+  data,
+  showPrList,
+  showDepList,
+  showVulList,
+}) => {
   const availableUpdates = data.lastDatapoint.github.availableUpdates
   const githubVulAlerts = data.lastDatapoint.github.vulnerabilityAlerts
   const snyk = data.lastDatapoint.snyk
+  const prs = data.lastDatapoint.github.prs
+
+  const repoBaseUrl = `https://github.com/${data.github.orgName}/${data.github.repoName}`
 
   return (
     <tr>
       <td>
-        <a
-          href={`https://github.com/${data.github.orgName}/${data.github.repoName}`}
-        >
-          {data.repoId}
-        </a>
+        <a href={repoBaseUrl}>{data.repoId}</a>
       </td>
       <td>{data.lastDatapoint.timestamp}</td>
       <td>
@@ -68,6 +73,27 @@ export const Repo: React.FC<Props> = ({ data, showDepList, showVulList }) => {
                 {availableUpdates.map((available) => (
                   <li key={available.name}>
                     {available.name} ({available.toVersion})
+                  </li>
+                ))}
+              </ul>
+            )}
+          </>
+        )}
+      </td>
+      <td>
+        {prs.length === 0 ? (
+          <span style={{ color: "green" }}>Ingen</span>
+        ) : (
+          <>
+            <b>{prs.length}</b>
+            {showPrList && (
+              <ul>
+                {prs.map((pr, idx) => (
+                  <li key={idx}>
+                    <a href={`${repoBaseUrl}/pulls/${pr.number}`}>
+                      #{pr.number}
+                    </a>{" "}
+                    {pr.title} ({pr.author})
                   </li>
                 ))}
               </ul>

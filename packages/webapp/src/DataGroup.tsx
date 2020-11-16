@@ -6,6 +6,7 @@ import { Repo } from "./Repo"
 interface Props {
   responsible: string
   repos: WebappMetricDataRepo[]
+  showPrList: boolean
   showDepList: boolean
   showVulList: boolean
 }
@@ -13,6 +14,7 @@ interface Props {
 export const DataGroup: React.FC<Props> = ({
   responsible,
   repos,
+  showPrList,
   showDepList,
   showVulList,
 }) => {
@@ -44,6 +46,7 @@ export const DataGroup: React.FC<Props> = ({
             <th>Repo</th>
             <th>Tid oppdatert</th>
             <th>Oppdateringer tilgjengelig</th>
+            <th>Åpne PRs</th>
             <th>Sårbarheter (GitHub)</th>
             <th>Sårbarheter (Snyk)</th>
           </tr>
@@ -55,6 +58,7 @@ export const DataGroup: React.FC<Props> = ({
               <Repo
                 key={item.repoId}
                 data={item}
+                showPrList={showPrList}
                 showDepList={showDepList}
                 showVulList={showVulList}
               />
