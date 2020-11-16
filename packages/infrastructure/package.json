@@ -5,7 +5,7 @@
     "cdk": "cdk",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "snapshots": "rm -rf cdk.out __snapshots__ && IS_SNAPSHOT=true npm run cdk -- synth && cdk-create-snapshots"
+    "snapshots": "rm -rf cdk.out __snapshots__ && IS_SNAPSHOT=true cdk synth && cdk-create-snapshots"
   },
   "devDependencies": {
     "@types/node": "13.13.30",

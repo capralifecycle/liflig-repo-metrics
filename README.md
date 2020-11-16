@@ -4,10 +4,11 @@ See https://confluence.capraconsulting.no/x/7_IBC
 
 ## Running locally
 
+(This setup uses Yarn Workspaces instead of NPM. `npm install -g yarn` if needed.)
+
 ```bash
-npm ci
-npx lerna bootstrap --hoist
-npm run build
+yarn
+yarn build
 ```
 
 Generate metrics (also see section about keys):
@@ -21,21 +22,21 @@ Serve the metrics locally so the webapp can reach it:
 
 ```bash
 cd packages/repo-collector
-npm run serve
+yarn serve
 ```
 
 Serve webapp:
 
 ```bash
 cd packages/webapp
-npm start
+yarn start
 ```
 
 http://localhost:3000
 
 ## Tips for local development
 
-* Open each package in a separate VS Code window for it to
+- Open each package in a separate VS Code window for it to
   identify the expected packages.
 
 ## Keys setup
