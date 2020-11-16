@@ -6,7 +6,9 @@
     "build": "rimraf dist && webpack",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "collect-locally": "ts-node src/cli.ts"
+    "collect-locally": "ts-node src/collect-locally.ts",
+    "convert-locally": "ts-node src/convert-locally.ts",
+    "serve": "http-server --cors -p 8383 data"
   },
   "devDependencies": {
     "@types/node": "14.14.7",
@@ -17,6 +19,7 @@
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-deprecation": "1.1.0",
     "eslint-plugin-prettier": "3.1.4",
+    "http-server": "0.12.3",
     "prettier": "2.1.2",
     "rimraf": "3.0.2",
     "ts-node": "9.0.0",

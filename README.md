@@ -21,7 +21,7 @@ yarn collect-locally
 Serve the metrics locally so the webapp can reach it:
 
 ```bash
-cd packages/bff
+cd packages/repo-collector
 yarn convert-locally
 yarn serve
 ```
@@ -75,6 +75,5 @@ yarn cdk deploy --all
   - Fetch latest resources-definition if not available
   - Manual provisioned secrets for GitHub and Snyk
   - Store data on S3
-- Initial working BFF
-  - Authorization check
+  - Convert to webapp-specific build
 - Visualize data in webapp
