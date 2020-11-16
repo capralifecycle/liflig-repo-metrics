@@ -7,12 +7,14 @@ interface Props {
   responsible: string
   repos: WebappMetricDataRepo[]
   showDepList: boolean
+  showVulList: boolean
 }
 
 export const DataGroup: React.FC<Props> = ({
   responsible,
   repos,
   showDepList,
+  showVulList,
 }) => {
   const updatesAvailable = sumBy(
     repos,
@@ -50,7 +52,12 @@ export const DataGroup: React.FC<Props> = ({
           {[...repos]
             .sort((a, b) => a.repoId.localeCompare(b.repoId))
             .map((item) => (
-              <Repo key={item.repoId} data={item} showDepList={showDepList} />
+              <Repo
+                key={item.repoId}
+                data={item}
+                showDepList={showDepList}
+                showVulList={showVulList}
+              />
             ))}
         </tbody>
       </table>

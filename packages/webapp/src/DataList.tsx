@@ -11,6 +11,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
   const byResponsible = groupBy(data.repos, (it) => it.responsible ?? "Ukjent")
 
   const [showDepList, setShowDepList] = React.useState(false)
+  const [showVulList, setShowVulList] = React.useState(false)
 
   return (
     <>
@@ -24,6 +25,16 @@ export const DataList: React.FC<Props> = ({ data }) => {
           Vis detaljert liste over avhengigheter
         </label>
       </p>
+      <p>
+        <label>
+          <input
+            type="checkbox"
+            checked={showVulList}
+            onChange={(e) => setShowVulList(e.target.checked)}
+          />{" "}
+          Vis detaljert detaljer om sårbarheter
+        </label>
+      </p>
       {Object.entries(byResponsible)
         .sort((a, b) => a[0].localeCompare(b[0]))
         .map(([responsible, repos]) => (
@@ -32,6 +43,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
             responsible={responsible}
             repos={repos}
             showDepList={showDepList}
+            showVulList={showVulList}
           />
         ))}
     </>
