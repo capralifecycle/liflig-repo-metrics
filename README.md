@@ -49,30 +49,31 @@ Keys must be set for:
 - GitHub
 - Snyk
 
+## Manual deployment
+
+Currently deployment is performed manually:
+
+```bash
+yarn build
+cd packages/infrastructure
+aws-vault exec liflig-incubator-admin
+yarn cdk deploy --all
+```
+
 ## Tech overview
 
-- Lerna for multi-package setup
+- Lerna and Yarn Workspaces for multi-package setup
 - TypeScript
 - Webpack for bundling
 - ESLint and Prettier
+- CDK for infrastructure
 
 ## To do
 
-- Use NPM Workspaces from npm@v7? See https://github.com/npm/rfcs/blob/latest/implemented/0026-workspaces.md
-- Fetch latest resources-definition if not available
-- Store data on S3
-- Retrieve data by URL in webapp
-- Bundle repo-collector to be lambda-friendly (webpack?)
-- CDK setup
-  - Lambda for collector
+- Initial working lambda for collecting metrics
+  - Fetch latest resources-definition if not available
   - Manual provisioned secrets for GitHub and Snyk
-  - Daily scheduling of Lambda
-  - S3 for data files
-  - S3 for webapp
-  - CloudFront for webapp
-  - Deploy of webapp
-  - Auth with https://github.com/henrist/cdk-cloudfront-auth - similar as
-    for git-visualized-activity
+  - Store data on S3
+- Initial working BFF
+  - Authorization check
 - Visualize data in webapp
-- Generate an additional webapp-friendly (minimal) dataset? But keep the "raw" collected data
-  so we can modify the transformation later based on persisted data.
