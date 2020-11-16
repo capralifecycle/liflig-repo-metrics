@@ -87,7 +87,7 @@ async function createSnapshots(
   return result
 }
 
-async function main() {
+export async function main() {
   const config = new Config()
   const cache = new CacheProvider(config)
   cache.mustValidate = true
@@ -116,9 +116,3 @@ async function main() {
     "utf-8",
   )
 }
-
-main().catch((error) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  console.error(error.stack || error.message || error)
-  process.exitCode = 1
-})

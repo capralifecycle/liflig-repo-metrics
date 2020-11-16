@@ -2123,7 +2123,42 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "ZipFile": "console.log('I ran!');"
+          "S3Bucket": {
+            "Ref": "snapshot-value"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
         },
         "Handler": "index.handler",
         "Role": {
@@ -2153,7 +2188,9 @@
         "CollectorServiceRole78F40CC4"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Collector/Resource"
+        "aws:cdk:path": "incub-repo-metrics-main/Collector/Resource",
+        "aws:asset:path": "asset.snapshot-value",
+        "aws:asset:property": "Code"
       }
     },
     "CollectorScheduleDC767626": {

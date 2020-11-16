@@ -256,6 +256,10 @@
             "data": "snapshot-value"
           },
           {
+            "type": "aws:cdk:asset",
+            "data": "snapshot-value"
+          },
+          {
             "type": "aws:cdk:stack-tags",
             "data": [
               {

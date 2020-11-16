@@ -71,8 +71,7 @@ export class RepoMetricsStack extends cdk.Stack {
     })
 
     const collector = new lambda.Function(this, "Collector", {
-      // TODO: Use build from repo-collector.
-      code: lambda.Code.fromInline("console.log('I ran!');"),
+      code: lambda.Code.fromAsset("../repo-collector/dist/collector"),
       handler: "index.handler",
       runtime: lambda.Runtime.NODEJS_12_X,
       timeout: cdk.Duration.minutes(5),
