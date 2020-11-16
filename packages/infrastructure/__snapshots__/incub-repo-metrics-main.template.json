@@ -2125,7 +2125,7 @@
         "Code": {
           "ZipFile": "console.log('I ran!');"
         },
-        "Handler": "index.js",
+        "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
             "CollectorServiceRole78F40CC4",
@@ -2198,6 +2198,744 @@
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-main/CollectorSchedule/AllowEventRuleincubrepometricsmainCollectorSchedule00F83686"
       }
+    },
+    "BffHandlerServiceRoleCB7C38FE": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffHandler/ServiceRole/Resource"
+      }
+    },
+    "BffHandlerServiceRoleDefaultPolicyCF46EE16": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "DataBucketE3889A50",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "DataBucketE3889A50",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "BffHandlerServiceRoleDefaultPolicyCF46EE16",
+        "Roles": [
+          {
+            "Ref": "BffHandlerServiceRoleCB7C38FE"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffHandler/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "BffHandlerE8CFA6C7": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "snapshot-value"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "BffHandlerServiceRoleCB7C38FE",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ],
+        "Timeout": 30
+      },
+      "DependsOn": [
+        "BffHandlerServiceRoleDefaultPolicyCF46EE16",
+        "BffHandlerServiceRoleCB7C38FE"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffHandler/Resource",
+        "aws:asset:path": "asset.snapshot-value",
+        "aws:asset:property": "Code"
+      }
+    },
+    "AuthHandlerServiceRoleD970A3A9": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/AuthHandler/ServiceRole/Resource"
+      }
+    },
+    "AuthHandler9DC767B7": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "snapshot-value"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AuthHandlerServiceRoleD970A3A9",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ],
+        "Timeout": 30
+      },
+      "DependsOn": [
+        "AuthHandlerServiceRoleD970A3A9"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/AuthHandler/Resource",
+        "aws:asset:path": "asset.snapshot-value",
+        "aws:asset:property": "Code"
+      }
+    },
+    "AuthHandlerincubrepometricsmainAuthorizerF9F7C086Permissions2277DA2B": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AuthHandler9DC767B7",
+            "Arn"
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:eu-west-1:001112238813:",
+              {
+                "Ref": "BffApiFBFF8FCE"
+              },
+              "/authorizers/",
+              {
+                "Ref": "AuthorizerBD825682"
+              }
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/AuthHandler/incubrepometricsmainAuthorizerF9F7C086:Permissions"
+      }
+    },
+    "AuthorizerBD825682": {
+      "Type": "AWS::ApiGateway::Authorizer",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "BffApiFBFF8FCE"
+        },
+        "Type": "TOKEN",
+        "AuthorizerResultTtlInSeconds": 0,
+        "AuthorizerUri": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+              {
+                "Fn::GetAtt": [
+                  "AuthHandler9DC767B7",
+                  "Arn"
+                ]
+              },
+              "/invocations"
+            ]
+          ]
+        },
+        "IdentitySource": "method.request.header.Authorization",
+        "Name": "incubrepometricsmainAuthorizerF9F7C086"
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/Authorizer/Resource"
+      }
+    },
+    "BffApiFBFF8FCE": {
+      "Type": "AWS::ApiGateway::RestApi",
+      "Properties": {
+        "Name": "BffApi",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffApi/Resource"
+      }
+    },
+    "BffApiCloudWatchRole83DDAD73": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffApi/CloudWatchRole/Resource"
+      }
+    },
+    "BffApiAccount87FC9B1E": {
+      "Type": "AWS::ApiGateway::Account",
+      "Properties": {
+        "CloudWatchRoleArn": {
+          "Fn::GetAtt": [
+            "BffApiCloudWatchRole83DDAD73",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "BffApiFBFF8FCE"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffApi/Account"
+      }
+    },
+    "BffApiDeploymentDCA9CF1D7e40c05d0e8bac1a16329e8ed82c0979": {
+      "Type": "AWS::ApiGateway::Deployment",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "BffApiFBFF8FCE"
+        },
+        "Description": "Automatically created by the RestApi construct"
+      },
+      "DependsOn": [
+        "BffApiproxyANY0AF27BA3",
+        "BffApiproxy24233F6C",
+        "BffApiANYEA416581"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffApi/Deployment/Resource"
+      }
+    },
+    "BffApiDeploymentStageprod70E6492C": {
+      "Type": "AWS::ApiGateway::Stage",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "BffApiFBFF8FCE"
+        },
+        "DeploymentId": {
+          "Ref": "BffApiDeploymentDCA9CF1D7e40c05d0e8bac1a16329e8ed82c0979"
+        },
+        "StageName": "prod",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/cals-tools"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffApi/DeploymentStage.prod/Resource"
+      }
+    },
+    "BffApiproxy24233F6C": {
+      "Type": "AWS::ApiGateway::Resource",
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "BffApiFBFF8FCE",
+            "RootResourceId"
+          ]
+        },
+        "PathPart": "{proxy+}",
+        "RestApiId": {
+          "Ref": "BffApiFBFF8FCE"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffApi/Default/{proxy+}/Resource"
+      }
+    },
+    "BffApiproxyANYApiPermissionincubrepometricsmainBffApi2C96DEE7ANYproxy7D941CEE": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "BffHandlerE8CFA6C7",
+            "Arn"
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:eu-west-1:001112238813:",
+              {
+                "Ref": "BffApiFBFF8FCE"
+              },
+              "/",
+              {
+                "Ref": "BffApiDeploymentStageprod70E6492C"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffApi/Default/{proxy+}/ANY/ApiPermission.incubrepometricsmainBffApi2C96DEE7.ANY..{proxy+}"
+      }
+    },
+    "BffApiproxyANYApiPermissionTestincubrepometricsmainBffApi2C96DEE7ANYproxyD83C0C36": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "BffHandlerE8CFA6C7",
+            "Arn"
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:eu-west-1:001112238813:",
+              {
+                "Ref": "BffApiFBFF8FCE"
+              },
+              "/test-invoke-stage/*/*"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffApi/Default/{proxy+}/ANY/ApiPermission.Test.incubrepometricsmainBffApi2C96DEE7.ANY..{proxy+}"
+      }
+    },
+    "BffApiproxyANY0AF27BA3": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "ANY",
+        "ResourceId": {
+          "Ref": "BffApiproxy24233F6C"
+        },
+        "RestApiId": {
+          "Ref": "BffApiFBFF8FCE"
+        },
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": {
+          "Ref": "AuthorizerBD825682"
+        },
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "BffHandlerE8CFA6C7",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffApi/Default/{proxy+}/ANY/Resource"
+      }
+    },
+    "BffApiANYApiPermissionincubrepometricsmainBffApi2C96DEE7ANY052942A6": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "BffHandlerE8CFA6C7",
+            "Arn"
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:eu-west-1:001112238813:",
+              {
+                "Ref": "BffApiFBFF8FCE"
+              },
+              "/",
+              {
+                "Ref": "BffApiDeploymentStageprod70E6492C"
+              },
+              "/*/"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffApi/Default/ANY/ApiPermission.incubrepometricsmainBffApi2C96DEE7.ANY.."
+      }
+    },
+    "BffApiANYApiPermissionTestincubrepometricsmainBffApi2C96DEE7ANYB38DA528": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "BffHandlerE8CFA6C7",
+            "Arn"
+          ]
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:eu-west-1:001112238813:",
+              {
+                "Ref": "BffApiFBFF8FCE"
+              },
+              "/test-invoke-stage/*/"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffApi/Default/ANY/ApiPermission.Test.incubrepometricsmainBffApi2C96DEE7.ANY.."
+      }
+    },
+    "BffApiANYEA416581": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "ANY",
+        "ResourceId": {
+          "Fn::GetAtt": [
+            "BffApiFBFF8FCE",
+            "RootResourceId"
+          ]
+        },
+        "RestApiId": {
+          "Ref": "BffApiFBFF8FCE"
+        },
+        "AuthorizationType": "CUSTOM",
+        "AuthorizerId": {
+          "Ref": "AuthorizerBD825682"
+        },
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":apigateway:eu-west-1:lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "BffHandlerE8CFA6C7",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/BffApi/Default/ANY/Resource"
+      }
     }
   },
   "Parameters": {
@@ -2243,6 +2981,28 @@
     }
   },
   "Outputs": {
+    "BffApiEndpoint413D959F": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "BffApiFBFF8FCE"
+            },
+            ".execute-api.eu-west-1.",
+            {
+              "Ref": "AWS::URLSuffix"
+            },
+            "/",
+            {
+              "Ref": "BffApiDeploymentStageprod70E6492C"
+            },
+            "/"
+          ]
+        ]
+      }
+    },
     "WebappUrlOutput": {
       "Value": {
         "Fn::Join": [

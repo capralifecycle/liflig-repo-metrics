@@ -1,3 +1,4 @@
+import * as apigateway from "@aws-cdk/aws-apigateway"
 import * as cloudfront from "@aws-cdk/aws-cloudfront"
 import * as origins from "@aws-cdk/aws-cloudfront-origins"
 import { UserPool, UserPoolIdentityProvider } from "@aws-cdk/aws-cognito"
@@ -70,9 +71,9 @@ export class RepoMetricsStack extends cdk.Stack {
     })
 
     const collector = new lambda.Function(this, "Collector", {
-      // TODO: Use bulid from repo-collector.
+      // TODO: Use build from repo-collector.
       code: lambda.Code.fromInline("console.log('I ran!');"),
-      handler: "index.js",
+      handler: "index.handler",
       runtime: lambda.Runtime.NODEJS_12_X,
       timeout: cdk.Duration.minutes(5),
     })
@@ -83,6 +84,34 @@ export class RepoMetricsStack extends cdk.Stack {
         minute: "0",
       }),
       targets: [new eventstargets.LambdaFunction(collector)],
+    })
+
+    const bffHandler = new lambda.Function(this, "BffHandler", {
+      code: lambda.Code.fromAsset("../bff/dist/main"),
+      handler: "index.handler",
+      runtime: lambda.Runtime.NODEJS_12_X,
+      timeout: cdk.Duration.seconds(30),
+    })
+
+    dataBucket.grantRead(bffHandler)
+
+    const authHandler = new lambda.Function(this, "AuthHandler", {
+      code: lambda.Code.fromAsset("../bff/dist/auth"),
+      handler: "index.handler",
+      runtime: lambda.Runtime.NODEJS_12_X,
+      timeout: cdk.Duration.seconds(30),
+    })
+
+    const authorizer = new apigateway.TokenAuthorizer(this, "Authorizer", {
+      handler: authHandler,
+      resultsCacheTtl: cdk.Duration.seconds(0),
+    })
+
+    new apigateway.LambdaRestApi(this, "BffApi", {
+      handler: bffHandler,
+      defaultMethodOptions: {
+        authorizer,
+      },
     })
 
     new cdk.CfnOutput(this, "WebappUrlOutput", {
