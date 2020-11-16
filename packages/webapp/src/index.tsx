@@ -2,6 +2,7 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 
 import "./styles/variables.css"
+import "./styles/main.css"
 
 import App from "./App"
 

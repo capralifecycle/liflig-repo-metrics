@@ -9,18 +9,3 @@
   --spacing-large: calc(var(--spacing-normal) * 2);
   --spacing-small: calc(var(--spacing-normal) / 2);
 }
-
-table,
-th,
-td {
-  border: 1px solid #888;
-}
-
-table {
-  border-collapse: collapse;
-}
-
-th,
-td {
-  padding: 3px;
-}
