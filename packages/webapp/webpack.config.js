@@ -15,7 +15,7 @@ const webpack = require("webpack")
 const packageJson = require("./package.json")
 
 module.exports = (env) => {
-  const isProd = env === "production"
+  const isProd = env.production
 
   const config = {
     entry: "./src/index.tsx",
@@ -57,7 +57,7 @@ module.exports = (env) => {
       extensions: [".js", ".jsx", ".ts", ".tsx", ".css"],
     },
     output: {
-      filename: "[name].[contentHash].js",
+      filename: "[name].[contenthash].js",
       path: path.resolve(__dirname, "build"),
     },
     optimization: {
