@@ -15,13 +15,14 @@ Generate metrics (also see section about keys):
 
 ```bash
 cd packages/repo-collector
-npx ts-node metrics.ts
+yarn collect-locally
 ```
 
 Serve the metrics locally so the webapp can reach it:
 
 ```bash
-cd packages/repo-collector
+cd packages/bff
+yarn convert-locally
 yarn serve
 ```
 

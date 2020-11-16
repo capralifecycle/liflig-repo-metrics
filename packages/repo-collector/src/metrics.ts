@@ -108,11 +108,22 @@ export async function main() {
     definitionData,
   )
 
-  // TODO: Merge with old data. Should we partition the data?
+  // TODO: Should we partition the data? Maybe put in DynamoDB?
+
+  const dataFile = "data/snapshots.json"
+
+  let existingData: MetricRepoSnapshot[] = []
+  if (fs.existsSync(dataFile)) {
+    existingData = JSON.parse(
+      fs.readFileSync(dataFile, "utf-8"),
+    ) as MetricRepoSnapshot[]
+  }
+
+  const updatedData = [...existingData, ...snapshots]
 
   fs.writeFileSync(
-    "result.json",
-    JSON.stringify(snapshots, undefined, "  "),
+    dataFile,
+    JSON.stringify(updatedData, undefined, "  "),
     "utf-8",
   )
 }

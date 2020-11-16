@@ -79,3 +79,49 @@ export interface MetricRepoSnapshot {
     }[]
   }
 }
+
+export interface WebappMetricDataRepoDatapoint {
+  timestamp: string
+  github: {
+    prs: {
+      number: number
+      author: string
+      title: string
+      createdAt: string
+    }[]
+    vulnerabilityAlerts: {
+      vulnerableManifestPath: string
+      severity?: "CRITICAL" | "HIGH" | "LOW" | "MODERATE"
+      packageName: string
+    }[]
+    availableUpdates?: {
+      name: string
+      toVersion: string
+    }[]
+  }
+  snyk?: {
+    totalIssues: number
+    countsBySeverity: {
+      low: number
+      high: number
+      medium: number
+    }
+  }
+}
+
+export interface WebappMetricDataRepo {
+  repoId: string
+  responsible?: string
+  github: {
+    orgName: string
+    repoName: string
+  }
+  lastDatapoint: WebappMetricDataRepoDatapoint
+}
+
+/**
+ * Data for webapp.
+ */
+export interface WebappMetricData {
+  repos: WebappMetricDataRepo[]
+}
