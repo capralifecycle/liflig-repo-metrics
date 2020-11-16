@@ -12,7 +12,13 @@ export const Repo: React.FC<Props> = ({ data, showDepList }) => {
 
   return (
     <tr>
-      <td>{data.repoId}</td>
+      <td>
+        <a
+          href={`https://github.com/${data.github.orgName}/${data.github.repoName}`}
+        >
+          {data.repoId}
+        </a>
+      </td>
       <td>{data.lastDatapoint.timestamp}</td>
       <td>
         {availableUpdates == null ? (
