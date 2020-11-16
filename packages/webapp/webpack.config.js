@@ -8,16 +8,11 @@ const path = require("path")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const GitRevisionPlugin = require("git-revision-webpack-plugin")
-const SpeedMeasurePlugin = require("speed-measure-webpack-plugin")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin
 const webpack = require("webpack")
 
 const packageJson = require("./package.json")
-
-const smp = new SpeedMeasurePlugin({
-  disable: !process.env.MEASURE,
-})
 
 module.exports = (env) => {
   const isProd = env === "production"
@@ -92,7 +87,7 @@ module.exports = (env) => {
   }
 
   if (isProd) {
-    return smp.wrap({
+    return {
       ...config,
       mode: "production",
       devtool: "source-map",
@@ -110,11 +105,11 @@ module.exports = (env) => {
             analyzerMode: "disabled",
           }),
       ].filter(Boolean),
-    })
+    }
   }
 
   // Configuration specific to developing locally
-  return smp.wrap({
+  return {
     ...config,
     mode: "development",
     devtool: "eval-source-map",
@@ -140,5 +135,5 @@ module.exports = (env) => {
         },
       ],
     },
-  })
+  }
 }
