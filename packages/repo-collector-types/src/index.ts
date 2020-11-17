@@ -109,6 +109,25 @@ export interface WebappMetricDataRepoDatapoint {
   }
 }
 
+export interface WebappStatsByFetchGroup {
+  timestamp: string
+  byResponsible: {
+    responsible: string
+    availableUpdates: number
+    github: {
+      vulnerabilityAlerts: number
+      prs: number
+    }
+    snyk: {
+      countsBySeverity: {
+        high: number
+        medium: number
+        low: number
+      }
+    }
+  }[]
+}
+
 export interface WebappMetricDataRepo {
   repoId: string
   responsible?: string
@@ -123,5 +142,6 @@ export interface WebappMetricDataRepo {
  * Data for webapp.
  */
 export interface WebappMetricData {
+  byFetchGroup: WebappStatsByFetchGroup[]
   repos: WebappMetricDataRepo[]
 }

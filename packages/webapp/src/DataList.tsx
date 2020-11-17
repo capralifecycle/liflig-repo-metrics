@@ -31,6 +31,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
         .map(([responsible, repos]) => (
           <DataGroup
             key={responsible}
+            data={data}
             responsible={responsible}
             repos={repos}
             showPrList={showPrList}

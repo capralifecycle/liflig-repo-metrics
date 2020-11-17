@@ -3,14 +3,13 @@ import {
   WebappMetricData,
   WebappMetricDataRepo,
   WebappMetricDataRepoDatapoint,
+  WebappStatsByFetchGroup,
 } from "@liflig/repo-metrics-repo-collector-types"
-import { groupBy } from "lodash"
+import { groupBy, sumBy } from "lodash"
 import { extractDependencyUpdatesFromIssue } from "./renovate"
 
-function convertDatapoint(
-  datapoint: MetricRepoSnapshot,
-): WebappMetricDataRepoDatapoint {
-  const countsBySeverity = datapoint.snyk.projects.reduce(
+function sumSnykSeverities(projects: MetricRepoSnapshot["snyk"]["projects"]) {
+  return projects.reduce(
     (acc, cur) => ({
       high: acc.high + cur.issueCountsBySeverity.high,
       medium: acc.high + cur.issueCountsBySeverity.medium,
@@ -22,6 +21,12 @@ function convertDatapoint(
       low: 0,
     },
   )
+}
+
+function convertDatapoint(
+  datapoint: MetricRepoSnapshot,
+): WebappMetricDataRepoDatapoint {
+  const countsBySeverity = sumSnykSeverities(datapoint.snyk.projects)
 
   return {
     timestamp: datapoint.timestamp,
@@ -58,12 +63,65 @@ function convertDatapoint(
   }
 }
 
+function metricsForFetchGroup(snapshots: MetricRepoSnapshot[]) {
+  const byResponsible = groupBy(snapshots, (it) => it.responsible ?? "Ukjent")
+
+  return Object.entries(byResponsible).map(([responsible, items]) => ({
+    responsible,
+    availableUpdates: sumBy(items, (it) =>
+      it.github.renovateDependencyDashboardIssue == null
+        ? 0
+        : extractDependencyUpdatesFromIssue(
+            it.github.renovateDependencyDashboardIssue.body,
+          ).length,
+    ),
+    github: {
+      vulnerabilityAlerts: sumBy(
+        items,
+        (it) => it.github.vulnerabilityAlerts.length,
+      ),
+      prs: sumBy(items, (it) => it.github.prs.length),
+    },
+    snyk: {
+      countsBySeverity: {
+        high: sumBy(items, (it) =>
+          sumBy(
+            it.snyk.projects,
+            (project) => project.issueCountsBySeverity.high,
+          ),
+        ),
+        medium: sumBy(items, (it) =>
+          sumBy(
+            it.snyk.projects,
+            (project) => project.issueCountsBySeverity.medium,
+          ),
+        ),
+        low: sumBy(items, (it) =>
+          sumBy(
+            it.snyk.projects,
+            (project) => project.issueCountsBySeverity.low,
+          ),
+        ),
+      },
+    },
+  }))
+}
+
 export function createWebappFriendlyFormat(
   snapshots: MetricRepoSnapshot[],
 ): WebappMetricData {
   const byRepo = groupBy(snapshots, (it) => it.repoId)
 
+  const byFetchGroup: WebappStatsByFetchGroup[] = Object.entries(
+    groupBy(snapshots, (it) => it.timestamp),
+  ).map(([timestamp, items]) => ({
+    timestamp,
+    byResponsible: metricsForFetchGroup(items),
+  }))
+
   return {
+    byFetchGroup,
+    // TODO: Rename to reposLatest or something?
     repos: Object.entries(byRepo).map<WebappMetricDataRepo>(
       ([repoId, items]) => {
         const itemsByTime = [...items].sort((a, b) =>

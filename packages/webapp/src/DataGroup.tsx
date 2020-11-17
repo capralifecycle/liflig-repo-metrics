@@ -1,9 +1,13 @@
-import { WebappMetricDataRepo } from "@liflig/repo-metrics-repo-collector-types"
+import {
+  WebappMetricData,
+  WebappMetricDataRepo,
+} from "@liflig/repo-metrics-repo-collector-types"
 import { sumBy } from "lodash"
 import * as React from "react"
 import { Repo } from "./Repo"
 
 interface Props {
+  data: WebappMetricData
   responsible: string
   repos: WebappMetricDataRepo[]
   showPrList: boolean
@@ -11,7 +15,22 @@ interface Props {
   showVulList: boolean
 }
 
+function sumSnyk(data: {
+  countsBySeverity: {
+    high: number
+    medium: number
+    low: number
+  }
+}): number {
+  return (
+    data.countsBySeverity.high +
+    data.countsBySeverity.medium +
+    data.countsBySeverity.low
+  )
+}
+
 export const DataGroup: React.FC<Props> = ({
+  data,
   responsible,
   repos,
   showPrList,
@@ -33,9 +52,25 @@ export const DataGroup: React.FC<Props> = ({
     (it) => it.lastDatapoint.snyk?.totalIssues ?? 0,
   )
 
+  const fetchGroups = data.byFetchGroup.flatMap((fetchGroup) =>
+    fetchGroup.byResponsible.flatMap((it) =>
+      it.responsible === responsible
+        ? [{ ...it, timestamp: fetchGroup.timestamp }]
+        : [],
+    ),
+  )
+
   return (
     <>
       <h2>Ansvarlig: {responsible}</h2>
+      <p>Datapunkter:</p>
+      <ul>
+        {fetchGroups.map((it) => (
+          <li key={it.timestamp}>
+            Tidspunkt: {it.timestamp} ({sumSnyk(it.snyk)} sårbarheter (Snyk))
+          </li>
+        ))}
+      </ul>
       <p>
         {updatesAvailable} oppdateringer tilgjengelig. {githubAlerts}{" "}
         sårbarheter (GitHub). {snykAlerts} sårbarheter (Snyk)
