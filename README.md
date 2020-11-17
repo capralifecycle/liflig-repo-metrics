@@ -61,6 +61,13 @@ aws-vault exec liflig-incubator-admin
 yarn cdk deploy --all
 ```
 
+To upload the local `webapp.json` file:
+
+```bash
+aws-vault exec liflig-incubator-admin
+./upload-webapp-json.sh
+```
+
 ## Tech overview
 
 - Lerna and Yarn Workspaces for multi-package setup

@@ -32,11 +32,6 @@ export class RepoMetricsStack extends cdk.Stack {
       encryption: s3.BucketEncryption.S3_MANAGED,
     })
 
-    new s3deploy.BucketDeployment(this, "DeployWebapp", {
-      sources: [s3deploy.Source.asset("../webapp/build")],
-      destinationBucket: webappBucket,
-    })
-
     const dataBucket = new s3.Bucket(this, "DataBucket", {
       encryption: s3.BucketEncryption.S3_MANAGED,
     })
@@ -69,6 +64,12 @@ export class RepoMetricsStack extends cdk.Stack {
       callbackUrl: `https://${distribution.distributionDomainName}${auth.callbackPath}`,
     })
 
+    new s3deploy.BucketDeployment(this, "DeployWebapp", {
+      sources: [s3deploy.Source.asset("../webapp/build")],
+      destinationBucket: webappBucket,
+      distribution,
+    })
+
     const collector = new lambda.Function(this, "Collector", {
       code: lambda.Code.fromAsset("../repo-collector/dist/collector"),
       handler: "index.handler",
@@ -86,6 +87,14 @@ export class RepoMetricsStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, "WebappUrlOutput", {
       value: `https://${distribution.distributionDomainName}`,
+    })
+
+    new cdk.CfnOutput(this, "DataBucketNameOutput", {
+      value: dataBucket.bucketName,
+    })
+
+    new cdk.CfnOutput(this, "DistributionIdOutput", {
+      value: distribution.distributionId,
     })
   }
 }

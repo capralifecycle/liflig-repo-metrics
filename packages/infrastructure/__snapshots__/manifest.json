@@ -287,30 +287,6 @@
             "data": "WebappBucketPolicyB03C4E01"
           }
         ],
-        "/incub-repo-metrics-main/DeployWebapp/CustomResource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "DeployWebappCustomResourceC7A505E4"
-          }
-        ],
-        "/incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
-          }
-        ],
-        "/incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF"
-          }
-        ],
-        "/incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
-          }
-        ],
         "/incub-repo-metrics-main/DataBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -539,6 +515,30 @@
             "data": "Distribution830FAC52"
           }
         ],
+        "/incub-repo-metrics-main/DeployWebapp/CustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeployWebappCustomResourceC7A505E4"
+          }
+        ],
+        "/incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+          }
+        ],
+        "/incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF"
+          }
+        ],
+        "/incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
+          }
+        ],
         "/incub-repo-metrics-main/Collector/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -567,6 +567,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "WebappUrlOutput"
+          }
+        ],
+        "/incub-repo-metrics-main/DataBucketNameOutput": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DataBucketNameOutput"
+          }
+        ],
+        "/incub-repo-metrics-main/DistributionIdOutput": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DistributionIdOutput"
           }
         ],
         "/incub-repo-metrics-main/CDKMetadata/Default": [
