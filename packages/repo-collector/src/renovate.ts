@@ -9,7 +9,7 @@ export function extractDependencyUpdatesFromIssue(body: string) {
   const result: Update[] = []
 
   const matches = body.matchAll(
-    /update (?:dependency )?(.+?) to (.+?)( \(|\]|$)/g,
+    /update (?:dependency )?(.+?) to (.+?)( \(|\]|$)/gm,
   )
   for (const match of matches) {
     result.push({
