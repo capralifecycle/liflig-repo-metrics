@@ -67,7 +67,8 @@ export const DataGroup: React.FC<Props> = ({
       <ul>
         {fetchGroups.map((it) => (
           <li key={it.timestamp}>
-            Tidspunkt: {it.timestamp} ({sumSnyk(it.snyk)} sårbarheter (Snyk))
+            Tidspunkt: {it.timestamp} ({sumSnyk(it.snyk)} sårbarheter (Snyk),{" "}
+            {it.availableUpdates} oppdateringer)
           </li>
         ))}
       </ul>
