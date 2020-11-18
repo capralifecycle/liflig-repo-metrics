@@ -82,7 +82,8 @@ export const DataGroup: React.FC<Props> = ({
             <th>Repo</th>
             <th>Tid oppdatert</th>
             <th>Oppdateringer tilgjengelig</th>
-            <th>Åpne PRs</th>
+            <th>Åpne PRs (bots)</th>
+            <th>Åpne PRs (ikke bots)</th>
             <th>Sårbarheter (GitHub)</th>
             <th>Sårbarheter (Snyk)</th>
           </tr>

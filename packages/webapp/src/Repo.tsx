@@ -1,5 +1,16 @@
-import { WebappMetricDataRepo } from "@liflig/repo-metrics-repo-collector-types"
+import {
+  WebappMetricDataRepo,
+  WebappMetricDataRepoDatapoint,
+} from "@liflig/repo-metrics-repo-collector-types"
 import * as React from "react"
+import { PrColumnDetails } from "./PrColumnDetails"
+
+function isBotPr(pr: WebappMetricDataRepoDatapoint["github"]["prs"][0]) {
+  return (
+    ["dependabot", "renovate"].includes(pr.author) ||
+    pr.title.startsWith("[Snyk]")
+  )
+}
 
 interface Props {
   data: WebappMetricDataRepo
@@ -50,7 +61,6 @@ export const Repo: React.FC<Props> = ({
   const availableUpdates = data.lastDatapoint.github.availableUpdates
   const githubVulAlerts = data.lastDatapoint.github.vulnerabilityAlerts
   const snyk = data.lastDatapoint.snyk
-  const prs = data.lastDatapoint.github.prs
 
   const repoBaseUrl = `https://github.com/${data.github.orgName}/${data.github.repoName}`
 
@@ -81,25 +91,18 @@ export const Repo: React.FC<Props> = ({
         )}
       </td>
       <td>
-        {prs.length === 0 ? (
-          <span style={{ color: "green" }}>Ingen</span>
-        ) : (
-          <>
-            <b>{prs.length}</b>
-            {showPrList && (
-              <ul>
-                {prs.map((pr, idx) => (
-                  <li key={idx}>
-                    <a href={`${repoBaseUrl}/pulls/${pr.number}`}>
-                      #{pr.number}
-                    </a>{" "}
-                    {pr.title} ({pr.author})
-                  </li>
-                ))}
-              </ul>
-            )}
-          </>
-        )}
+        <PrColumnDetails
+          prs={data.lastDatapoint.github.prs.filter((it) => isBotPr(it))}
+          repoBaseUrl={repoBaseUrl}
+          showPrList={showPrList}
+        />
+      </td>
+      <td>
+        <PrColumnDetails
+          prs={data.lastDatapoint.github.prs.filter((it) => !isBotPr(it))}
+          repoBaseUrl={repoBaseUrl}
+          showPrList={showPrList}
+        />
       </td>
       <td>
         {githubVulAlerts.length === 0 ? (
