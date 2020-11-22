@@ -95,7 +95,7 @@ export async function main() {
 
   // TODO: Make customizable.
   const definitionFile = new definition.DefinitionFile(
-    "../../../../resources-definition/resources.yaml",
+    "../../../resources-definition/resources.yaml",
   )
 
   const snykService = snyk.createSnykService(config)
