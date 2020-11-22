@@ -16,7 +16,7 @@ const app = new cdk.App()
 tagResources(app, (stack) => ({
   StackName: stack.stackName,
   Project: "repo-metrics",
-  SourceRepo: "github/capralifecycle/cals-tools",
+  SourceRepo: "github/capralifecycle/liflig-repo-metrics",
 }))
 
 const edgeStack = new RepoMetricsEdgeStack(app, "incub-repo-metrics-edge", {

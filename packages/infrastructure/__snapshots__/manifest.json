@@ -13,7 +13,7 @@
         "templateFile": "incub-repo-metrics-edge.template.json",
         "tags": {
           "Project": "repo-metrics",
-          "SourceRepo": "github/capralifecycle/cals-tools",
+          "SourceRepo": "github/capralifecycle/liflig-repo-metrics",
           "StackName": "incub-repo-metrics-edge"
         }
       },
@@ -52,7 +52,7 @@
               },
               {
                 "Key": "SourceRepo",
-                "Value": "github/capralifecycle/cals-tools"
+                "Value": "github/capralifecycle/liflig-repo-metrics"
               },
               {
                 "Key": "StackName",
@@ -214,7 +214,7 @@
         "templateFile": "incub-repo-metrics-main.template.json",
         "tags": {
           "Project": "repo-metrics",
-          "SourceRepo": "github/capralifecycle/cals-tools",
+          "SourceRepo": "github/capralifecycle/liflig-repo-metrics",
           "StackName": "incub-repo-metrics-main"
         }
       },
@@ -260,7 +260,7 @@
               },
               {
                 "Key": "SourceRepo",
-                "Value": "github/capralifecycle/cals-tools"
+                "Value": "github/capralifecycle/liflig-repo-metrics"
               },
               {
                 "Key": "StackName",
