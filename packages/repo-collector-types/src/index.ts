@@ -60,6 +60,8 @@ export interface MetricRepoSnapshot {
     renovateDependencyDashboardIssue: {
       number: number
       body: string
+      // Added 2020-11-22.
+      lastUpdatedByRenovate?: string | null
     } | null
   }
   snyk: {
@@ -83,6 +85,7 @@ export interface MetricRepoSnapshot {
 export interface WebappMetricDataRepoDatapoint {
   timestamp: string
   github: {
+    renovateDaysSinceLastUpdate: number | null
     prs: {
       number: number
       author: string
@@ -95,8 +98,12 @@ export interface WebappMetricDataRepoDatapoint {
       packageName: string
     }[]
     availableUpdates?: {
-      name: string
-      toVersion: string
+      categoryName: string
+      isActionable: boolean
+      updates: {
+        name: string
+        toVersion: string
+      }[]
     }[]
   }
   snyk?: {
@@ -113,7 +120,7 @@ export interface WebappStatsByFetchGroup {
   timestamp: string
   byResponsible: {
     responsible: string
-    availableUpdates: number
+    availableActionableUpdates: number
     github: {
       vulnerabilityAlerts: number
       prs: number

@@ -6,7 +6,11 @@ import {
   WebappStatsByFetchGroup,
 } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy, sumBy } from "lodash"
-import { extractDependencyUpdatesFromIssue } from "./renovate"
+import {
+  calculateRenovateLastUpdateInDays,
+  extractDependencyUpdatesFromIssue,
+  isUpdateCategoryActionable,
+} from "./renovate"
 
 function sumSnykSeverities(projects: MetricRepoSnapshot["snyk"]["projects"]) {
   return projects.reduce(
@@ -28,15 +32,33 @@ function convertDatapoint(
 ): WebappMetricDataRepoDatapoint {
   const countsBySeverity = sumSnykSeverities(datapoint.snyk.projects)
 
+  const updateCategories =
+    datapoint.github.renovateDependencyDashboardIssue == null
+      ? undefined
+      : extractDependencyUpdatesFromIssue(
+          datapoint.github.renovateDependencyDashboardIssue.body,
+        )
+
+  const lastUpdatedByRenovate =
+    datapoint.github.renovateDependencyDashboardIssue?.lastUpdatedByRenovate
+
+  const renovateDaysSinceLastUpdate =
+    lastUpdatedByRenovate == null
+      ? null
+      : calculateRenovateLastUpdateInDays(
+          new Date(datapoint.timestamp),
+          new Date(lastUpdatedByRenovate),
+        )
+
   return {
     timestamp: datapoint.timestamp,
     github: {
-      availableUpdates:
-        datapoint.github.renovateDependencyDashboardIssue == null
-          ? undefined
-          : extractDependencyUpdatesFromIssue(
-              datapoint.github.renovateDependencyDashboardIssue.body,
-            ),
+      renovateDaysSinceLastUpdate,
+      availableUpdates: updateCategories?.map((category) => ({
+        categoryName: category.name,
+        isActionable: isUpdateCategoryActionable(category.name),
+        updates: category.updates,
+      })),
       prs: datapoint.github.prs.map((pr) => ({
         number: pr.number,
         author: pr.author.login,
@@ -68,11 +90,13 @@ function metricsForFetchGroup(snapshots: MetricRepoSnapshot[]) {
 
   return Object.entries(byResponsible).map(([responsible, items]) => ({
     responsible,
-    availableUpdates: sumBy(items, (it) =>
+    availableActionableUpdates: sumBy(items, (it) =>
       it.github.renovateDependencyDashboardIssue == null
         ? 0
         : extractDependencyUpdatesFromIssue(
             it.github.renovateDependencyDashboardIssue.body,
+          ).flatMap((category) =>
+            isUpdateCategoryActionable(category.name) ? category.updates : [],
           ).length,
     ),
     github: {

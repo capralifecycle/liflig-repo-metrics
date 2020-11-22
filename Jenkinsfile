@@ -14,6 +14,7 @@ buildConfig(
         sh "yarn install --frozen-lockfile"
         sh "yarn run build"
         sh "yarn run lint"
+        sh "yarn run test"
       }
 
       dir("packages/infrastructure") {

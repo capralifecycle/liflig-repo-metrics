@@ -4,7 +4,8 @@
   "scripts": {
     "clean": "lerna run clean",
     "lint": "lerna run lint",
-    "build": "lerna run build"
+    "build": "lerna run build",
+    "test": "lerna run test"
   },
   "devDependencies": {
     "lerna": "3.22.1"

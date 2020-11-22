@@ -58,7 +58,23 @@ export const Repo: React.FC<Props> = ({
   showDepList,
   showVulList,
 }) => {
-  const availableUpdates = data.lastDatapoint.github.availableUpdates
+  const renovateEnabled = data.lastDatapoint.github.availableUpdates != null
+  const availableUpdates = (
+    data.lastDatapoint.github.availableUpdates ?? []
+  ).flatMap((category) =>
+    category.updates.map((it) => ({
+      name: it.name,
+      isActionable: category.isActionable,
+      categoryName: category.categoryName,
+      toVersion: it.toVersion,
+    })),
+  )
+  const actionableUpdates = availableUpdates.filter((it) => it.isActionable)
+    .length
+
+  const renovateDaysSinceLastUpdate =
+    data.lastDatapoint.github.renovateDaysSinceLastUpdate
+
   const githubVulAlerts = data.lastDatapoint.github.vulnerabilityAlerts
   const snyk = data.lastDatapoint.snyk
 
@@ -71,18 +87,28 @@ export const Repo: React.FC<Props> = ({
       </td>
       <td>{data.lastDatapoint.timestamp}</td>
       <td>
-        {availableUpdates == null ? (
+        {renovateDaysSinceLastUpdate != null &&
+          renovateDaysSinceLastUpdate >= 20 && (
+            <div style={{ color: "red" }}>
+              Sist oppdatert {renovateDaysSinceLastUpdate} dager siden
+            </div>
+          )}
+        {!renovateEnabled ? (
           <span style={{ color: "red" }}>Mangler Renovate</span>
-        ) : availableUpdates.length === 0 ? (
+        ) : actionableUpdates === 0 ? (
           <span style={{ color: "green" }}>Alt oppdatert</span>
         ) : (
           <>
-            <b>{availableUpdates.length}</b>
+            <b>{actionableUpdates}</b>
             {showDepList && (
               <ul>
                 {availableUpdates.map((available) => (
-                  <li key={available.name}>
-                    {available.name} ({available.toVersion})
+                  <li
+                    key={available.name}
+                    style={available.isActionable ? {} : { color: "#AAA" }}
+                  >
+                    {available.name} ({available.toVersion}) (
+                    {available.categoryName})
                   </li>
                 ))}
               </ul>

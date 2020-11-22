@@ -39,7 +39,10 @@ export const DataGroup: React.FC<Props> = ({
 }) => {
   const updatesAvailable = sumBy(
     repos,
-    (it) => (it.lastDatapoint.github.availableUpdates ?? []).length,
+    (it) =>
+      (it.lastDatapoint.github.availableUpdates ?? []).flatMap((it) =>
+        it.isActionable ? it.updates : [],
+      ).length,
   )
 
   const githubAlerts = sumBy(
@@ -68,12 +71,12 @@ export const DataGroup: React.FC<Props> = ({
         {fetchGroups.map((it) => (
           <li key={it.timestamp}>
             Tidspunkt: {it.timestamp} ({sumSnyk(it.snyk)} sårbarheter (Snyk),{" "}
-            {it.availableUpdates} oppdateringer)
+            {it.availableActionableUpdates} oppdateringer)
           </li>
         ))}
       </ul>
       <p>
-        {updatesAvailable} oppdateringer tilgjengelig. {githubAlerts}{" "}
+        {updatesAvailable} oppdateringer til behandling. {githubAlerts}{" "}
         sårbarheter (GitHub). {snykAlerts} sårbarheter (Snyk)
       </p>
       <table>
@@ -81,7 +84,7 @@ export const DataGroup: React.FC<Props> = ({
           <tr>
             <th>Repo</th>
             <th>Tid oppdatert</th>
-            <th>Oppdateringer tilgjengelig</th>
+            <th>Oppdateringer til behandling</th>
             <th>Åpne PRs (bots)</th>
             <th>Åpne PRs (ikke bots)</th>
             <th>Sårbarheter (GitHub)</th>
