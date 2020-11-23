@@ -32,15 +32,14 @@ function convertDatapoint(
 ): WebappMetricDataRepoDatapoint {
   const countsBySeverity = sumSnykSeverities(datapoint.snyk.projects)
 
-  const updateCategories =
-    datapoint.github.renovateDependencyDashboardIssue == null
-      ? undefined
-      : extractDependencyUpdatesFromIssue(
-          datapoint.github.renovateDependencyDashboardIssue.body,
-        )
+  const renovateIssue = datapoint.github.renovateDependencyDashboardIssue
 
-  const lastUpdatedByRenovate =
-    datapoint.github.renovateDependencyDashboardIssue?.lastUpdatedByRenovate
+  const updateCategories =
+    renovateIssue == null
+      ? undefined
+      : extractDependencyUpdatesFromIssue(renovateIssue.body)
+
+  const lastUpdatedByRenovate = renovateIssue?.lastUpdatedByRenovate
 
   const renovateDaysSinceLastUpdate =
     lastUpdatedByRenovate == null
@@ -53,7 +52,12 @@ function convertDatapoint(
   return {
     timestamp: datapoint.timestamp,
     github: {
-      renovateDaysSinceLastUpdate,
+      renovateDependencyDashboard: renovateIssue
+        ? {
+            issueNumber: renovateIssue.number,
+            daysSinceLastUpdate: renovateDaysSinceLastUpdate,
+          }
+        : null,
       availableUpdates: updateCategories?.map((category) => ({
         categoryName: category.name,
         isActionable: isUpdateCategoryActionable(category.name),

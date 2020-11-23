@@ -85,7 +85,10 @@ export interface MetricRepoSnapshot {
 export interface WebappMetricDataRepoDatapoint {
   timestamp: string
   github: {
-    renovateDaysSinceLastUpdate: number | null
+    renovateDependencyDashboard: {
+      issueNumber: number
+      daysSinceLastUpdate: number | null
+    } | null
     prs: {
       number: number
       author: string

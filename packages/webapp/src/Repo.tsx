@@ -72,8 +72,7 @@ export const Repo: React.FC<Props> = ({
   const actionableUpdates = availableUpdates.filter((it) => it.isActionable)
     .length
 
-  const renovateDaysSinceLastUpdate =
-    data.lastDatapoint.github.renovateDaysSinceLastUpdate
+  const renovateDashboad = data.lastDatapoint.github.renovateDependencyDashboard
 
   const githubVulAlerts = data.lastDatapoint.github.vulnerabilityAlerts
   const snyk = data.lastDatapoint.snyk
@@ -87,10 +86,16 @@ export const Repo: React.FC<Props> = ({
       </td>
       <td>{data.lastDatapoint.timestamp}</td>
       <td>
-        {renovateDaysSinceLastUpdate != null &&
-          renovateDaysSinceLastUpdate >= 20 && (
-            <div style={{ color: "red" }}>
-              Sist oppdatert {renovateDaysSinceLastUpdate} dager siden
+        {renovateDashboad?.daysSinceLastUpdate != null &&
+          renovateDashboad.daysSinceLastUpdate >= 20 && (
+            <div>
+              <a
+                href={`${repoBaseUrl}/issues/${renovateDashboad.issueNumber}`}
+                style={{ color: "red" }}
+              >
+                Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
+                siden
+              </a>
             </div>
           )}
         {!renovateEnabled ? (
