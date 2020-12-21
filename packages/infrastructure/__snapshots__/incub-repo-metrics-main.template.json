@@ -34,6 +34,39 @@
         "aws:cdk:path": "incub-repo-metrics-main/UserPool/UserPoolClient/Resource"
       }
     },
+    "DataBucketE3889A50": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/DataBucket/Resource"
+      }
+    },
     "WebappBucket620531E5": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
@@ -121,7 +154,7 @@
         "aws:cdk:path": "incub-repo-metrics-main/WebappBucket/Policy/Resource"
       }
     },
-    "DataBucketE3889A50": {
+    "WebappDataBucket777722B9": {
       "Type": "AWS::S3::Bucket",
       "Properties": {
         "BucketEncryption": {
@@ -151,14 +184,14 @@
       "UpdateReplacePolicy": "Retain",
       "DeletionPolicy": "Retain",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/DataBucket/Resource"
+        "aws:cdk:path": "incub-repo-metrics-main/WebappDataBucket/Resource"
       }
     },
-    "DataBucketPolicy3231C704": {
+    "WebappDataBucketPolicy300EA527": {
       "Type": "AWS::S3::BucketPolicy",
       "Properties": {
         "Bucket": {
-          "Ref": "DataBucketE3889A50"
+          "Ref": "WebappDataBucket777722B9"
         },
         "PolicyDocument": {
           "Statement": [
@@ -180,7 +213,7 @@
               "Resource": [
                 {
                   "Fn::GetAtt": [
-                    "DataBucketE3889A50",
+                    "WebappDataBucket777722B9",
                     "Arn"
                   ]
                 },
@@ -190,7 +223,7 @@
                     [
                       {
                         "Fn::GetAtt": [
-                          "DataBucketE3889A50",
+                          "WebappDataBucket777722B9",
                           "Arn"
                         ]
                       },
@@ -205,7 +238,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/DataBucket/Policy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-main/WebappDataBucket/Policy/Resource"
       }
     },
     "AuthNonceSigningSecretC47F85D8": {
@@ -1754,7 +1787,7 @@
             {
               "DomainName": {
                 "Fn::GetAtt": [
-                  "DataBucketE3889A50",
+                  "WebappDataBucket777722B9",
                   "RegionalDomainName"
                 ]
               },
@@ -2130,6 +2163,96 @@
         "aws:cdk:path": "incub-repo-metrics-main/Collector/ServiceRole/Resource"
       }
     },
+    "CollectorServiceRoleDefaultPolicy51652F58": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/github-token-??????"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/snyk-token-??????"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "DataBucketE3889A50",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "DataBucketE3889A50",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "CollectorServiceRoleDefaultPolicy51652F58",
+        "Roles": [
+          {
+            "Ref": "CollectorServiceRole78F40CC4"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/Collector/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
     "Collector9EBA7CF5": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
@@ -2171,7 +2294,7 @@
             ]
           }
         },
-        "Handler": "index.handler",
+        "Handler": "index.collectHandler",
         "Role": {
           "Fn::GetAtt": [
             "CollectorServiceRole78F40CC4",
@@ -2179,6 +2302,39 @@
           ]
         },
         "Runtime": "nodejs12.x",
+        "Environment": {
+          "Variables": {
+            "GITHUB_TOKEN_SECRET_ID": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/github-token"
+                ]
+              ]
+            },
+            "SNYK_TOKEN_SECRET_ID": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/snyk-token"
+                ]
+              ]
+            },
+            "DATA_BUCKET_NAME": {
+              "Ref": "DataBucketE3889A50"
+            },
+            "XDG_CACHE_HOME": "/tmp"
+          }
+        },
+        "MemorySize": 256,
         "Tags": [
           {
             "Key": "Project",
@@ -2196,6 +2352,7 @@
         "Timeout": 300
       },
       "DependsOn": [
+        "CollectorServiceRoleDefaultPolicy51652F58",
         "CollectorServiceRole78F40CC4"
       ],
       "Metadata": {
@@ -2246,6 +2403,276 @@
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-main/CollectorSchedule/AllowEventRuleincubrepometricsmainCollectorSchedule00F83686"
       }
+    },
+    "AggregatorServiceRole50457C61": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/Aggregator/ServiceRole/Resource"
+      }
+    },
+    "AggregatorServiceRoleDefaultPolicyEBDCB410": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "cloudfront:CreateInvalidation",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "DataBucketE3889A50",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "DataBucketE3889A50",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "WebappDataBucket777722B9",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "WebappDataBucket777722B9",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AggregatorServiceRoleDefaultPolicyEBDCB410",
+        "Roles": [
+          {
+            "Ref": "AggregatorServiceRole50457C61"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/Aggregator/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "Aggregator84F1B3DF": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "snapshot-value"
+          },
+          "S3Key": {
+            "Fn::Join": [
+              "",
+              [
+                {
+                  "Fn::Select": [
+                    0,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "Fn::Select": [
+                    1,
+                    {
+                      "Fn::Split": [
+                        "||",
+                        {
+                          "Ref": "snapshot-value"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        },
+        "Handler": "index.aggregateHandler",
+        "Role": {
+          "Fn::GetAtt": [
+            "AggregatorServiceRole50457C61",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Environment": {
+          "Variables": {
+            "DATA_BUCKET_NAME": {
+              "Ref": "DataBucketE3889A50"
+            },
+            "WEBAPP_DATA_BUCKET_NAME": {
+              "Ref": "WebappDataBucket777722B9"
+            },
+            "CF_DISTRIBUTION_ID": {
+              "Ref": "Distribution830FAC52"
+            }
+          }
+        },
+        "MemorySize": 256,
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ],
+        "Timeout": 300
+      },
+      "DependsOn": [
+        "AggregatorServiceRoleDefaultPolicyEBDCB410",
+        "AggregatorServiceRole50457C61"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/Aggregator/Resource",
+        "aws:asset:path": "asset.snapshot-value",
+        "aws:asset:property": "Code"
+      }
+    },
+    "AggregatorSchedule80C87EEE": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "ScheduleExpression": "cron(10 4 * * ? *)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "Aggregator84F1B3DF",
+                "Arn"
+              ]
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/AggregatorSchedule/Resource"
+      }
+    },
+    "AggregatorScheduleAllowEventRuleincubrepometricsmainAggregatorSchedule24350F9BEBBBC3DE": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "Aggregator84F1B3DF",
+            "Arn"
+          ]
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "AggregatorSchedule80C87EEE",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-main/AggregatorSchedule/AllowEventRuleincubrepometricsmainAggregatorSchedule24350F9B"
+      }
     }
   },
   "Parameters": {
@@ -2291,6 +2718,16 @@
     }
   },
   "Outputs": {
+    "DataBucketNameOutput": {
+      "Value": {
+        "Ref": "DataBucketE3889A50"
+      }
+    },
+    "WebappDataBucketNameOutput": {
+      "Value": {
+        "Ref": "WebappDataBucket777722B9"
+      }
+    },
     "WebappUrlOutput": {
       "Value": {
         "Fn::Join": [
@@ -2305,11 +2742,6 @@
             }
           ]
         ]
-      }
-    },
-    "DataBucketNameOutput": {
-      "Value": {
-        "Ref": "DataBucketE3889A50"
       }
     },
     "DistributionIdOutput": {

@@ -1,6 +1,10 @@
 # repo-metrics
 
-See https://confluence.capraconsulting.no/x/7_IBC
+Webapp at https://d2799m9v6pw1zy.cloudfront.net/
+
+Data is collected and aggregated every night.
+
+Internal details at https://confluence.capraconsulting.no/x/7_IBC
 
 ## Running locally
 
@@ -22,7 +26,7 @@ Serve the metrics locally so the webapp can reach it:
 
 ```bash
 cd packages/repo-collector
-yarn convert-locally
+yarn aggregate-locally
 yarn serve
 ```
 
@@ -61,13 +65,6 @@ aws-vault exec liflig-incubator-admin
 yarn cdk deploy --all
 ```
 
-To upload the local `webapp.json` file:
-
-```bash
-aws-vault exec liflig-incubator-admin
-./upload-webapp-json.sh
-```
-
 ## Tech overview
 
 - Lerna and Yarn Workspaces for multi-package setup
@@ -75,12 +72,4 @@ aws-vault exec liflig-incubator-admin
 - Webpack for bundling
 - ESLint and Prettier
 - CDK for infrastructure
-
-## To do
-
-- Initial working lambda for collecting metrics
-  - Fetch latest resources-definition if not available
-  - Manual provisioned secrets for GitHub and Snyk
-  - Store data on S3
-  - Convert to webapp-specific build
-- Visualize data in webapp
+- AWS Lambda

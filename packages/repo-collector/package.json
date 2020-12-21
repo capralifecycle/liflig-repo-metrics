@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "collect-locally": "ts-node src/collect-locally.ts",
-    "convert-locally": "ts-node src/convert-locally.ts",
+    "aggregate-locally": "ts-node src/aggregate-locally.ts",
     "serve": "http-server --cors -p 8383 data"
   },
   "devDependencies": {
@@ -16,7 +16,6 @@
     "@types/node": "14.14.7",
     "@typescript-eslint/eslint-plugin": "4.8.1",
     "@typescript-eslint/parser": "4.8.1",
-    "aws-sdk": "2.751.0",
     "eslint": "7.13.0",
     "eslint-config-prettier": "6.15.0",
     "eslint-plugin-deprecation": "1.1.0",
@@ -32,9 +31,13 @@
     "webpack-cli": "4.2.0"
   },
   "dependencies": {
-    "@capraconsulting/cals-cli": "2.17.0",
+    "@aws-sdk/client-cloudfront": "^3.0.0",
+    "@aws-sdk/client-s3": "^3.0.0",
+    "@aws-sdk/client-secrets-manager": "^3.0.0",
+    "@capraconsulting/cals-cli": "2.19.0",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.14.165",
+    "get-stream": "^6.0.0",
     "lodash": "4.17.20"
   }
 }

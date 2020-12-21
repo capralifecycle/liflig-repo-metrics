@@ -8,9 +8,15 @@ module.exports = {
     __dirname: false,
   },
   entry: {
-    "collector/index": "./src/handler.ts",
+    index: "./src/lambda.ts",
   },
   resolve: {
+    alias: {
+      // keytar is a dependency of cals-cli that uses a compiled binary
+      // for providing native keychain access. Since we do not use the
+      // keychain we stub the package as we cannot include a compiled binary.
+      keytar: path.resolve(__dirname, "keytar-stub.js"),
+    },
     extensions: [".ts", ".js"],
   },
   module: {
@@ -24,10 +30,7 @@ module.exports = {
   },
   externals: [
     /^aws-sdk/,
-    // keytar is a dependency of cals-cli that uses a compiled binary
-    // for providing native keychain access. Since we do not use the
-    // keychain we stub the package as we cannot include a compiled binary.
-    /^keytar$/,
+    // /^keytar$/,
   ],
   output: {
     path: path.resolve(__dirname, "dist"),

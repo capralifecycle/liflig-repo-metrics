@@ -275,6 +275,12 @@
             "data": "UserPoolUserPoolClient40176907"
           }
         ],
+        "/incub-repo-metrics-main/DataBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DataBucketE3889A50"
+          }
+        ],
         "/incub-repo-metrics-main/WebappBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -287,16 +293,16 @@
             "data": "WebappBucketPolicyB03C4E01"
           }
         ],
-        "/incub-repo-metrics-main/DataBucket/Resource": [
+        "/incub-repo-metrics-main/WebappDataBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "DataBucketE3889A50"
+            "data": "WebappDataBucket777722B9"
           }
         ],
-        "/incub-repo-metrics-main/DataBucket/Policy/Resource": [
+        "/incub-repo-metrics-main/WebappDataBucket/Policy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "DataBucketPolicy3231C704"
+            "data": "WebappDataBucketPolicy300EA527"
           }
         ],
         "/incub-repo-metrics-main/Auth/NonceSigningSecret/Resource/Default": [
@@ -545,6 +551,12 @@
             "data": "CollectorServiceRole78F40CC4"
           }
         ],
+        "/incub-repo-metrics-main/Collector/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CollectorServiceRoleDefaultPolicy51652F58"
+          }
+        ],
         "/incub-repo-metrics-main/Collector/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -563,16 +575,52 @@
             "data": "CollectorScheduleAllowEventRuleincubrepometricsmainCollectorSchedule00F836868B72A2BA"
           }
         ],
-        "/incub-repo-metrics-main/WebappUrlOutput": [
+        "/incub-repo-metrics-main/Aggregator/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "WebappUrlOutput"
+            "data": "AggregatorServiceRole50457C61"
+          }
+        ],
+        "/incub-repo-metrics-main/Aggregator/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AggregatorServiceRoleDefaultPolicyEBDCB410"
+          }
+        ],
+        "/incub-repo-metrics-main/Aggregator/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Aggregator84F1B3DF"
+          }
+        ],
+        "/incub-repo-metrics-main/AggregatorSchedule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AggregatorSchedule80C87EEE"
+          }
+        ],
+        "/incub-repo-metrics-main/AggregatorSchedule/AllowEventRuleincubrepometricsmainAggregatorSchedule24350F9B": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AggregatorScheduleAllowEventRuleincubrepometricsmainAggregatorSchedule24350F9BEBBBC3DE"
           }
         ],
         "/incub-repo-metrics-main/DataBucketNameOutput": [
           {
             "type": "aws:cdk:logicalId",
             "data": "DataBucketNameOutput"
+          }
+        ],
+        "/incub-repo-metrics-main/WebappDataBucketNameOutput": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebappDataBucketNameOutput"
+          }
+        ],
+        "/incub-repo-metrics-main/WebappUrlOutput": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebappUrlOutput"
           }
         ],
         "/incub-repo-metrics-main/DistributionIdOutput": [

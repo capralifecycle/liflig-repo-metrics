@@ -5,17 +5,19 @@ import {
   github,
   snyk,
 } from "@capraconsulting/cals-cli"
+import { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
+import { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
 import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
-import * as fs from "fs"
 import { groupBy } from "lodash"
+import { GithubDefinitionProvider } from "./definition-provider"
+import { SnapshotsRepository } from "./snapshots-repository"
 
 async function createSnapshots(
+  timestamp: Date,
   snykService: snyk.SnykService,
   githubService: github.GitHubService,
   definitionData: definition.Definition,
 ): Promise<MetricRepoSnapshot[]> {
-  const timestamp = new Date().toISOString()
-
   const snykData = groupBy(
     await snykService.getProjects(definitionData),
     (it) => {
@@ -67,7 +69,7 @@ async function createSnapshots(
 
     result.push({
       version: "1",
-      timestamp,
+      timestamp: timestamp.toISOString(),
       repoId,
       responsible: repo.repo.repo.responsible ?? repo.repo.project.responsible,
       github: {
@@ -87,43 +89,46 @@ async function createSnapshots(
   return result
 }
 
-export async function main() {
+/**
+ * Produce and store snapshots of the current state which can be used
+ * for later analysis.
+ */
+export async function collect(
+  snapshotsRepository: SnapshotsRepository,
+  githubTokenProvider?: GitHubTokenProvider,
+  snykTokenProvider?: SnykTokenProvider,
+) {
   const config = new Config()
   const cache = new CacheProvider(config)
   cache.mustValidate = true
-  const githubService = await github.createGitHubService(config, cache)
+  const githubService = await github.createGitHubService({
+    config,
+    cache,
+    tokenProvider: githubTokenProvider,
+  })
 
-  // TODO: Make customizable.
-  const definitionFile = new definition.DefinitionFile(
+  const definitionProvider = new GithubDefinitionProvider(githubService)
+  /*
+  const definitionProvider = new LocalDefinitionProvider(
     "../../../resources-definition/resources.yaml",
   )
+  */
 
-  const snykService = snyk.createSnykService(config)
+  const definitionData = await definitionProvider.getDefinition()
 
-  const definitionData = await definitionFile.getDefinition()
+  const snykService = snyk.createSnykService({
+    config,
+    tokenProvider: snykTokenProvider,
+  })
+
+  const timestamp = new Date()
 
   const snapshots = await createSnapshots(
+    timestamp,
     snykService,
     githubService,
     definitionData,
   )
 
-  // TODO: Should we partition the data? Maybe put in DynamoDB?
-
-  const dataFile = "data/snapshots.json"
-
-  let existingData: MetricRepoSnapshot[] = []
-  if (fs.existsSync(dataFile)) {
-    existingData = JSON.parse(
-      fs.readFileSync(dataFile, "utf-8"),
-    ) as MetricRepoSnapshot[]
-  }
-
-  const updatedData = [...existingData, ...snapshots]
-
-  fs.writeFileSync(
-    dataFile,
-    JSON.stringify(updatedData, undefined, "  "),
-    "utf-8",
-  )
+  await snapshotsRepository.store(timestamp, snapshots)
 }
