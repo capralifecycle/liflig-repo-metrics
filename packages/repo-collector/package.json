@@ -31,13 +31,13 @@
     "webpack-cli": "4.2.0"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "^3.0.0",
-    "@aws-sdk/client-s3": "^3.0.0",
-    "@aws-sdk/client-secrets-manager": "^3.0.0",
+    "@aws-sdk/client-cloudfront": "3.0.0",
+    "@aws-sdk/client-s3": "3.0.0",
+    "@aws-sdk/client-secrets-manager": "3.0.0",
     "@capraconsulting/cals-cli": "2.19.0",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.14.165",
-    "get-stream": "^6.0.0",
+    "get-stream": "6.0.0",
     "lodash": "4.17.20"
   }
 }
