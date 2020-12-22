@@ -437,10 +437,10 @@
             "data": "AWS679f53fac002430cb0da5b7982bd22872D164C4C"
           }
         ],
-        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--incubrepometricsedgeAuthLambdas6D68EFB9-CheckAuthFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-CheckAuthFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9CheckAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eCheckAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
         "/incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/ServiceRole/Resource": [
@@ -479,28 +479,28 @@
             "data": "henristlambdaconfigproviderProviderframeworkonEventB2FC78D4"
           }
         ],
-        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--incubrepometricsedgeAuthLambdas6D68EFB9-HttpHeadersFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-HttpHeadersFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9HttpHeadersFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eHttpHeadersFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
-        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--incubrepometricsedgeAuthLambdas6D68EFB9-ParseAuthFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-ParseAuthFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9ParseAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eParseAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
-        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--incubrepometricsedgeAuthLambdas6D68EFB9-RefreshAuthFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-RefreshAuthFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9RefreshAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eRefreshAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
-        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--incubrepometricsedgeAuthLambdas6D68EFB9-SignOutFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-SignOutFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9SignOutFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eSignOutFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
         "/incub-repo-metrics-main/Distribution/Origin1/S3Origin/Resource": [

@@ -369,7 +369,7 @@
           ]
         },
         "FunctionArn": {
-          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9CheckAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eCheckAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
         },
         "Config": {
           "httpHeaders": {
@@ -438,7 +438,7 @@
           ]
         },
         "FunctionArn": {
-          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9HttpHeadersFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eHttpHeadersFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
         },
         "Config": {
           "httpHeaders": {
@@ -507,7 +507,7 @@
           ]
         },
         "FunctionArn": {
-          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9ParseAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eParseAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
         },
         "Config": {
           "httpHeaders": {
@@ -576,7 +576,7 @@
           ]
         },
         "FunctionArn": {
-          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9RefreshAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eRefreshAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
         },
         "Config": {
           "httpHeaders": {
@@ -645,7 +645,7 @@
           ]
         },
         "FunctionArn": {
-          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9SignOutFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eSignOutFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
         },
         "Config": {
           "httpHeaders": {
@@ -2696,25 +2696,25 @@
       "Type": "String",
       "Default": "snapshot"
     },
-    "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9CheckAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
+    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eCheckAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Type": "AWS::SSM::Parameter::Value<String>",
-      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-CheckAuthFunction-function-arn"
+      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-CheckAuthFunction-function-arn"
     },
-    "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9HttpHeadersFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
+    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eHttpHeadersFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Type": "AWS::SSM::Parameter::Value<String>",
-      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-HttpHeadersFunction-function-arn"
+      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-HttpHeadersFunction-function-arn"
     },
-    "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9ParseAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
+    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eParseAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Type": "AWS::SSM::Parameter::Value<String>",
-      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-ParseAuthFunction-function-arn"
+      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-ParseAuthFunction-function-arn"
     },
-    "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9RefreshAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
+    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eRefreshAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Type": "AWS::SSM::Parameter::Value<String>",
-      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-RefreshAuthFunction-function-arn"
+      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-RefreshAuthFunction-function-arn"
     },
-    "SsmParameterValuecfregionuseast1stackincubrepometricsedgeincubrepometricsedgeAuthLambdas6D68EFB9SignOutFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
+    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eSignOutFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Type": "AWS::SSM::Parameter::Value<String>",
-      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/incubrepometricsedgeAuthLambdas6D68EFB9-SignOutFunction-function-arn"
+      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-SignOutFunction-function-arn"
     }
   },
   "Outputs": {
