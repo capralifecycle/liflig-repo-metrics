@@ -121,20 +121,12 @@ export interface WebappMetricDataRepoDatapoint {
 
 export interface WebappStatsByFetchGroup {
   timestamp: string
-  byResponsible: {
+  repos: {
+    repoId: string
     responsible: string
-    availableActionableUpdates: number
-    github: {
-      vulnerabilityAlerts: number
-      prs: number
-    }
-    snyk: {
-      countsBySeverity: {
-        high: number
-        medium: number
-        low: number
-      }
-    }
+    updates: number
+    githubVulnerabilities: number
+    snykVulnerabilities: number
   }[]
 }
 

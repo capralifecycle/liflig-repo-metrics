@@ -89,50 +89,14 @@ function convertDatapoint(
   }
 }
 
-function metricsForFetchGroup(snapshots: MetricRepoSnapshot[]) {
-  const byResponsible = groupBy(snapshots, (it) => it.responsible ?? "Ukjent")
-
-  return Object.entries(byResponsible).map(([responsible, items]) => ({
-    responsible,
-    availableActionableUpdates: sumBy(items, (it) =>
-      it.github.renovateDependencyDashboardIssue == null
-        ? 0
-        : extractDependencyUpdatesFromIssue(
-            it.github.renovateDependencyDashboardIssue.body,
-          ).flatMap((category) =>
-            isUpdateCategoryActionable(category.name) ? category.updates : [],
-          ).length,
-    ),
-    github: {
-      vulnerabilityAlerts: sumBy(
-        items,
-        (it) => it.github.vulnerabilityAlerts.length,
-      ),
-      prs: sumBy(items, (it) => it.github.prs.length),
-    },
-    snyk: {
-      countsBySeverity: {
-        high: sumBy(items, (it) =>
-          sumBy(
-            it.snyk.projects,
-            (project) => project.issueCountsBySeverity.high,
-          ),
-        ),
-        medium: sumBy(items, (it) =>
-          sumBy(
-            it.snyk.projects,
-            (project) => project.issueCountsBySeverity.medium,
-          ),
-        ),
-        low: sumBy(items, (it) =>
-          sumBy(
-            it.snyk.projects,
-            (project) => project.issueCountsBySeverity.low,
-          ),
-        ),
-      },
-    },
-  }))
+function getAvailableActionableUpdates(snapshot: MetricRepoSnapshot): number {
+  return snapshot.github.renovateDependencyDashboardIssue == null
+    ? 0
+    : extractDependencyUpdatesFromIssue(
+        snapshot.github.renovateDependencyDashboardIssue.body,
+      ).flatMap((category) =>
+        isUpdateCategoryActionable(category.name) ? category.updates : [],
+      ).length
 }
 
 export function createWebappFriendlyFormat(
@@ -142,9 +106,21 @@ export function createWebappFriendlyFormat(
 
   const byFetchGroup: WebappStatsByFetchGroup[] = Object.entries(
     groupBy(snapshots, (it) => it.timestamp),
-  ).map(([timestamp, items]) => ({
+  ).map<WebappStatsByFetchGroup>(([timestamp, items]) => ({
     timestamp,
-    byResponsible: metricsForFetchGroup(items),
+    repos: items.map<WebappStatsByFetchGroup["repos"][0]>((it) => ({
+      repoId: it.repoId,
+      responsible: it.responsible ?? "Ukjent",
+      updates: getAvailableActionableUpdates(it),
+      githubVulnerabilities: it.github.vulnerabilityAlerts.length,
+      snykVulnerabilities: sumBy(
+        it.snyk.projects,
+        (project) =>
+          project.issueCountsBySeverity.high +
+          project.issueCountsBySeverity.medium +
+          project.issueCountsBySeverity.low,
+      ),
+    })),
   }))
 
   return {

@@ -23,6 +23,23 @@ export const DataList: React.FC<Props> = ({ data }) => {
     (it) => filterRepoName === "" || it.repoId.includes(filterRepoName),
   )
 
+  const filteredFetchGroups = data.byFetchGroup.flatMap((it) => {
+    const repos = it.repos.filter(
+      (it) => filterRepoName === "" || it.repoId.includes(filterRepoName),
+    )
+
+    if (repos.length === 0) {
+      return []
+    } else {
+      return [
+        {
+          ...it,
+          repos,
+        },
+      ]
+    }
+  })
+
   const byResponsible = groupBy(
     filteredRepos,
     (it) => it.responsible ?? "Ukjent",
@@ -58,15 +75,13 @@ export const DataList: React.FC<Props> = ({ data }) => {
         .map(([responsible, repos]) => (
           <DataGroup
             key={responsible}
-            data={data}
+            fetchGroups={filteredFetchGroups}
             responsible={responsible}
             repos={repos}
             showPrList={showPrList}
             showDepList={showDepList}
             showVulList={showVulList}
             limitGraphDays={limitGraphDays}
-            // The graph does not currently honor repo name filter.
-            showGraph={filterRepoName === ""}
           />
         ))}
     </>

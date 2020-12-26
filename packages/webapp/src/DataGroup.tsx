@@ -17,39 +17,23 @@ import {
 import { Repo } from "./Repo"
 
 interface Props {
-  data: WebappMetricData
+  fetchGroups: WebappMetricData["byFetchGroup"]
   responsible: string
   repos: WebappMetricDataRepo[]
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
   limitGraphDays: number | null
-  showGraph: boolean
-}
-
-function sumSnyk(data: {
-  countsBySeverity: {
-    high: number
-    medium: number
-    low: number
-  }
-}): number {
-  return (
-    data.countsBySeverity.high +
-    data.countsBySeverity.medium +
-    data.countsBySeverity.low
-  )
 }
 
 export const DataGroup: React.FC<Props> = ({
-  data,
+  fetchGroups,
   responsible,
   repos,
   showPrList,
   showDepList,
   showVulList,
   limitGraphDays,
-  showGraph,
 }) => {
   const updatesAvailable = sumBy(
     repos,
@@ -76,79 +60,94 @@ export const DataGroup: React.FC<Props> = ({
     )
   }
 
-  const fetchGroups = data.byFetchGroup
-    .flatMap((fetchGroup) =>
-      fetchGroup.byResponsible.flatMap((it) =>
+  const filteredFetchGroups = fetchGroups
+    .flatMap((fetchGroup) => {
+      const repos = fetchGroup.repos.flatMap((it) =>
         it.responsible === responsible
           ? [{ ...it, timestamp: fetchGroup.timestamp }]
           : [],
-      ),
-    )
+      )
+
+      if (repos.length === 0) {
+        return []
+      } else {
+        return [
+          {
+            timestamp: fetchGroup.timestamp,
+            repos,
+          },
+        ]
+      }
+    })
     .filter(
       (it) =>
         limitGraphDays == null || ageInDays(it.timestamp) < limitGraphDays,
     )
 
   const minTime = Math.min(
-    ...fetchGroups.map((it) => new Date(it.timestamp).getTime()),
+    ...filteredFetchGroups.map((it) => new Date(it.timestamp).getTime()),
   )
   const maxTime = Math.max(
-    ...fetchGroups.map((it) => new Date(it.timestamp).getTime()),
+    ...filteredFetchGroups.map((it) => new Date(it.timestamp).getTime()),
   )
 
   return (
     <>
       <h2>Ansvarlig: {responsible}</h2>
-      {showGraph && (
-        <ResponsiveContainer width="100%" height={200}>
-          <LineChart
-            data={fetchGroups.map((it) => ({
-              timestamp: new Date(it.timestamp).getTime(),
-              "snyk vulnerabilities": sumSnyk(it.snyk),
-              "github vulnerabilities": it.github.vulnerabilityAlerts,
-              "available updates": it.availableActionableUpdates,
-            }))}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            <Tooltip labelFormatter={(it: any) => new Date(it).toISOString()} />
-            <YAxis />
-            <YAxis yAxisId="secondary" orientation="right" />
-            <XAxis
-              dataKey="timestamp"
-              type="number"
-              domain={[minTime, maxTime]}
-              tickFormatter={(it: number) =>
-                new Date(it).toISOString().slice(0, 10)
-              }
-              minTickGap={20}
-            />
-            <Tooltip />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="available updates"
-              stroke="#28a745"
-              strokeWidth={2}
-              dot={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="snyk vulnerabilities"
-              stroke="#cb2431"
-              strokeWidth={2}
-              dot={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="github vulnerabilities"
-              stroke="#663399"
-              strokeWidth={2}
-              dot={false}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      )}
+      <ResponsiveContainer width="100%" height={200}>
+        <LineChart
+          data={filteredFetchGroups.map((it) => ({
+            timestamp: new Date(it.timestamp).getTime(),
+            "snyk vulnerabilities": sumBy(
+              it.repos,
+              (r) => r.snykVulnerabilities,
+            ),
+            "github vulnerabilities": sumBy(
+              it.repos,
+              (r) => r.githubVulnerabilities,
+            ),
+            "available updates": sumBy(it.repos, (r) => r.updates),
+          }))}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          <Tooltip labelFormatter={(it: any) => new Date(it).toISOString()} />
+          <YAxis />
+          <YAxis yAxisId="secondary" orientation="right" />
+          <XAxis
+            dataKey="timestamp"
+            type="number"
+            domain={[minTime, maxTime]}
+            tickFormatter={(it: number) =>
+              new Date(it).toISOString().slice(0, 10)
+            }
+            minTickGap={20}
+          />
+          <Tooltip />
+          <Legend />
+          <Line
+            type="monotone"
+            dataKey="available updates"
+            stroke="#28a745"
+            strokeWidth={2}
+            dot={false}
+          />
+          <Line
+            type="monotone"
+            dataKey="snyk vulnerabilities"
+            stroke="#cb2431"
+            strokeWidth={2}
+            dot={false}
+          />
+          <Line
+            type="monotone"
+            dataKey="github vulnerabilities"
+            stroke="#663399"
+            strokeWidth={2}
+            dot={false}
+          />
+        </LineChart>
+      </ResponsiveContainer>
       <p>
         Siste status: {updatesAvailable} oppdateringer til behandling.{" "}
         {githubAlerts} sårbarheter (GitHub). {snykAlerts} sårbarheter (Snyk)
