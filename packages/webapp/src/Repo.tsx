@@ -94,7 +94,6 @@ export const Repo: React.FC<Props> = ({
       <td>
         <a href={repoBaseUrl}>{data.repoId}</a>
       </td>
-      <td>{data.lastDatapoint.timestamp}</td>
       <td>
         {renovateDashboad?.daysSinceLastUpdate != null &&
           renovateDashboad.daysSinceLastUpdate >= 20 && (
