@@ -15,6 +15,9 @@ yarn
 yarn build
 ```
 
+See `packages/repo-collector/fetch-s3-data.sh` to fetch existing data
+instead of collecting and aggregating locally.
+
 Generate metrics (also see section about keys):
 
 ```bash
