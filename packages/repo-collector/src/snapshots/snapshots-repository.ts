@@ -39,7 +39,7 @@ function formatTimestampForFilename(date: Date): string {
  */
 export class LocalSnapshotsRepository implements SnapshotsRepository {
   async store(timestamp: Date, data: MetricRepoSnapshot[]): Promise<void> {
-    const file = `data/snapshots-${formatTimestampForFilename(timestamp)}.json`
+    const file = `data/snapshots/${formatTimestampForFilename(timestamp)}.json`
 
     await fs.promises.writeFile(file, toNdJson(data))
   }
@@ -47,11 +47,11 @@ export class LocalSnapshotsRepository implements SnapshotsRepository {
   async retrieveAll(): Promise<MetricRepoSnapshot[]> {
     const result: MetricRepoSnapshot[] = []
 
-    const base = "data"
+    const base = "data/snapshots"
     const items = await fs.promises.readdir(base)
 
     for (const item of items) {
-      if (!item.startsWith("snapshots-") || !item.endsWith(".json")) continue
+      if (!item.endsWith(".json")) continue
 
       const p = path.join(base, item)
       const stat = await fs.promises.stat(p)
