@@ -24,6 +24,7 @@ interface Props {
   showDepList: boolean
   showVulList: boolean
   limitGraphDays: number | null
+  showGraph: boolean
 }
 
 function sumSnyk(data: {
@@ -48,6 +49,7 @@ export const DataGroup: React.FC<Props> = ({
   showDepList,
   showVulList,
   limitGraphDays,
+  showGraph,
 }) => {
   const updatesAvailable = sumBy(
     repos,
@@ -97,54 +99,56 @@ export const DataGroup: React.FC<Props> = ({
   return (
     <>
       <h2>Ansvarlig: {responsible}</h2>
-      <ResponsiveContainer width="100%" height={200}>
-        <LineChart
-          data={fetchGroups.map((it) => ({
-            timestamp: new Date(it.timestamp).getTime(),
-            "snyk vulnerabilities": sumSnyk(it.snyk),
-            "github vulnerabilities": it.github.vulnerabilityAlerts,
-            "available updates": it.availableActionableUpdates,
-          }))}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-          <Tooltip labelFormatter={(it: any) => new Date(it).toISOString()} />
-          <YAxis />
-          <YAxis yAxisId="secondary" orientation="right" />
-          <XAxis
-            dataKey="timestamp"
-            type="number"
-            domain={[minTime, maxTime]}
-            tickFormatter={(it: number) =>
-              new Date(it).toISOString().slice(0, 10)
-            }
-            minTickGap={20}
-          />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="available updates"
-            stroke="#28a745"
-            strokeWidth={2}
-            dot={false}
-          />
-          <Line
-            type="monotone"
-            dataKey="snyk vulnerabilities"
-            stroke="#cb2431"
-            strokeWidth={2}
-            dot={false}
-          />
-          <Line
-            type="monotone"
-            dataKey="github vulnerabilities"
-            stroke="#663399"
-            strokeWidth={2}
-            dot={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      {showGraph && (
+        <ResponsiveContainer width="100%" height={200}>
+          <LineChart
+            data={fetchGroups.map((it) => ({
+              timestamp: new Date(it.timestamp).getTime(),
+              "snyk vulnerabilities": sumSnyk(it.snyk),
+              "github vulnerabilities": it.github.vulnerabilityAlerts,
+              "available updates": it.availableActionableUpdates,
+            }))}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            <Tooltip labelFormatter={(it: any) => new Date(it).toISOString()} />
+            <YAxis />
+            <YAxis yAxisId="secondary" orientation="right" />
+            <XAxis
+              dataKey="timestamp"
+              type="number"
+              domain={[minTime, maxTime]}
+              tickFormatter={(it: number) =>
+                new Date(it).toISOString().slice(0, 10)
+              }
+              minTickGap={20}
+            />
+            <Tooltip />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="available updates"
+              stroke="#28a745"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="snyk vulnerabilities"
+              stroke="#cb2431"
+              strokeWidth={2}
+              dot={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="github vulnerabilities"
+              stroke="#663399"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      )}
       <p>
         Siste status: {updatesAvailable} oppdateringer til behandling.{" "}
         {githubAlerts} sårbarheter (GitHub). {snykAlerts} sårbarheter (Snyk)

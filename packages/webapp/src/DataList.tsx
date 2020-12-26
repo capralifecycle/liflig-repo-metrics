@@ -9,8 +9,6 @@ interface Props {
 }
 
 export const DataList: React.FC<Props> = ({ data }) => {
-  const byResponsible = groupBy(data.repos, (it) => it.responsible ?? "Ukjent")
-
   const limitDays = 20
 
   const [showPrList, setShowPrList] = React.useState(false)
@@ -18,6 +16,16 @@ export const DataList: React.FC<Props> = ({ data }) => {
   const [showVulList, setShowVulList] = React.useState(false)
   const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
     limitDays,
+  )
+  const [filterRepoName, setFilterRepoName] = React.useState("")
+
+  const filteredRepos = data.repos.filter(
+    (it) => filterRepoName === "" || it.repoId.includes(filterRepoName),
+  )
+
+  const byResponsible = groupBy(
+    filteredRepos,
+    (it) => it.responsible ?? "Ukjent",
   )
 
   return (
@@ -37,6 +45,14 @@ export const DataList: React.FC<Props> = ({ data }) => {
       >
         Begrens graf til siste 20 dager
       </Checkbox>
+      <input
+        type="text"
+        value={filterRepoName}
+        onChange={(e) => {
+          setFilterRepoName(e.target.value)
+        }}
+        placeholder="Filtrer på navn til repo"
+      />
       {Object.entries(byResponsible)
         .sort((a, b) => a[0].localeCompare(b[0]))
         .map(([responsible, repos]) => (
@@ -49,6 +65,8 @@ export const DataList: React.FC<Props> = ({ data }) => {
             showDepList={showDepList}
             showVulList={showVulList}
             limitGraphDays={limitGraphDays}
+            // The graph does not currently honor repo name filter.
+            showGraph={filterRepoName === ""}
           />
         ))}
     </>
