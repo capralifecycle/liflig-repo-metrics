@@ -77,6 +77,19 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
 
   constructor(bucketName: string) {
     this.s3Client = new S3({})
+
+    // Workaround for https://github.com/aws/aws-sdk-js-v3/issues/1800
+    // Source: https://github.com/aws/aws-sdk-js-v3/issues/1800#issuecomment-749459712
+    this.s3Client.middlewareStack.add(
+      (next) => async (args) => {
+        args.request
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
+        delete (args.request as any).headers["content-type"]
+        return next(args)
+      },
+      { step: "build" },
+    )
+
     this.bucketName = bucketName
   }
 
@@ -89,6 +102,7 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
       Bucket: this.bucketName,
       Key: `snapshots/${formatTimestampForFilename(timestamp)}.json`,
       Body: toNdJson(data),
+      ContentType: "application/json",
     })
   }
 
