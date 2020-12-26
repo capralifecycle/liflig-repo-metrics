@@ -12,6 +12,16 @@ function isBotPr(pr: WebappMetricDataRepoDatapoint["github"]["prs"][0]) {
   )
 }
 
+export function isActionableRepo(repo: WebappMetricDataRepoDatapoint): boolean {
+  return (
+    (repo.github.availableUpdates ?? []).filter((it) => it.isActionable)
+      .length > 0 ||
+    repo.github.prs.filter((it) => isBotPr(it)).length > 0 ||
+    repo.github.vulnerabilityAlerts.length > 0 ||
+    (repo.snyk?.totalIssues ?? 0) > 0
+  )
+}
+
 interface Props {
   data: WebappMetricDataRepo
   showPrList: boolean

@@ -3,6 +3,7 @@ import { groupBy } from "lodash"
 import * as React from "react"
 import { Checkbox } from "./Checkbox"
 import { DataGroup } from "./DataGroup"
+import { isActionableRepo } from "./Repo"
 
 interface Props {
   data: WebappMetricData
@@ -14,19 +15,29 @@ export const DataList: React.FC<Props> = ({ data }) => {
   const [showPrList, setShowPrList] = React.useState(false)
   const [showDepList, setShowDepList] = React.useState(false)
   const [showVulList, setShowVulList] = React.useState(false)
+  const [showOnlyActionable, setShowOnlyActionable] = React.useState(false)
   const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
     limitDays,
   )
   const [filterRepoName, setFilterRepoName] = React.useState("")
 
-  const filteredRepos = data.repos.filter(
-    (it) => filterRepoName === "" || it.repoId.includes(filterRepoName),
-  )
+  const actionableRepos = showOnlyActionable
+    ? data.repos
+        .filter((it) => isActionableRepo(it.lastDatapoint))
+        .map((it) => it.repoId)
+    : []
+
+  function filterRepoId(repoId: string): boolean {
+    return (
+      (filterRepoName === "" || repoId.includes(filterRepoName)) &&
+      (!showOnlyActionable || actionableRepos.includes(repoId))
+    )
+  }
+
+  const filteredRepos = data.repos.filter((it) => filterRepoId(it.repoId))
 
   const filteredFetchGroups = data.byFetchGroup.flatMap((it) => {
-    const repos = it.repos.filter(
-      (it) => filterRepoName === "" || it.repoId.includes(filterRepoName),
-    )
+    const repos = it.repos.filter((it) => filterRepoId(it.repoId))
 
     if (repos.length === 0) {
       return []
@@ -55,6 +66,9 @@ export const DataList: React.FC<Props> = ({ data }) => {
       </Checkbox>
       <Checkbox checked={showVulList} onCheck={setShowVulList}>
         Vis detaljert detaljer om sårbarheter
+      </Checkbox>
+      <Checkbox checked={showOnlyActionable} onCheck={setShowOnlyActionable}>
+        Skjul repoer hvor alt er OK nå
       </Checkbox>
       <Checkbox
         checked={limitGraphDays != null}

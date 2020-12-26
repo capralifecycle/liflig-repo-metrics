@@ -149,8 +149,9 @@ export const DataGroup: React.FC<Props> = ({
         </LineChart>
       </ResponsiveContainer>
       <p>
-        Siste status: {updatesAvailable} oppdateringer til behandling.{" "}
-        {githubAlerts} sårbarheter (GitHub). {snykAlerts} sårbarheter (Snyk)
+        Siste status: {repos.length} repoer. {updatesAvailable} oppdateringer
+        til behandling. {githubAlerts} sårbarheter (GitHub). {snykAlerts}{" "}
+        sårbarheter (Snyk)
       </p>
       <table>
         <thead>
