@@ -245,6 +245,20 @@
     constructs "^3.2.0"
     punycode "^2.1.1"
 
+"@aws-cdk/aws-dynamodb@1.79.0":
+  version "1.79.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-dynamodb/-/aws-dynamodb-1.79.0.tgz#a7c03b3d28dddcb7430fbc3ef813dbb94796b214"
+  integrity sha512-4JYtuN67hdmyAVd0vcG8QkfxBf8RA4hv5sMwFRmxG0GuN2/iTa6Acp2XQstVk/nK8bE3BUioRRRNRK1/5amlDw==
+  dependencies:
+    "@aws-cdk/aws-applicationautoscaling" "1.79.0"
+    "@aws-cdk/aws-cloudwatch" "1.79.0"
+    "@aws-cdk/aws-iam" "1.79.0"
+    "@aws-cdk/aws-kms" "1.79.0"
+    "@aws-cdk/aws-lambda" "1.79.0"
+    "@aws-cdk/core" "1.79.0"
+    "@aws-cdk/custom-resources" "1.79.0"
+    constructs "^3.2.0"
+
 "@aws-cdk/aws-ec2@1.79.0":
   version "1.79.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-ec2/-/aws-ec2-1.79.0.tgz#9c1ae84f374980f2456acdc57985a6612c1ae897"
@@ -387,6 +401,17 @@
   integrity sha512-9fyvKqSC/Sa5cVe2SyvTrTBNw8MuZ8w29JX6O9McMff1i50ZMpdSFh/r/Hq4ImfcoRJvZcyXDYJmTUI8PYR6Fg==
   dependencies:
     "@aws-cdk/aws-iam" "1.79.0"
+    "@aws-cdk/core" "1.79.0"
+    constructs "^3.2.0"
+
+"@aws-cdk/aws-glue@1.79.0":
+  version "1.79.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-glue/-/aws-glue-1.79.0.tgz#6068b72a97f78aa88d30b7c34caff62724f883d0"
+  integrity sha512-+rSE5DYZwJQ2qndBi1CyoIwzdJPpgj4rlztjWbi0WyxXueYRL+ynMdzKW3c5vXJhjfYv+F/6Je/ZRznE14Ztvw==
+  dependencies:
+    "@aws-cdk/aws-iam" "1.79.0"
+    "@aws-cdk/aws-kms" "1.79.0"
+    "@aws-cdk/aws-s3" "1.79.0"
     "@aws-cdk/core" "1.79.0"
     constructs "^3.2.0"
 
@@ -625,6 +650,31 @@
     "@aws-cdk/aws-iam" "1.79.0"
     "@aws-cdk/aws-kms" "1.79.0"
     "@aws-cdk/cloud-assembly-schema" "1.79.0"
+    "@aws-cdk/core" "1.79.0"
+    constructs "^3.2.0"
+
+"@aws-cdk/aws-stepfunctions-tasks@1.79.0":
+  version "1.79.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-stepfunctions-tasks/-/aws-stepfunctions-tasks-1.79.0.tgz#89a881cfd62a6e1b3f315a7e67316774b447f7ba"
+  integrity sha512-aPXknGl458sufxZh//a/p10UPHL3QKL/kFvQhphyvceOCK6ERr3IBA5mLVVQo9OhtBDBRQfWblhh8FEgwHe10g==
+  dependencies:
+    "@aws-cdk/assets" "1.79.0"
+    "@aws-cdk/aws-batch" "1.79.0"
+    "@aws-cdk/aws-cloudwatch" "1.79.0"
+    "@aws-cdk/aws-codebuild" "1.79.0"
+    "@aws-cdk/aws-dynamodb" "1.79.0"
+    "@aws-cdk/aws-ec2" "1.79.0"
+    "@aws-cdk/aws-ecr" "1.79.0"
+    "@aws-cdk/aws-ecr-assets" "1.79.0"
+    "@aws-cdk/aws-ecs" "1.79.0"
+    "@aws-cdk/aws-glue" "1.79.0"
+    "@aws-cdk/aws-iam" "1.79.0"
+    "@aws-cdk/aws-kms" "1.79.0"
+    "@aws-cdk/aws-lambda" "1.79.0"
+    "@aws-cdk/aws-s3" "1.79.0"
+    "@aws-cdk/aws-sns" "1.79.0"
+    "@aws-cdk/aws-sqs" "1.79.0"
+    "@aws-cdk/aws-stepfunctions" "1.79.0"
     "@aws-cdk/core" "1.79.0"
     constructs "^3.2.0"
 
@@ -2706,10 +2756,10 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@liflig/cdk@1.25.1":
-  version "1.25.1"
-  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-1.25.1.tgz#e8f3e4c163a3aeee2effd4838288154fab06fa33"
-  integrity sha512-kEimJYTMgAKNENPt0H4AOfZKICfed+zuwZpaN8v+oTms6nS7rYAMyl6nenljwj1BJcE6rePXhiYvKx9B27Tvng==
+"@liflig/cdk@1.26.0":
+  version "1.26.0"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-1.26.0.tgz#b4a1f7212ec47c35aca1cb576e48e6178ba7ebd0"
+  integrity sha512-0fl5RxHm/ck1t70I30iDT1ZOqv3mEtiP8UtBTPIn69lZue5/RfgvHJDZu//w6PrrUgVcwSoyMunpLsUwMq8dVA==
   dependencies:
     "@capraconsulting/webapp-deploy-lambda" "1.1.1"
     cpy "^8.1.0"

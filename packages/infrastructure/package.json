@@ -41,9 +41,11 @@
     "@aws-cdk/aws-s3": "1.79.0",
     "@aws-cdk/aws-s3-deployment": "1.79.0",
     "@aws-cdk/aws-sqs": "1.79.0",
+    "@aws-cdk/aws-stepfunctions": "1.79.0",
+    "@aws-cdk/aws-stepfunctions-tasks": "1.79.0",
     "@aws-cdk/core": "1.79.0",
     "@henrist/cdk-cloudfront-auth": "1.1.14",
     "@henrist/cdk-lambda-config": "1.0.9",
-    "@liflig/cdk": "1.25.1"
+    "@liflig/cdk": "1.26.0"
   }
 }

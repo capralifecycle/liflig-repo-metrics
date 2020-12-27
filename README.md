@@ -57,16 +57,9 @@ Keys must be set for:
 - GitHub
 - Snyk
 
-## Manual deployment
+## Deployment
 
-Currently deployment is performed manually:
-
-```bash
-yarn build
-cd packages/infrastructure
-aws-vault exec liflig-incubator-admin
-yarn cdk deploy --all
-```
+This repo is built and deployed automatically on pushes to master.
 
 ## Tech overview
 

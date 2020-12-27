@@ -1,0 +1,892 @@
+{
+  "Resources": {
+    "ArtifactsBucketTrigger163C6DA8": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "EventPattern": {
+          "source": [
+            "aws.s3"
+          ],
+          "detail-type": [
+            "AWS API Call via CloudTrail"
+          ],
+          "detail": {
+            "resources": {
+              "ARN": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::incub-common-build-artifacts-001112238813-eu-west-1/pipelines/incub-repo-metrics/trigger"
+                    ]
+                  ]
+                }
+              ]
+            },
+            "eventName": [
+              "CompleteMultipartUpload",
+              "CopyObject",
+              "PutObject"
+            ],
+            "requestParameters": {
+              "bucketName": [
+                "incub-common-build-artifacts-001112238813-eu-west-1"
+              ],
+              "key": [
+                "pipelines/incub-repo-metrics/trigger"
+              ]
+            }
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "RepoMetricsPipelineStateMachineD7571040"
+            },
+            "Id": "Target0",
+            "Input": "{}",
+            "RoleArn": {
+              "Fn::GetAtt": [
+                "RepoMetricsPipelineStateMachineEventsRole5A5E1B01",
+                "Arn"
+              ]
+            }
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/ArtifactsBucket/Trigger/Resource"
+      }
+    },
+    "RepoMetricsPipelineincubTaskDefinitionTaskRole66540DCC": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/TaskRole/Resource"
+      }
+    },
+    "RepoMetricsPipelineincubTaskDefinitionTaskRoleDefaultPolicy7B331416": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": "arn:aws:iam::001112238813:role/liflig-cdk-deployer-cdk"
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::incub-common-build-artifacts-001112238813-eu-west-1"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::incub-common-build-artifacts-001112238813-eu-west-1/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "RepoMetricsPipelineincubTaskDefinitionTaskRoleDefaultPolicy7B331416",
+        "Roles": [
+          {
+            "Ref": "RepoMetricsPipelineincubTaskDefinitionTaskRole66540DCC"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/TaskRole/DefaultPolicy/Resource"
+      }
+    },
+    "RepoMetricsPipelineincubTaskDefinition69DCA07A": {
+      "Type": "AWS::ECS::TaskDefinition",
+      "Properties": {
+        "ContainerDefinitions": [
+          {
+            "Essential": true,
+            "Image": {
+              "Fn::Join": [
+                "",
+                [
+                  "001112238813.dkr.ecr.eu-west-1.",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/incub-common-liflig-cdk-deployer:1-experimental.2"
+                ]
+              ]
+            },
+            "LogConfiguration": {
+              "LogDriver": "awslogs",
+              "Options": {
+                "awslogs-group": {
+                  "Ref": "RepoMetricsPipelineincubLogGroup884AB3B3"
+                },
+                "awslogs-stream-prefix": "app",
+                "awslogs-region": "eu-west-1"
+              }
+            },
+            "Name": "app"
+          }
+        ],
+        "Cpu": "256",
+        "ExecutionRoleArn": {
+          "Fn::GetAtt": [
+            "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDC532411",
+            "Arn"
+          ]
+        },
+        "Family": "incubrepometricspipelineRepoMetricsPipelineincubTaskDefinitionBEEFC653",
+        "Memory": "1024",
+        "NetworkMode": "awsvpc",
+        "RequiresCompatibilities": [
+          "FARGATE"
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ],
+        "TaskRoleArn": {
+          "Fn::GetAtt": [
+            "RepoMetricsPipelineincubTaskDefinitionTaskRole66540DCC",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/Resource"
+      }
+    },
+    "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDC532411": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ecs-tasks.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/ExecutionRole/Resource"
+      }
+    },
+    "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDefaultPolicyB8D743C8": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage"
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:ecr:eu-west-1:001112238813:repository/incub-common-liflig-cdk-deployer"
+            },
+            {
+              "Action": "ecr:GetAuthorizationToken",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "RepoMetricsPipelineincubLogGroup884AB3B3",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDefaultPolicyB8D743C8",
+        "Roles": [
+          {
+            "Ref": "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDC532411"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/ExecutionRole/DefaultPolicy/Resource"
+      }
+    },
+    "RepoMetricsPipelineincubLogGroup884AB3B3": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "RetentionInDays": 30
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/LogGroup/Resource"
+      }
+    },
+    "RepoMetricsPipelineStateMachineRole5D5409A8": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "states.eu-west-1.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/Role/Resource"
+      }
+    },
+    "RepoMetricsPipelineStateMachineRoleDefaultPolicyDC406558": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "SingletonLambda30ad3abbf7744804a6ef2c2f4a2473624B500B6F",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "SingletonLambdac49cbfe150e047218964fb20f4e5a7ad32DEE37F",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "ecs:RunTask",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "RepoMetricsPipelineincubTaskDefinition69DCA07A"
+              }
+            },
+            {
+              "Action": [
+                "ecs:StopTask",
+                "ecs:DescribeTasks"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "iam:PassRole",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "RepoMetricsPipelineincubTaskDefinitionTaskRole66540DCC",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::GetAtt": [
+                    "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDC532411",
+                    "Arn"
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "events:PutTargets",
+                "events:PutRule",
+                "events:DescribeRule"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":events:eu-west-1:001112238813:rule/StepFunctionsGetEventsForECSTaskRule"
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "RepoMetricsPipelineStateMachineRoleDefaultPolicyDC406558",
+        "Roles": [
+          {
+            "Ref": "RepoMetricsPipelineStateMachineRole5D5409A8"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/Role/DefaultPolicy/Resource"
+      }
+    },
+    "RepoMetricsPipelineStateMachineD7571040": {
+      "Type": "AWS::StepFunctions::StateMachine",
+      "Properties": {
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "RepoMetricsPipelineStateMachineRole5D5409A8",
+            "Arn"
+          ]
+        },
+        "DefinitionString": {
+          "Fn::Join": [
+            "",
+            [
+              "{\"StartAt\":\"Check if the process can run\",\"States\":{\"Check if the process can run\":{\"Next\":\"Can run?\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "SingletonLambda30ad3abbf7744804a6ef2c2f4a2473624B500B6F",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload\":{\"stateMachineId.$\":\"$$.StateMachine.Id\",\"executionId.$\":\"$$.Execution.Id\"}}},\"Wait before rechecking status\":{\"Type\":\"Wait\",\"Seconds\":15,\"Next\":\"Check if the process can run\"},\"Can run?\":{\"Type\":\"Choice\",\"Choices\":[{\"Variable\":\"$.CanRunState\",\"StringEquals\":\"CONTINUE\",\"Next\":\"Collect files from S3\"},{\"Variable\":\"$.CanRunState\",\"StringEquals\":\"SKIP\",\"Next\":\"Skip\"}],\"Default\":\"Wait before rechecking status\"},\"Collect files from S3\":{\"Next\":\"Check if incub has stacks\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "SingletonLambdac49cbfe150e047218964fb20f4e5a7ad32DEE37F",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload\":{\"bucketName\":\"incub-common-build-artifacts-001112238813-eu-west-1\",\"bucketPrefix\":\"pipelines/incub-repo-metrics/\",\"envNames\":[\"incub\"]}}},\"Check if incub has stacks\":{\"Type\":\"Choice\",\"Choices\":[{\"Or\":[{\"Variable\":\"$.StackCountPerEnv.incub\",\"IsNull\":true},{\"Variable\":\"$.StackCountPerEnv.incub\",\"NumericEquals\":0}],\"Next\":\"Skip incub\"}],\"Default\":\"Deploy incub\"},\"Deploy incub\":{\"End\":true,\"Type\":\"Task\",\"ResultPath\":null,\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::ecs:runTask.sync\",\"Parameters\":{\"Cluster\":\"",
+              {
+                "Fn::GetAtt": [
+                  "pipeline04ad36b1cluster6BE51DCA",
+                  "Arn"
+                ]
+              },
+              "\",\"TaskDefinition\":\"",
+              {
+                "Ref": "RepoMetricsPipelineincubTaskDefinition69DCA07A"
+              },
+              "\",\"NetworkConfiguration\":{\"AwsvpcConfiguration\":{\"AssignPublicIp\":\"ENABLED\",\"Subnets\":[\"subnet-07e2239d3d09b9759\",\"subnet-0b4c305426dd627d4\",\"subnet-0659d04ade348a053\"],\"SecurityGroups\":[\"",
+              {
+                "Fn::GetAtt": [
+                  "pipeline04ad36b1securitygroup5E09A6B3",
+                  "GroupId"
+                ]
+              },
+              "\"]}},\"Overrides\":{\"ContainerOverrides\":[{\"Name\":\"app\",\"Environment\":[{\"Name\":\"CDK_TARGET_ROLE_ARN\",\"Value\":\"arn:aws:iam::001112238813:role/liflig-cdk-deployer-cdk\"},{\"Name\":\"CDK_ENV_NAME\",\"Value\":\"incub\"},{\"Name\":\"CDK_CLOUD_ASSEMBLY\",\"Value.$\":\"$.CloudAssembly\"},{\"Name\":\"CDK_VARIABLES\",\"Value.$\":\"$.Variables\"}]}]},\"LaunchType\":\"FARGATE\"}},\"Skip incub\":{\"Type\":\"Pass\",\"End\":true},\"Skip\":{\"Type\":\"Succeed\"}},\"TimeoutSeconds\":10800}"
+            ]
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "DependsOn": [
+        "RepoMetricsPipelineStateMachineRoleDefaultPolicyDC406558",
+        "RepoMetricsPipelineStateMachineRole5D5409A8"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/Resource"
+      }
+    },
+    "RepoMetricsPipelineStateMachineEventsRole5A5E1B01": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "events.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/EventsRole/Resource"
+      }
+    },
+    "RepoMetricsPipelineStateMachineEventsRoleDefaultPolicy0BDDB485": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "RepoMetricsPipelineStateMachineD7571040"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "RepoMetricsPipelineStateMachineEventsRoleDefaultPolicy0BDDB485",
+        "Roles": [
+          {
+            "Ref": "RepoMetricsPipelineStateMachineEventsRole5A5E1B01"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/EventsRole/DefaultPolicy/Resource"
+      }
+    },
+    "RepoMetricsPipelineCheckCanRunPolicyC0E7B15A": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "states:ListExecutions",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "RepoMetricsPipelineStateMachineD7571040"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "RepoMetricsPipelineCheckCanRunPolicyC0E7B15A",
+        "Roles": [
+          {
+            "Ref": "SingletonLambda30ad3abbf7744804a6ef2c2f4a247362ServiceRole6FD87E48"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/CheckCanRunPolicy/Resource"
+      }
+    },
+    "SingletonLambda30ad3abbf7744804a6ef2c2f4a247362ServiceRole6FD87E48": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambda30ad3abbf7744804a6ef2c2f4a247362/ServiceRole/Resource"
+      }
+    },
+    "SingletonLambda30ad3abbf7744804a6ef2c2f4a2473624B500B6F": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "ZipFile": "exports.handler = async (event) => {\n    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-assignment\n    const AWS = require(\"aws-sdk\");\n    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access\n    const sf = new AWS.StepFunctions();\n    console.log(\"Event received: \", event);\n    const stateMachineArn = event[\"stateMachineId\"];\n    const currentExecutionArn = event[\"executionId\"];\n    const executions = (await sf\n        .listExecutions({\n        stateMachineArn,\n        statusFilter: \"RUNNING\",\n    })\n        .promise()).executions;\n    console.log(\"Executions: \", executions);\n    const currentExecution = executions.find((it) => it.executionArn == currentExecutionArn);\n    if (!currentExecution) {\n        throw new Error(\"Could not find current execution\");\n    }\n    const newer = executions.filter((it) => it.startDate > currentExecution.startDate).length;\n    return {\n        CanRunState: newer > 0 ? \"SKIP\" : executions.length == 1 ? \"CONTINUE\" : \"WAIT\",\n    };\n};"
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "SingletonLambda30ad3abbf7744804a6ef2c2f4a247362ServiceRole6FD87E48",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ],
+        "Timeout": 10
+      },
+      "DependsOn": [
+        "SingletonLambda30ad3abbf7744804a6ef2c2f4a247362ServiceRole6FD87E48"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambda30ad3abbf7744804a6ef2c2f4a247362/Resource"
+      }
+    },
+    "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRole836D5886": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambdac49cbfe150e047218964fb20f4e5a7ad/ServiceRole/Resource"
+      }
+    },
+    "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRoleDefaultPolicy4E6107E2": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::incub-common-build-artifacts-001112238813-eu-west-1"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::incub-common-build-artifacts-001112238813-eu-west-1/*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRoleDefaultPolicy4E6107E2",
+        "Roles": [
+          {
+            "Ref": "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRole836D5886"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambdac49cbfe150e047218964fb20f4e5a7ad/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "SingletonLambdac49cbfe150e047218964fb20f4e5a7ad32DEE37F": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "ZipFile": "exports.handler = async (event) => {\n    var _a;\n    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-assignment\n    const AWS = require(\"aws-sdk\");\n    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access\n    const s3 = new AWS.S3();\n    console.log(\"Event received: \", event);\n    const bucketName = event.bucketName;\n    const bucketPrefix = event.bucketPrefix;\n    const envNames = event.envNames;\n    if (bucketPrefix.slice(-1) !== \"/\") {\n        throw new Error(`Expected bucket prefix to end with '/' but its value is '${bucketPrefix}'`);\n    }\n    const files = await s3\n        .listObjectsV2({\n        Bucket: bucketName,\n        Prefix: bucketPrefix,\n    })\n        .promise();\n    async function getData(key) {\n        const result = await s3\n            .getObject({\n            Bucket: bucketName,\n            Key: key,\n        })\n            .promise();\n        return result.Body.toString();\n    }\n    let cloudAssembly = null;\n    let variables = {};\n    for (const file of (_a = files.Contents) !== null && _a !== void 0 ? _a : []) {\n        const key = file.Key;\n        const filename = key.slice(bucketPrefix.length);\n        console.log(`File: ${filename}`);\n        if (filename === \"cloud-assembly.json\") {\n            console.log(\"Found Cloud Assembly\");\n            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment\n            cloudAssembly = JSON.parse(await getData(key));\n        }\n        else if (/^variables.*\\.json$/.test(filename)) {\n            console.log(\"Found variables file\");\n            variables = {\n                ...variables,\n                ...JSON.parse(await getData(key)),\n            };\n        }\n        else {\n            console.log(\"Ignoring unknown file\");\n        }\n    }\n    if (cloudAssembly === null) {\n        throw new Error(\"cloud-assembly.json not found\");\n    }\n    return {\n        CloudAssembly: JSON.stringify(cloudAssembly),\n        Variables: JSON.stringify(variables),\n        StackCountPerEnv: Object.fromEntries(envNames.map((name) => {\n            var _a, _b;\n            return [\n                name,\n                (_b = (_a = cloudAssembly.environments.find((it) => it.name === name)) === null || _a === void 0 ? void 0 : _a.stackNames.length) !== null && _b !== void 0 ? _b : 0,\n            ];\n        })),\n    };\n};"
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRole836D5886",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ],
+        "Timeout": 30
+      },
+      "DependsOn": [
+        "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRoleDefaultPolicy4E6107E2",
+        "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRole836D5886"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambdac49cbfe150e047218964fb20f4e5a7ad/Resource"
+      }
+    },
+    "pipeline04ad36b1cluster6BE51DCA": {
+      "Type": "AWS::ECS::Cluster",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/pipeline.04ad36b1.cluster/Resource"
+      }
+    },
+    "pipeline04ad36b1securitygroup5E09A6B3": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "incub-repo-metrics-pipeline/pipeline.04ad36b1.security-group",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ],
+        "VpcId": "vpc-0a67807e4aca6bb84"
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/pipeline.04ad36b1.security-group/Resource"
+      }
+    }
+  }
+}
