@@ -6,6 +6,13 @@
         "file": "tree.json"
       }
     },
+    "incub-repo-metrics-pipeline.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "incub-repo-metrics-pipeline.assets.json",
+        "requiresBootstrapStackVersion": 4
+      }
+    },
     "incub-repo-metrics-pipeline": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://001112238813/eu-west-1",
@@ -15,8 +22,18 @@
           "Project": "repo-metrics",
           "SourceRepo": "github/capralifecycle/liflig-repo-metrics",
           "StackName": "incub-repo-metrics-pipeline"
-        }
+        },
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-eu-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-cfn-exec-role-001112238813-eu-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-001112238813-eu-west-1/snapshot-value",
+        "requiresBootstrapStackVersion": 4,
+        "additionalDependencies": [
+          "incub-repo-metrics-pipeline.assets"
+        ]
       },
+      "dependencies": [
+        "incub-repo-metrics-pipeline.assets"
+      ],
       "metadata": {
         "/incub-repo-metrics-pipeline": [
           {
@@ -162,7 +179,26 @@
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
           }
+        ],
+        "/incub-repo-metrics-pipeline/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
         ]
+      }
+    },
+    "incub-repo-metrics-edge.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "incub-repo-metrics-edge.assets.json",
+        "requiresBootstrapStackVersion": 4
       }
     },
     "incub-repo-metrics-edge": {
@@ -174,34 +210,20 @@
           "Project": "repo-metrics",
           "SourceRepo": "github/capralifecycle/liflig-repo-metrics",
           "StackName": "incub-repo-metrics-edge"
-        }
+        },
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-cfn-exec-role-001112238813-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-001112238813-us-east-1/snapshot-value",
+        "requiresBootstrapStackVersion": 4,
+        "additionalDependencies": [
+          "incub-repo-metrics-edge.assets"
+        ]
       },
+      "dependencies": [
+        "incub-repo-metrics-edge.assets"
+      ],
       "metadata": {
         "/incub-repo-metrics-edge": [
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
           {
             "type": "aws:cdk:stack-tags",
             "data": [
@@ -363,7 +385,26 @@
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
           }
+        ],
+        "/incub-repo-metrics-edge/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/incub-repo-metrics-edge/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
         ]
+      }
+    },
+    "incub-repo-metrics-main.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "incub-repo-metrics-main.assets.json",
+        "requiresBootstrapStackVersion": 4
       }
     },
     "incub-repo-metrics-main": {
@@ -375,41 +416,21 @@
           "Project": "repo-metrics",
           "SourceRepo": "github/capralifecycle/liflig-repo-metrics",
           "StackName": "incub-repo-metrics-main"
-        }
+        },
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-eu-west-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-cfn-exec-role-001112238813-eu-west-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-001112238813-eu-west-1/snapshot-value",
+        "requiresBootstrapStackVersion": 4,
+        "additionalDependencies": [
+          "incub-repo-metrics-main.assets"
+        ]
       },
       "dependencies": [
-        "incub-repo-metrics-edge"
+        "incub-repo-metrics-edge",
+        "incub-repo-metrics-main.assets"
       ],
       "metadata": {
         "/incub-repo-metrics-main": [
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
-          {
-            "type": "aws:cdk:asset",
-            "data": "snapshot-value"
-          },
           {
             "type": "aws:cdk:stack-tags",
             "data": [
@@ -792,6 +813,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
+          }
+        ],
+        "/incub-repo-metrics-main/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/incub-repo-metrics-main/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
           }
         ]
       }

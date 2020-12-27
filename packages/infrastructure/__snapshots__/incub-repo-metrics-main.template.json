@@ -955,42 +955,8 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Ref": "snapshot-value"
-          },
-          "S3Key": {
-            "Fn::Join": [
-              "",
-              [
-                {
-                  "Fn::Select": [
-                    0,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "Fn::Select": [
-                    1,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            ]
-          }
+          "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
+          "S3Key": "snapshot-value.zip"
         },
         "Handler": "index.handler",
         "Role": {
@@ -1105,42 +1071,8 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Ref": "snapshot-value"
-          },
-          "S3Key": {
-            "Fn::Join": [
-              "",
-              [
-                {
-                  "Fn::Select": [
-                    0,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "Fn::Select": [
-                    1,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            ]
-          }
+          "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
+          "S3Key": "snapshot-value.zip"
         },
         "Handler": "framework.onEvent",
         "Role": {
@@ -1239,42 +1171,8 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Ref": "snapshot-value"
-          },
-          "S3Key": {
-            "Fn::Join": [
-              "",
-              [
-                {
-                  "Fn::Select": [
-                    0,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "Fn::Select": [
-                    1,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            ]
-          }
+          "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
+          "S3Key": "snapshot-value.zip"
         },
         "Handler": "index.handler",
         "Role": {
@@ -1388,42 +1286,8 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Ref": "snapshot-value"
-          },
-          "S3Key": {
-            "Fn::Join": [
-              "",
-              [
-                {
-                  "Fn::Select": [
-                    0,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "Fn::Select": [
-                    1,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            ]
-          }
+          "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
+          "S3Key": "snapshot-value.zip"
         },
         "Handler": "index.handler",
         "Role": {
@@ -1540,42 +1404,8 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Ref": "snapshot-value"
-          },
-          "S3Key": {
-            "Fn::Join": [
-              "",
-              [
-                {
-                  "Fn::Select": [
-                    0,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "Fn::Select": [
-                    1,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            ]
-          }
+          "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
+          "S3Key": "snapshot-value.zip"
         },
         "Handler": "framework.onEvent",
         "Role": {
@@ -1838,44 +1668,10 @@
           ]
         },
         "SourceBucketNames": [
-          {
-            "Ref": "snapshot-value"
-          }
+          "cdk-hnb659fds-assets-001112238813-eu-west-1"
         ],
         "SourceObjectKeys": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                {
-                  "Fn::Select": [
-                    0,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "Fn::Select": [
-                    1,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            ]
-          }
+          "snapshot-value.zip"
         ],
         "DestinationBucketName": {
           "Ref": "WebappBucket620531E5"
@@ -1960,10 +1756,7 @@
                       {
                         "Ref": "AWS::Partition"
                       },
-                      ":s3:::",
-                      {
-                        "Ref": "snapshot-value"
-                      }
+                      ":s3:::cdk-hnb659fds-assets-001112238813-eu-west-1"
                     ]
                   ]
                 },
@@ -1975,11 +1768,7 @@
                       {
                         "Ref": "AWS::Partition"
                       },
-                      ":s3:::",
-                      {
-                        "Ref": "snapshot-value"
-                      },
-                      "/*"
+                      ":s3:::cdk-hnb659fds-assets-001112238813-eu-west-1/*"
                     ]
                   ]
                 }
@@ -2044,42 +1833,8 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Ref": "snapshot-value"
-          },
-          "S3Key": {
-            "Fn::Join": [
-              "",
-              [
-                {
-                  "Fn::Select": [
-                    0,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "Fn::Select": [
-                    1,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            ]
-          }
+          "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
+          "S3Key": "snapshot-value"
         },
         "Handler": "index.handler",
         "Role": {
@@ -2257,42 +2012,8 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Ref": "snapshot-value"
-          },
-          "S3Key": {
-            "Fn::Join": [
-              "",
-              [
-                {
-                  "Fn::Select": [
-                    0,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "Fn::Select": [
-                    1,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            ]
-          }
+          "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
+          "S3Key": "snapshot-value.zip"
         },
         "Handler": "index.collectHandler",
         "Role": {
@@ -2546,42 +2267,8 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": {
-            "Ref": "snapshot-value"
-          },
-          "S3Key": {
-            "Fn::Join": [
-              "",
-              [
-                {
-                  "Fn::Select": [
-                    0,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "Fn::Select": [
-                    1,
-                    {
-                      "Fn::Split": [
-                        "||",
-                        {
-                          "Ref": "snapshot-value"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            ]
-          }
+          "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
+          "S3Key": "snapshot-value.zip"
         },
         "Handler": "index.aggregateHandler",
         "Role": {
@@ -2715,6 +2402,11 @@
     "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eSignOutFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Type": "AWS::SSM::Parameter::Value<String>",
       "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-SignOutFunction-function-arn"
+    },
+    "BootstrapVersion": {
+      "Type": "AWS::SSM::Parameter::Value<String>",
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store."
     }
   },
   "Outputs": {
@@ -2748,6 +2440,31 @@
       "Value": {
         "Ref": "Distribution830FAC52"
       }
+    }
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3"
+                  ],
+                  {
+                    "Ref": "BootstrapVersion"
+                  }
+                ]
+              }
+            ]
+          },
+          "AssertDescription": "CDK bootstrap stack version 4 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+        }
+      ]
     }
   }
 }
