@@ -17,6 +17,12 @@ export function isActionableRepo(repo: WebappMetricDataRepoDatapoint): boolean {
     (repo.github.availableUpdates ?? []).filter((it) => it.isActionable)
       .length > 0 ||
     repo.github.prs.filter((it) => isBotPr(it)).length > 0 ||
+    isVulnerableRepo(repo)
+  )
+}
+
+export function isVulnerableRepo(repo: WebappMetricDataRepoDatapoint): boolean {
+  return (
     repo.github.vulnerabilityAlerts.length > 0 ||
     (repo.snyk?.totalIssues ?? 0) > 0
   )

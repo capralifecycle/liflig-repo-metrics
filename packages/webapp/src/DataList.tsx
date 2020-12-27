@@ -6,7 +6,7 @@ import { groupBy } from "lodash"
 import * as React from "react"
 import { Checkbox } from "./Checkbox"
 import { DataGroup } from "./DataGroup"
-import { isActionableRepo } from "./Repo"
+import { isActionableRepo, isVulnerableRepo } from "./Repo"
 
 interface Props {
   data: WebappMetricData
@@ -47,6 +47,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
   const [showDepList, setShowDepList] = React.useState(false)
   const [showVulList, setShowVulList] = React.useState(false)
   const [showOnlyActionable, setShowOnlyActionable] = React.useState(false)
+  const [showOnlyVulnerable, setShowOnlyVulnerable] = React.useState(false)
   const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
     limitDays,
   )
@@ -58,10 +59,17 @@ export const DataList: React.FC<Props> = ({ data }) => {
         .map((it) => it.repoId)
     : []
 
+  const vulnerableRepos = showOnlyVulnerable
+    ? data.repos
+        .filter((it) => isVulnerableRepo(it.lastDatapoint))
+        .map((it) => it.repoId)
+    : []
+
   function filterRepoId(repoId: string): boolean {
     return (
       (filterRepoName === "" || repoId.includes(filterRepoName)) &&
-      (!showOnlyActionable || actionableRepos.includes(repoId))
+      (!showOnlyActionable || actionableRepos.includes(repoId)) &&
+      (!showOnlyVulnerable || vulnerableRepos.includes(repoId))
     )
   }
 
@@ -99,6 +107,9 @@ export const DataList: React.FC<Props> = ({ data }) => {
       </Checkbox>
       <Checkbox checked={showOnlyActionable} onCheck={setShowOnlyActionable}>
         Skjul repoer hvor alt er OK nå
+      </Checkbox>
+      <Checkbox checked={showOnlyVulnerable} onCheck={setShowOnlyVulnerable}>
+        Vis kun sårbare repoer
       </Checkbox>
       <Checkbox
         checked={limitGraphDays != null}
