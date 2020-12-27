@@ -16,3 +16,14 @@ td {
 a {
   color: var(--color-primary);
 }
+
+.renovate-ok,
+.renovate-ok a {
+  color: var(--color-success);
+}
+
+.renovate-old,
+.renovate-old a,
+.renovate-missing {
+  color: var(--color-danger);
+}

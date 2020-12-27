@@ -89,6 +89,17 @@ export const Repo: React.FC<Props> = ({
 
   const repoBaseUrl = `https://github.com/${data.github.orgName}/${data.github.repoName}`
 
+  function issueUrl(issueNumber: number) {
+    return `${repoBaseUrl}/issues/${issueNumber}`
+  }
+
+  const MaybeRenovateLink: React.FC = ({ children }) =>
+    renovateDashboad != null ? (
+      <a href={issueUrl(renovateDashboad.issueNumber)}>{children}</a>
+    ) : (
+      <>{children}</>
+    )
+
   return (
     <tr>
       <td>
@@ -97,23 +108,24 @@ export const Repo: React.FC<Props> = ({
       <td>
         {renovateDashboad?.daysSinceLastUpdate != null &&
           renovateDashboad.daysSinceLastUpdate >= 20 && (
-            <div>
-              <a
-                href={`${repoBaseUrl}/issues/${renovateDashboad.issueNumber}`}
-                style={{ color: "red" }}
-              >
+            <div className="renovate-old">
+              <MaybeRenovateLink>
                 Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
                 siden
-              </a>
+              </MaybeRenovateLink>
             </div>
           )}
         {!renovateEnabled ? (
-          <span style={{ color: "red" }}>Mangler Renovate</span>
+          <span className="renovate-missing">Mangler Renovate</span>
         ) : actionableUpdates === 0 ? (
-          <span style={{ color: "green" }}>Alt oppdatert</span>
+          <span className="renovate-ok">
+            <MaybeRenovateLink>Alt oppdatert</MaybeRenovateLink>
+          </span>
         ) : (
           <>
-            <b>{actionableUpdates}</b>
+            <MaybeRenovateLink>
+              <b>{actionableUpdates}</b>
+            </MaybeRenovateLink>
             {showDepList && (
               <ul>
                 {availableUpdates.map((available) => (
