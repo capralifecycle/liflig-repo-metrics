@@ -67,8 +67,12 @@ export const DataList: React.FC<Props> = ({ data }) => {
 
   const filteredRepos = data.repos.filter((it) => filterRepoId(it.repoId))
 
-  const filteredFetchGroups = filterFetchGroupRepos(data.byFetchGroup, (it) =>
-    filterRepoId(it.repoId),
+  const filteredFetchGroups = filterFetchGroupRepos(
+    data.byFetchGroup.filter(
+      (it) =>
+        limitGraphDays == null || ageInDays(it.timestamp) < limitGraphDays,
+    ),
+    (it) => filterRepoId(it.repoId),
   )
 
   const byResponsible = groupByResponsible
@@ -114,21 +118,15 @@ export const DataList: React.FC<Props> = ({ data }) => {
         Object.entries(byResponsible)
           .sort((a, b) => a[0].localeCompare(b[0]))
           .map(([responsible, repos]) => {
-            const filteredFetchGroups2 = filterFetchGroupRepos(
-              filteredFetchGroups,
-              (it) => it.responsible === responsible,
-            ).filter(
-              (it) =>
-                limitGraphDays == null ||
-                ageInDays(it.timestamp) < limitGraphDays,
-            )
-
             return (
               <>
                 <h2>Ansvarlig: {responsible}</h2>
                 <DataGroup
                   key={responsible}
-                  fetchGroups={filteredFetchGroups2}
+                  fetchGroups={filterFetchGroupRepos(
+                    filteredFetchGroups,
+                    (it) => it.responsible === responsible,
+                  )}
                   repos={repos}
                   showPrList={showPrList}
                   showDepList={showDepList}
