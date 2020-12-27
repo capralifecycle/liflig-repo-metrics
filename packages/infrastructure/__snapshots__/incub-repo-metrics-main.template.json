@@ -2364,7 +2364,7 @@
     "CollectorScheduleDC767626": {
       "Type": "AWS::Events::Rule",
       "Properties": {
-        "ScheduleExpression": "cron(0 0/4 * * ? *)",
+        "ScheduleExpression": "cron(0 0/6 * * ? *)",
         "State": "ENABLED",
         "Targets": [
           {
@@ -2634,7 +2634,7 @@
     "AggregatorSchedule80C87EEE": {
       "Type": "AWS::Events::Rule",
       "Properties": {
-        "ScheduleExpression": "cron(10 0/4 * * ? *)",
+        "ScheduleExpression": "cron(10 0/6 * * ? *)",
         "State": "ENABLED",
         "Targets": [
           {

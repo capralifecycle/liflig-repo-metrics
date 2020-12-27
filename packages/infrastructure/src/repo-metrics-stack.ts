@@ -109,7 +109,7 @@ export class RepoMetricsStack extends cdk.Stack {
 
     new events.Rule(this, "CollectorSchedule", {
       schedule: events.Schedule.cron({
-        hour: "0/4",
+        hour: "0/6",
         minute: "0",
       }),
       targets: [new eventstargets.LambdaFunction(collector)],
@@ -140,7 +140,7 @@ export class RepoMetricsStack extends cdk.Stack {
 
     new events.Rule(this, "AggregatorSchedule", {
       schedule: events.Schedule.cron({
-        hour: "0/4",
+        hour: "0/6",
         minute: "10",
       }),
       targets: [new eventstargets.LambdaFunction(aggregator)],
