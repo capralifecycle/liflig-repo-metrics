@@ -18,22 +18,18 @@ import { Repo } from "./Repo"
 
 interface Props {
   fetchGroups: WebappMetricData["byFetchGroup"]
-  responsible: string
   repos: WebappMetricDataRepo[]
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
-  limitGraphDays: number | null
 }
 
 export const DataGroup: React.FC<Props> = ({
   fetchGroups,
-  responsible,
   repos,
   showPrList,
   showDepList,
   showVulList,
-  limitGraphDays,
 }) => {
   const updatesAvailable = sumBy(
     repos,
@@ -53,50 +49,18 @@ export const DataGroup: React.FC<Props> = ({
     (it) => it.lastDatapoint.snyk?.totalIssues ?? 0,
   )
 
-  function ageInDays(timestamp: string) {
-    // Approx to simplify.
-    return Math.floor(
-      (new Date().getTime() - new Date(timestamp).getTime()) / 86400000,
-    )
-  }
-
-  const filteredFetchGroups = fetchGroups
-    .flatMap((fetchGroup) => {
-      const repos = fetchGroup.repos.flatMap((it) =>
-        it.responsible === responsible
-          ? [{ ...it, timestamp: fetchGroup.timestamp }]
-          : [],
-      )
-
-      if (repos.length === 0) {
-        return []
-      } else {
-        return [
-          {
-            timestamp: fetchGroup.timestamp,
-            repos,
-          },
-        ]
-      }
-    })
-    .filter(
-      (it) =>
-        limitGraphDays == null || ageInDays(it.timestamp) < limitGraphDays,
-    )
-
   const minTime = Math.min(
-    ...filteredFetchGroups.map((it) => new Date(it.timestamp).getTime()),
+    ...fetchGroups.map((it) => new Date(it.timestamp).getTime()),
   )
   const maxTime = Math.max(
-    ...filteredFetchGroups.map((it) => new Date(it.timestamp).getTime()),
+    ...fetchGroups.map((it) => new Date(it.timestamp).getTime()),
   )
 
   return (
     <>
-      <h2>Ansvarlig: {responsible}</h2>
       <ResponsiveContainer width="100%" height={200}>
         <LineChart
-          data={filteredFetchGroups.map((it) => ({
+          data={fetchGroups.map((it) => ({
             timestamp: new Date(it.timestamp).getTime(),
             "snyk vulnerabilities": sumBy(
               it.repos,

@@ -1,4 +1,7 @@
-import { WebappMetricData } from "@liflig/repo-metrics-repo-collector-types"
+import {
+  WebappMetricData,
+  WebappStatsByFetchGroup,
+} from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy } from "lodash"
 import * as React from "react"
 import { Checkbox } from "./Checkbox"
@@ -9,9 +12,37 @@ interface Props {
   data: WebappMetricData
 }
 
+function ageInDays(timestamp: string) {
+  // Approx to simplify.
+  return Math.floor(
+    (new Date().getTime() - new Date(timestamp).getTime()) / 86400000,
+  )
+}
+
+function filterFetchGroupRepos(
+  data: WebappStatsByFetchGroup[],
+  repoPredicate: (item: WebappStatsByFetchGroup["repos"][0]) => boolean,
+): WebappStatsByFetchGroup[] {
+  return data.flatMap((it) => {
+    const repos = it.repos.filter(repoPredicate)
+
+    if (repos.length === 0) {
+      return []
+    } else {
+      return [
+        {
+          ...it,
+          repos,
+        },
+      ]
+    }
+  })
+}
+
 export const DataList: React.FC<Props> = ({ data }) => {
   const limitDays = 20
 
+  const [groupByResponsible, setGroupByResponsible] = React.useState(true)
   const [showPrList, setShowPrList] = React.useState(false)
   const [showDepList, setShowDepList] = React.useState(false)
   const [showVulList, setShowVulList] = React.useState(false)
@@ -36,28 +67,23 @@ export const DataList: React.FC<Props> = ({ data }) => {
 
   const filteredRepos = data.repos.filter((it) => filterRepoId(it.repoId))
 
-  const filteredFetchGroups = data.byFetchGroup.flatMap((it) => {
-    const repos = it.repos.filter((it) => filterRepoId(it.repoId))
-
-    if (repos.length === 0) {
-      return []
-    } else {
-      return [
-        {
-          ...it,
-          repos,
-        },
-      ]
-    }
-  })
-
-  const byResponsible = groupBy(
-    filteredRepos,
-    (it) => it.responsible ?? "Ukjent",
+  const filteredFetchGroups = filterFetchGroupRepos(data.byFetchGroup, (it) =>
+    filterRepoId(it.repoId),
   )
+
+  const byResponsible = groupByResponsible
+    ? groupBy(filteredRepos, (it) => it.responsible ?? "Ukjent")
+    : undefined
 
   return (
     <>
+      <Checkbox checked={groupByResponsible} onCheck={setGroupByResponsible}>
+        Grupper etter ansvarlig (iht.{" "}
+        <a href="https://github.com/capralifecycle/resources-definition">
+          resources-definition
+        </a>
+        )
+      </Checkbox>
       <Checkbox checked={showDepList} onCheck={setShowDepList}>
         Vis detaljert liste over avhengigheter
       </Checkbox>
@@ -84,20 +110,45 @@ export const DataList: React.FC<Props> = ({ data }) => {
         }}
         placeholder="Filtrer på navn til repo"
       />
-      {Object.entries(byResponsible)
-        .sort((a, b) => a[0].localeCompare(b[0]))
-        .map(([responsible, repos]) => (
+      {byResponsible != null ? (
+        Object.entries(byResponsible)
+          .sort((a, b) => a[0].localeCompare(b[0]))
+          .map(([responsible, repos]) => {
+            const filteredFetchGroups2 = filterFetchGroupRepos(
+              filteredFetchGroups,
+              (it) => it.responsible === responsible,
+            ).filter(
+              (it) =>
+                limitGraphDays == null ||
+                ageInDays(it.timestamp) < limitGraphDays,
+            )
+
+            return (
+              <>
+                <h2>Ansvarlig: {responsible}</h2>
+                <DataGroup
+                  key={responsible}
+                  fetchGroups={filteredFetchGroups2}
+                  repos={repos}
+                  showPrList={showPrList}
+                  showDepList={showDepList}
+                  showVulList={showVulList}
+                />
+              </>
+            )
+          })
+      ) : (
+        <>
+          <h2>Alle repoer</h2>
           <DataGroup
-            key={responsible}
             fetchGroups={filteredFetchGroups}
-            responsible={responsible}
-            repos={repos}
+            repos={filteredRepos}
             showPrList={showPrList}
             showDepList={showDepList}
             showVulList={showVulList}
-            limitGraphDays={limitGraphDays}
           />
-        ))}
+        </>
+      )}
     </>
   )
 }
