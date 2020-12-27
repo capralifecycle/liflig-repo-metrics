@@ -7,7 +7,14 @@ const App: React.FC = () => {
 
   return (
     <>
-      <h1>Repos</h1>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <h1>Repo metrics</h1>
+        <p style={{ paddingLeft: "5px" }}>
+          <a href="https://github.com/capralifecycle/liflig-repo-metrics">
+            GitHub
+          </a>
+        </p>
+      </div>
       {dataIsLoading ? (
         <p>Laster data...</p>
       ) : !data ? (
