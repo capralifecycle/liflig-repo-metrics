@@ -94,21 +94,27 @@ export const DataGroup: React.FC<Props> = ({
             dataKey="available updates"
             stroke="#28a745"
             strokeWidth={2}
-            dot={false}
+            dot={{
+              fill: "#28a745",
+            }}
           />
           <Line
             type="monotone"
             dataKey="snyk vulnerabilities"
             stroke="#cb2431"
             strokeWidth={2}
-            dot={false}
+            dot={{
+              fill: "#cb2431",
+            }}
           />
           <Line
             type="monotone"
             dataKey="github vulnerabilities"
             stroke="#663399"
             strokeWidth={2}
-            dot={false}
+            dot={{
+              fill: "#663399",
+            }}
           />
         </LineChart>
       </ResponsiveContainer>
