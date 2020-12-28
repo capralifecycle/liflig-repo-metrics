@@ -1,37 +1,140 @@
 import { definition, github } from "@capraconsulting/cals-cli"
 
 export interface DefinitionProvider {
-  getDefinition(): Promise<definition.Definition>
+  getRepos(): Promise<definition.GetReposResponse[]>
+  getSnykAccountId(): Promise<string | undefined>
+}
+
+interface DefinitionData {
+  data: definition.Definition
+  filterByTag: string | null
+}
+
+function getRepos(
+  definitions: DefinitionData[],
+): definition.GetReposResponse[] {
+  const result: definition.GetReposResponse[] = []
+
+  for (const def of definitions) {
+    const repos = definition
+      .getRepos(def.data)
+      .filter(
+        (it) =>
+          def.filterByTag == null ||
+          (it.project.tags ?? []).includes(def.filterByTag),
+      )
+
+    result.push(...repos)
+  }
+
+  return result
+}
+
+function getSnykAccountId(definitions: DefinitionData[]): string | undefined {
+  for (const def of definitions) {
+    const snykAccountId = def.data.snyk?.accountId
+    if (snykAccountId != null) {
+      return snykAccountId
+    }
+  }
+  return undefined
 }
 
 export class LocalDefinitionProvider implements DefinitionProvider {
-  private definitionFile: string
+  private capraDefinitionFile: string
+  private lifligDefinitionFile: string
 
-  constructor(definitionFile: string) {
-    this.definitionFile = definitionFile
+  private definitionDataList: DefinitionData[] | undefined
+
+  constructor(capraDefinitionFile: string, lifligDefinitionFile: string) {
+    this.capraDefinitionFile = capraDefinitionFile
+    this.lifligDefinitionFile = lifligDefinitionFile
   }
 
-  async getDefinition(): Promise<definition.Definition> {
-    const definitionFile = new definition.DefinitionFile(this.definitionFile)
-    return await definitionFile.getDefinition()
+  private async getDefinitions(): Promise<DefinitionData[]> {
+    if (!this.definitionDataList) {
+      this.definitionDataList = []
+
+      this.definitionDataList.push({
+        data: await new definition.DefinitionFile(
+          this.lifligDefinitionFile,
+        ).getDefinition(),
+        filterByTag: null,
+      })
+
+      this.definitionDataList.push({
+        data: await new definition.DefinitionFile(
+          this.capraDefinitionFile,
+        ).getDefinition(),
+        filterByTag: "liflig",
+      })
+    }
+
+    return this.definitionDataList
+  }
+
+  async getRepos(): Promise<definition.GetReposResponse[]> {
+    return getRepos(await this.getDefinitions())
+  }
+  async getSnykAccountId(): Promise<string | undefined> {
+    return getSnykAccountId(await this.getDefinitions())
   }
 }
 
 export class GithubDefinitionProvider implements DefinitionProvider {
   private githubService: github.GitHubService
 
+  private definitionDataList: DefinitionData[] | undefined
+
   constructor(githubService: github.GitHubService) {
     this.githubService = githubService
   }
 
-  async getDefinition(): Promise<definition.Definition> {
+  private async getDefinition(request: {
+    owner: string
+    path: string
+    repo: string
+  }): Promise<definition.Definition> {
     const result = await this.githubService.octokit.repos.getContent({
-      owner: "capralifecycle",
-      path: "resources.yaml",
-      repo: "resources-definition",
+      owner: request.owner,
+      path: request.path,
+      repo: request.repo,
     })
 
     const content = Buffer.from(result.data.content, "base64").toString("utf-8")
     return await definition.parseDefinition(content)
+  }
+
+  private async getDefinitions(): Promise<DefinitionData[]> {
+    if (!this.definitionDataList) {
+      this.definitionDataList = []
+
+      this.definitionDataList.push({
+        data: await this.getDefinition({
+          owner: "capralifecycle",
+          path: "resources.yaml",
+          repo: "resources-definition",
+        }),
+        filterByTag: null,
+      })
+
+      this.definitionDataList.push({
+        data: await this.getDefinition({
+          owner: "capraconsulting",
+          path: "resources.yaml",
+          repo: "resources-definition",
+        }),
+        filterByTag: "liflig",
+      })
+    }
+
+    return this.definitionDataList
+  }
+
+  async getRepos(): Promise<definition.GetReposResponse[]> {
+    return getRepos(await this.getDefinitions())
+  }
+  async getSnykAccountId(): Promise<string | undefined> {
+    return getSnykAccountId(await this.getDefinitions())
   }
 }

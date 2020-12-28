@@ -16,18 +16,20 @@ async function createSnapshots(
   timestamp: Date,
   snykService: snyk.SnykService,
   githubService: github.GitHubService,
-  definitionData: definition.Definition,
+  repos: definition.GetReposResponse[],
+  snykAccountId?: string,
 ): Promise<MetricRepoSnapshot[]> {
   const snykData = groupBy(
-    await snykService.getProjects(definitionData),
+    snykAccountId != null
+      ? await snykService.getProjectsByAccountId(snykAccountId)
+      : [],
     (it) => {
       const repo = snyk.getGitHubRepo(it)
       return repo ? snyk.getGitHubRepoId(repo) : undefined
     },
   )
 
-  const repos = definition
-    .getRepos(definitionData)
+  const reposWithData = repos
     .filter((it) => it.repo.archived !== true)
     .map((it) => ({
       repo: it,
@@ -54,7 +56,7 @@ async function createSnapshots(
 
   const result: MetricRepoSnapshot[] = []
 
-  for (const repo of repos) {
+  for (const repo of reposWithData) {
     const repoId = definition.getRepoId(repo.repo.orgName, repo.repo.repo.name)
 
     const prs = (pullRequests[repoId] ?? []).map((pr) => ({
@@ -110,11 +112,10 @@ export async function collect(
   const definitionProvider = new GithubDefinitionProvider(githubService)
   /*
   const definitionProvider = new LocalDefinitionProvider(
+    "../../../../../capraconsulting/misc/resources-definition/resources.yaml",
     "../../../resources-definition/resources.yaml",
   )
   */
-
-  const definitionData = await definitionProvider.getDefinition()
 
   const snykService = snyk.createSnykService({
     config,
@@ -127,7 +128,8 @@ export async function collect(
     timestamp,
     snykService,
     githubService,
-    definitionData,
+    await definitionProvider.getRepos(),
+    await definitionProvider.getSnykAccountId(),
   )
 
   await snapshotsRepository.store(timestamp, snapshots)
