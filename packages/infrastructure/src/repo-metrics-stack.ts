@@ -68,6 +68,7 @@ export class RepoMetricsStack extends cdk.Stack {
     auth.updateClient("ClientUpdate", {
       signOutUrl: `https://${distribution.distributionDomainName}${auth.signOutRedirectTo}`,
       callbackUrl: `https://${distribution.distributionDomainName}${auth.callbackPath}`,
+      identityProviders: ["Google"],
     })
 
     new s3deploy.BucketDeployment(this, "DeployWebapp", {

@@ -757,7 +757,6 @@
             ],
             "AllowedOAuthFlowsUserPoolClient": "TRUE:BOOLEAN",
             "SupportedIdentityProviders": [
-              "COGNITO",
               "Google"
             ],
             "AllowedOAuthScopes": [
@@ -829,7 +828,6 @@
             ],
             "AllowedOAuthFlowsUserPoolClient": "TRUE:BOOLEAN",
             "SupportedIdentityProviders": [
-              "COGNITO",
               "Google"
             ],
             "AllowedOAuthScopes": [
