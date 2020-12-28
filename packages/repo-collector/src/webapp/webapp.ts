@@ -123,10 +123,14 @@ export function createWebappFriendlyFormat(
     })),
   }))
 
+  const lastSnapshotTimestamp = [...snapshots].sort((a, b) =>
+    b.timestamp.localeCompare(a.timestamp),
+  )[0]?.timestamp as string | undefined
+
   return {
     byFetchGroup,
     // TODO: Rename to reposLatest or something?
-    repos: Object.entries(byRepo).map<WebappMetricDataRepo>(
+    repos: Object.entries(byRepo).flatMap<WebappMetricDataRepo>(
       ([repoId, items]) => {
         const itemsByTime = [...items].sort((a, b) =>
           a.timestamp.localeCompare(b.timestamp),
@@ -134,15 +138,22 @@ export function createWebappFriendlyFormat(
 
         const lastItem = itemsByTime[itemsByTime.length - 1]
 
-        return {
-          repoId,
-          lastDatapoint: convertDatapoint(lastItem),
-          github: {
-            orgName: lastItem.github.orgName,
-            repoName: lastItem.github.repoName,
-          },
-          responsible: lastItem.responsible,
+        // Only include the repo if it is included in the last snapshot.
+        if (lastItem.timestamp !== lastSnapshotTimestamp) {
+          return []
         }
+
+        return [
+          {
+            repoId,
+            lastDatapoint: convertDatapoint(lastItem),
+            github: {
+              orgName: lastItem.github.orgName,
+              repoName: lastItem.github.repoName,
+            },
+            responsible: lastItem.responsible,
+          },
+        ]
       },
     ),
   }
