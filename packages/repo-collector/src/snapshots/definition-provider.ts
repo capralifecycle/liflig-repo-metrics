@@ -102,7 +102,7 @@ export class GithubDefinitionProvider implements DefinitionProvider {
     })
 
     const content = Buffer.from(result.data.content, "base64").toString("utf-8")
-    return await definition.parseDefinition(content)
+    return definition.parseDefinition(content)
   }
 
   private async getDefinitions(): Promise<DefinitionData[]> {
