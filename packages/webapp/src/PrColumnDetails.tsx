@@ -23,7 +23,7 @@ export const PrColumnDetails: React.FC<Props> = ({
         <ul>
           {prs.map((pr, idx) => (
             <li key={idx}>
-              <a href={`${repoBaseUrl}/pulls/${pr.number}`}>#{pr.number}</a>{" "}
+              <a href={`${repoBaseUrl}/pull/${pr.number}`}>#{pr.number}</a>{" "}
               {pr.title} ({pr.author})
             </li>
           ))}
