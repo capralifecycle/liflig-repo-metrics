@@ -33,6 +33,7 @@ interface Props {
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
+  showRenovateDays: boolean
 }
 
 type SnykType = "high" | "medium" | "low"
@@ -73,6 +74,7 @@ export const Repo: React.FC<Props> = ({
   showPrList,
   showDepList,
   showVulList,
+  showRenovateDays,
 }) => {
   const renovateEnabled = data.lastDatapoint.github.availableUpdates != null
   const availableUpdates = (
@@ -113,8 +115,14 @@ export const Repo: React.FC<Props> = ({
       </td>
       <td>
         {renovateDashboad?.daysSinceLastUpdate != null &&
-          renovateDashboad.daysSinceLastUpdate >= 20 && (
-            <div className="renovate-old">
+          (showRenovateDays || renovateDashboad.daysSinceLastUpdate >= 20) && (
+            <div
+              className={
+                renovateDashboad.daysSinceLastUpdate >= 20
+                  ? "renovate-old"
+                  : undefined
+              }
+            >
               <MaybeRenovateLink>
                 Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
                 siden

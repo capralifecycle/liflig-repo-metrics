@@ -22,6 +22,7 @@ interface Props {
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
+  sortByRenovateDays: boolean
 }
 
 export const DataGroup: React.FC<Props> = ({
@@ -30,6 +31,7 @@ export const DataGroup: React.FC<Props> = ({
   showPrList,
   showDepList,
   showVulList,
+  sortByRenovateDays,
 }) => {
   const updatesAvailable = sumBy(
     repos,
@@ -136,7 +138,31 @@ export const DataGroup: React.FC<Props> = ({
         </thead>
         <tbody>
           {[...repos]
-            .sort((a, b) => a.repoId.localeCompare(b.repoId))
+            .sort((a, b) => {
+              function compareByName() {
+                return a.repoId.localeCompare(b.repoId)
+              }
+              if (sortByRenovateDays) {
+                const aDays =
+                  a.lastDatapoint.github.renovateDependencyDashboard
+                    ?.daysSinceLastUpdate
+                const bDays =
+                  b.lastDatapoint.github.renovateDependencyDashboard
+                    ?.daysSinceLastUpdate
+
+                if (aDays != null && bDays != null) {
+                  if (aDays == bDays) return compareByName()
+                  if (aDays > bDays) return -1
+                  return 1
+                }
+
+                if (aDays != null || bDays != null) {
+                  if (aDays == null) return 1
+                  return -1
+                }
+              }
+              return compareByName()
+            })
             .map((item) => (
               <Repo
                 key={item.repoId}
@@ -144,6 +170,7 @@ export const DataGroup: React.FC<Props> = ({
                 showPrList={showPrList}
                 showDepList={showDepList}
                 showVulList={showVulList}
+                showRenovateDays={sortByRenovateDays}
               />
             ))}
         </tbody>

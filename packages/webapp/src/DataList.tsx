@@ -51,6 +51,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
   const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
     limitDays,
   )
+  const [sortByRenovateDays, setSortByRenovateDays] = React.useState(false)
   const [filterRepoName, setFilterRepoName] = React.useState("")
 
   const actionableRepos = showOnlyActionable
@@ -117,6 +118,9 @@ export const DataList: React.FC<Props> = ({ data }) => {
       >
         Begrens graf til siste 20 dager
       </Checkbox>
+      <Checkbox checked={sortByRenovateDays} onCheck={setSortByRenovateDays}>
+        Vis alle Renovate dager og sorter baklengs
+      </Checkbox>
       <input
         type="text"
         value={filterRepoName}
@@ -130,7 +134,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
           .sort((a, b) => a[0].localeCompare(b[0]))
           .map(([responsible, repos]) => {
             return (
-              <>
+              <React.Fragment key={responsible}>
                 <h2>Ansvarlig: {responsible}</h2>
                 <DataGroup
                   key={responsible}
@@ -142,8 +146,9 @@ export const DataList: React.FC<Props> = ({ data }) => {
                   showPrList={showPrList}
                   showDepList={showDepList}
                   showVulList={showVulList}
+                  sortByRenovateDays={sortByRenovateDays}
                 />
-              </>
+              </React.Fragment>
             )
           })
       ) : (
@@ -155,6 +160,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
             showPrList={showPrList}
             showDepList={showDepList}
             showVulList={showVulList}
+            sortByRenovateDays={sortByRenovateDays}
           />
         </>
       )}
