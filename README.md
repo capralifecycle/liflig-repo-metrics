@@ -13,34 +13,32 @@ Internal details at https://confluence.capraconsulting.no/x/7_IBC
 ```bash
 yarn
 yarn build
-```
 
-See `packages/repo-collector/fetch-s3-data.sh` to fetch existing data
-instead of collecting and aggregating locally.
-
-Generate metrics (also see section about keys):
-
-```bash
+# Using existing data.
 cd packages/repo-collector
-yarn collect-locally
-```
+aws-vault exec liflig-incubator-admin -- ./fetch-s3-data.sh
 
-Serve the metrics locally so the webapp can reach it:
-
-```bash
+# Serve data locally.
+# (Keep it running in separate session.)
 cd packages/repo-collector
-yarn aggregate-locally
 yarn serve
-```
 
-Serve webapp:
-
-```bash
+# Run the webapp. Will be available at http://localhost:3000
 cd packages/webapp
 yarn start
 ```
 
-http://localhost:3000
+To collect and aggregate data when doing changes:
+
+```bash
+# Collect snapshot. See section about keys.
+cd packages/repo-collector
+yarn collect-locally
+
+# Aggregate snapshots into webapp format.
+cd packages/repo-collector
+yarn aggregate-locally
+```
 
 ## Tips for local development
 
