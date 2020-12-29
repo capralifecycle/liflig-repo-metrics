@@ -18,12 +18,20 @@ a {
 }
 
 .renovate-ok,
-.renovate-ok a {
+.renovate-ok a.renovate-dashboard-link {
   color: var(--color-success);
 }
 
 .renovate-old,
-.renovate-old a,
+.renovate-old a.renovate-dashboard-link,
 .renovate-missing {
   color: var(--color-danger);
+}
+
+.renovate-logs-link {
+  color: var(--color-dark);
+}
+
+* + .renovate-logs-link {
+  padding-inline-start: 1em;
 }

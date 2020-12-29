@@ -103,10 +103,26 @@ export const Repo: React.FC<Props> = ({
 
   const MaybeRenovateLink: React.FC = ({ children }) =>
     renovateDashboad != null ? (
-      <a href={issueUrl(renovateDashboad.issueNumber)}>{children}</a>
+      <a
+        href={issueUrl(renovateDashboad.issueNumber)}
+        className="renovate-dashboard-link"
+      >
+        {children}
+      </a>
     ) : (
       <>{children}</>
     )
+
+  const RenovateLogsLink: React.FC = () => (
+    <a
+      href={`https://app.renovatebot.com/dashboard#github/${encodeURI(
+        data.repoId,
+      )}`}
+      className="renovate-logs-link"
+    >
+      logs
+    </a>
+  )
 
   return (
     <tr>
@@ -134,12 +150,14 @@ export const Repo: React.FC<Props> = ({
         ) : actionableUpdates === 0 ? (
           <span className="renovate-ok">
             <MaybeRenovateLink>Alt oppdatert</MaybeRenovateLink>
+            <RenovateLogsLink />
           </span>
         ) : (
           <>
             <MaybeRenovateLink>
               <b>{actionableUpdates}</b>
             </MaybeRenovateLink>
+            <RenovateLogsLink />
             {showDepList && (
               <ul>
                 {availableUpdates.map((available) => (
