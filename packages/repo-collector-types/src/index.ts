@@ -78,6 +78,7 @@ export interface MetricRepoSnapshot {
         high: number
         medium: number
       }
+      browseUrl: string
     }[]
   }
 }
@@ -116,6 +117,10 @@ export interface WebappMetricDataRepoDatapoint {
       high: number
       medium: number
     }
+    vulnerableProjects: {
+      path: string
+      browseUrl: string
+    }[]
   }
 }
 

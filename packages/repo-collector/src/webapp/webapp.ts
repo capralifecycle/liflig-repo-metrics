@@ -27,6 +27,20 @@ function sumSnykSeverities(projects: MetricRepoSnapshot["snyk"]["projects"]) {
   )
 }
 
+function extractPathFromSnykName(value: string): string {
+  return value.replace(/^.+:/, "")
+}
+
+function snykProjectContainsVulnerability(
+  project: MetricRepoSnapshot["snyk"]["projects"][0],
+): boolean {
+  return (
+    project.issueCountsBySeverity.high > 0 ||
+    project.issueCountsBySeverity.medium > 0 ||
+    project.issueCountsBySeverity.low > 0
+  )
+}
+
 function convertDatapoint(
   datapoint: MetricRepoSnapshot,
 ): WebappMetricDataRepoDatapoint {
@@ -84,6 +98,12 @@ function convertDatapoint(
               countsBySeverity.medium +
               countsBySeverity.low,
             countsBySeverity,
+            vulnerableProjects: datapoint.snyk.projects
+              .filter(snykProjectContainsVulnerability)
+              .map((it) => ({
+                path: extractPathFromSnykName(it.name),
+                browseUrl: it.browseUrl,
+              })),
           }
         : undefined,
   }

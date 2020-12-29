@@ -104,7 +104,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
         Vis liste over PRs
       </Checkbox>
       <Checkbox checked={showVulList} onCheck={setShowVulList}>
-        Vis detaljert detaljer om sårbarheter
+        Vis detaljer om sårbarheter
       </Checkbox>
       <Checkbox checked={showOnlyActionable} onCheck={setShowOnlyActionable}>
         Skjul repoer hvor alt er OK nå

@@ -35,3 +35,7 @@ a {
 * + .renovate-logs-link {
   padding-inline-start: 1em;
 }
+
+.dependabot-alerts-link {
+  color: var(--color-danger);
+}

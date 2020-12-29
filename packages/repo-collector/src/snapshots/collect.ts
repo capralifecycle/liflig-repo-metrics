@@ -12,6 +12,11 @@ import { groupBy } from "lodash"
 import { GithubDefinitionProvider } from "./definition-provider"
 import { SnapshotsRepository } from "./snapshots-repository"
 
+interface SnykProject extends snyk.SnykProject {
+  // Not documented in https://snyk.docs.apiary.io/#reference/projects/all-projects/list-all-projects
+  browseUrl: string
+}
+
 async function createSnapshots(
   timestamp: Date,
   snykService: snyk.SnykService,
@@ -83,7 +88,7 @@ async function createSnapshots(
         vulnerabilityAlerts: await repo.githubVulnerabilityAlerts,
       },
       snyk: {
-        projects: repo.snykProjects,
+        projects: (repo.snykProjects as unknown) as SnykProject[],
       },
     })
   }

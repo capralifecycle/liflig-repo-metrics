@@ -193,9 +193,12 @@ export const Repo: React.FC<Props> = ({
           <span style={{ color: "green" }}>Ingen</span>
         ) : (
           <>
-            <span style={{ color: "red" }}>
+            <a
+              href={`${repoBaseUrl}/security/dependabot`}
+              className="dependabot-alerts-link"
+            >
               <b>{githubVulAlerts.length}</b>
-            </span>
+            </a>
             {showVulList && (
               <ul>
                 {githubVulAlerts.map((vul, idx) => (
@@ -220,6 +223,12 @@ export const Repo: React.FC<Props> = ({
             <SnykItem value={snyk.countsBySeverity.medium} type="medium" />
             <span style={{ color: "#AAA" }}> / </span>
             <SnykItem value={snyk.countsBySeverity.low} type="low" />
+            {showVulList &&
+              snyk.vulnerableProjects.map((it) => (
+                <div key={it.path}>
+                  <a href={it.browseUrl}>{it.path}</a>
+                </div>
+              ))}
           </>
         )}
       </td>
