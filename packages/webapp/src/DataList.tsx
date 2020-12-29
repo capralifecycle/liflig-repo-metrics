@@ -54,6 +54,10 @@ export const DataList: React.FC<Props> = ({ data }) => {
   const [sortByRenovateDays, setSortByRenovateDays] = React.useState(false)
   const [filterRepoName, setFilterRepoName] = React.useState("")
 
+  const [collapseResponsible, setCollapseResponsible] = React.useState<
+    string[]
+  >([])
+
   const actionableRepos = showOnlyActionable
     ? data.repos
         .filter((it) => isActionableRepo(it.lastDatapoint))
@@ -133,21 +137,45 @@ export const DataList: React.FC<Props> = ({ data }) => {
         Object.entries(byResponsible)
           .sort((a, b) => a[0].localeCompare(b[0]))
           .map(([responsible, repos]) => {
+            const collapsed = collapseResponsible.includes(responsible)
+
             return (
               <React.Fragment key={responsible}>
-                <h2>Ansvarlig: {responsible}</h2>
-                <DataGroup
-                  key={responsible}
-                  fetchGroups={filterFetchGroupRepos(
-                    filteredFetchGroups,
-                    (it) => it.responsible === responsible,
-                  )}
-                  repos={repos}
-                  showPrList={showPrList}
-                  showDepList={showDepList}
-                  showVulList={showVulList}
-                  sortByRenovateDays={sortByRenovateDays}
-                />
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <h2>Ansvarlig: {responsible}</h2>
+                  <p style={{ paddingLeft: "5px" }}>
+                    <button
+                      onClick={() =>
+                        collapsed
+                          ? setCollapseResponsible(
+                              collapseResponsible.filter(
+                                (it) => it !== responsible,
+                              ),
+                            )
+                          : setCollapseResponsible([
+                              ...collapseResponsible,
+                              responsible,
+                            ])
+                      }
+                    >
+                      {collapsed ? "Vis" : "Skjul"}
+                    </button>
+                  </p>
+                </div>
+                {!collapsed && (
+                  <DataGroup
+                    key={responsible}
+                    fetchGroups={filterFetchGroupRepos(
+                      filteredFetchGroups,
+                      (it) => it.responsible === responsible,
+                    )}
+                    repos={repos}
+                    showPrList={showPrList}
+                    showDepList={showDepList}
+                    showVulList={showVulList}
+                    sortByRenovateDays={sortByRenovateDays}
+                  />
+                )}
               </React.Fragment>
             )
           })
