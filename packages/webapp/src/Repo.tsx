@@ -139,10 +139,10 @@ export const Repo: React.FC<Props> = ({
                   : undefined
               }
             >
-              <MaybeRenovateLink>
+              <>
                 Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
                 siden
-              </MaybeRenovateLink>
+              </>
             </div>
           )}
         {!renovateEnabled ? (
