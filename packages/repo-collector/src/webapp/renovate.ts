@@ -9,6 +9,8 @@ type UpdateCategoryName =
   | "Pending Status Checks"
   | "Open"
   | "Ignored or Blocked"
+  // Our own fallback value.
+  | "unknown"
 
 interface Update {
   name: string
@@ -16,11 +18,11 @@ interface Update {
 }
 
 export interface UpdateCategory {
-  name: string
+  name: UpdateCategoryName
   updates: Update[]
 }
 
-export function isUpdateCategoryActionable(value: string): boolean {
+export function isUpdateCategoryActionable(value: UpdateCategoryName): boolean {
   return ![
     "Awaiting Schedule",
     "Pending Status Checks",
@@ -54,7 +56,7 @@ export function extractDependencyUpdatesFromIssue(
 
   for (const section of sections) {
     const name = section.startsWith("## ")
-      ? section.split("\n")[0].slice(3)
+      ? (section.split("\n")[0].slice(3) as UpdateCategoryName)
       : "unknown"
 
     const updates = extractUpdates(section)
