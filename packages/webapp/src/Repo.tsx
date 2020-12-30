@@ -147,17 +147,21 @@ export const Repo: React.FC<Props> = ({
           )}
         {!renovateEnabled ? (
           <span className="renovate-missing">Mangler Renovate</span>
-        ) : actionableUpdates === 0 ? (
-          <span className="renovate-ok">
-            <MaybeRenovateLink>Alt oppdatert</MaybeRenovateLink>
-            <RenovateLogsLink />
-          </span>
         ) : (
           <>
-            <MaybeRenovateLink>
-              <b>{actionableUpdates}</b>
-            </MaybeRenovateLink>
-            <RenovateLogsLink />
+            {actionableUpdates === 0 ? (
+              <span className="renovate-ok">
+                <MaybeRenovateLink>Ingen</MaybeRenovateLink>
+                <RenovateLogsLink />
+              </span>
+            ) : (
+              <>
+                <MaybeRenovateLink>
+                  <b>{actionableUpdates}</b>
+                </MaybeRenovateLink>
+                <RenovateLogsLink />
+              </>
+            )}
             {showDepList && (
               <ul>
                 {availableUpdates.map((available) => (
