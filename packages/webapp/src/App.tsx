@@ -9,11 +9,12 @@ const App: React.FC = () => {
     <>
       <div style={{ display: "flex", alignItems: "center" }}>
         <h1>Repo metrics</h1>
-        <p style={{ paddingLeft: "5px" }}>
-          <a href="https://github.com/capralifecycle/liflig-repo-metrics">
-            GitHub
-          </a>
-        </p>
+        <a
+          href="https://github.com/capralifecycle/liflig-repo-metrics"
+          style={{ marginLeft: "5px" }}
+        >
+          GitHub
+        </a>
       </div>
       {dataIsLoading ? (
         <p>Laster data...</p>

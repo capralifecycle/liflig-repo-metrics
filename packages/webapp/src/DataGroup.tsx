@@ -60,7 +60,7 @@ export const DataGroup: React.FC<Props> = ({
 
   return (
     <>
-      <ResponsiveContainer width="100%" height={200}>
+      <ResponsiveContainer width="100%" height={170}>
         <LineChart
           data={fetchGroups.map((it) => ({
             timestamp: new Date(it.timestamp).getTime(),
@@ -92,7 +92,6 @@ export const DataGroup: React.FC<Props> = ({
           <Tooltip />
           <Legend />
           <Line
-            type="monotone"
             dataKey="available updates"
             stroke="#28a745"
             strokeWidth={2}
@@ -101,7 +100,6 @@ export const DataGroup: React.FC<Props> = ({
             }}
           />
           <Line
-            type="monotone"
             dataKey="snyk vulnerabilities"
             stroke="#cb2431"
             strokeWidth={2}
@@ -110,7 +108,6 @@ export const DataGroup: React.FC<Props> = ({
             }}
           />
           <Line
-            type="monotone"
             dataKey="github vulnerabilities"
             stroke="#663399"
             strokeWidth={2}

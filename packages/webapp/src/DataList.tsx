@@ -94,45 +94,47 @@ export const DataList: React.FC<Props> = ({ data }) => {
 
   return (
     <>
-      <Checkbox checked={groupByResponsible} onCheck={setGroupByResponsible}>
-        Grupper etter ansvarlig (iht.{" "}
-        <a href="https://github.com/capralifecycle/resources-definition">
-          resources-definition
-        </a>
-        )
-      </Checkbox>
-      <Checkbox checked={showDepList} onCheck={setShowDepList}>
-        Vis detaljert liste over avhengigheter
-      </Checkbox>
-      <Checkbox checked={showPrList} onCheck={setShowPrList}>
-        Vis liste over PRs
-      </Checkbox>
-      <Checkbox checked={showVulList} onCheck={setShowVulList}>
-        Vis detaljer om sårbarheter
-      </Checkbox>
-      <Checkbox checked={showOnlyActionable} onCheck={setShowOnlyActionable}>
-        Skjul repoer hvor alt er OK nå
-      </Checkbox>
-      <Checkbox checked={showOnlyVulnerable} onCheck={setShowOnlyVulnerable}>
-        Vis kun sårbare repoer
-      </Checkbox>
-      <Checkbox
-        checked={limitGraphDays != null}
-        onCheck={(checked) => setLimitGraphDays(checked ? limitDays : null)}
-      >
-        Begrens graf til siste 20 dager
-      </Checkbox>
-      <Checkbox checked={sortByRenovateDays} onCheck={setSortByRenovateDays}>
-        Vis alle Renovate dager og sorter baklengs
-      </Checkbox>
-      <input
-        type="text"
-        value={filterRepoName}
-        onChange={(e) => {
-          setFilterRepoName(e.target.value)
-        }}
-        placeholder="Filtrer på navn til repo"
-      />
+      <div className="filters">
+        <Checkbox checked={groupByResponsible} onCheck={setGroupByResponsible}>
+          Grupper etter ansvarlig (iht.{" "}
+          <a href="https://github.com/capralifecycle/resources-definition">
+            resources-definition
+          </a>
+          )
+        </Checkbox>
+        <Checkbox checked={showDepList} onCheck={setShowDepList}>
+          Vis detaljert liste over avhengigheter
+        </Checkbox>
+        <Checkbox checked={showPrList} onCheck={setShowPrList}>
+          Vis liste over PRs
+        </Checkbox>
+        <Checkbox checked={showVulList} onCheck={setShowVulList}>
+          Vis detaljer om sårbarheter
+        </Checkbox>
+        <Checkbox checked={showOnlyActionable} onCheck={setShowOnlyActionable}>
+          Skjul repoer hvor alt er OK nå
+        </Checkbox>
+        <Checkbox checked={showOnlyVulnerable} onCheck={setShowOnlyVulnerable}>
+          Vis kun sårbare repoer
+        </Checkbox>
+        <Checkbox
+          checked={limitGraphDays != null}
+          onCheck={(checked) => setLimitGraphDays(checked ? limitDays : null)}
+        >
+          Begrens graf til siste 20 dager
+        </Checkbox>
+        <Checkbox checked={sortByRenovateDays} onCheck={setSortByRenovateDays}>
+          Vis alle Renovate dager og sorter baklengs
+        </Checkbox>
+        <input
+          type="text"
+          value={filterRepoName}
+          onChange={(e) => {
+            setFilterRepoName(e.target.value)
+          }}
+          placeholder="Filtrer på navn til repo"
+        />
+      </div>
       {byResponsible != null ? (
         Object.entries(byResponsible)
           .sort((a, b) => a[0].localeCompare(b[0]))
@@ -141,26 +143,25 @@ export const DataList: React.FC<Props> = ({ data }) => {
 
             return (
               <React.Fragment key={responsible}>
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div className="responsible-heading">
                   <h2>Ansvarlig: {responsible}</h2>
-                  <p style={{ paddingLeft: "5px" }}>
-                    <button
-                      onClick={() =>
-                        collapsed
-                          ? setCollapseResponsible(
-                              collapseResponsible.filter(
-                                (it) => it !== responsible,
-                              ),
-                            )
-                          : setCollapseResponsible([
-                              ...collapseResponsible,
-                              responsible,
-                            ])
-                      }
-                    >
-                      {collapsed ? "Vis" : "Skjul"}
-                    </button>
-                  </p>
+                  <button
+                    style={{ marginLeft: "5px" }}
+                    onClick={() =>
+                      collapsed
+                        ? setCollapseResponsible(
+                            collapseResponsible.filter(
+                              (it) => it !== responsible,
+                            ),
+                          )
+                        : setCollapseResponsible([
+                            ...collapseResponsible,
+                            responsible,
+                          ])
+                    }
+                  >
+                    {collapsed ? "Vis" : "Skjul"}
+                  </button>
                 </div>
                 {!collapsed && (
                   <DataGroup
@@ -181,7 +182,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
           })
       ) : (
         <>
-          <h2>Alle repoer</h2>
+          <h2 className="all-repos-heading">Alle repoer</h2>
           <DataGroup
             fetchGroups={filteredFetchGroups}
             repos={filteredRepos}

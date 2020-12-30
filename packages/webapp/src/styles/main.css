@@ -17,6 +17,11 @@ a {
   color: var(--color-primary);
 }
 
+h1,
+h2 {
+  margin: 0;
+}
+
 .renovate-ok,
 .renovate-ok a.renovate-dashboard-link {
   color: var(--color-success);
@@ -30,12 +35,31 @@ a {
 
 .renovate-logs-link {
   color: var(--color-dark);
+  visibility: hidden;
+}
+
+td:hover .renovate-logs-link {
+  visibility: visible;
 }
 
 * + .renovate-logs-link {
-  padding-inline-start: 1em;
+  margin-inline-start: 1rem;
 }
 
 .dependabot-alerts-link {
   color: var(--color-danger);
+}
+
+.responsible-heading {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.all-repos-heading {
+  margin-top: 1rem;
+}
+
+.filters {
+  column-count: 3;
 }

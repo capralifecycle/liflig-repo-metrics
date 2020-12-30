@@ -7,7 +7,7 @@ interface Props {
 }
 
 export const Checkbox: React.FC<Props> = (props) => (
-  <p>
+  <div>
     <label>
       <input
         type="checkbox"
@@ -16,5 +16,5 @@ export const Checkbox: React.FC<Props> = (props) => (
       />{" "}
       {props.children}
     </label>
-  </p>
+  </div>
 )
