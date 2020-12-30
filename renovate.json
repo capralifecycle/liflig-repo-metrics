@@ -1,6 +1,3 @@
 {
-  "extends": ["github>capraconsulting/renovate-config:default"],
-  "automerge": true,
-  "automergeType": "branch",
-  "schedule": ["at any time"]
+  "extends": ["github>capraconsulting/renovate-config:aggressive"]
 }
