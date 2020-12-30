@@ -1,8 +1,6 @@
 # repo-metrics
 
-Webapp at https://d2799m9v6pw1zy.cloudfront.net/
-
-Data is collected and aggregated every night.
+https://d2799m9v6pw1zy.cloudfront.net/
 
 Internal details at https://confluence.capraconsulting.no/x/7_IBC
 
