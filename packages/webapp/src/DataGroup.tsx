@@ -98,6 +98,7 @@ export const DataGroup: React.FC<Props> = ({
             dot={{
               fill: "#28a745",
             }}
+            isAnimationActive={false}
           />
           <Line
             dataKey="snyk vulnerabilities"
@@ -106,6 +107,7 @@ export const DataGroup: React.FC<Props> = ({
             dot={{
               fill: "#cb2431",
             }}
+            isAnimationActive={false}
           />
           <Line
             dataKey="github vulnerabilities"
@@ -114,6 +116,7 @@ export const DataGroup: React.FC<Props> = ({
             dot={{
               fill: "#663399",
             }}
+            isAnimationActive={false}
           />
         </LineChart>
       </ResponsiveContainer>
