@@ -33,7 +33,7 @@
   "dependencies": {
     "@aws-sdk/client-cloudfront": "3.1.0",
     "@aws-sdk/client-s3": "3.1.0",
-    "@aws-sdk/client-secrets-manager": "3.0.0",
+    "@aws-sdk/client-secrets-manager": "3.1.0",
     "@capraconsulting/cals-cli": "2.20.0",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.14.166",
