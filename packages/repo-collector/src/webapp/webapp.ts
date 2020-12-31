@@ -83,12 +83,14 @@ function convertDatapoint(
         title: pr.title,
         createdAt: pr.createdAt,
       })),
-      vulnerabilityAlerts: datapoint.github.vulnerabilityAlerts.map((va) => ({
-        vulnerableManifestPath: va.vulnerableManifestPath,
-        severity: va.securityAdvisory?.severity,
-        packageName:
-          va.securityVulnerability?.package.name ?? "unknown-package",
-      })),
+      vulnerabilityAlerts: datapoint.github.vulnerabilityAlerts
+        .filter((it) => it.dismissReason == null)
+        .map((va) => ({
+          vulnerableManifestPath: va.vulnerableManifestPath,
+          severity: va.securityAdvisory?.severity,
+          packageName:
+            va.securityVulnerability?.package.name ?? "unknown-package",
+        })),
     },
     snyk:
       datapoint.snyk.projects.length > 0
@@ -132,7 +134,9 @@ export function createWebappFriendlyFormat(
       repoId: it.repoId,
       responsible: it.responsible ?? "Ukjent",
       updates: getAvailableActionableUpdates(it),
-      githubVulnerabilities: it.github.vulnerabilityAlerts.length,
+      githubVulnerabilities: it.github.vulnerabilityAlerts.filter(
+        (it) => it.dismissReason == null,
+      ).length,
       snykVulnerabilities: sumBy(
         it.snyk.projects,
         (project) =>
