@@ -2764,10 +2764,10 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@liflig/cdk@1.26.0":
-  version "1.26.0"
-  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-1.26.0.tgz#b4a1f7212ec47c35aca1cb576e48e6178ba7ebd0"
-  integrity sha512-0fl5RxHm/ck1t70I30iDT1ZOqv3mEtiP8UtBTPIn69lZue5/RfgvHJDZu//w6PrrUgVcwSoyMunpLsUwMq8dVA==
+"@liflig/cdk@1.27.0":
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-1.27.0.tgz#817f4c857859a76f592375b0df2edb54378c96b6"
+  integrity sha512-xLVySv6y+P0fZdNLgVxVevycuSdT3zgdheO/eUBPxLR/wcXHMMCKFRP8Vl9V5VvAH/MxwmS5USZV2SpfBe5c8A==
   dependencies:
     "@capraconsulting/webapp-deploy-lambda" "1.1.1"
     cpy "^8.1.0"
