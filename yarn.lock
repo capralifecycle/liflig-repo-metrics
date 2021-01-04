@@ -1938,10 +1938,10 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
-"@henrist/cdk-cloudfront-auth@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@henrist/cdk-cloudfront-auth/-/cdk-cloudfront-auth-1.3.0.tgz#3e77394e2934648274c3d67356aacb70702f8c92"
-  integrity sha512-QVfmyzEhBxyB6+ji3Vpz80+Gt7bRqvDJQ6prMHSX6vWDg3ybmU/aIYCpQ7lrpbP/ZpHJALvykKWsf9IDTD3iFw==
+"@henrist/cdk-cloudfront-auth@1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@henrist/cdk-cloudfront-auth/-/cdk-cloudfront-auth-1.3.1.tgz#803faeeea7bef0e4dc0ea829d8da45fcd8732bf1"
+  integrity sha512-G4ynVM87sF+4zS4FmAKPMuZSrfD+njmhebVp5CkpBvWArPTViJb8QGaGeCcd/0ty9e7mTkxQGjtOheLu0Hx45w==
   dependencies:
     "@henrist/cdk-cross-region-params" "^1.0.0"
     "@henrist/cdk-lambda-config" "^1.0.0"

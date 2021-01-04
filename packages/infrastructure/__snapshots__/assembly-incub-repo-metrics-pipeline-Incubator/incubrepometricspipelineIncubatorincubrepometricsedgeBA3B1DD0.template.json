@@ -66,11 +66,7 @@
           ]
         },
         "Runtime": "nodejs12.x",
-        "Environment": {
-          "Variables": {
-            "_NONCE": "2"
-          }
-        },
+        "Description": "Nonce value: 2",
         "Tags": [
           {
             "Key": "Project",
@@ -214,11 +210,7 @@
           ]
         },
         "Runtime": "nodejs12.x",
-        "Environment": {
-          "Variables": {
-            "_NONCE": "2"
-          }
-        },
+        "Description": "Nonce value: 2",
         "Tags": [
           {
             "Key": "Project",
@@ -362,11 +354,7 @@
           ]
         },
         "Runtime": "nodejs12.x",
-        "Environment": {
-          "Variables": {
-            "_NONCE": "2"
-          }
-        },
+        "Description": "Nonce value: 2",
         "Tags": [
           {
             "Key": "Project",
@@ -510,11 +498,7 @@
           ]
         },
         "Runtime": "nodejs12.x",
-        "Environment": {
-          "Variables": {
-            "_NONCE": "2"
-          }
-        },
+        "Description": "Nonce value: 2",
         "Tags": [
           {
             "Key": "Project",
@@ -658,11 +642,7 @@
           ]
         },
         "Runtime": "nodejs12.x",
-        "Environment": {
-          "Variables": {
-            "_NONCE": "2"
-          }
-        },
+        "Description": "Nonce value: 2",
         "Tags": [
           {
             "Key": "Project",
