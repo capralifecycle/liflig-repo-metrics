@@ -66,6 +66,11 @@
           ]
         },
         "Runtime": "nodejs12.x",
+        "Environment": {
+          "Variables": {
+            "_NONCE": "2"
+          }
+        },
         "Tags": [
           {
             "Key": "Project",
@@ -209,6 +214,11 @@
           ]
         },
         "Runtime": "nodejs12.x",
+        "Environment": {
+          "Variables": {
+            "_NONCE": "2"
+          }
+        },
         "Tags": [
           {
             "Key": "Project",
@@ -352,6 +362,11 @@
           ]
         },
         "Runtime": "nodejs12.x",
+        "Environment": {
+          "Variables": {
+            "_NONCE": "2"
+          }
+        },
         "Tags": [
           {
             "Key": "Project",
@@ -495,6 +510,11 @@
           ]
         },
         "Runtime": "nodejs12.x",
+        "Environment": {
+          "Variables": {
+            "_NONCE": "2"
+          }
+        },
         "Tags": [
           {
             "Key": "Project",
@@ -638,6 +658,11 @@
           ]
         },
         "Runtime": "nodejs12.x",
+        "Environment": {
+          "Variables": {
+            "_NONCE": "2"
+          }
+        },
         "Tags": [
           {
             "Key": "Project",

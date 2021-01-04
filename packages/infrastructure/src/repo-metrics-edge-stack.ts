@@ -12,6 +12,7 @@ export class RepoMetricsEdgeStack extends cdk.Stack {
 
     this.authLambdas = new AuthLambdas(this, "AuthLambdas", {
       regions: ["eu-west-1"],
+      nonce: "2",
     })
   }
 }
