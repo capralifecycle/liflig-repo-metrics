@@ -1,35 +1,6 @@
 {
   "@aws-cdk/core:enableStackNameDuplicates": "true",
-  "aws-cdk:enableDiffNoFail": "true",
-  "vpc-provider:account=001112238813:filter.vpc-id=vpc-0a67807e4aca6bb84:region=eu-west-1:returnAsymmetricSubnets=true": {
-    "vpcId": "vpc-0a67807e4aca6bb84",
-    "vpcCidrBlock": "10.0.0.0/16",
-    "availabilityZones": [],
-    "subnetGroups": [
-      {
-        "name": "Public",
-        "type": "Public",
-        "subnets": [
-          {
-            "subnetId": "subnet-07e2239d3d09b9759",
-            "cidr": "10.0.0.0/19",
-            "availabilityZone": "eu-west-1a",
-            "routeTableId": "rtb-00ad50646d88d6ca4"
-          },
-          {
-            "subnetId": "subnet-0b4c305426dd627d4",
-            "cidr": "10.0.32.0/19",
-            "availabilityZone": "eu-west-1b",
-            "routeTableId": "rtb-0a8dceec239809719"
-          },
-          {
-            "subnetId": "subnet-0659d04ade348a053",
-            "cidr": "10.0.64.0/19",
-            "availabilityZone": "eu-west-1c",
-            "routeTableId": "rtb-0fd062605caeb2e0e"
-          }
-        ]
-      }
-    ]
-  }
+  "@aws-cdk/core:newStyleStackSynthesis": "true",
+  "@aws-cdk/core:stackRelativeExports": "true",
+  "aws-cdk:enableDiffNoFail": "true"
 }

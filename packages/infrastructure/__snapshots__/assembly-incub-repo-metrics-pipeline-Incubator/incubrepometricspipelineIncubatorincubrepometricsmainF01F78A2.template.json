@@ -31,7 +31,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/UserPool/UserPoolClient/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/UserPool/UserPoolClient/Resource"
       }
     },
     "DataBucketE3889A50": {
@@ -64,7 +64,7 @@
       "UpdateReplacePolicy": "Retain",
       "DeletionPolicy": "Retain",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/DataBucket/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/DataBucket/Resource"
       }
     },
     "WebappBucket620531E5": {
@@ -97,7 +97,7 @@
       "UpdateReplacePolicy": "Retain",
       "DeletionPolicy": "Retain",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/WebappBucket/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappBucket/Resource"
       }
     },
     "WebappBucketPolicyB03C4E01": {
@@ -151,7 +151,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/WebappBucket/Policy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappBucket/Policy/Resource"
       }
     },
     "WebappDataBucket777722B9": {
@@ -184,7 +184,7 @@
       "UpdateReplacePolicy": "Retain",
       "DeletionPolicy": "Retain",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/WebappDataBucket/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDataBucket/Resource"
       }
     },
     "WebappDataBucketPolicy300EA527": {
@@ -238,7 +238,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/WebappDataBucket/Policy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDataBucket/Policy/Resource"
       }
     },
     "AuthNonceSigningSecretC47F85D8": {
@@ -255,7 +255,7 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Auth/NonceSigningSecret/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/NonceSigningSecret/Resource/Default"
       }
     },
     "AuthClientSecretCustomResourcePolicyA4C1D5EC": {
@@ -290,7 +290,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Auth/ClientSecret/Resource/CustomResourcePolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientSecret/Resource/CustomResourcePolicy/Resource"
       }
     },
     "AuthClientSecret768E9C19": {
@@ -356,7 +356,7 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Auth/ClientSecret/Resource/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientSecret/Resource/Resource/Default"
       }
     },
     "AuthCheckAuthFnC12AAE69": {
@@ -369,7 +369,7 @@
           ]
         },
         "FunctionArn": {
-          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eCheckAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec81e650052f36c5e83f2cec440852f2592a49b5f74CheckAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
         },
         "Config": {
           "httpHeaders": {
@@ -425,7 +425,7 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Auth/CheckAuthFn/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/CheckAuthFn/Resource/Default"
       }
     },
     "AuthHttpHeadersFn7D541668": {
@@ -438,7 +438,7 @@
           ]
         },
         "FunctionArn": {
-          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eHttpHeadersFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec81e650052f36c5e83f2cec440852f2592a49b5f74HttpHeadersFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
         },
         "Config": {
           "httpHeaders": {
@@ -494,7 +494,7 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Auth/HttpHeadersFn/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/HttpHeadersFn/Resource/Default"
       }
     },
     "AuthParseAuthFn975D8094": {
@@ -507,7 +507,7 @@
           ]
         },
         "FunctionArn": {
-          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eParseAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec81e650052f36c5e83f2cec440852f2592a49b5f74ParseAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
         },
         "Config": {
           "httpHeaders": {
@@ -563,7 +563,7 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Auth/ParseAuthFn/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ParseAuthFn/Resource/Default"
       }
     },
     "AuthRefreshAuthFnEA5CBBAE": {
@@ -576,7 +576,7 @@
           ]
         },
         "FunctionArn": {
-          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eRefreshAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec81e650052f36c5e83f2cec440852f2592a49b5f74RefreshAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
         },
         "Config": {
           "httpHeaders": {
@@ -632,7 +632,7 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Auth/RefreshAuthFn/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/RefreshAuthFn/Resource/Default"
       }
     },
     "AuthSignOutFnD060B75E": {
@@ -645,7 +645,7 @@
           ]
         },
         "FunctionArn": {
-          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eSignOutFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          "Ref": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec81e650052f36c5e83f2cec440852f2592a49b5f74SignOutFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
         },
         "Config": {
           "httpHeaders": {
@@ -701,7 +701,7 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Auth/SignOutFn/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/SignOutFn/Resource/Default"
       }
     },
     "AuthClientUpdateCustomResourcePolicyF8E9AEC5": {
@@ -736,7 +736,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Auth/ClientUpdate/Resource/CustomResourcePolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientUpdate/Resource/CustomResourcePolicy/Resource"
       }
     },
     "AuthClientUpdate3823E358": {
@@ -898,7 +898,7 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Auth/ClientUpdate/Resource/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientUpdate/Resource/Resource/Default"
       }
     },
     "henristcloudfrontauthgeneratesecretproviderFunctionServiceRole4523A59B": {
@@ -946,7 +946,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Function/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Function/ServiceRole/Resource"
       }
     },
     "henristcloudfrontauthgeneratesecretproviderFunction3D1AFA99": {
@@ -983,7 +983,7 @@
         "henristcloudfrontauthgeneratesecretproviderFunctionServiceRole4523A59B"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Function/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Function/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:property": "Code"
       }
@@ -1033,7 +1033,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/ServiceRole/Resource"
       }
     },
     "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleDefaultPolicyC126E528": {
@@ -1062,7 +1062,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource"
       }
     },
     "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventD98C7326": {
@@ -1080,7 +1080,7 @@
           ]
         },
         "Runtime": "nodejs10.x",
-        "Description": "AWS CDK resource provider framework - onEvent (incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider)",
+        "Description": "AWS CDK resource provider framework - onEvent (incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider)",
         "Environment": {
           "Variables": {
             "USER_ON_EVENT_FUNCTION_ARN": {
@@ -1112,7 +1112,7 @@
         "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleEE714F1C"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:property": "Code"
       }
@@ -1162,7 +1162,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/AWS679f53fac002430cb0da5b7982bd2287/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AWS679f53fac002430cb0da5b7982bd2287/ServiceRole/Resource"
       }
     },
     "AWS679f53fac002430cb0da5b7982bd22872D164C4C": {
@@ -1200,7 +1200,7 @@
         "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/AWS679f53fac002430cb0da5b7982bd2287/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AWS679f53fac002430cb0da5b7982bd2287/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:property": "Code"
       }
@@ -1250,7 +1250,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/ServiceRole/Resource"
       }
     },
     "henristlambdaconfigproviderUpdateCodeFnServiceRoleDefaultPolicyE51A664A": {
@@ -1277,7 +1277,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/ServiceRole/DefaultPolicy/Resource"
       }
     },
     "henristlambdaconfigproviderUpdateCodeFnBF8DF66B": {
@@ -1316,7 +1316,7 @@
         "henristlambdaconfigproviderUpdateCodeFnServiceRole2FF24712"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:property": "Code"
       }
@@ -1366,7 +1366,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/henrist.lambda-config.provider/Provider/framework-onEvent/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/Provider/framework-onEvent/ServiceRole/Resource"
       }
     },
     "henristlambdaconfigproviderProviderframeworkonEventServiceRoleDefaultPolicy3D96FE9E": {
@@ -1395,7 +1395,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/henrist.lambda-config.provider/Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource"
       }
     },
     "henristlambdaconfigproviderProviderframeworkonEventB2FC78D4": {
@@ -1413,7 +1413,7 @@
           ]
         },
         "Runtime": "nodejs10.x",
-        "Description": "AWS CDK resource provider framework - onEvent (incub-repo-metrics-main/henrist.lambda-config.provider/Provider)",
+        "Description": "AWS CDK resource provider framework - onEvent (incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/Provider)",
         "Environment": {
           "Variables": {
             "USER_ON_EVENT_FUNCTION_ARN": {
@@ -1445,7 +1445,7 @@
         "henristlambdaconfigproviderProviderframeworkonEventServiceRole9AA104AD"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/henrist.lambda-config.provider/Provider/framework-onEvent/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/Provider/framework-onEvent/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:property": "Code"
       }
@@ -1454,22 +1454,22 @@
       "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
       "Properties": {
         "CloudFrontOriginAccessIdentityConfig": {
-          "Comment": "Identity for incubrepometricsmainDistributionOrigin1E6A7A00E"
+          "Comment": "Identity for incubrepometricspipelineIncubatorincubrepometricsmainDistributionOrigin1FF340716"
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Distribution/Origin1/S3Origin/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Distribution/Origin1/S3Origin/Resource"
       }
     },
     "DistributionOrigin2S3OriginE484D4BF": {
       "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
       "Properties": {
         "CloudFrontOriginAccessIdentityConfig": {
-          "Comment": "Identity for incubrepometricsmainDistributionOrigin2A3D63EE6"
+          "Comment": "Identity for incubrepometricspipelineIncubatorincubrepometricsmainDistributionOrigin277E41C82"
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Distribution/Origin2/S3Origin/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Distribution/Origin2/S3Origin/Resource"
       }
     },
     "Distribution830FAC52": {
@@ -1492,7 +1492,7 @@
                 }
               ],
               "PathPattern": "/auth/callback",
-              "TargetOriginId": "incubrepometricsmainDistributionOrigin1E6A7A00E",
+              "TargetOriginId": "incubrepometricspipelineIncubatorincubrepometricsmainDistributionOrigin1FF340716",
               "ViewerProtocolPolicy": "redirect-to-https"
             },
             {
@@ -1510,7 +1510,7 @@
                 }
               ],
               "PathPattern": "/auth/refresh",
-              "TargetOriginId": "incubrepometricsmainDistributionOrigin1E6A7A00E",
+              "TargetOriginId": "incubrepometricspipelineIncubatorincubrepometricsmainDistributionOrigin1FF340716",
               "ViewerProtocolPolicy": "redirect-to-https"
             },
             {
@@ -1528,7 +1528,7 @@
                 }
               ],
               "PathPattern": "/auth/sign-out",
-              "TargetOriginId": "incubrepometricsmainDistributionOrigin1E6A7A00E",
+              "TargetOriginId": "incubrepometricspipelineIncubatorincubrepometricsmainDistributionOrigin1FF340716",
               "ViewerProtocolPolicy": "redirect-to-https"
             },
             {
@@ -1555,7 +1555,7 @@
                 }
               ],
               "PathPattern": "/data/*",
-              "TargetOriginId": "incubrepometricsmainDistributionOrigin2A3D63EE6",
+              "TargetOriginId": "incubrepometricspipelineIncubatorincubrepometricsmainDistributionOrigin277E41C82",
               "ViewerProtocolPolicy": "redirect-to-https"
             }
           ],
@@ -1582,7 +1582,7 @@
                 }
               }
             ],
-            "TargetOriginId": "incubrepometricsmainDistributionOrigin1E6A7A00E",
+            "TargetOriginId": "incubrepometricspipelineIncubatorincubrepometricsmainDistributionOrigin1FF340716",
             "ViewerProtocolPolicy": "redirect-to-https"
           },
           "DefaultRootObject": "index.html",
@@ -1597,7 +1597,7 @@
                   "RegionalDomainName"
                 ]
               },
-              "Id": "incubrepometricsmainDistributionOrigin1E6A7A00E",
+              "Id": "incubrepometricspipelineIncubatorincubrepometricsmainDistributionOrigin1FF340716",
               "S3OriginConfig": {
                 "OriginAccessIdentity": {
                   "Fn::Join": [
@@ -1619,7 +1619,7 @@
                   "RegionalDomainName"
                 ]
               },
-              "Id": "incubrepometricsmainDistributionOrigin2A3D63EE6",
+              "Id": "incubrepometricspipelineIncubatorincubrepometricsmainDistributionOrigin277E41C82",
               "S3OriginConfig": {
                 "OriginAccessIdentity": {
                   "Fn::Join": [
@@ -1653,7 +1653,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Distribution/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Distribution/Resource"
       }
     },
     "DeployWebappCustomResourceC7A505E4": {
@@ -1682,7 +1682,7 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/DeployWebapp/CustomResource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/DeployWebapp/CustomResource/Default"
       }
     },
     "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265": {
@@ -1730,7 +1730,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource"
       }
     },
     "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF": {
@@ -1824,7 +1824,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource"
       }
     },
     "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536": {
@@ -1863,7 +1863,7 @@
         "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:property": "Code"
       }
@@ -1913,7 +1913,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Collector/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Collector/ServiceRole/Resource"
       }
     },
     "CollectorServiceRoleDefaultPolicy51652F58": {
@@ -2003,7 +2003,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Collector/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Collector/ServiceRole/DefaultPolicy/Resource"
       }
     },
     "Collector9EBA7CF5": {
@@ -2075,7 +2075,7 @@
         "CollectorServiceRole78F40CC4"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Collector/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Collector/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:property": "Code"
       }
@@ -2098,10 +2098,10 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/CollectorSchedule/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorSchedule/Resource"
       }
     },
-    "CollectorScheduleAllowEventRuleincubrepometricsmainCollectorSchedule00F836868B72A2BA": {
+    "CollectorScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainCollectorSchedule8137825C55B32B05": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "Action": "lambda:InvokeFunction",
@@ -2120,7 +2120,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/CollectorSchedule/AllowEventRuleincubrepometricsmainCollectorSchedule00F83686"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainCollectorSchedule8137825C"
       }
     },
     "AggregatorServiceRole50457C61": {
@@ -2168,7 +2168,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Aggregator/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Aggregator/ServiceRole/Resource"
       }
     },
     "AggregatorServiceRoleDefaultPolicyEBDCB410": {
@@ -2258,7 +2258,7 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Aggregator/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Aggregator/ServiceRole/DefaultPolicy/Resource"
       }
     },
     "Aggregator84F1B3DF": {
@@ -2311,7 +2311,7 @@
         "AggregatorServiceRole50457C61"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/Aggregator/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Aggregator/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:property": "Code"
       }
@@ -2334,10 +2334,10 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/AggregatorSchedule/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorSchedule/Resource"
       }
     },
-    "AggregatorScheduleAllowEventRuleincubrepometricsmainAggregatorSchedule24350F9BEBBBC3DE": {
+    "AggregatorScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregatorScheduleE570483FE19211BA": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "Action": "lambda:InvokeFunction",
@@ -2356,7 +2356,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-main/AggregatorSchedule/AllowEventRuleincubrepometricsmainAggregatorSchedule24350F9B"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregatorScheduleE570483F"
       }
     }
   },
@@ -2381,25 +2381,25 @@
       "Type": "String",
       "Default": "snapshot"
     },
-    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eCheckAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
+    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec81e650052f36c5e83f2cec440852f2592a49b5f74CheckAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Type": "AWS::SSM::Parameter::Value<String>",
-      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-CheckAuthFunction-function-arn"
+      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn"
     },
-    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eHttpHeadersFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
+    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec81e650052f36c5e83f2cec440852f2592a49b5f74HttpHeadersFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Type": "AWS::SSM::Parameter::Value<String>",
-      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-HttpHeadersFunction-function-arn"
+      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn"
     },
-    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eParseAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
+    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec81e650052f36c5e83f2cec440852f2592a49b5f74ParseAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Type": "AWS::SSM::Parameter::Value<String>",
-      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-ParseAuthFunction-function-arn"
+      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn"
     },
-    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eRefreshAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
+    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec81e650052f36c5e83f2cec440852f2592a49b5f74RefreshAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Type": "AWS::SSM::Parameter::Value<String>",
-      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-RefreshAuthFunction-function-arn"
+      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn"
     },
-    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eSignOutFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
+    "SsmParameterValuecfregionuseast1stackincubrepometricsedgec81e650052f36c5e83f2cec440852f2592a49b5f74SignOutFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter": {
       "Type": "AWS::SSM::Parameter::Value<String>",
-      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-SignOutFunction-function-arn"
+      "Default": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn"
     },
     "BootstrapVersion": {
       "Type": "AWS::SSM::Parameter::Value<String>",

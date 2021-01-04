@@ -1,69 +1,6 @@
 {
   "Resources": {
-    "ArtifactsBucketTrigger163C6DA8": {
-      "Type": "AWS::Events::Rule",
-      "Properties": {
-        "EventPattern": {
-          "source": [
-            "aws.s3"
-          ],
-          "detail-type": [
-            "AWS API Call via CloudTrail"
-          ],
-          "detail": {
-            "resources": {
-              "ARN": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":s3:::incub-common-build-artifacts-001112238813-eu-west-1/pipelines/incub-repo-metrics/trigger"
-                    ]
-                  ]
-                }
-              ]
-            },
-            "eventName": [
-              "CompleteMultipartUpload",
-              "CopyObject",
-              "PutObject"
-            ],
-            "requestParameters": {
-              "bucketName": [
-                "incub-common-build-artifacts-001112238813-eu-west-1"
-              ],
-              "key": [
-                "pipelines/incub-repo-metrics/trigger"
-              ]
-            }
-          }
-        },
-        "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
-              "Ref": "RepoMetricsPipelineStateMachineD7571040"
-            },
-            "Id": "Target0",
-            "Input": "{}",
-            "RoleArn": {
-              "Fn::GetAtt": [
-                "RepoMetricsPipelineStateMachineEventsRole5A5E1B01",
-                "Arn"
-              ]
-            }
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/ArtifactsBucket/Trigger/Resource"
-      }
-    },
-    "RepoMetricsPipelineincubTaskDefinitionTaskRole66540DCC": {
+    "PipelineCloudAssemblyLookupFnServiceRole2FDEF095": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -72,7 +9,429 @@
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": "ecs-tasks.amazonaws.com"
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CloudAssemblyLookupFn/ServiceRole/Resource"
+      }
+    },
+    "PipelineCloudAssemblyLookupFnServiceRoleDefaultPolicy2F7C48B6": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::incub-common-build-artifacts-001112238813-eu-west-1"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::incub-common-build-artifacts-001112238813-eu-west-1/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "codepipeline:PutJobSuccessResult",
+                "codepipeline:PutJobFailureResult"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCloudAssemblyLookupFnServiceRoleDefaultPolicy2F7C48B6",
+        "Roles": [
+          {
+            "Ref": "PipelineCloudAssemblyLookupFnServiceRole2FDEF095"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CloudAssemblyLookupFn/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCloudAssemblyLookupFn679FAA51": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "ZipFile": "exports.handler = async (event, context) => {\n    const AWS = require(\"aws-sdk\");\n    const s3 = new AWS.S3();\n    const codepipeline = new AWS.CodePipeline();\n    const jobId = event[\"CodePipeline.job\"].id;\n    try {\n        const userParametersRaw = event[\"CodePipeline.job\"].data.actionConfiguration.configuration\n            .UserParameters;\n        console.log(\"User parameters\", userParametersRaw);\n        const userParameters = JSON.parse(userParametersRaw);\n        const referenceData = await s3\n            .getObject({\n            Bucket: userParameters.bucketName,\n            Key: userParameters.objectKey,\n        })\n            .promise()\n            .then((it) => it.Body.toString());\n        const cloudAssemblyReference = JSON.parse(referenceData);\n        const outputArtifact = event[\"CodePipeline.job\"].data.outputArtifacts[0];\n        const s3Loc = outputArtifact.location.s3Location;\n        const cloudAssemblyZipData = await s3\n            .getObject({\n            Bucket: cloudAssemblyReference.cloudAssemblyBucketName,\n            Key: cloudAssemblyReference.cloudAssemblyBucketKey,\n        })\n            .promise();\n        console.log(\"Size of Cloud Assembly\", cloudAssemblyZipData.ContentLength);\n        await new AWS.S3({\n            credentials: event[\"CodePipeline.job\"].data.artifactCredentials,\n        })\n            .putObject({\n            Bucket: s3Loc.bucketName,\n            Key: s3Loc.objectKey,\n            Body: cloudAssemblyZipData.Body,\n        })\n            .promise();\n        await codepipeline\n            .putJobSuccessResult({\n            jobId,\n        })\n            .promise();\n        console.log(\"Success\");\n    }\n    catch (e) {\n        await codepipeline\n            .putJobFailureResult({\n            failureDetails: {\n                message: JSON.stringify(e),\n                type: \"JobFailed\",\n                externalExecutionId: context.awsRequestId,\n            },\n            jobId,\n        })\n            .promise();\n        console.error(\"Failed\", e);\n    }\n};"
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "PipelineCloudAssemblyLookupFnServiceRole2FDEF095",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs12.x",
+        "MemorySize": 512,
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ],
+        "Timeout": 60
+      },
+      "DependsOn": [
+        "PipelineCloudAssemblyLookupFnServiceRoleDefaultPolicy2F7C48B6",
+        "PipelineCloudAssemblyLookupFnServiceRole2FDEF095"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CloudAssemblyLookupFn/Resource"
+      }
+    },
+    "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE": {
+      "Type": "AWS::KMS::Key",
+      "Properties": {
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": [
+                "kms:Create*",
+                "kms:Describe*",
+                "kms:Enable*",
+                "kms:List*",
+                "kms:Put*",
+                "kms:Update*",
+                "kms:Revoke*",
+                "kms:Disable*",
+                "kms:Get*",
+                "kms:Delete*",
+                "kms:ScheduleKeyDeletion",
+                "kms:CancelKeyDeletion",
+                "kms:GenerateDataKey",
+                "kms:TagResource",
+                "kms:UntagResource"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelineRoleEE058E60",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:Decrypt"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelineSourcesourceCodePipelineActionRoleAB26C0AE",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:Decrypt"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelinePrepareCloudAssemblycloudassemblylookupCodePipelineActionRole52243095",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineUpdatePipelineSelfMutationRole91D6CBA8",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineUpdatePipelineSelfMutationRole91D6CBA8",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-eu-west-1"
+                    ]
+                  ]
+                }
+              },
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/ArtifactsBucketEncryptionKey/Resource"
+      }
+    },
+    "PipelineCodePipelineArtifactsBucketEncryptionKeyAlias3EF3F23B": {
+      "Type": "AWS::KMS::Alias",
+      "Properties": {
+        "AliasName": "alias/codepipeline-incubrepometricspipelinepipelinecodepipelinec726b01a",
+        "TargetKeyId": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/ArtifactsBucketEncryptionKeyAlias/Resource"
+      }
+    },
+    "PipelineCodePipelineArtifactsBucket9E5E7047": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "KMSMasterKeyID": {
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+                    "Arn"
+                  ]
+                },
+                "SSEAlgorithm": "aws:kms"
+              }
+            }
+          ]
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/ArtifactsBucket/Resource"
+      }
+    },
+    "PipelineCodePipelineRoleEE058E60": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "codepipeline.amazonaws.com"
               }
             }
           ],
@@ -94,19 +453,890 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/TaskRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Role/Resource"
       }
     },
-    "RepoMetricsPipelineincubTaskDefinitionTaskRoleDefaultPolicy7B331416": {
+    "PipelineCodePipelineRoleDefaultPolicy37C67326": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
           "Statement": [
             {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelineArtifactsBucket9E5E7047",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "PipelineCodePipelineArtifactsBucket9E5E7047",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+                  "Arn"
+                ]
+              }
+            },
+            {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Resource": "arn:aws:iam::001112238813:role/liflig-cdk-deployer-cdk"
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineSourcesourceCodePipelineActionRoleAB26C0AE",
+                  "Arn"
+                ]
+              }
             },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelinePrepareCloudAssemblycloudassemblylookupCodePipelineActionRole52243095",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRole16D29A61",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileRole0474FB57",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::incub-repo-metrics-pipelieplicationbucket6934b6d82988a4c1f534"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::incub-repo-metrics-pipelieplicationbucket6934b6d82988a4c1f534/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-us-east-1"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-eu-west-1"
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineRoleDefaultPolicy37C67326",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineRoleEE058E60"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Role/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipeline4FC0E9B7": {
+      "Type": "AWS::CodePipeline::Pipeline",
+      "Properties": {
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineRoleEE058E60",
+            "Arn"
+          ]
+        },
+        "Stages": [
+          {
+            "Actions": [
+              {
+                "ActionTypeId": {
+                  "Category": "Source",
+                  "Owner": "AWS",
+                  "Provider": "S3",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "S3Bucket": "incub-common-build-artifacts-001112238813-eu-west-1",
+                  "S3ObjectKey": "pipelines/incub-repo-metrics/trigger"
+                },
+                "Name": "source",
+                "OutputArtifacts": [
+                  {
+                    "Name": "Artifact_Source_source"
+                  }
+                ],
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelineSourcesourceCodePipelineActionRoleAB26C0AE",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              }
+            ],
+            "Name": "Source"
+          },
+          {
+            "Actions": [
+              {
+                "ActionTypeId": {
+                  "Category": "Invoke",
+                  "Owner": "AWS",
+                  "Provider": "Lambda",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "FunctionName": {
+                    "Ref": "PipelineCloudAssemblyLookupFn679FAA51"
+                  },
+                  "UserParameters": "{\"bucketName\":\"incub-common-build-artifacts-001112238813-eu-west-1\",\"objectKey\":\"pipelines/incub-repo-metrics/cloud-assembly.json\"}"
+                },
+                "Name": "cloud-assembly-lookup",
+                "OutputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelinePrepareCloudAssemblycloudassemblylookupCodePipelineActionRole52243095",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              }
+            ],
+            "Name": "PrepareCloudAssembly"
+          },
+          {
+            "Actions": [
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineUpdatePipelineSelfMutation3D8B717E"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "SelfMutate",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRole16D29A61",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              }
+            ],
+            "Name": "UpdatePipeline"
+          },
+          {
+            "Actions": [
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineAssetsFileAsset151D3981E"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "FileAsset1",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineAssetsFileAsset2207E4C42"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "FileAsset2",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineAssetsFileAsset31CF4901A"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "FileAsset3",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineAssetsFileAsset4908CCAA5"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "FileAsset4",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineAssetsFileAsset5AAB63076"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "FileAsset5",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineAssetsFileAsset6BD52B215"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "FileAsset6",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineAssetsFileAsset712CD7925"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "FileAsset7",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineAssetsFileAsset8AA34989C"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "FileAsset8",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineAssetsFileAsset9E9701DDD"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "FileAsset9",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineAssetsFileAsset106A5B75BE"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "FileAsset10",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineAssetsFileAsset1160F0FA56"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "FileAsset11",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Build",
+                  "Owner": "AWS",
+                  "Provider": "CodeBuild",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "ProjectName": {
+                    "Ref": "PipelineCdkPipelineAssetsFileAsset129D5593A4"
+                  }
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "FileAsset12",
+                "RoleArn": {
+                  "Fn::GetAtt": [
+                    "PipelineCdkPipelineAssetsFileRole0474FB57",
+                    "Arn"
+                  ]
+                },
+                "RunOrder": 1
+              }
+            ],
+            "Name": "Assets"
+          },
+          {
+            "Actions": [
+              {
+                "ActionTypeId": {
+                  "Category": "Deploy",
+                  "Owner": "AWS",
+                  "Provider": "CloudFormation",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "StackName": "incub-repo-metrics-edge",
+                  "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
+                  "RoleArn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":iam::001112238813:role/cdk-hnb659fds-cfn-exec-role-001112238813-us-east-1"
+                      ]
+                    ]
+                  },
+                  "TemplateConfiguration": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup::assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.template.json.config.json",
+                  "ActionMode": "CHANGE_SET_REPLACE",
+                  "ChangeSetName": "PipelineChange",
+                  "TemplatePath": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup::assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.template.json"
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "incub-repo-metrics-edge.Prepare",
+                "Region": "us-east-1",
+                "RoleArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-us-east-1"
+                    ]
+                  ]
+                },
+                "RunOrder": 1
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Deploy",
+                  "Owner": "AWS",
+                  "Provider": "CloudFormation",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "StackName": "incub-repo-metrics-edge",
+                  "ActionMode": "CHANGE_SET_EXECUTE",
+                  "ChangeSetName": "PipelineChange"
+                },
+                "Name": "incub-repo-metrics-edge.Deploy",
+                "Region": "us-east-1",
+                "RoleArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-us-east-1"
+                    ]
+                  ]
+                },
+                "RunOrder": 2
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Deploy",
+                  "Owner": "AWS",
+                  "Provider": "CloudFormation",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "StackName": "incub-repo-metrics-main",
+                  "Capabilities": "CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND",
+                  "RoleArn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":iam::001112238813:role/cdk-hnb659fds-cfn-exec-role-001112238813-eu-west-1"
+                      ]
+                    ]
+                  },
+                  "TemplateConfiguration": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup::assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.template.json.config.json",
+                  "ActionMode": "CHANGE_SET_REPLACE",
+                  "ChangeSetName": "PipelineChange",
+                  "TemplatePath": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup::assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.template.json"
+                },
+                "InputArtifacts": [
+                  {
+                    "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
+                  }
+                ],
+                "Name": "incub-repo-metrics-main.Prepare",
+                "RoleArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-eu-west-1"
+                    ]
+                  ]
+                },
+                "RunOrder": 3
+              },
+              {
+                "ActionTypeId": {
+                  "Category": "Deploy",
+                  "Owner": "AWS",
+                  "Provider": "CloudFormation",
+                  "Version": "1"
+                },
+                "Configuration": {
+                  "StackName": "incub-repo-metrics-main",
+                  "ActionMode": "CHANGE_SET_EXECUTE",
+                  "ChangeSetName": "PipelineChange"
+                },
+                "Name": "incub-repo-metrics-main.Deploy",
+                "RoleArn": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-eu-west-1"
+                    ]
+                  ]
+                },
+                "RunOrder": 4
+              }
+            ],
+            "Name": "Incubator"
+          }
+        ],
+        "ArtifactStores": [
+          {
+            "ArtifactStore": {
+              "EncryptionKey": {
+                "Id": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":kms:us-east-1:001112238813:alias/s-pipelitencryptionalias989ff07cf3d3a4c46cba"
+                    ]
+                  ]
+                },
+                "Type": "KMS"
+              },
+              "Location": "incub-repo-metrics-pipelieplicationbucket6934b6d82988a4c1f534",
+              "Type": "S3"
+            },
+            "Region": "us-east-1"
+          },
+          {
+            "ArtifactStore": {
+              "EncryptionKey": {
+                "Id": {
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+                    "Arn"
+                  ]
+                },
+                "Type": "KMS"
+              },
+              "Location": {
+                "Ref": "PipelineCodePipelineArtifactsBucket9E5E7047"
+              },
+              "Type": "S3"
+            },
+            "Region": "eu-west-1"
+          }
+        ],
+        "Name": "incub-repo-metrics",
+        "RestartExecutionOnUpdate": true,
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "DependsOn": [
+        "PipelineCodePipelineRoleDefaultPolicy37C67326",
+        "PipelineCodePipelineRoleEE058E60"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Resource"
+      }
+    },
+    "PipelineCodePipelineSourcesourceCodePipelineActionRoleAB26C0AE": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Source/source/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineSourcesourceCodePipelineActionRoleDefaultPolicy7825EAF4": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
             {
               "Action": [
                 "s3:GetObject*",
@@ -140,278 +1370,355 @@
                   ]
                 }
               ]
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "RepoMetricsPipelineincubTaskDefinitionTaskRoleDefaultPolicy7B331416",
-        "Roles": [
-          {
-            "Ref": "RepoMetricsPipelineincubTaskDefinitionTaskRole66540DCC"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/TaskRole/DefaultPolicy/Resource"
-      }
-    },
-    "RepoMetricsPipelineincubTaskDefinition69DCA07A": {
-      "Type": "AWS::ECS::TaskDefinition",
-      "Properties": {
-        "ContainerDefinitions": [
-          {
-            "Essential": true,
-            "Image": {
-              "Fn::Join": [
-                "",
-                [
-                  "001112238813.dkr.ecr.eu-west-1.",
-                  {
-                    "Ref": "AWS::URLSuffix"
-                  },
-                  "/incub-common-liflig-cdk-deployer:1-experimental.2"
-                ]
-              ]
-            },
-            "LogConfiguration": {
-              "LogDriver": "awslogs",
-              "Options": {
-                "awslogs-group": {
-                  "Ref": "RepoMetricsPipelineincubLogGroup884AB3B3"
-                },
-                "awslogs-stream-prefix": "app",
-                "awslogs-region": "eu-west-1"
-              }
-            },
-            "Name": "app"
-          }
-        ],
-        "Cpu": "256",
-        "ExecutionRoleArn": {
-          "Fn::GetAtt": [
-            "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDC532411",
-            "Arn"
-          ]
-        },
-        "Family": "incubrepometricspipelineRepoMetricsPipelineincubTaskDefinitionBEEFC653",
-        "Memory": "1024",
-        "NetworkMode": "awsvpc",
-        "RequiresCompatibilities": [
-          "FARGATE"
-        ],
-        "Tags": [
-          {
-            "Key": "Project",
-            "Value": "repo-metrics"
-          },
-          {
-            "Key": "SourceRepo",
-            "Value": "github/capralifecycle/liflig-repo-metrics"
-          },
-          {
-            "Key": "StackName",
-            "Value": "incub-repo-metrics-pipeline"
-          }
-        ],
-        "TaskRoleArn": {
-          "Fn::GetAtt": [
-            "RepoMetricsPipelineincubTaskDefinitionTaskRole66540DCC",
-            "Arn"
-          ]
-        }
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/Resource"
-      }
-    },
-    "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDC532411": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "ecs-tasks.amazonaws.com"
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "Project",
-            "Value": "repo-metrics"
-          },
-          {
-            "Key": "SourceRepo",
-            "Value": "github/capralifecycle/liflig-repo-metrics"
-          },
-          {
-            "Key": "StackName",
-            "Value": "incub-repo-metrics-pipeline"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/ExecutionRole/Resource"
-      }
-    },
-    "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDefaultPolicyB8D743C8": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
-                "ecr:BatchCheckLayerAvailability",
-                "ecr:GetDownloadUrlForLayer",
-                "ecr:BatchGetImage"
-              ],
-              "Effect": "Allow",
-              "Resource": "arn:aws:ecr:eu-west-1:001112238813:repository/incub-common-liflig-cdk-deployer"
-            },
-            {
-              "Action": "ecr:GetAuthorizationToken",
-              "Effect": "Allow",
-              "Resource": "*"
             },
             {
               "Action": [
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*"
               ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "RepoMetricsPipelineincubLogGroup884AB3B3",
-                  "Arn"
-                ]
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDefaultPolicyB8D743C8",
-        "Roles": [
-          {
-            "Ref": "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDC532411"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/ExecutionRole/DefaultPolicy/Resource"
-      }
-    },
-    "RepoMetricsPipelineincubLogGroup884AB3B3": {
-      "Type": "AWS::Logs::LogGroup",
-      "Properties": {
-        "RetentionInDays": 30
-      },
-      "UpdateReplacePolicy": "Delete",
-      "DeletionPolicy": "Delete",
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/LogGroup/Resource"
-      }
-    },
-    "RepoMetricsPipelineStateMachineRole5D5409A8": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "states.eu-west-1.amazonaws.com"
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "Project",
-            "Value": "repo-metrics"
-          },
-          {
-            "Key": "SourceRepo",
-            "Value": "github/capralifecycle/liflig-repo-metrics"
-          },
-          {
-            "Key": "StackName",
-            "Value": "incub-repo-metrics-pipeline"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/Role/Resource"
-      }
-    },
-    "RepoMetricsPipelineStateMachineRoleDefaultPolicyDC406558": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "lambda:InvokeFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "SingletonLambda30ad3abbf7744804a6ef2c2f4a2473624B500B6F",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": "lambda:InvokeFunction",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "SingletonLambdac49cbfe150e047218964fb20f4e5a7ad32DEE37F",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": "ecs:RunTask",
-              "Effect": "Allow",
-              "Resource": {
-                "Ref": "RepoMetricsPipelineincubTaskDefinition69DCA07A"
-              }
-            },
-            {
-              "Action": [
-                "ecs:StopTask",
-                "ecs:DescribeTasks"
-              ],
-              "Effect": "Allow",
-              "Resource": "*"
-            },
-            {
-              "Action": "iam:PassRole",
               "Effect": "Allow",
               "Resource": [
                 {
                   "Fn::GetAtt": [
-                    "RepoMetricsPipelineincubTaskDefinitionTaskRole66540DCC",
+                    "PipelineCodePipelineArtifactsBucket9E5E7047",
                     "Arn"
                   ]
                 },
                 {
-                  "Fn::GetAtt": [
-                    "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDC532411",
-                    "Arn"
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "PipelineCodePipelineArtifactsBucket9E5E7047",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
                   ]
                 }
               ]
             },
             {
               "Action": [
-                "events:PutTargets",
-                "events:PutRule",
-                "events:DescribeRule"
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:Decrypt"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineSourcesourceCodePipelineActionRoleDefaultPolicy7825EAF4",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineSourcesourceCodePipelineActionRoleAB26C0AE"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Source/source/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelinePrepareCloudAssemblycloudassemblylookupCodePipelineActionRole52243095": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/PrepareCloudAssembly/cloud-assembly-lookup/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelinePrepareCloudAssemblycloudassemblylookupCodePipelineActionRoleDefaultPolicy901A0F32": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:ListFunctions",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCloudAssemblyLookupFn679FAA51",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "s3:DeleteObject*",
+                "s3:PutObject*",
+                "s3:Abort*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelineArtifactsBucket9E5E7047",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "PipelineCodePipelineArtifactsBucket9E5E7047",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*",
+                "kms:Decrypt"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelinePrepareCloudAssemblycloudassemblylookupCodePipelineActionRoleDefaultPolicy901A0F32",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelinePrepareCloudAssemblycloudassemblylookupCodePipelineActionRole52243095"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/PrepareCloudAssembly/cloud-assembly-lookup/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRole16D29A61": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRoleDefaultPolicyAA04AE0A": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineUpdatePipelineSelfMutation3D8B717E",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRoleDefaultPolicyAA04AE0A",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRole16D29A61"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCdkPipelineUpdatePipelineSelfMutationRole91D6CBA8": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "codebuild.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/UpdatePipeline/SelfMutation/Role/Resource"
+      }
+    },
+    "PipelineCdkPipelineUpdatePipelineSelfMutationRoleDefaultPolicy128B1173": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":logs:eu-west-1:001112238813:log-group:/aws/codebuild/",
+                      {
+                        "Ref": "PipelineCdkPipelineUpdatePipelineSelfMutation3D8B717E"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":logs:eu-west-1:001112238813:log-group:/aws/codebuild/",
+                      {
+                        "Ref": "PipelineCdkPipelineUpdatePipelineSelfMutation3D8B717E"
+                      },
+                      ":*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "codebuild:CreateReportGroup",
+                "codebuild:CreateReport",
+                "codebuild:UpdateReport",
+                "codebuild:BatchPutTestCases",
+                "codebuild:BatchPutCodeCoverages"
               ],
               "Effect": "Allow",
               "Resource": {
@@ -422,333 +1729,33 @@
                     {
                       "Ref": "AWS::Partition"
                     },
-                    ":events:eu-west-1:001112238813:rule/StepFunctionsGetEventsForECSTaskRule"
+                    ":codebuild:eu-west-1:001112238813:report-group/",
+                    {
+                      "Ref": "PipelineCdkPipelineUpdatePipelineSelfMutation3D8B717E"
+                    },
+                    "-*"
                   ]
                 ]
               }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "RepoMetricsPipelineStateMachineRoleDefaultPolicyDC406558",
-        "Roles": [
-          {
-            "Ref": "RepoMetricsPipelineStateMachineRole5D5409A8"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/Role/DefaultPolicy/Resource"
-      }
-    },
-    "RepoMetricsPipelineStateMachineD7571040": {
-      "Type": "AWS::StepFunctions::StateMachine",
-      "Properties": {
-        "RoleArn": {
-          "Fn::GetAtt": [
-            "RepoMetricsPipelineStateMachineRole5D5409A8",
-            "Arn"
-          ]
-        },
-        "DefinitionString": {
-          "Fn::Join": [
-            "",
-            [
-              "{\"StartAt\":\"Check if the process can run\",\"States\":{\"Check if the process can run\":{\"Next\":\"Can run?\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
-              {
-                "Ref": "AWS::Partition"
-              },
-              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
-              {
-                "Fn::GetAtt": [
-                  "SingletonLambda30ad3abbf7744804a6ef2c2f4a2473624B500B6F",
-                  "Arn"
-                ]
-              },
-              "\",\"Payload\":{\"stateMachineId.$\":\"$$.StateMachine.Id\",\"executionId.$\":\"$$.Execution.Id\"}}},\"Wait before rechecking status\":{\"Type\":\"Wait\",\"Seconds\":15,\"Next\":\"Check if the process can run\"},\"Can run?\":{\"Type\":\"Choice\",\"Choices\":[{\"Variable\":\"$.CanRunState\",\"StringEquals\":\"CONTINUE\",\"Next\":\"Collect files from S3\"},{\"Variable\":\"$.CanRunState\",\"StringEquals\":\"SKIP\",\"Next\":\"Skip\"}],\"Default\":\"Wait before rechecking status\"},\"Collect files from S3\":{\"Next\":\"Check if incub has stacks\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
-              {
-                "Ref": "AWS::Partition"
-              },
-              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
-              {
-                "Fn::GetAtt": [
-                  "SingletonLambdac49cbfe150e047218964fb20f4e5a7ad32DEE37F",
-                  "Arn"
-                ]
-              },
-              "\",\"Payload\":{\"bucketName\":\"incub-common-build-artifacts-001112238813-eu-west-1\",\"bucketPrefix\":\"pipelines/incub-repo-metrics/\",\"envNames\":[\"incub\"]}}},\"Check if incub has stacks\":{\"Type\":\"Choice\",\"Choices\":[{\"Or\":[{\"Variable\":\"$.StackCountPerEnv.incub\",\"IsNull\":true},{\"Variable\":\"$.StackCountPerEnv.incub\",\"NumericEquals\":0}],\"Next\":\"Skip incub\"}],\"Default\":\"Deploy incub\"},\"Deploy incub\":{\"End\":true,\"Type\":\"Task\",\"ResultPath\":null,\"Resource\":\"arn:",
-              {
-                "Ref": "AWS::Partition"
-              },
-              ":states:::ecs:runTask.sync\",\"Parameters\":{\"Cluster\":\"",
-              {
-                "Fn::GetAtt": [
-                  "pipeline04ad36b1cluster6BE51DCA",
-                  "Arn"
-                ]
-              },
-              "\",\"TaskDefinition\":\"",
-              {
-                "Ref": "RepoMetricsPipelineincubTaskDefinition69DCA07A"
-              },
-              "\",\"NetworkConfiguration\":{\"AwsvpcConfiguration\":{\"AssignPublicIp\":\"ENABLED\",\"Subnets\":[\"subnet-07e2239d3d09b9759\",\"subnet-0b4c305426dd627d4\",\"subnet-0659d04ade348a053\"],\"SecurityGroups\":[\"",
-              {
-                "Fn::GetAtt": [
-                  "pipeline04ad36b1securitygroup5E09A6B3",
-                  "GroupId"
-                ]
-              },
-              "\"]}},\"Overrides\":{\"ContainerOverrides\":[{\"Name\":\"app\",\"Environment\":[{\"Name\":\"CDK_TARGET_ROLE_ARN\",\"Value\":\"arn:aws:iam::001112238813:role/liflig-cdk-deployer-cdk\"},{\"Name\":\"CDK_ENV_NAME\",\"Value\":\"incub\"},{\"Name\":\"CDK_CLOUD_ASSEMBLY\",\"Value.$\":\"$.CloudAssembly\"},{\"Name\":\"CDK_VARIABLES\",\"Value.$\":\"$.Variables\"}]}]},\"LaunchType\":\"FARGATE\"}},\"Skip incub\":{\"Type\":\"Pass\",\"End\":true},\"Skip\":{\"Type\":\"Succeed\"}},\"TimeoutSeconds\":10800}"
-            ]
-          ]
-        },
-        "Tags": [
-          {
-            "Key": "Project",
-            "Value": "repo-metrics"
-          },
-          {
-            "Key": "SourceRepo",
-            "Value": "github/capralifecycle/liflig-repo-metrics"
-          },
-          {
-            "Key": "StackName",
-            "Value": "incub-repo-metrics-pipeline"
-          }
-        ]
-      },
-      "DependsOn": [
-        "RepoMetricsPipelineStateMachineRoleDefaultPolicyDC406558",
-        "RepoMetricsPipelineStateMachineRole5D5409A8"
-      ],
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/Resource"
-      }
-    },
-    "RepoMetricsPipelineStateMachineEventsRole5A5E1B01": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
+            },
             {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Principal": {
-                "Service": "events.amazonaws.com"
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "Project",
-            "Value": "repo-metrics"
-          },
-          {
-            "Key": "SourceRepo",
-            "Value": "github/capralifecycle/liflig-repo-metrics"
-          },
-          {
-            "Key": "StackName",
-            "Value": "incub-repo-metrics-pipeline"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/EventsRole/Resource"
-      }
-    },
-    "RepoMetricsPipelineStateMachineEventsRoleDefaultPolicy0BDDB485": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "states:StartExecution",
-              "Effect": "Allow",
-              "Resource": {
-                "Ref": "RepoMetricsPipelineStateMachineD7571040"
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "RepoMetricsPipelineStateMachineEventsRoleDefaultPolicy0BDDB485",
-        "Roles": [
-          {
-            "Ref": "RepoMetricsPipelineStateMachineEventsRole5A5E1B01"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/EventsRole/DefaultPolicy/Resource"
-      }
-    },
-    "RepoMetricsPipelineCheckCanRunPolicyC0E7B15A": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "states:ListExecutions",
-              "Effect": "Allow",
-              "Resource": {
-                "Ref": "RepoMetricsPipelineStateMachineD7571040"
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "RepoMetricsPipelineCheckCanRunPolicyC0E7B15A",
-        "Roles": [
-          {
-            "Ref": "SingletonLambda30ad3abbf7744804a6ef2c2f4a247362ServiceRole6FD87E48"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/RepoMetricsPipeline/CheckCanRunPolicy/Resource"
-      }
-    },
-    "SingletonLambda30ad3abbf7744804a6ef2c2f4a247362ServiceRole6FD87E48": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "lambda.amazonaws.com"
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              "Resource": [
+                "arn:*:iam::*:role/*-deploy-role-*",
+                "arn:*:iam::*:role/*-publishing-role-*"
               ]
-            ]
-          }
-        ],
-        "Tags": [
-          {
-            "Key": "Project",
-            "Value": "repo-metrics"
-          },
-          {
-            "Key": "SourceRepo",
-            "Value": "github/capralifecycle/liflig-repo-metrics"
-          },
-          {
-            "Key": "StackName",
-            "Value": "incub-repo-metrics-pipeline"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambda30ad3abbf7744804a6ef2c2f4a247362/ServiceRole/Resource"
-      }
-    },
-    "SingletonLambda30ad3abbf7744804a6ef2c2f4a2473624B500B6F": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "ZipFile": "exports.handler = async (event) => {\n    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-assignment\n    const AWS = require(\"aws-sdk\");\n    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access\n    const sf = new AWS.StepFunctions();\n    console.log(\"Event received: \", event);\n    const stateMachineArn = event[\"stateMachineId\"];\n    const currentExecutionArn = event[\"executionId\"];\n    const executions = (await sf\n        .listExecutions({\n        stateMachineArn,\n        statusFilter: \"RUNNING\",\n    })\n        .promise()).executions;\n    console.log(\"Executions: \", executions);\n    const currentExecution = executions.find((it) => it.executionArn == currentExecutionArn);\n    if (!currentExecution) {\n        throw new Error(\"Could not find current execution\");\n    }\n    const newer = executions.filter((it) => it.startDate > currentExecution.startDate).length;\n    return {\n        CanRunState: newer > 0 ? \"SKIP\" : executions.length == 1 ? \"CONTINUE\" : \"WAIT\",\n    };\n};"
-        },
-        "Handler": "index.handler",
-        "Role": {
-          "Fn::GetAtt": [
-            "SingletonLambda30ad3abbf7744804a6ef2c2f4a247362ServiceRole6FD87E48",
-            "Arn"
-          ]
-        },
-        "Runtime": "nodejs12.x",
-        "Tags": [
-          {
-            "Key": "Project",
-            "Value": "repo-metrics"
-          },
-          {
-            "Key": "SourceRepo",
-            "Value": "github/capralifecycle/liflig-repo-metrics"
-          },
-          {
-            "Key": "StackName",
-            "Value": "incub-repo-metrics-pipeline"
-          }
-        ],
-        "Timeout": 10
-      },
-      "DependsOn": [
-        "SingletonLambda30ad3abbf7744804a6ef2c2f4a247362ServiceRole6FD87E48"
-      ],
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambda30ad3abbf7744804a6ef2c2f4a247362/Resource"
-      }
-    },
-    "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRole836D5886": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
+            },
             {
-              "Action": "sts:AssumeRole",
+              "Action": "cloudformation:DescribeStacks",
               "Effect": "Allow",
-              "Principal": {
-                "Service": "lambda.amazonaws.com"
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-              ]
-            ]
-          }
-        ],
-        "Tags": [
-          {
-            "Key": "Project",
-            "Value": "repo-metrics"
-          },
-          {
-            "Key": "SourceRepo",
-            "Value": "github/capralifecycle/liflig-repo-metrics"
-          },
-          {
-            "Key": "StackName",
-            "Value": "incub-repo-metrics-pipeline"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambdac49cbfe150e047218964fb20f4e5a7ad/ServiceRole/Resource"
-      }
-    },
-    "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRoleDefaultPolicy4E6107E2": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
+              "Resource": "*"
+            },
+            {
+              "Action": "s3:ListBucket",
+              "Effect": "Allow",
+              "Resource": "*"
+            },
             {
               "Action": [
                 "s3:GetObject*",
@@ -758,86 +1765,98 @@
               "Effect": "Allow",
               "Resource": [
                 {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":s3:::incub-common-build-artifacts-001112238813-eu-west-1"
-                    ]
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelineArtifactsBucket9E5E7047",
+                    "Arn"
                   ]
                 },
                 {
                   "Fn::Join": [
                     "",
                     [
-                      "arn:",
                       {
-                        "Ref": "AWS::Partition"
+                        "Fn::GetAtt": [
+                          "PipelineCodePipelineArtifactsBucket9E5E7047",
+                          "Arn"
+                        ]
                       },
-                      ":s3:::incub-common-build-artifacts-001112238813-eu-west-1/*"
+                      "/*"
                     ]
                   ]
                 }
               ]
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+                  "Arn"
+                ]
+              }
             }
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRoleDefaultPolicy4E6107E2",
+        "PolicyName": "PipelineCdkPipelineUpdatePipelineSelfMutationRoleDefaultPolicy128B1173",
         "Roles": [
           {
-            "Ref": "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRole836D5886"
+            "Ref": "PipelineCdkPipelineUpdatePipelineSelfMutationRole91D6CBA8"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambdac49cbfe150e047218964fb20f4e5a7ad/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource"
       }
     },
-    "SingletonLambdac49cbfe150e047218964fb20f4e5a7ad32DEE37F": {
-      "Type": "AWS::Lambda::Function",
+    "PipelineCdkPipelineUpdatePipelineSelfMutation3D8B717E": {
+      "Type": "AWS::CodeBuild::Project",
       "Properties": {
-        "Code": {
-          "ZipFile": "exports.handler = async (event) => {\n    var _a;\n    // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-unsafe-assignment\n    const AWS = require(\"aws-sdk\");\n    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access\n    const s3 = new AWS.S3();\n    console.log(\"Event received: \", event);\n    const bucketName = event.bucketName;\n    const bucketPrefix = event.bucketPrefix;\n    const envNames = event.envNames;\n    if (bucketPrefix.slice(-1) !== \"/\") {\n        throw new Error(`Expected bucket prefix to end with '/' but its value is '${bucketPrefix}'`);\n    }\n    const files = await s3\n        .listObjectsV2({\n        Bucket: bucketName,\n        Prefix: bucketPrefix,\n    })\n        .promise();\n    async function getData(key) {\n        const result = await s3\n            .getObject({\n            Bucket: bucketName,\n            Key: key,\n        })\n            .promise();\n        return result.Body.toString();\n    }\n    let cloudAssembly = null;\n    let variables = {};\n    for (const file of (_a = files.Contents) !== null && _a !== void 0 ? _a : []) {\n        const key = file.Key;\n        const filename = key.slice(bucketPrefix.length);\n        console.log(`File: ${filename}`);\n        if (filename === \"cloud-assembly.json\") {\n            console.log(\"Found Cloud Assembly\");\n            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment\n            cloudAssembly = JSON.parse(await getData(key));\n        }\n        else if (/^variables.*\\.json$/.test(filename)) {\n            console.log(\"Found variables file\");\n            variables = {\n                ...variables,\n                ...JSON.parse(await getData(key)),\n            };\n        }\n        else {\n            console.log(\"Ignoring unknown file\");\n        }\n    }\n    if (cloudAssembly === null) {\n        throw new Error(\"cloud-assembly.json not found\");\n    }\n    return {\n        CloudAssembly: JSON.stringify(cloudAssembly),\n        Variables: JSON.stringify(variables),\n        StackCountPerEnv: Object.fromEntries(envNames.map((name) => {\n            var _a, _b;\n            return [\n                name,\n                (_b = (_a = cloudAssembly.environments.find((it) => it.name === name)) === null || _a === void 0 ? void 0 : _a.stackNames.length) !== null && _b !== void 0 ? _b : 0,\n            ];\n        })),\n    };\n};"
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
         },
-        "Handler": "index.handler",
-        "Role": {
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
           "Fn::GetAtt": [
-            "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRole836D5886",
+            "PipelineCdkPipelineUpdatePipelineSelfMutationRole91D6CBA8",
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
-        "Tags": [
-          {
-            "Key": "Project",
-            "Value": "repo-metrics"
-          },
-          {
-            "Key": "SourceRepo",
-            "Value": "github/capralifecycle/liflig-repo-metrics"
-          },
-          {
-            "Key": "StackName",
-            "Value": "incub-repo-metrics-pipeline"
-          }
-        ],
-        "Timeout": 30
-      },
-      "DependsOn": [
-        "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRoleDefaultPolicy4E6107E2",
-        "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRole836D5886"
-      ],
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambdac49cbfe150e047218964fb20f4e5a7ad/Resource"
-      }
-    },
-    "pipeline04ad36b1cluster6BE51DCA": {
-      "Type": "AWS::ECS::Cluster",
-      "Properties": {
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g aws-cdk\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk -a . deploy incub-repo-metrics-pipeline --require-approval=never --verbose\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
         "Tags": [
           {
             "Key": "Project",
@@ -854,20 +1873,36 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/pipeline.04ad36b1.cluster/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/UpdatePipeline/SelfMutation/Resource"
       }
     },
-    "pipeline04ad36b1securitygroup5E09A6B3": {
-      "Type": "AWS::EC2::SecurityGroup",
+    "PipelineCdkPipelineAssetsFileRole0474FB57": {
+      "Type": "AWS::IAM::Role",
       "Properties": {
-        "GroupDescription": "incub-repo-metrics-pipeline/pipeline.04ad36b1.security-group",
-        "SecurityGroupEgress": [
-          {
-            "CidrIp": "0.0.0.0/0",
-            "Description": "Allow all outbound traffic by default",
-            "IpProtocol": "-1"
-          }
-        ],
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "codebuild.amazonaws.com",
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
         "Tags": [
           {
             "Key": "Project",
@@ -881,11 +1916,704 @@
             "Key": "StackName",
             "Value": "incub-repo-metrics-pipeline"
           }
-        ],
-        "VpcId": "vpc-0a67807e4aca6bb84"
+        ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/pipeline.04ad36b1.security-group/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileRole/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileRoleDefaultPolicy2EB63D68": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":logs:eu-west-1:001112238813:log-group:/aws/codebuild/*"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "codebuild:CreateReportGroup",
+                "codebuild:CreateReport",
+                "codebuild:UpdateReport",
+                "codebuild:BatchPutTestCases",
+                "codebuild:BatchPutCodeCoverages"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":codebuild:eu-west-1:001112238813:report-group/*"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": "arn:*:iam::*:role/*-file-publishing-role-*"
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelineArtifactsBucket9E5E7047",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "PipelineCodePipelineArtifactsBucket9E5E7047",
+                          "Arn"
+                        ]
+                      },
+                      "/*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCdkPipelineAssetsFileRoleDefaultPolicy2EB63D68",
+        "Roles": [
+          {
+            "Ref": "PipelineCdkPipelineAssetsFileRole0474FB57"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileAsset151D3981E": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "PipelineCdkPipelineAssetsFileRole0474FB57",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g cdk-assets\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset1/Default/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileAsset2207E4C42": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "PipelineCdkPipelineAssetsFileRole0474FB57",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g cdk-assets\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\",\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset2/Default/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileAsset31CF4901A": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "PipelineCdkPipelineAssetsFileRole0474FB57",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g cdk-assets\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset3/Default/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileAsset4908CCAA5": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "PipelineCdkPipelineAssetsFileRole0474FB57",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g cdk-assets\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset4/Default/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileAsset5AAB63076": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "PipelineCdkPipelineAssetsFileRole0474FB57",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g cdk-assets\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset5/Default/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileAsset6BD52B215": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "PipelineCdkPipelineAssetsFileRole0474FB57",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g cdk-assets\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset6/Default/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileAsset712CD7925": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "PipelineCdkPipelineAssetsFileRole0474FB57",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g cdk-assets\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset7/Default/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileAsset8AA34989C": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "PipelineCdkPipelineAssetsFileRole0474FB57",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g cdk-assets\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset8/Default/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileAsset9E9701DDD": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "PipelineCdkPipelineAssetsFileRole0474FB57",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g cdk-assets\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset9/Default/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileAsset106A5B75BE": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "PipelineCdkPipelineAssetsFileRole0474FB57",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g cdk-assets\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset10/Default/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileAsset1160F0FA56": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "PipelineCdkPipelineAssetsFileRole0474FB57",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g cdk-assets\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset11/Default/Resource"
+      }
+    },
+    "PipelineCdkPipelineAssetsFileAsset129D5593A4": {
+      "Type": "AWS::CodeBuild::Project",
+      "Properties": {
+        "Artifacts": {
+          "Type": "CODEPIPELINE"
+        },
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:4.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER"
+        },
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "PipelineCdkPipelineAssetsFileRole0474FB57",
+            "Arn"
+          ]
+        },
+        "Source": {
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": \"npm install -g cdk-assets\"\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "Type": "CODEPIPELINE"
+        },
+        "EncryptionKey": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset12/Default/Resource"
       }
     }
   },

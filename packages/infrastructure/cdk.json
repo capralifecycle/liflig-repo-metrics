@@ -1,7 +1,4 @@
 {
   "app": "ts-node src/app.ts",
-  "requireApproval": "never",
-  "context": {
-    "@aws-cdk/core:newStyleStackSynthesis": "true"
-  }
+  "requireApproval": "never"
 }

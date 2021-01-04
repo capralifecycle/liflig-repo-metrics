@@ -1,0 +1,150 @@
+{
+  "Resources": {
+    "CrossRegionCodePipelineReplicationBucketEncryptionKey70216490": {
+      "Type": "AWS::KMS::Key",
+      "Properties": {
+        "KeyPolicy": {
+          "Statement": [
+            {
+              "Action": [
+                "kms:Create*",
+                "kms:Describe*",
+                "kms:Enable*",
+                "kms:List*",
+                "kms:Put*",
+                "kms:Update*",
+                "kms:Revoke*",
+                "kms:Disable*",
+                "kms:Get*",
+                "kms:Delete*",
+                "kms:ScheduleKeyDeletion",
+                "kms:CancelKeyDeletion",
+                "kms:GenerateDataKey",
+                "kms:TagResource",
+                "kms:UntagResource"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey",
+                "kms:Encrypt",
+                "kms:ReEncrypt*",
+                "kms:GenerateDataKey*"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              },
+              "Resource": "*"
+            },
+            {
+              "Action": [
+                "kms:Decrypt",
+                "kms:DescribeKey"
+              ],
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-us-east-1"
+                    ]
+                  ]
+                }
+              },
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "cross-region-stack-001112238813:us-east-1/Default/CrossRegionCodePipelineReplicationBucketEncryptionKey/Resource"
+      }
+    },
+    "CrossRegionCodePipelineReplicationBucketEncryptionAliasF1A0F37D": {
+      "Type": "AWS::KMS::Alias",
+      "Properties": {
+        "AliasName": "alias/s-pipelitencryptionalias989ff07cf3d3a4c46cba",
+        "TargetKeyId": {
+          "Fn::GetAtt": [
+            "CrossRegionCodePipelineReplicationBucketEncryptionKey70216490",
+            "Arn"
+          ]
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete",
+      "Metadata": {
+        "aws:cdk:path": "cross-region-stack-001112238813:us-east-1/Default/CrossRegionCodePipelineReplicationBucketEncryptionAlias/Resource"
+      }
+    },
+    "CrossRegionCodePipelineReplicationBucketFC3227F2": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "KMSMasterKeyID": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":kms:us-east-1:001112238813:alias/s-pipelitencryptionalias989ff07cf3d3a4c46cba"
+                    ]
+                  ]
+                },
+                "SSEAlgorithm": "aws:kms"
+              }
+            }
+          ]
+        },
+        "BucketName": "incub-repo-metrics-pipelieplicationbucket6934b6d82988a4c1f534"
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain",
+      "Metadata": {
+        "aws:cdk:path": "cross-region-stack-001112238813:us-east-1/Default/CrossRegionCodePipelineReplicationBucket/Resource"
+      }
+    }
+  }
+}

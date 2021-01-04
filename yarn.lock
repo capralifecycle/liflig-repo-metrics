@@ -211,6 +211,23 @@
     "@aws-cdk/core" "1.79.0"
     constructs "^3.2.0"
 
+"@aws-cdk/aws-codedeploy@1.79.0":
+  version "1.79.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-codedeploy/-/aws-codedeploy-1.79.0.tgz#be7cb627bae4063fa8ee7ea95ace37af6a3ab2b4"
+  integrity sha512-GU4BKH3DBe5JhVJuF4i3np5hfVp5Y06RqZNJ2QYtuXgn2CEqTv6CtjQvriyaLulc+NE5i4K9dQo+agiXU9PtYA==
+  dependencies:
+    "@aws-cdk/aws-autoscaling" "1.79.0"
+    "@aws-cdk/aws-cloudwatch" "1.79.0"
+    "@aws-cdk/aws-ec2" "1.79.0"
+    "@aws-cdk/aws-elasticloadbalancing" "1.79.0"
+    "@aws-cdk/aws-elasticloadbalancingv2" "1.79.0"
+    "@aws-cdk/aws-iam" "1.79.0"
+    "@aws-cdk/aws-lambda" "1.79.0"
+    "@aws-cdk/aws-s3" "1.79.0"
+    "@aws-cdk/core" "1.79.0"
+    "@aws-cdk/custom-resources" "1.79.0"
+    constructs "^3.2.0"
+
 "@aws-cdk/aws-codeguruprofiler@1.79.0":
   version "1.79.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-codeguruprofiler/-/aws-codeguruprofiler-1.79.0.tgz#5aee986accca91b966e1a91ddc69d75d6c15721e"
@@ -218,6 +235,32 @@
   dependencies:
     "@aws-cdk/aws-iam" "1.79.0"
     "@aws-cdk/core" "1.79.0"
+    constructs "^3.2.0"
+
+"@aws-cdk/aws-codepipeline-actions@1.79.0":
+  version "1.79.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-codepipeline-actions/-/aws-codepipeline-actions-1.79.0.tgz#8ccf9e22efc25f972ab7a11634a2b1a664e8baac"
+  integrity sha512-LBjSh4aU5a9wBJXg5VCowMhrSPZufx3XiQoDpzuB5LYgqrXKZVDYMULc7tnXGAPojoBSolPcB3Q3tB7pIkxTGg==
+  dependencies:
+    "@aws-cdk/aws-cloudformation" "1.79.0"
+    "@aws-cdk/aws-codebuild" "1.79.0"
+    "@aws-cdk/aws-codecommit" "1.79.0"
+    "@aws-cdk/aws-codedeploy" "1.79.0"
+    "@aws-cdk/aws-codepipeline" "1.79.0"
+    "@aws-cdk/aws-ec2" "1.79.0"
+    "@aws-cdk/aws-ecr" "1.79.0"
+    "@aws-cdk/aws-ecs" "1.79.0"
+    "@aws-cdk/aws-events" "1.79.0"
+    "@aws-cdk/aws-events-targets" "1.79.0"
+    "@aws-cdk/aws-iam" "1.79.0"
+    "@aws-cdk/aws-lambda" "1.79.0"
+    "@aws-cdk/aws-s3" "1.79.0"
+    "@aws-cdk/aws-servicecatalog" "1.79.0"
+    "@aws-cdk/aws-sns" "1.79.0"
+    "@aws-cdk/aws-sns-subscriptions" "1.79.0"
+    "@aws-cdk/aws-stepfunctions" "1.79.0"
+    "@aws-cdk/core" "1.79.0"
+    case "1.6.3"
     constructs "^3.2.0"
 
 "@aws-cdk/aws-codepipeline@1.79.0":
@@ -595,6 +638,14 @@
     "@aws-cdk/cx-api" "1.79.0"
     constructs "^3.2.0"
 
+"@aws-cdk/aws-servicecatalog@1.79.0":
+  version "1.79.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-servicecatalog/-/aws-servicecatalog-1.79.0.tgz#902a7ba47cf2c1056006236c576ee9fd68e02790"
+  integrity sha512-BJYPQwonF5pbke7n+AHtL5qnxvNPWpMC3KEiyhXTPW7c+MeGTGSl5qjBP40dDv10axElNVab+79DjMf4X6AusQ==
+  dependencies:
+    "@aws-cdk/core" "1.79.0"
+    constructs "^3.2.0"
+
 "@aws-cdk/aws-servicediscovery@1.79.0":
   version "1.79.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-servicediscovery/-/aws-servicediscovery-1.79.0.tgz#b5a940a6591024bed859103565bfd83ae1a38679"
@@ -751,6 +802,24 @@
   dependencies:
     "@aws-cdk/cloud-assembly-schema" "1.79.0"
     semver "^7.3.2"
+
+"@aws-cdk/pipelines@1.79.0":
+  version "1.79.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/pipelines/-/pipelines-1.79.0.tgz#72c033cce4d7d7e11a58cc9ba3076ad9455d7bd4"
+  integrity sha512-CKCWo3CG/FrfXIKj1ZMZZZCSSxxZjT5K9yxgEuT0yFL27uL9UVAOqpaCUklY4TtuSuGkb6ozUHrYoK1VjN2dHw==
+  dependencies:
+    "@aws-cdk/aws-cloudformation" "1.79.0"
+    "@aws-cdk/aws-codebuild" "1.79.0"
+    "@aws-cdk/aws-codepipeline" "1.79.0"
+    "@aws-cdk/aws-codepipeline-actions" "1.79.0"
+    "@aws-cdk/aws-ec2" "1.79.0"
+    "@aws-cdk/aws-events" "1.79.0"
+    "@aws-cdk/aws-iam" "1.79.0"
+    "@aws-cdk/aws-s3-assets" "1.79.0"
+    "@aws-cdk/cloud-assembly-schema" "1.79.0"
+    "@aws-cdk/core" "1.79.0"
+    "@aws-cdk/cx-api" "1.79.0"
+    constructs "^3.2.0"
 
 "@aws-cdk/region-info@1.79.0":
   version "1.79.0"
@@ -2764,10 +2833,10 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@liflig/cdk@1.27.0":
-  version "1.27.0"
-  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-1.27.0.tgz#817f4c857859a76f592375b0df2edb54378c96b6"
-  integrity sha512-xLVySv6y+P0fZdNLgVxVevycuSdT3zgdheO/eUBPxLR/wcXHMMCKFRP8Vl9V5VvAH/MxwmS5USZV2SpfBe5c8A==
+"@liflig/cdk@1.29.0":
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-1.29.0.tgz#710bd328ac53594703587316716564afbde0c1fd"
+  integrity sha512-ctdruPeuUXpi3jnYW0UJvLIglKxvUg/oysfFGSt9uiVsTIM/ckOrudEmixATjwbk3FriOoW6JWobHRnymVtFTw==
   dependencies:
     "@capraconsulting/webapp-deploy-lambda" "1.1.1"
     cpy "^8.1.0"
@@ -4534,6 +4603,11 @@ capture-exit@^2.0.0:
   integrity sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g==
   dependencies:
     rsvp "^4.8.4"
+
+case@1.6.3:
+  version "1.6.3"
+  resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
+  integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
 caseless@~0.12.0:
   version "0.12.0"

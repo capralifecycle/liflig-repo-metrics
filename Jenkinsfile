@@ -6,7 +6,7 @@
 def pipelines = new no.capraconsulting.buildtools.lifligcdkpipelines.LifligCdkPipelines()
 
 def artifactsBucketName = "incub-common-build-artifacts-001112238813-eu-west-1"
-def artifactsRoleArn = "arn:aws:iam::001112238813:role/incub-common-build-artifacts-ci"
+def artifactsRoleArn = "arn:aws:iam::001112238813:role/incub-common-build-artifacts-liflig-jenkins"
 
 buildConfig(
   jobProperties: [
@@ -42,7 +42,7 @@ buildConfig(
 
         def bucketKey
 
-        stage("Create Cloud Assembly") {
+        stage("Package and upload Cloud Assembly") {
           bucketKey = pipelines.createAndUploadCloudAssembly(
             bucketName: artifactsBucketName,
             roleArn: artifactsRoleArn,
@@ -52,21 +52,11 @@ buildConfig(
         def deployIncub = params.incubOverrideBranchCheck || env.BRANCH_NAME == "master"
         if (deployIncub) {
           stage("Trigger pipeline") {
-            pipelines.configureAndTriggerPipelines(
+            pipelines.configureAndTriggerPipelinesV2(
               cloudAssemblyBucketKey: bucketKey,
               artifactsBucketName: artifactsBucketName,
               artifactsRoleArn: artifactsRoleArn,
-              pipelines: [
-                "incub-repo-metrics": [
-                  environments: [
-                    incub: [
-                      "incub-repo-metrics-pipeline",
-                      "incub-repo-metrics-edge",
-                      "incub-repo-metrics-main",
-                    ],
-                  ],
-                ],
-              ],
+              pipelines: ["incub-repo-metrics"],
             )
           }
         }

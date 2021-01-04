@@ -1,5 +1,12 @@
 {
   "artifacts": {
+    "assembly-incub-repo-metrics-pipeline-Incubator": {
+      "type": "cdk:cloud-assembly",
+      "properties": {
+        "directoryName": "assembly-incub-repo-metrics-pipeline-Incubator",
+        "displayName": "incub-repo-metrics-pipeline/Incubator"
+      }
+    },
     "Tree": {
       "type": "cdk:tree",
       "properties": {
@@ -32,6 +39,7 @@
         ]
       },
       "dependencies": [
+        "cross-region-stack-001112238813:us-east-1",
         "incub-repo-metrics-pipeline.assets"
       ],
       "metadata": {
@@ -54,124 +62,196 @@
             ]
           }
         ],
-        "/incub-repo-metrics-pipeline/ArtifactsBucket/Trigger/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CloudAssemblyLookupFn/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ArtifactsBucketTrigger163C6DA8"
+            "data": "PipelineCloudAssemblyLookupFnServiceRole2FDEF095"
           }
         ],
-        "/incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/TaskRole/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CloudAssemblyLookupFn/ServiceRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RepoMetricsPipelineincubTaskDefinitionTaskRole66540DCC"
+            "data": "PipelineCloudAssemblyLookupFnServiceRoleDefaultPolicy2F7C48B6"
           }
         ],
-        "/incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/TaskRole/DefaultPolicy/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CloudAssemblyLookupFn/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RepoMetricsPipelineincubTaskDefinitionTaskRoleDefaultPolicy7B331416"
+            "data": "PipelineCloudAssemblyLookupFn679FAA51"
           }
         ],
-        "/incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/ArtifactsBucketEncryptionKey/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RepoMetricsPipelineincubTaskDefinition69DCA07A"
+            "data": "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE"
           }
         ],
-        "/incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/ExecutionRole/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/ArtifactsBucketEncryptionKeyAlias/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDC532411"
+            "data": "PipelineCodePipelineArtifactsBucketEncryptionKeyAlias3EF3F23B"
           }
         ],
-        "/incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/TaskDefinition/ExecutionRole/DefaultPolicy/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/ArtifactsBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RepoMetricsPipelineincubTaskDefinitionExecutionRoleDefaultPolicyB8D743C8"
+            "data": "PipelineCodePipelineArtifactsBucket9E5E7047"
           }
         ],
-        "/incub-repo-metrics-pipeline/RepoMetricsPipeline/incub/LogGroup/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Role/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RepoMetricsPipelineincubLogGroup884AB3B3"
+            "data": "PipelineCodePipelineRoleEE058E60"
           }
         ],
-        "/incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/Role/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Role/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RepoMetricsPipelineStateMachineRole5D5409A8"
+            "data": "PipelineCodePipelineRoleDefaultPolicy37C67326"
           }
         ],
-        "/incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/Role/DefaultPolicy/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RepoMetricsPipelineStateMachineRoleDefaultPolicyDC406558"
+            "data": "PipelineCodePipeline4FC0E9B7"
           }
         ],
-        "/incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Source/source/CodePipelineActionRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RepoMetricsPipelineStateMachineD7571040"
+            "data": "PipelineCodePipelineSourcesourceCodePipelineActionRoleAB26C0AE"
           }
         ],
-        "/incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/EventsRole/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Source/source/CodePipelineActionRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RepoMetricsPipelineStateMachineEventsRole5A5E1B01"
+            "data": "PipelineCodePipelineSourcesourceCodePipelineActionRoleDefaultPolicy7825EAF4"
           }
         ],
-        "/incub-repo-metrics-pipeline/RepoMetricsPipeline/StateMachine/EventsRole/DefaultPolicy/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/PrepareCloudAssembly/cloud-assembly-lookup/CodePipelineActionRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RepoMetricsPipelineStateMachineEventsRoleDefaultPolicy0BDDB485"
+            "data": "PipelineCodePipelinePrepareCloudAssemblycloudassemblylookupCodePipelineActionRole52243095"
           }
         ],
-        "/incub-repo-metrics-pipeline/RepoMetricsPipeline/CheckCanRunPolicy/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/PrepareCloudAssembly/cloud-assembly-lookup/CodePipelineActionRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "RepoMetricsPipelineCheckCanRunPolicyC0E7B15A"
+            "data": "PipelineCodePipelinePrepareCloudAssemblycloudassemblylookupCodePipelineActionRoleDefaultPolicy901A0F32"
           }
         ],
-        "/incub-repo-metrics-pipeline/SingletonLambda30ad3abbf7744804a6ef2c2f4a247362/ServiceRole/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SingletonLambda30ad3abbf7744804a6ef2c2f4a247362ServiceRole6FD87E48"
+            "data": "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRole16D29A61"
           }
         ],
-        "/incub-repo-metrics-pipeline/SingletonLambda30ad3abbf7744804a6ef2c2f4a247362/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SingletonLambda30ad3abbf7744804a6ef2c2f4a2473624B500B6F"
+            "data": "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRoleDefaultPolicyAA04AE0A"
           }
         ],
-        "/incub-repo-metrics-pipeline/SingletonLambdac49cbfe150e047218964fb20f4e5a7ad/ServiceRole/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/UpdatePipeline/SelfMutation/Role/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRole836D5886"
+            "data": "PipelineCdkPipelineUpdatePipelineSelfMutationRole91D6CBA8"
           }
         ],
-        "/incub-repo-metrics-pipeline/SingletonLambdac49cbfe150e047218964fb20f4e5a7ad/ServiceRole/DefaultPolicy/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SingletonLambdac49cbfe150e047218964fb20f4e5a7adServiceRoleDefaultPolicy4E6107E2"
+            "data": "PipelineCdkPipelineUpdatePipelineSelfMutationRoleDefaultPolicy128B1173"
           }
         ],
-        "/incub-repo-metrics-pipeline/SingletonLambdac49cbfe150e047218964fb20f4e5a7ad/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/UpdatePipeline/SelfMutation/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SingletonLambdac49cbfe150e047218964fb20f4e5a7ad32DEE37F"
+            "data": "PipelineCdkPipelineUpdatePipelineSelfMutation3D8B717E"
           }
         ],
-        "/incub-repo-metrics-pipeline/pipeline.04ad36b1.cluster/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "pipeline04ad36b1cluster6BE51DCA"
+            "data": "PipelineCdkPipelineAssetsFileRole0474FB57"
           }
         ],
-        "/incub-repo-metrics-pipeline/pipeline.04ad36b1.security-group/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "pipeline04ad36b1securitygroup5E09A6B3"
+            "data": "PipelineCdkPipelineAssetsFileRoleDefaultPolicy2EB63D68"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset1/Default/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCdkPipelineAssetsFileAsset151D3981E"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset2/Default/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCdkPipelineAssetsFileAsset2207E4C42"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset3/Default/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCdkPipelineAssetsFileAsset31CF4901A"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset4/Default/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCdkPipelineAssetsFileAsset4908CCAA5"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset5/Default/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCdkPipelineAssetsFileAsset5AAB63076"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset6/Default/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCdkPipelineAssetsFileAsset6BD52B215"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset7/Default/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCdkPipelineAssetsFileAsset712CD7925"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset8/Default/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCdkPipelineAssetsFileAsset8AA34989C"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset9/Default/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCdkPipelineAssetsFileAsset9E9701DDD"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset10/Default/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCdkPipelineAssetsFileAsset106A5B75BE"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset11/Default/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCdkPipelineAssetsFileAsset1160F0FA56"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset12/Default/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCdkPipelineAssetsFileAsset129D5593A4"
           }
         ],
         "/incub-repo-metrics-pipeline/CDKMetadata/Default": [
@@ -194,637 +274,39 @@
         ]
       }
     },
-    "incub-repo-metrics-edge.assets": {
-      "type": "cdk:asset-manifest",
-      "properties": {
-        "file": "incub-repo-metrics-edge.assets.json",
-        "requiresBootstrapStackVersion": 4
-      }
-    },
-    "incub-repo-metrics-edge": {
+    "cross-region-stack-001112238813:us-east-1": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://001112238813/us-east-1",
       "properties": {
-        "templateFile": "incub-repo-metrics-edge.template.json",
-        "tags": {
-          "Project": "repo-metrics",
-          "SourceRepo": "github/capralifecycle/liflig-repo-metrics",
-          "StackName": "incub-repo-metrics-edge"
-        },
-        "assumeRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-us-east-1",
-        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-cfn-exec-role-001112238813-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-001112238813-us-east-1/snapshot-value",
-        "requiresBootstrapStackVersion": 4,
-        "additionalDependencies": [
-          "incub-repo-metrics-edge.assets"
-        ]
-      },
-      "dependencies": [
-        "incub-repo-metrics-edge.assets"
-      ],
-      "metadata": {
-        "/incub-repo-metrics-edge": [
-          {
-            "type": "aws:cdk:stack-tags",
-            "data": [
-              {
-                "Key": "Project",
-                "Value": "repo-metrics"
-              },
-              {
-                "Key": "SourceRepo",
-                "Value": "github/capralifecycle/liflig-repo-metrics"
-              },
-              {
-                "Key": "StackName",
-                "Value": "incub-repo-metrics-edge"
-              }
-            ]
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasServiceRoleF10A0667"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/CheckAuthFunction/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasCheckAuthFunction6B3C9473"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/CheckAuthFunction/CurrentVersion/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasCheckAuthFunctionCurrentVersionF10C4D62xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/CheckAuthFunctionVersionParam/Parameu-west-1/Resoure/CustomResourcePolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasCheckAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicy088F1114"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/CheckAuthFunctionVersionParam/Parameu-west-1/Resoure/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasCheckAuthFunctionVersionParamParameuwest1Resoure8ACD3434"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/HttpHeadersFunction/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasHttpHeadersFunctionC7A2BAB9"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/HttpHeadersFunction/CurrentVersion/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasHttpHeadersFunctionCurrentVersion8B8CDE2Exxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/HttpHeadersFunctionVersionParam/Parameu-west-1/Resoure/CustomResourcePolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasHttpHeadersFunctionVersionParamParameuwest1ResoureCustomResourcePolicyC99B8AA6"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/HttpHeadersFunctionVersionParam/Parameu-west-1/Resoure/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasHttpHeadersFunctionVersionParamParameuwest1Resoure0C3C81F2"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/ParseAuthFunction/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasParseAuthFunctionC04A121B"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/ParseAuthFunction/CurrentVersion/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasParseAuthFunctionCurrentVersionA32A5991xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/ParseAuthFunctionVersionParam/Parameu-west-1/Resoure/CustomResourcePolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasParseAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicyCEAE27DB"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/ParseAuthFunctionVersionParam/Parameu-west-1/Resoure/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasParseAuthFunctionVersionParamParameuwest1Resoure934661C6"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/RefreshAuthFunction/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasRefreshAuthFunction4B0B3BD6"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/RefreshAuthFunction/CurrentVersion/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasRefreshAuthFunctionCurrentVersion632285F6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/RefreshAuthFunctionVersionParam/Parameu-west-1/Resoure/CustomResourcePolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasRefreshAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicy095CEC70"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/RefreshAuthFunctionVersionParam/Parameu-west-1/Resoure/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasRefreshAuthFunctionVersionParamParameuwest1Resoure0C0D8913"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/SignOutFunction/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasSignOutFunction251863E4"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/SignOutFunction/CurrentVersion/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasSignOutFunctionCurrentVersion0576BBB1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/SignOutFunctionVersionParam/Parameu-west-1/Resoure/CustomResourcePolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasSignOutFunctionVersionParamParameuwest1ResoureCustomResourcePolicy16B30BE4"
-          }
-        ],
-        "/incub-repo-metrics-edge/AuthLambdas/SignOutFunctionVersionParam/Parameu-west-1/Resoure/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthLambdasSignOutFunctionVersionParamParameuwest1Resoure18583D2D"
-          }
-        ],
-        "/incub-repo-metrics-edge/AWS679f53fac002430cb0da5b7982bd2287/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
-          }
-        ],
-        "/incub-repo-metrics-edge/AWS679f53fac002430cb0da5b7982bd2287/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AWS679f53fac002430cb0da5b7982bd22872D164C4C"
-          }
-        ],
-        "/incub-repo-metrics-edge/CDKMetadata/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CDKMetadata"
-          }
-        ],
-        "/incub-repo-metrics-edge/BootstrapVersion": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "BootstrapVersion"
-          }
-        ],
-        "/incub-repo-metrics-edge/CheckBootstrapVersion": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CheckBootstrapVersion"
-          }
-        ]
-      }
-    },
-    "incub-repo-metrics-main.assets": {
-      "type": "cdk:asset-manifest",
-      "properties": {
-        "file": "incub-repo-metrics-main.assets.json",
-        "requiresBootstrapStackVersion": 4
-      }
-    },
-    "incub-repo-metrics-main": {
-      "type": "aws:cloudformation:stack",
-      "environment": "aws://001112238813/eu-west-1",
-      "properties": {
-        "templateFile": "incub-repo-metrics-main.template.json",
-        "tags": {
-          "Project": "repo-metrics",
-          "SourceRepo": "github/capralifecycle/liflig-repo-metrics",
-          "StackName": "incub-repo-metrics-main"
-        },
+        "templateFile": "cross-region-stack-001112238813:us-east-1.template.json",
         "assumeRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-cfn-exec-role-001112238813-eu-west-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-001112238813-eu-west-1/snapshot-value",
-        "requiresBootstrapStackVersion": 4,
-        "additionalDependencies": [
-          "incub-repo-metrics-main.assets"
-        ]
+        "requiresBootstrapStackVersion": 1,
+        "stackName": "incub-repo-metrics-pipeline-support-us-east-1"
       },
-      "dependencies": [
-        "incub-repo-metrics-edge",
-        "incub-repo-metrics-main.assets"
-      ],
       "metadata": {
-        "/incub-repo-metrics-main": [
-          {
-            "type": "aws:cdk:stack-tags",
-            "data": [
-              {
-                "Key": "Project",
-                "Value": "repo-metrics"
-              },
-              {
-                "Key": "SourceRepo",
-                "Value": "github/capralifecycle/liflig-repo-metrics"
-              },
-              {
-                "Key": "StackName",
-                "Value": "incub-repo-metrics-main"
-              }
-            ]
-          }
-        ],
-        "/incub-repo-metrics-main/UserPool/UserPoolClient/Resource": [
+        "/cross-region-stack-001112238813:us-east-1/Default/CrossRegionCodePipelineReplicationBucketEncryptionKey/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "UserPoolUserPoolClient40176907"
+            "data": "CrossRegionCodePipelineReplicationBucketEncryptionKey70216490"
           }
         ],
-        "/incub-repo-metrics-main/DataBucket/Resource": [
+        "/cross-region-stack-001112238813:us-east-1/Default/CrossRegionCodePipelineReplicationBucketEncryptionAlias/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "DataBucketE3889A50"
+            "data": "CrossRegionCodePipelineReplicationBucketEncryptionAliasF1A0F37D"
           }
         ],
-        "/incub-repo-metrics-main/WebappBucket/Resource": [
+        "/cross-region-stack-001112238813:us-east-1/Default/CrossRegionCodePipelineReplicationBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "WebappBucket620531E5"
+            "data": "CrossRegionCodePipelineReplicationBucketFC3227F2"
           }
         ],
-        "/incub-repo-metrics-main/WebappBucket/Policy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "WebappBucketPolicyB03C4E01"
-          }
-        ],
-        "/incub-repo-metrics-main/WebappDataBucket/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "WebappDataBucket777722B9"
-          }
-        ],
-        "/incub-repo-metrics-main/WebappDataBucket/Policy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "WebappDataBucketPolicy300EA527"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/NonceSigningSecret/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthNonceSigningSecretC47F85D8"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/ClientSecret/Resource/CustomResourcePolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthClientSecretCustomResourcePolicyA4C1D5EC"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/ClientSecret/Resource/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthClientSecret768E9C19"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/CheckAuthFnImportNonce": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthCheckAuthFnImportNonceB0C38324"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/CheckAuthFn/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthCheckAuthFnC12AAE69"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/HttpHeadersFnImportNonce": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthHttpHeadersFnImportNonceEA60F8FB"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/HttpHeadersFn/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthHttpHeadersFn7D541668"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/ParseAuthFnImportNonce": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthParseAuthFnImportNonceDB90BFAF"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/ParseAuthFn/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthParseAuthFn975D8094"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/RefreshAuthFnImportNonce": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthRefreshAuthFnImportNonce259C9C85"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/RefreshAuthFn/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthRefreshAuthFnEA5CBBAE"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/SignOutFnImportNonce": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthSignOutFnImportNonce71DBA4CA"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/SignOutFn/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthSignOutFnD060B75E"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/ClientUpdate/Resource/CustomResourcePolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthClientUpdateCustomResourcePolicyF8E9AEC5"
-          }
-        ],
-        "/incub-repo-metrics-main/Auth/ClientUpdate/Resource/Resource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AuthClientUpdate3823E358"
-          }
-        ],
-        "/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Function/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "henristcloudfrontauthgeneratesecretproviderFunctionServiceRole4523A59B"
-          }
-        ],
-        "/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Function/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "henristcloudfrontauthgeneratesecretproviderFunction3D1AFA99"
-          }
-        ],
-        "/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleEE714F1C"
-          }
-        ],
-        "/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleDefaultPolicyC126E528"
-          }
-        ],
-        "/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventD98C7326"
-          }
-        ],
-        "/incub-repo-metrics-main/AWS679f53fac002430cb0da5b7982bd2287/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
-          }
-        ],
-        "/incub-repo-metrics-main/AWS679f53fac002430cb0da5b7982bd2287/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AWS679f53fac002430cb0da5b7982bd22872D164C4C"
-          }
-        ],
-        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-CheckAuthFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eCheckAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "/incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "henristlambdaconfigproviderUpdateCodeFnServiceRole2FF24712"
-          }
-        ],
-        "/incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "henristlambdaconfigproviderUpdateCodeFnServiceRoleDefaultPolicyE51A664A"
-          }
-        ],
-        "/incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "henristlambdaconfigproviderUpdateCodeFnBF8DF66B"
-          }
-        ],
-        "/incub-repo-metrics-main/henrist.lambda-config.provider/Provider/framework-onEvent/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "henristlambdaconfigproviderProviderframeworkonEventServiceRole9AA104AD"
-          }
-        ],
-        "/incub-repo-metrics-main/henrist.lambda-config.provider/Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "henristlambdaconfigproviderProviderframeworkonEventServiceRoleDefaultPolicy3D96FE9E"
-          }
-        ],
-        "/incub-repo-metrics-main/henrist.lambda-config.provider/Provider/framework-onEvent/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "henristlambdaconfigproviderProviderframeworkonEventB2FC78D4"
-          }
-        ],
-        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-HttpHeadersFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eHttpHeadersFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-ParseAuthFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eParseAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-RefreshAuthFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eRefreshAuthFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "/incub-repo-metrics-main/SsmParameterValue:--cf--region--us-east-1--stack--incub-repo-metrics-edge--c86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76e-SignOutFunction-function-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValuecfregionuseast1stackincubrepometricsedgec86b17d0e6abb3b5e0ceedb5d4c0e99c0bfacda76eSignOutFunctionfunctionarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "/incub-repo-metrics-main/Distribution/Origin1/S3Origin/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "DistributionOrigin1S3Origin5F5C0696"
-          }
-        ],
-        "/incub-repo-metrics-main/Distribution/Origin2/S3Origin/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "DistributionOrigin2S3OriginE484D4BF"
-          }
-        ],
-        "/incub-repo-metrics-main/Distribution/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Distribution830FAC52"
-          }
-        ],
-        "/incub-repo-metrics-main/DeployWebapp/CustomResource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "DeployWebappCustomResourceC7A505E4"
-          }
-        ],
-        "/incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
-          }
-        ],
-        "/incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF"
-          }
-        ],
-        "/incub-repo-metrics-main/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
-          }
-        ],
-        "/incub-repo-metrics-main/Collector/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CollectorServiceRole78F40CC4"
-          }
-        ],
-        "/incub-repo-metrics-main/Collector/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CollectorServiceRoleDefaultPolicy51652F58"
-          }
-        ],
-        "/incub-repo-metrics-main/Collector/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Collector9EBA7CF5"
-          }
-        ],
-        "/incub-repo-metrics-main/CollectorSchedule/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CollectorScheduleDC767626"
-          }
-        ],
-        "/incub-repo-metrics-main/CollectorSchedule/AllowEventRuleincubrepometricsmainCollectorSchedule00F83686": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CollectorScheduleAllowEventRuleincubrepometricsmainCollectorSchedule00F836868B72A2BA"
-          }
-        ],
-        "/incub-repo-metrics-main/Aggregator/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AggregatorServiceRole50457C61"
-          }
-        ],
-        "/incub-repo-metrics-main/Aggregator/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AggregatorServiceRoleDefaultPolicyEBDCB410"
-          }
-        ],
-        "/incub-repo-metrics-main/Aggregator/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Aggregator84F1B3DF"
-          }
-        ],
-        "/incub-repo-metrics-main/AggregatorSchedule/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AggregatorSchedule80C87EEE"
-          }
-        ],
-        "/incub-repo-metrics-main/AggregatorSchedule/AllowEventRuleincubrepometricsmainAggregatorSchedule24350F9B": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AggregatorScheduleAllowEventRuleincubrepometricsmainAggregatorSchedule24350F9BEBBBC3DE"
-          }
-        ],
-        "/incub-repo-metrics-main/DataBucketNameOutput": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "DataBucketNameOutput"
-          }
-        ],
-        "/incub-repo-metrics-main/WebappDataBucketNameOutput": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "WebappDataBucketNameOutput"
-          }
-        ],
-        "/incub-repo-metrics-main/WebappUrlOutput": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "WebappUrlOutput"
-          }
-        ],
-        "/incub-repo-metrics-main/DistributionIdOutput": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "DistributionIdOutput"
-          }
-        ],
-        "/incub-repo-metrics-main/CDKMetadata/Default": [
+        "/cross-region-stack-001112238813:us-east-1/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
-          }
-        ],
-        "/incub-repo-metrics-main/BootstrapVersion": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "BootstrapVersion"
-          }
-        ],
-        "/incub-repo-metrics-main/CheckBootstrapVersion": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CheckBootstrapVersion"
           }
         ]
       }
