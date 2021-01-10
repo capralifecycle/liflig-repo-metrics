@@ -1807,10 +1807,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@capraconsulting/cals-cli@2.20.0":
-  version "2.20.0"
-  resolved "https://registry.yarnpkg.com/@capraconsulting/cals-cli/-/cals-cli-2.20.0.tgz#2a561c7aa6c7807a2f1ae802663756a3757d6ba8"
-  integrity sha512-NFszvhBVimMakWTo9JH6Qg0hK6sNIFWRV8nH06dTexs4CZUmjsHFL2DUBp03omFGpyfA4zDb3khI43N949J5ow==
+"@capraconsulting/cals-cli@2.20.1":
+  version "2.20.1"
+  resolved "https://registry.yarnpkg.com/@capraconsulting/cals-cli/-/cals-cli-2.20.1.tgz#5b2c192807027c624c671ef5a1a60496b8779920"
+  integrity sha512-SKVsoRe4jCXSbzdpvC0ZI3ws9sgI6UdpBX0GQqyT4s1dcR6O7MeUlczImcw3C7qO5S0T0U4c51c800S3kC1daQ==
   dependencies:
     "@octokit/rest" "^18.0.0"
     ajv "^7.0.0"
@@ -1818,7 +1818,7 @@
     chalk "^4.0.0"
     execa "^5.0.0"
     find-up "^5.0.0"
-    js-yaml "^3.13.1"
+    js-yaml "^4.0.0"
     keytar "^7.0.0"
     lodash "^4.17.15"
     node-fetch "^2.6.0"
@@ -3908,6 +3908,11 @@ argparse@^1.0.7:
   integrity sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==
   dependencies:
     sprintf-js "~1.0.2"
+
+argparse@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/argparse/-/argparse-2.0.1.tgz#246f50f3ca78a3240f6c997e8a9bd1eac49e4b38"
+  integrity sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==
 
 arr-diff@^4.0.0:
   version "4.0.0"
@@ -8306,6 +8311,13 @@ js-yaml@^3.13.1:
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
+
+js-yaml@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-4.0.0.tgz#f426bc0ff4b4051926cd588c71113183409a121f"
+  integrity sha512-pqon0s+4ScYUvX30wxQi3PogGFAlUyH0awepWvwkj4jD4v+ova3RiYw8bmA6x2rDrEaj8i/oWKoRxpVNW+Re8Q==
+  dependencies:
+    argparse "^2.0.1"
 
 jsbn@~0.1.0:
   version "0.1.1"
