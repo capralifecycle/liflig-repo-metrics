@@ -10,6 +10,7 @@ import * as s3deploy from "@aws-cdk/aws-s3-deployment"
 import * as secretsmanager from "@aws-cdk/aws-secretsmanager"
 import * as cdk from "@aws-cdk/core"
 import { AuthLambdas, CloudFrontAuth } from "@henrist/cdk-cloudfront-auth"
+import * as webappDeploy from "@capraconsulting/webapp-deploy-lambda"
 
 interface Props extends cdk.StackProps {
   authDomain: string
@@ -49,7 +50,9 @@ export class RepoMetricsStack extends cdk.Stack {
       requireGroupAnyOf: ["liflig-active"],
     })
 
-    const webappOrigin = new origins.S3Origin(webappBucket)
+    const webappOrigin = new origins.S3Origin(webappBucket, {
+      originPath: "/web",
+    })
     const webappDataOrigin = new origins.S3Origin(webappDataBucket)
 
     const distribution = new cloudfront.Distribution(this, "Distribution", {
@@ -71,9 +74,9 @@ export class RepoMetricsStack extends cdk.Stack {
       identityProviders: ["Google"],
     })
 
-    new s3deploy.BucketDeployment(this, "DeployWebapp", {
-      sources: [s3deploy.Source.asset("../webapp/build")],
-      destinationBucket: webappBucket,
+    new webappDeploy.WebappDeploy(this, "WebappDeploy", {
+      source: webappDeploy.Source.asset("../webapp/build"),
+      webBucket: webappBucket,
       distribution,
     })
 
