@@ -956,13 +956,13 @@
           "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
           "S3Key": "snapshot-value.zip"
         },
-        "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
             "henristcloudfrontauthgeneratesecretproviderFunctionServiceRole4523A59B",
             "Arn"
           ]
         },
+        "Handler": "index.handler",
         "Runtime": "nodejs12.x",
         "Tags": [
           {
@@ -1072,14 +1072,12 @@
           "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
           "S3Key": "snapshot-value.zip"
         },
-        "Handler": "framework.onEvent",
         "Role": {
           "Fn::GetAtt": [
             "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleEE714F1C",
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
         "Description": "AWS CDK resource provider framework - onEvent (incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider)",
         "Environment": {
           "Variables": {
@@ -1091,6 +1089,8 @@
             }
           }
         },
+        "Handler": "framework.onEvent",
+        "Runtime": "nodejs10.x",
         "Tags": [
           {
             "Key": "Project",
@@ -1172,13 +1172,13 @@
           "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
           "S3Key": "snapshot-value.zip"
         },
-        "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
             "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2",
             "Arn"
           ]
         },
+        "Handler": "index.handler",
         "Runtime": "nodejs12.x",
         "Tags": [
           {
@@ -1287,13 +1287,13 @@
           "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
           "S3Key": "snapshot-value.zip"
         },
-        "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
             "henristlambdaconfigproviderUpdateCodeFnServiceRole2FF24712",
             "Arn"
           ]
         },
+        "Handler": "index.handler",
         "Runtime": "nodejs12.x",
         "Tags": [
           {
@@ -1405,14 +1405,12 @@
           "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
           "S3Key": "snapshot-value.zip"
         },
-        "Handler": "framework.onEvent",
         "Role": {
           "Fn::GetAtt": [
             "henristlambdaconfigproviderProviderframeworkonEventServiceRole9AA104AD",
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
         "Description": "AWS CDK resource provider framework - onEvent (incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/Provider)",
         "Environment": {
           "Variables": {
@@ -1424,6 +1422,8 @@
             }
           }
         },
+        "Handler": "framework.onEvent",
+        "Runtime": "nodejs10.x",
         "Tags": [
           {
             "Key": "Project",
@@ -1803,14 +1803,12 @@
           "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
           "S3Key": "snapshot-value.zip"
         },
-        "Handler": "webapp_deploy.main.handler",
         "Role": {
           "Fn::GetAtt": [
             "WebappDeployServiceRole78F79841",
             "Arn"
           ]
         },
-        "Runtime": "python3.8",
         "Environment": {
           "Variables": {
             "DEPLOY_LOG_BUCKET_URL": {
@@ -1843,7 +1841,9 @@
             }
           }
         },
+        "Handler": "webapp_deploy.main.handler",
         "ReservedConcurrentExecutions": 1,
+        "Runtime": "python3.8",
         "Tags": [
           {
             "Key": "Project",
@@ -2090,14 +2090,12 @@
           "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
           "S3Key": "snapshot-value.zip"
         },
-        "Handler": "index.collectHandler",
         "Role": {
           "Fn::GetAtt": [
             "CollectorServiceRole78F40CC4",
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
         "Environment": {
           "Variables": {
             "GITHUB_TOKEN_SECRET_ID": {
@@ -2130,7 +2128,9 @@
             "XDG_CACHE_HOME": "/tmp"
           }
         },
+        "Handler": "index.collectHandler",
         "MemorySize": 256,
+        "Runtime": "nodejs12.x",
         "Tags": [
           {
             "Key": "Project",
@@ -2345,14 +2345,12 @@
           "S3Bucket": "cdk-hnb659fds-assets-001112238813-eu-west-1",
           "S3Key": "snapshot-value.zip"
         },
-        "Handler": "index.aggregateHandler",
         "Role": {
           "Fn::GetAtt": [
             "AggregatorServiceRole50457C61",
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
         "Environment": {
           "Variables": {
             "DATA_BUCKET_NAME": {
@@ -2366,7 +2364,9 @@
             }
           }
         },
+        "Handler": "index.aggregateHandler",
         "MemorySize": 256,
+        "Runtime": "nodejs12.x",
         "Tags": [
           {
             "Key": "Project",
