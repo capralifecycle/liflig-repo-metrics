@@ -101,6 +101,10 @@ export class GithubDefinitionProvider implements DefinitionProvider {
       repo: request.repo,
     })
 
+    if (!("content" in result.data)) {
+      throw new Error("Unexpected response from getContent - content not found")
+    }
+
     const content = Buffer.from(result.data.content, "base64").toString("utf-8")
     return definition.parseDefinition(content)
   }
