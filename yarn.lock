@@ -1852,10 +1852,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@capraconsulting/cals-cli@2.20.1":
-  version "2.20.1"
-  resolved "https://registry.yarnpkg.com/@capraconsulting/cals-cli/-/cals-cli-2.20.1.tgz#5b2c192807027c624c671ef5a1a60496b8779920"
-  integrity sha512-SKVsoRe4jCXSbzdpvC0ZI3ws9sgI6UdpBX0GQqyT4s1dcR6O7MeUlczImcw3C7qO5S0T0U4c51c800S3kC1daQ==
+"@capraconsulting/cals-cli@2.20.2":
+  version "2.20.2"
+  resolved "https://registry.yarnpkg.com/@capraconsulting/cals-cli/-/cals-cli-2.20.2.tgz#e49088d6190aee426be58296b3cea207c6746f76"
+  integrity sha512-jVrW6LUWsdMYXsU+JlKbJyQsbWYyL9DGUSJKEcW06SS4tILoWMtTy9ujEoKdM5sp1XsTyMs1frxt4b5sW3D1+Q==
   dependencies:
     "@octokit/rest" "^18.0.0"
     ajv "^7.0.0"
