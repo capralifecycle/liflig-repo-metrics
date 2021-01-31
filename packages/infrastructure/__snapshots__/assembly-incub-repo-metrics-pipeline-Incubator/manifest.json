@@ -4,7 +4,8 @@
       "type": "cdk:asset-manifest",
       "properties": {
         "file": "incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json",
-        "requiresBootstrapStackVersion": 4
+        "requiresBootstrapStackVersion": 4,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
     "incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0": {
@@ -21,6 +22,7 @@
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-cfn-exec-role-001112238813-us-east-1",
         "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-001112238813-us-east-1/snapshot-value",
         "requiresBootstrapStackVersion": 4,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
           "incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets"
         ],
@@ -211,7 +213,8 @@
       "type": "cdk:asset-manifest",
       "properties": {
         "file": "incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json",
-        "requiresBootstrapStackVersion": 4
+        "requiresBootstrapStackVersion": 4,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
     "incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2": {
@@ -228,6 +231,7 @@
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-cfn-exec-role-001112238813-eu-west-1",
         "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-001112238813-eu-west-1/snapshot-value",
         "requiresBootstrapStackVersion": 4,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
           "incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets"
         ],

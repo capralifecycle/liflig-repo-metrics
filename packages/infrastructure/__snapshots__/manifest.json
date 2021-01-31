@@ -17,7 +17,8 @@
       "type": "cdk:asset-manifest",
       "properties": {
         "file": "incub-repo-metrics-pipeline.assets.json",
-        "requiresBootstrapStackVersion": 4
+        "requiresBootstrapStackVersion": 4,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
     "incub-repo-metrics-pipeline": {
@@ -34,6 +35,7 @@
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-hnb659fds-cfn-exec-role-001112238813-eu-west-1",
         "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-001112238813-eu-west-1/snapshot-value",
         "requiresBootstrapStackVersion": 4,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
           "incub-repo-metrics-pipeline.assets"
         ]
