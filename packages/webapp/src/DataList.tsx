@@ -40,7 +40,7 @@ function filterFetchGroupRepos(
 }
 
 export const DataList: React.FC<Props> = ({ data }) => {
-  const limitDays = 20
+  const limitDays = 30
 
   const [groupByResponsible, setGroupByResponsible] = React.useState(true)
   const [showPrList, setShowPrList] = React.useState(false)
@@ -121,7 +121,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
           checked={limitGraphDays != null}
           onCheck={(checked) => setLimitGraphDays(checked ? limitDays : null)}
         >
-          Begrens graf til siste 20 dager
+          Begrens graf til siste 30 dager
         </Checkbox>
         <Checkbox checked={sortByRenovateDays} onCheck={setSortByRenovateDays}>
           Vis alle Renovate dager og sorter baklengs
