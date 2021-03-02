@@ -46,8 +46,9 @@ async function createSnapshots(
         it.orgName,
         it.repo.name,
       ),
-      snykProjects:
-        snykData[definition.getRepoId(it.orgName, it.repo.name)] ?? [],
+      snykProjects: (
+        snykData[definition.getRepoId(it.orgName, it.repo.name)] ?? []
+      ).filter((it) => it.isMonitored),
     }))
 
   const pullRequests = groupBy(
