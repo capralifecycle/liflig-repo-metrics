@@ -603,6 +603,36 @@
             "data": "AggregatorScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregatorScheduleE570483FE19211BA"
           }
         ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Reporter/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ReporterServiceRole0C7A2B1F"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Reporter/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ReporterServiceRoleDefaultPolicy768D488A"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Reporter/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Reporter08098DAC"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterSchedule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ReporterSchedule65E61F50"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporterScheduleFBB1745C": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ReporterScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporterScheduleFBB1745CEB376D01"
+          }
+        ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/DataBucketNameOutput": [
           {
             "type": "aws:cdk:logicalId",
@@ -625,6 +655,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "DistributionIdOutput"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterFunctionArnOutput": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ReporterFunctionArnOutput"
           }
         ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CDKMetadata/Default": [

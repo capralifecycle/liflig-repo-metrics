@@ -9,6 +9,7 @@
     "lint:fix": "eslint --fix .",
     "collect-locally": "ts-node src/collect-locally.ts",
     "aggregate-locally": "ts-node src/aggregate-locally.ts",
+    "report-locally": "ts-node src/report-locally.ts",
     "serve": "http-server --cors -p 8383 data"
   },
   "devDependencies": {
@@ -37,6 +38,8 @@
     "@capraconsulting/cals-cli": "2.21.0",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.14.168",
+    "axios": "0.21.1",
+    "date-holidays": "2.0.0",
     "get-stream": "6.0.0",
     "lodash": "4.17.21"
   }

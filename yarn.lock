@@ -4156,6 +4156,11 @@ astral-regex@^2.0.0:
   resolved "https://registry.yarnpkg.com/astral-regex/-/astral-regex-2.0.0.tgz#483143c567aeed4785759c0865786dc77d7d2e31"
   integrity sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==
 
+astronomia@^2.1.1, astronomia@^2.2.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/astronomia/-/astronomia-2.3.1.tgz#a0ac89fb75fef0dc4954fca54db3342f6a585156"
+  integrity sha512-4YbGqS/v2DM5aeJBCI/BJYnu3wYMHyc7gk1TmOxTz28rhNUTQN60q2SYL0nMdxDpUUEWYNK4eFcGr3nyzcKeOw==
+
 async-each@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/async-each/-/async-each-1.0.3.tgz#b727dbf87d7651602f06f4d4ac387f47d91b0cbf"
@@ -4263,6 +4268,13 @@ aws4@^1.8.0:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
+
+axios@0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
+  dependencies:
+    follow-redirects "^1.10.0"
 
 babel-jest@^26.6.3:
   version "26.6.3"
@@ -4602,6 +4614,13 @@ cachedir@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/cachedir/-/cachedir-2.3.0.tgz#0c75892a052198f0b21c7c1804d8331edfcae0e8"
   integrity sha512-A+Fezp4zxnit6FanDmv9EqXNAi3vt9DWp51/71UEhXukb7QUuvtv9344h91dyAxuTLoSYJFU299qzR3tzwPAhw==
+
+caldate@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/caldate/-/caldate-1.1.1.tgz#473afbb82b99a54599b006064987beccac9f1701"
+  integrity sha512-GkMW53loQahQElRSx7fugev0YS5yoEaIm+ziBTpGe9vctcaSyN0o/M61wRNCMrGYhiblZ7sQsok/Kx3H1RRb/A==
+  dependencies:
+    moment-timezone "^0.5.31"
 
 call-bind@^1.0.0, call-bind@^1.0.2:
   version "1.0.2"
@@ -5473,6 +5492,47 @@ data-urls@^2.0.0:
     abab "^2.0.3"
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
+
+date-bengali-revised@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/date-bengali-revised/-/date-bengali-revised-1.0.2.tgz#33c7646e0988dade4ec8d44254abe71bc12db562"
+  integrity sha512-HehC0Kcjz+wgTSXAA/ei/Y4QPEg1nCYeZdrBl/o/o1B+iPycvipeTIhff9nXtQUY17nrXLunvOWTzqbR490m2w==
+
+date-chinese@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/date-chinese/-/date-chinese-1.0.7.tgz#3520e112fd9c3c4d52e607ee46feec5b942c1e5d"
+  integrity sha512-Dx1VG/mSST1yYqZvJvBWxvdDKTlmerZWXopiaPmVKeVFNhTZ20RvMrexg4FPFrCygPrgqTDtB2bEcwFcRoO2ww==
+  dependencies:
+    astronomia "^2.1.1"
+
+date-easter@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/date-easter/-/date-easter-0.2.5.tgz#85ddce23ee4e08b7b71fd3420c89d3d3576bec2f"
+  integrity sha512-pMvZSqQgPBqnUQEHhRMy7f8Dk3KYY/NPFMFHGK4mU+xM1+SX+zc9IoQMcNtS3HuJjCn3mp0GQwBzsZXz3Thjww==
+
+date-holidays-parser@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/date-holidays-parser/-/date-holidays-parser-2.1.0.tgz#244c05fcb090a4d361a192fb8e859fc17e68a5f8"
+  integrity sha512-zp7fgv5VjCi9LUQimaqElSSsAvNL5ELqXJOvfpdyO9wuKUq7ElBL8kCUtCxXVPt0sf/L8LBf2slTWlCpze0wlw==
+  dependencies:
+    astronomia "^2.2.0"
+    caldate "^1.1.0"
+    date-bengali-revised "^1.0.2"
+    date-chinese "^1.0.7"
+    date-easter "^0.2.5"
+    deepmerge "^4.2.2"
+    moment-timezone "^0.5.32"
+
+date-holidays@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/date-holidays/-/date-holidays-2.0.0.tgz#f6d722e8d61e942110455ad2a1247146a028aee2"
+  integrity sha512-9VtllBHWpL1UtI21MXvq0QLq0I5BuLNeOWXEirY3Jal7kVUJ/h9XlZO9a1Ydoe+98RmkEZ1Q8oM7P0w+uV+oAQ==
+  dependencies:
+    date-holidays-parser "^2.1.0"
+    js-yaml "^4.0.0"
+    lodash.omit "^4.5.0"
+    lodash.pick "^4.4.0"
+    prepin "^1.0.3"
 
 dateformat@^3.0.0:
   version "3.0.3"
@@ -6659,7 +6719,7 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
 
-follow-redirects@^1.0.0:
+follow-redirects@^1.0.0, follow-redirects@^1.10.0:
   version "1.13.3"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.3.tgz#e5598ad50174c1bc4e872301e82ac2cd97f90267"
   integrity sha512-DUgl6+HDzB0iEptNQEXLx/KhTmDb8tZUHSeLqpnjpknR70H0nC2t9N73BK6fN4hOvJ84pKlIQVQ4k5FFlBedKA==
@@ -8779,6 +8839,16 @@ lodash.isplainobject@^4.0.6:
   resolved "https://registry.yarnpkg.com/lodash.isplainobject/-/lodash.isplainobject-4.0.6.tgz#7c526a52d89b45c45cc690b88163be0497f550cb"
   integrity sha1-fFJqUtibRcRcxpC4gWO+BJf1UMs=
 
+lodash.omit@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.omit/-/lodash.omit-4.5.0.tgz#6eb19ae5a1ee1dd9df0b969e66ce0b7fa30b5e60"
+  integrity sha1-brGa5aHuHdnfC5aeZs4Lf6MLXmA=
+
+lodash.pick@^4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
+  integrity sha1-UvBWEP/53tQiYRRB7R/BI6AwAbM=
+
 lodash.set@^4.3.2:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/lodash.set/-/lodash.set-4.3.2.tgz#d8757b1da807dde24816b0d6a84bea1a76230b23"
@@ -9216,6 +9286,18 @@ modify-values@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
   integrity sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==
+
+moment-timezone@^0.5.31, moment-timezone@^0.5.32:
+  version "0.5.33"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.33.tgz#b252fd6bb57f341c9b59a5ab61a8e51a73bbd22c"
+  integrity sha512-PTc2vcT8K9J5/9rDEPe5czSIKgLoGsH8UNpA4qZTVw0Vd/Uz19geE9abbIOQKaAQFcnQ3v5YEXrbSc5BpshH+w==
+  dependencies:
+    moment ">= 2.9.0"
+
+"moment@>= 2.9.0":
+  version "2.29.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.1.tgz#b2be769fa31940be9eeea6469c075e35006fa3d3"
+  integrity sha512-kHmoybcPV8Sqy59DwNDY3Jefr64lK/by/da0ViFcuA4DH0vQg5Q6Ze5VimxkfQNSC+Mls/Kx53s7TjP1RhFEDQ==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -10316,6 +10398,11 @@ prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
+
+prepin@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/prepin/-/prepin-1.0.3.tgz#6996d34f1f8bf0de0bacf525e3037da79b7df91b"
+  integrity sha512-0XL2hreherEEvUy0fiaGEfN/ioXFV+JpImqIzQjxk6iBg4jQ2ARKqvC4+BmRD8w/pnpD+lbxvh0Ub+z7yBEjvA==
 
 prettier-linter-helpers@^1.0.0:
   version "1.0.0"

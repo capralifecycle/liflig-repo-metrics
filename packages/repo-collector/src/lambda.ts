@@ -2,6 +2,11 @@ import { SecretsManager } from "@aws-sdk/client-secrets-manager"
 import { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
 import { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
 import { Handler } from "aws-lambda"
+import {
+  generateMessage,
+  getReporterDetails,
+  sendSlackMessage,
+} from "./reporter/reporter"
 import { collect } from "./snapshots/collect"
 import { S3SnapshotsRepository } from "./snapshots/snapshots-repository"
 import { createWebappFriendlyFormat } from "./webapp/webapp"
@@ -75,4 +80,21 @@ export const aggregateHandler: Handler = async () => {
   const snapshots = await snapshotsRepository.retrieveAll()
   const webappFriendly = createWebappFriendlyFormat(snapshots)
   await webappDataRepository.store(webappFriendly)
+}
+
+export const reportHandler: Handler = async () => {
+  const dataBucketName = requireEnv("DATA_BUCKET_NAME")
+  const slackWebhookUrl = requireEnv("SLACK_WEBHOOK_URL")
+
+  const snapshotsRepository = new S3SnapshotsRepository(dataBucketName)
+
+  const details = await getReporterDetails(snapshotsRepository)
+
+  if (details == null) {
+    console.log("No data found to generate details")
+    return
+  }
+
+  const message = generateMessage(details)
+  await sendSlackMessage(slackWebhookUrl, message)
 }

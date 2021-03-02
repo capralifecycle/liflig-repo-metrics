@@ -8,6 +8,12 @@ import { Readable } from "stream"
 export interface SnapshotsRepository {
   store(timestamp: Date, data: MetricRepoSnapshot[]): Promise<void>
   retrieveAll(): Promise<MetricRepoSnapshot[]>
+  retrieve(timestamp: Date): Promise<MetricRepoSnapshot[]>
+  list(): Promise<SnapshotObject[]>
+}
+
+interface SnapshotObject {
+  timestamp: Date
 }
 
 function toNdJson<T>(data: T[]): string {
@@ -33,35 +39,84 @@ function formatTimestampForFilename(date: Date): string {
   return date.toISOString().replace(/-/g, "").replace(/:/g, "")
 }
 
+function parsePathToTimestamp(p: string): Date | undefined {
+  // Parse YYYYMMDDTHHmmss.SSSZ
+  const match = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})\.(\d{3})Z$/.exec(
+    p.replace(/.*\//, "").replace(/\.json$/, ""),
+  )
+
+  if (!match) return undefined
+
+  return new Date(
+    Date.UTC(
+      parseInt(match[1]),
+      parseInt(match[2]) - 1,
+      parseInt(match[3]),
+      parseInt(match[4]),
+      parseInt(match[5]),
+      parseInt(match[6]),
+      parseInt(match[7]),
+    ),
+  )
+}
+
 /**
  * Snapshots repository using local storage to be used with
  * local development and testing.
  */
 export class LocalSnapshotsRepository implements SnapshotsRepository {
-  async store(timestamp: Date, data: MetricRepoSnapshot[]): Promise<void> {
-    const file = `data/snapshots/${formatTimestampForFilename(timestamp)}.json`
+  private base = "data/snapshots"
 
-    await fs.promises.writeFile(file, toNdJson(data))
+  private pathForTimestamp(timestamp: Date): string {
+    return `${this.base}/${formatTimestampForFilename(timestamp)}.json`
+  }
+
+  async store(timestamp: Date, data: MetricRepoSnapshot[]): Promise<void> {
+    await fs.promises.writeFile(
+      this.pathForTimestamp(timestamp),
+      toNdJson(data),
+    )
   }
 
   async retrieveAll(): Promise<MetricRepoSnapshot[]> {
     const result: MetricRepoSnapshot[] = []
 
-    const base = "data/snapshots"
-    const items = await fs.promises.readdir(base)
+    for (const object of await this.list()) {
+      const items = await this.retrieve(object.timestamp)
+      result.push(...items)
+    }
+
+    return result
+  }
+
+  async retrieve(timestamp: Date): Promise<MetricRepoSnapshot[]> {
+    const p = this.pathForTimestamp(timestamp)
+
+    const stat = await fs.promises.stat(p)
+
+    if (!stat.isFile) throw new Error(`Not a file: ${p}`)
+
+    return fromNdJson<MetricRepoSnapshot>(
+      await fs.promises.readFile(p, "utf-8"),
+    )
+  }
+
+  async list(): Promise<SnapshotObject[]> {
+    const items = await fs.promises.readdir(this.base)
+    const result: SnapshotObject[] = []
 
     for (const item of items) {
       if (!item.endsWith(".json")) continue
 
-      const p = path.join(base, item)
-      const stat = await fs.promises.stat(p)
+      const p = path.join(this.base, item)
 
+      const stat = await fs.promises.stat(p)
       if (!stat.isFile) continue
 
-      const data = fromNdJson<MetricRepoSnapshot>(
-        await fs.promises.readFile(p, "utf-8"),
-      )
-      result.push(...data)
+      const date = parsePathToTimestamp(item)
+      if (date === undefined) continue
+
+      result.push({ timestamp: date })
     }
 
     return result
@@ -93,6 +148,10 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
     this.bucketName = bucketName
   }
 
+  private keyForTimestamp(timestamp: Date): string {
+    return `snapshots/${formatTimestampForFilename(timestamp)}.json`
+  }
+
   /**
    * Store snapshots of data to S3 by putting them in a newline delimited
    * JSON file specific for this batch.
@@ -100,7 +159,7 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
   async store(timestamp: Date, data: MetricRepoSnapshot[]): Promise<void> {
     await this.s3Client.putObject({
       Bucket: this.bucketName,
-      Key: `snapshots/${formatTimestampForFilename(timestamp)}.json`,
+      Key: this.keyForTimestamp(timestamp),
       Body: toNdJson(data),
       ContentType: "application/json",
     })
@@ -110,9 +169,37 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
    * Retrieve all snapshots from S3.
    *
    * TODO: This will not scale indefinitely due to memory, so we need to
-   *   improve this later e.g. by filtering out what we want ot read.
+   *   improve this later e.g. by filtering out what we want to read.
    */
   async retrieveAll(): Promise<MetricRepoSnapshot[]> {
+    const result: MetricRepoSnapshot[] = []
+
+    for (const object of await this.list()) {
+      const items = await this.retrieve(object.timestamp)
+      result.push(...items)
+    }
+
+    return result
+  }
+
+  async retrieve(timestamp: Date): Promise<MetricRepoSnapshot[]> {
+    const key = this.keyForTimestamp(timestamp)
+
+    console.log(`Reading ${key}`)
+    const item = await this.s3Client.getObject({
+      Bucket: this.bucketName,
+      Key: key,
+    })
+
+    const data = await getStream(item.Body as Readable)
+    const items = fromNdJson<MetricRepoSnapshot>(data)
+
+    console.log(`Found ${items.length} items in ${key}`)
+
+    return items
+  }
+
+  async list(): Promise<SnapshotObject[]> {
     const paginator = paginateListObjectsV2(
       {
         client: this.s3Client,
@@ -123,7 +210,7 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
       },
     )
 
-    const files: string[] = []
+    const objects: SnapshotObject[] = []
 
     for await (const page of paginator) {
       for (const item of page.Contents || []) {
@@ -131,33 +218,15 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
           throw new Error("Missing Key")
         }
 
-        if (item.Key.endsWith(".json")) {
-          files.push(item.Key)
+        const timestamp = parsePathToTimestamp(item.Key)
+        if (timestamp != null) {
+          objects.push({ timestamp })
         }
       }
     }
 
-    console.log(`Found ${files.length} files`)
+    console.log(`Found ${objects.length} files`)
 
-    const result: MetricRepoSnapshot[] = []
-
-    for (const key of files) {
-      console.log(`Reading ${key}`)
-      const item = await this.s3Client.getObject({
-        Bucket: this.bucketName,
-        Key: key,
-      })
-
-      const data = await getStream(item.Body as Readable)
-      const items = fromNdJson<MetricRepoSnapshot>(data)
-
-      for (const item of items) {
-        result.push(item)
-      }
-
-      console.log(`Found ${items.length} items in ${key}`)
-    }
-
-    return result
+    return objects
   }
 }

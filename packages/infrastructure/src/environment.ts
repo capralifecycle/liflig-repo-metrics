@@ -27,6 +27,8 @@ export class RepoMetricsEnv extends cdk.Stage {
       userPoolId: externalValues.userPoolId,
       authLambdas: edgeStack.authLambdas,
       authDomain: externalValues.authDomain,
+      reporterSlackWebhookUrlSecretName:
+        "/incub/repo-metrics/reporter-slack-webhook-url",
     })
   }
 }

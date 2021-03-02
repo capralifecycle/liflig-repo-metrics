@@ -6,16 +6,16 @@ import * as eventstargets from "@aws-cdk/aws-events-targets"
 import * as iam from "@aws-cdk/aws-iam"
 import * as lambda from "@aws-cdk/aws-lambda"
 import * as s3 from "@aws-cdk/aws-s3"
-import * as s3deploy from "@aws-cdk/aws-s3-deployment"
 import * as secretsmanager from "@aws-cdk/aws-secretsmanager"
 import * as cdk from "@aws-cdk/core"
-import { AuthLambdas, CloudFrontAuth } from "@henrist/cdk-cloudfront-auth"
 import * as webappDeploy from "@capraconsulting/webapp-deploy-lambda"
+import { AuthLambdas, CloudFrontAuth } from "@henrist/cdk-cloudfront-auth"
 
 interface Props extends cdk.StackProps {
   authDomain: string
   authLambdas: AuthLambdas
   userPoolId: string
+  reporterSlackWebhookUrlSecretName: string
 }
 
 export class RepoMetricsStack extends cdk.Stack {
@@ -29,6 +29,12 @@ export class RepoMetricsStack extends cdk.Stack {
         "GoogleProvider",
         "Google",
       ),
+    )
+
+    const reporterSlackWebhookUrlSecret = secretsmanager.Secret.fromSecretNameV2(
+      this,
+      "ReporterSlackWebhookUrlSecret",
+      props.reporterSlackWebhookUrlSecretName,
     )
 
     const dataBucket = new s3.Bucket(this, "DataBucket", {
@@ -151,6 +157,34 @@ export class RepoMetricsStack extends cdk.Stack {
       enabled: true,
     })
 
+    const reporter = new lambda.Function(this, "Reporter", {
+      code: lambda.Code.fromAsset("../repo-collector/dist"),
+      handler: "index.reportHandler",
+      runtime: lambda.Runtime.NODEJS_12_X,
+      timeout: cdk.Duration.minutes(5),
+      memorySize: 1024,
+      environment: {
+        DATA_BUCKET_NAME: dataBucket.bucketName,
+        // We consider it to be OK to leave this as a plain env.
+        SLACK_WEBHOOK_URL: reporterSlackWebhookUrlSecret
+          .secretValueFromJson("url")
+          .toString(),
+      },
+    })
+
+    dataBucket.grantReadWrite(reporter)
+
+    new events.Rule(this, "ReporterSchedule", {
+      schedule: events.Schedule.cron({
+        // For Oslo-time: Will trigger 8 am normal time and 9 am summer time.
+        // This should be after the collector has run.
+        hour: "0/7",
+        minute: "0",
+      }),
+      targets: [new eventstargets.LambdaFunction(reporter)],
+      enabled: true,
+    })
+
     new cdk.CfnOutput(this, "DataBucketNameOutput", {
       value: dataBucket.bucketName,
     })
@@ -165,6 +199,10 @@ export class RepoMetricsStack extends cdk.Stack {
 
     new cdk.CfnOutput(this, "DistributionIdOutput", {
       value: distribution.distributionId,
+    })
+
+    new cdk.CfnOutput(this, "ReporterFunctionArnOutput", {
+      value: reporter.functionArn,
     })
   }
 }
