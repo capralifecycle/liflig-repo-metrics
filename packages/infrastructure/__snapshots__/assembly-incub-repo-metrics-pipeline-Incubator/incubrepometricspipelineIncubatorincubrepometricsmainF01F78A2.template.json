@@ -2576,7 +2576,7 @@
     "ReporterSchedule65E61F50": {
       "Type": "AWS::Events::Rule",
       "Properties": {
-        "ScheduleExpression": "cron(0 0/7 * * ? *)",
+        "ScheduleExpression": "cron(0 7 * * ? *)",
         "State": "ENABLED",
         "Targets": [
           {

@@ -178,7 +178,7 @@ export class RepoMetricsStack extends cdk.Stack {
       schedule: events.Schedule.cron({
         // For Oslo-time: Will trigger 8 am normal time and 9 am summer time.
         // This should be after the collector has run.
-        hour: "0/7",
+        hour: "7",
         minute: "0",
       }),
       targets: [new eventstargets.LambdaFunction(reporter)],
