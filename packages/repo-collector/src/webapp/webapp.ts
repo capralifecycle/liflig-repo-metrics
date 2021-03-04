@@ -16,8 +16,8 @@ function sumSnykSeverities(projects: MetricRepoSnapshot["snyk"]["projects"]) {
   return projects.reduce(
     (acc, cur) => ({
       high: acc.high + cur.issueCountsBySeverity.high,
-      medium: acc.high + cur.issueCountsBySeverity.medium,
-      low: acc.high + cur.issueCountsBySeverity.low,
+      medium: acc.medium + cur.issueCountsBySeverity.medium,
+      low: acc.low + cur.issueCountsBySeverity.low,
     }),
     {
       high: 0,
