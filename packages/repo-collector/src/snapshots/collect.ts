@@ -9,6 +9,7 @@ import { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
 import { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
 import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy } from "lodash"
+import { Temporal } from "proposal-temporal"
 import { GithubDefinitionProvider } from "./definition-provider"
 import { SnapshotsRepository } from "./snapshots-repository"
 
@@ -18,7 +19,7 @@ interface SnykProject extends snyk.SnykProject {
 }
 
 async function createSnapshots(
-  timestamp: Date,
+  timestamp: Temporal.Instant,
   snykService: snyk.SnykService,
   githubService: github.GitHubService,
   repos: definition.GetReposResponse[],
@@ -77,7 +78,7 @@ async function createSnapshots(
 
     result.push({
       version: "1",
-      timestamp: timestamp.toISOString(),
+      timestamp: timestamp.toString(),
       repoId,
       responsible: repo.repo.repo.responsible ?? repo.repo.project.responsible,
       github: {
@@ -128,7 +129,7 @@ export async function collect(
     tokenProvider: snykTokenProvider,
   })
 
-  const timestamp = new Date()
+  const timestamp = Temporal.now.instant()
 
   const snapshots = await createSnapshots(
     timestamp,

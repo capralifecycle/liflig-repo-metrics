@@ -3,17 +3,18 @@ import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import * as fs from "fs"
 import * as getStream from "get-stream"
 import * as path from "path"
+import { Temporal } from "proposal-temporal"
 import { Readable } from "stream"
 
 export interface SnapshotsRepository {
-  store(timestamp: Date, data: MetricRepoSnapshot[]): Promise<void>
+  store(timestamp: Temporal.Instant, data: MetricRepoSnapshot[]): Promise<void>
   retrieveAll(): Promise<MetricRepoSnapshot[]>
-  retrieve(timestamp: Date): Promise<MetricRepoSnapshot[]>
+  retrieve(timestamp: Temporal.Instant): Promise<MetricRepoSnapshot[]>
   list(): Promise<SnapshotObject[]>
 }
 
 interface SnapshotObject {
-  timestamp: Date
+  timestamp: Temporal.Instant
 }
 
 function toNdJson<T>(data: T[]): string {
@@ -34,12 +35,20 @@ function fromNdJson<T>(data: string): T[] {
   return result
 }
 
-function formatTimestampForFilename(date: Date): string {
+function formatTimestampForFilename(instant: Temporal.Instant): string {
   // Format as YYYYMMDDTHHmmss.SSSZ
-  return date.toISOString().replace(/-/g, "").replace(/:/g, "")
+  const z = instant.toZonedDateTimeISO("UTC")
+  const day = z.toPlainDate().toString().replace(/-/g, "")
+  const time = z
+    .toPlainTime()
+    .round({ smallestUnit: "seconds", roundingMode: "trunc" })
+    .toString()
+    .replace(/:/g, "")
+  const ms = z.millisecond.toString().padStart(3, "0")
+  return `${day}T${time}.${ms}Z`
 }
 
-function parsePathToTimestamp(p: string): Date | undefined {
+function parsePathToTimestamp(p: string): Temporal.Instant | undefined {
   // Parse YYYYMMDDTHHmmss.SSSZ
   const match = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})\.(\d{3})Z$/.exec(
     p.replace(/.*\//, "").replace(/\.json$/, ""),
@@ -47,17 +56,16 @@ function parsePathToTimestamp(p: string): Date | undefined {
 
   if (!match) return undefined
 
-  return new Date(
-    Date.UTC(
-      parseInt(match[1]),
-      parseInt(match[2]) - 1,
-      parseInt(match[3]),
-      parseInt(match[4]),
-      parseInt(match[5]),
-      parseInt(match[6]),
-      parseInt(match[7]),
-    ),
-  )
+  return Temporal.ZonedDateTime.from({
+    timeZone: "UTC",
+    year: parseInt(match[1]),
+    month: parseInt(match[2]),
+    day: parseInt(match[3]),
+    hour: parseInt(match[4]),
+    minute: parseInt(match[5]),
+    second: parseInt(match[6]),
+    millisecond: parseInt(match[7]),
+  }).toInstant()
 }
 
 /**
@@ -67,11 +75,14 @@ function parsePathToTimestamp(p: string): Date | undefined {
 export class LocalSnapshotsRepository implements SnapshotsRepository {
   private base = "data/snapshots"
 
-  private pathForTimestamp(timestamp: Date): string {
+  private pathForTimestamp(timestamp: Temporal.Instant): string {
     return `${this.base}/${formatTimestampForFilename(timestamp)}.json`
   }
 
-  async store(timestamp: Date, data: MetricRepoSnapshot[]): Promise<void> {
+  async store(
+    timestamp: Temporal.Instant,
+    data: MetricRepoSnapshot[],
+  ): Promise<void> {
     await fs.promises.writeFile(
       this.pathForTimestamp(timestamp),
       toNdJson(data),
@@ -89,7 +100,7 @@ export class LocalSnapshotsRepository implements SnapshotsRepository {
     return result
   }
 
-  async retrieve(timestamp: Date): Promise<MetricRepoSnapshot[]> {
+  async retrieve(timestamp: Temporal.Instant): Promise<MetricRepoSnapshot[]> {
     const p = this.pathForTimestamp(timestamp)
 
     const stat = await fs.promises.stat(p)
@@ -113,10 +124,10 @@ export class LocalSnapshotsRepository implements SnapshotsRepository {
       const stat = await fs.promises.stat(p)
       if (!stat.isFile) continue
 
-      const date = parsePathToTimestamp(item)
-      if (date === undefined) continue
+      const timestamp = parsePathToTimestamp(item)
+      if (timestamp === undefined) continue
 
-      result.push({ timestamp: date })
+      result.push({ timestamp })
     }
 
     return result
@@ -148,7 +159,7 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
     this.bucketName = bucketName
   }
 
-  private keyForTimestamp(timestamp: Date): string {
+  private keyForTimestamp(timestamp: Temporal.Instant): string {
     return `snapshots/${formatTimestampForFilename(timestamp)}.json`
   }
 
@@ -156,7 +167,10 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
    * Store snapshots of data to S3 by putting them in a newline delimited
    * JSON file specific for this batch.
    */
-  async store(timestamp: Date, data: MetricRepoSnapshot[]): Promise<void> {
+  async store(
+    timestamp: Temporal.Instant,
+    data: MetricRepoSnapshot[],
+  ): Promise<void> {
     await this.s3Client.putObject({
       Bucket: this.bucketName,
       Key: this.keyForTimestamp(timestamp),
@@ -182,7 +196,7 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
     return result
   }
 
-  async retrieve(timestamp: Date): Promise<MetricRepoSnapshot[]> {
+  async retrieve(timestamp: Temporal.Instant): Promise<MetricRepoSnapshot[]> {
     const key = this.keyForTimestamp(timestamp)
 
     console.log(`Reading ${key}`)
@@ -229,4 +243,9 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
 
     return objects
   }
+}
+
+export const forTests = {
+  formatTimestampForFilename,
+  parsePathToTimestamp,
 }

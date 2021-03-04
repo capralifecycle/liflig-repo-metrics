@@ -1,3 +1,5 @@
+import { Temporal } from "proposal-temporal"
+
 // https://github.com/renovatebot/renovate/blob/96f87bd2f49e5d6ef135eb25c42b2b1e91f83537/lib/workers/repository/dependency-dashboard.ts
 type UpdateCategoryName =
   | "Pending Approval"
@@ -72,8 +74,10 @@ export function extractDependencyUpdatesFromIssue(
 }
 
 export function calculateRenovateLastUpdateInDays(
-  now: Date,
-  lastUpdated: Date,
+  now: Temporal.Instant,
+  lastUpdated: Temporal.Instant,
 ): number {
-  return Math.floor((now.getTime() - lastUpdated.getTime()) / 86400000)
+  return lastUpdated
+    .toZonedDateTimeISO("UTC")
+    .until(now.toZonedDateTimeISO("UTC"), { largestUnit: "days" }).days
 }

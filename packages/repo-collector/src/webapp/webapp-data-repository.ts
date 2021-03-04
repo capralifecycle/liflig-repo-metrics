@@ -2,6 +2,7 @@ import { CloudFront } from "@aws-sdk/client-cloudfront"
 import { S3 } from "@aws-sdk/client-s3"
 import { WebappMetricData } from "@liflig/repo-metrics-repo-collector-types"
 import * as fs from "fs"
+import { Temporal } from "proposal-temporal"
 
 export interface WebappDataRepository {
   store(data: WebappMetricData): Promise<void>
@@ -56,7 +57,7 @@ export class S3WebappDataRepository implements WebappDataRepository {
     await this.cloudfrontClient.createInvalidation({
       DistributionId: this.cfDistributionId,
       InvalidationBatch: {
-        CallerReference: new Date().toISOString(),
+        CallerReference: Temporal.now.instant().toString(),
         Paths: {
           Quantity: 1,
           Items: ["/data/*"],

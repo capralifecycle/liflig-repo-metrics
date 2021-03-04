@@ -2,6 +2,7 @@ import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import axios from "axios"
 import * as DateHolidays from "date-holidays"
 import { Dictionary, groupBy, keyBy, maxBy, sortBy } from "lodash"
+import { Temporal } from "proposal-temporal"
 import { SnapshotsRepository } from "../snapshots/snapshots-repository"
 
 interface ReporterRepo {
@@ -11,7 +12,7 @@ interface ReporterRepo {
 }
 
 interface ReporterDetailsData {
-  timestamp: Date
+  timestamp: Temporal.Instant
   repos: ReporterRepo[]
 }
 
@@ -72,8 +73,8 @@ Sammenliknet mot: ${formatTimestamp(details.previous.timestamp)}
 Detaljer: https://d2799m9v6pw1zy.cloudfront.net/`
 }
 
-function formatTimestamp(value: Date): string {
-  return value.toISOString()
+function formatTimestamp(value: Temporal.Instant): string {
+  return value.toString()
 }
 
 function formatDiffNumber(value: number): string {
@@ -87,16 +88,19 @@ export async function getReporterDetails(
 ): Promise<ReporterDetails | null> {
   const snapshotsList = await snapshotsRepository.list()
 
-  const now = new Date()
+  const now = Temporal.now.instant()
   const cutoffTimestamp = calculateCutoffTimestamp(now)
 
-  const currentSnapshot = maxBy(snapshotsList, (it) => it.timestamp)
+  const currentSnapshot = maxBy(
+    snapshotsList,
+    (it) => it.timestamp.epochNanoseconds,
+  )
 
   const previousSnapshot = maxBy(
     snapshotsList.filter(
-      (it) => cutoffTimestamp.getTime() - it.timestamp.getTime() > 0,
+      (it) => Temporal.Instant.compare(it.timestamp, cutoffTimestamp) <= 0,
     ),
-    (it) => it.timestamp,
+    (it) => it.timestamp.epochNanoseconds,
   )
 
   if (!currentSnapshot || !previousSnapshot) return null
@@ -153,30 +157,38 @@ function sumVulnerabilities(repos: ReporterRepo[]) {
   return repos.reduce((acc, cur) => acc + cur.sumVulnerabilities, 0)
 }
 
-function isWeekend(date: Date) {
-  // 0 = sunday
-  // 6 = saturday
-  return date.getUTCDay() == 0 || date.getUTCDay() == 6
+function isWeekend(date: Temporal.PlainDate) {
+  return date.dayOfWeek >= 6
 }
 
-export function calculateCutoffTimestamp(now: Date): Date {
+function isHoliday(date: Temporal.PlainDate) {
   const holidays = new DateHolidays("NO")
+  return holidays.isHoliday(
+    new Date(Date.parse(date.toPlainDateTime().toString())),
+  )
+}
 
-  // The job runs 6 am UTC, so pick a time a bit after this.
-
-  const cutoff = new Date(now)
+export function calculateCutoffTimestamp(
+  now: Temporal.Instant,
+): Temporal.Instant {
+  let cutoffDate = now.toZonedDateTimeISO("UTC").toPlainDate()
 
   do {
-    cutoff.setUTCDate(cutoff.getUTCDate() - 1)
-    cutoff.setUTCHours(6, 30, 0, 0)
-  } while (isWeekend(cutoff) || holidays.isHoliday(cutoff))
+    cutoffDate = cutoffDate.subtract({ days: 1 })
+  } while (isWeekend(cutoffDate) || isHoliday(cutoffDate))
 
-  return cutoff
+  // The job runs 6 am UTC, so pick a time a bit after this.
+  return cutoffDate
+    .toZonedDateTime({
+      plainTime: Temporal.PlainTime.from({ hour: 6, minute: 30 }),
+      timeZone: "UTC",
+    })
+    .toInstant()
 }
 
 async function getRepos(
   snapshotsRepository: SnapshotsRepository,
-  timestamp: Date,
+  timestamp: Temporal.Instant,
 ): Promise<ReporterRepo[]> {
   const snapshots = await snapshotsRepository.retrieve(timestamp)
 

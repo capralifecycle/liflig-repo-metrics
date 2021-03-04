@@ -6,6 +6,7 @@ import {
   WebappStatsByFetchGroup,
 } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy, sumBy } from "lodash"
+import { Temporal } from "proposal-temporal"
 import {
   calculateRenovateLastUpdateInDays,
   extractDependencyUpdatesFromIssue,
@@ -59,8 +60,8 @@ function convertDatapoint(
     lastUpdatedByRenovate == null
       ? null
       : calculateRenovateLastUpdateInDays(
-          new Date(datapoint.timestamp),
-          new Date(lastUpdatedByRenovate),
+          Temporal.Instant.from(datapoint.timestamp),
+          Temporal.Instant.from(lastUpdatedByRenovate),
         )
 
   return {
