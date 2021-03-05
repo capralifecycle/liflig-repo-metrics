@@ -5,8 +5,9 @@ import {
   WebappMetricDataRepoDatapoint,
   WebappStatsByFetchGroup,
 } from "@liflig/repo-metrics-repo-collector-types"
-import { groupBy, sumBy } from "lodash"
+import { groupBy, minBy, sumBy } from "lodash"
 import { Temporal } from "proposal-temporal"
+import { SnapshotsRepository } from "../snapshots/snapshots-repository"
 import {
   calculateRenovateLastUpdateInDays,
   extractDependencyUpdatesFromIssue,
@@ -120,6 +121,44 @@ function getAvailableActionableUpdates(snapshot: MetricRepoSnapshot): number {
       ).flatMap((category) =>
         isUpdateCategoryActionable(category.name) ? category.updates : [],
       ).length
+}
+
+export async function retrieveSnapshotsForWebappAggregation(
+  snapshotsRepository: SnapshotsRepository,
+): Promise<MetricRepoSnapshot[]> {
+  const list = groupBy(await snapshotsRepository.list(), (it) =>
+    it.timestamp.toZonedDateTimeISO("UTC").toPlainDate().toString(),
+  )
+
+  // Include all for last 15 days.
+  // Include only daily first for older.
+
+  const oldBefore = Temporal.now
+    .zonedDateTimeISO("UTC")
+    .round({
+      smallestUnit: "days",
+      roundingMode: "trunc",
+    })
+    .subtract({ days: 15 })
+    .toInstant()
+
+  const snapshots: MetricRepoSnapshot[] = []
+
+  for (const dailySnapshots of Object.values(list)) {
+    const isOld =
+      Temporal.Instant.compare(dailySnapshots[0].timestamp, oldBefore) < 0
+
+    const toRead = isOld
+      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        [minBy(dailySnapshots, (it) => it.timestamp.epochNanoseconds)!]
+      : dailySnapshots
+
+    for (const it of toRead) {
+      snapshots.push(...(await snapshotsRepository.retrieve(it.timestamp)))
+    }
+  }
+
+  return snapshots
 }
 
 export function createWebappFriendlyFormat(

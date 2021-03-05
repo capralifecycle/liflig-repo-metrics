@@ -9,7 +9,10 @@ import {
 } from "./reporter/reporter"
 import { collect } from "./snapshots/collect"
 import { S3SnapshotsRepository } from "./snapshots/snapshots-repository"
-import { createWebappFriendlyFormat } from "./webapp/webapp"
+import {
+  createWebappFriendlyFormat,
+  retrieveSnapshotsForWebappAggregation,
+} from "./webapp/webapp"
 import { S3WebappDataRepository } from "./webapp/webapp-data-repository"
 
 async function getSecretValue(
@@ -77,7 +80,9 @@ export const aggregateHandler: Handler = async () => {
     cfDistributionId,
   )
 
-  const snapshots = await snapshotsRepository.retrieveAll()
+  const snapshots = await retrieveSnapshotsForWebappAggregation(
+    snapshotsRepository,
+  )
   const webappFriendly = createWebappFriendlyFormat(snapshots)
   await webappDataRepository.store(webappFriendly)
 }
