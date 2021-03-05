@@ -50,9 +50,10 @@ export function generateMessage(details: ReporterDetails) {
       sortBy(diffItems, (it) => it.repoId)
         .map(
           (it) =>
-            `${it.repoId}: ${it.sumVulnerabilitiesCurrent} (${formatDiffNumber(
-              it.sumVulnerabilitiesCurrent - it.sumVulnerabilitiesPrevious,
-            )})`,
+            `${it.repoId}: ${it.sumVulnerabilitiesCurrent}${formatDiff(
+              it.sumVulnerabilitiesPrevious,
+              it.sumVulnerabilitiesCurrent,
+            )}`,
         )
         .join("\n")
     )
@@ -63,7 +64,7 @@ export function generateMessage(details: ReporterDetails) {
 
   return `Rapport over sårbarheter
 
-Siste status: ${curVuln} (${formatDiffNumber(curVuln - prevVuln)})
+Siste status: ${curVuln}${formatDiff(prevVuln, curVuln)}
 
 ${data.length > 0 ? data.join("\n\n") : "Alt OK"}
 
@@ -77,10 +78,11 @@ function formatTimestamp(value: Temporal.Instant): string {
   return value.toString()
 }
 
-function formatDiffNumber(value: number): string {
-  if (value == 0) return "ingen endring"
-  if (value > 0) return `+${value}`
-  return value.toString()
+function formatDiff(prev: number, cur: number): string {
+  const value = cur - prev
+  if (value == 0) return ""
+  if (value > 0) return ` (+${value})`
+  return ` (${value})`
 }
 
 export async function getReporterDetails(
