@@ -175,6 +175,8 @@ export class RepoMetricsStack extends cdk.Stack {
     dataBucket.grantReadWrite(reporter)
 
     new events.Rule(this, "ReporterSchedule", {
+      // Note: The function itself also has some logic to skip running
+      // non-working days.
       schedule: events.Schedule.cron({
         // For Oslo-time: Will trigger 8 am normal time and 9 am summer time.
         // This should be after the collector has run.

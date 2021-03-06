@@ -1,8 +1,8 @@
 import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import axios from "axios"
-import * as DateHolidays from "date-holidays"
 import { Dictionary, groupBy, keyBy, maxBy, sortBy } from "lodash"
 import { Temporal } from "proposal-temporal"
+import { isWorkingDay } from "../dates"
 import { SnapshotsRepository } from "../snapshots/snapshots-repository"
 
 interface ReporterRepo {
@@ -159,17 +159,6 @@ function sumVulnerabilities(repos: ReporterRepo[]) {
   return repos.reduce((acc, cur) => acc + cur.sumVulnerabilities, 0)
 }
 
-function isWeekend(date: Temporal.PlainDate) {
-  return date.dayOfWeek >= 6
-}
-
-function isHoliday(date: Temporal.PlainDate) {
-  const holidays = new DateHolidays("NO")
-  return holidays.isHoliday(
-    new Date(Date.parse(date.toPlainDateTime().toString())),
-  )
-}
-
 export function calculateCutoffTimestamp(
   now: Temporal.Instant,
 ): Temporal.Instant {
@@ -177,7 +166,7 @@ export function calculateCutoffTimestamp(
 
   do {
     cutoffDate = cutoffDate.subtract({ days: 1 })
-  } while (isWeekend(cutoffDate) || isHoliday(cutoffDate))
+  } while (!isWorkingDay(cutoffDate))
 
   // The job runs 6 am UTC, so pick a time a bit after this.
   return cutoffDate

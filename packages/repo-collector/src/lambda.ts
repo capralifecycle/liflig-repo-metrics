@@ -2,6 +2,8 @@ import { SecretsManager } from "@aws-sdk/client-secrets-manager"
 import { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
 import { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
 import { Handler } from "aws-lambda"
+import { Temporal } from "proposal-temporal"
+import { isWorkingDay } from "./dates"
 import {
   generateMessage,
   getReporterDetails,
@@ -88,6 +90,12 @@ export const aggregateHandler: Handler = async () => {
 }
 
 export const reportHandler: Handler = async () => {
+  // Don't report on non-working days.
+  if (!isWorkingDay(Temporal.now.plainDateISO("UTC"))) {
+    console.log("Non working day detected - skipping")
+    return
+  }
+
   const dataBucketName = requireEnv("DATA_BUCKET_NAME")
   const slackWebhookUrl = requireEnv("SLACK_WEBHOOK_URL")
 
