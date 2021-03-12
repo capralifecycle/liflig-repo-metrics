@@ -142,48 +142,30 @@
           ]
         },
         "Create": {
-          "service": "SSM",
-          "action": "putParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn",
-            "Value": {
-              "Ref": "AuthLambdasCheckAuthFunctionCurrentVersionF10C4D62xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            },
-            "Type": "String",
-            "Overwrite": "TRUE:BOOLEAN"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn"
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"SSM\",\"action\":\"putParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn\",\"Value\":\"",
+              {
+                "Ref": "AuthLambdasCheckAuthFunctionCurrentVersionF10C4D62xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              },
+              "\",\"Type\":\"String\",\"Overwrite\":true},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn\"}}"
+            ]
+          ]
         },
         "Update": {
-          "service": "SSM",
-          "action": "putParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn",
-            "Value": {
-              "Ref": "AuthLambdasCheckAuthFunctionCurrentVersionF10C4D62xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            },
-            "Type": "String",
-            "Overwrite": "TRUE:BOOLEAN"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn"
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"SSM\",\"action\":\"putParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn\",\"Value\":\"",
+              {
+                "Ref": "AuthLambdasCheckAuthFunctionCurrentVersionF10C4D62xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              },
+              "\",\"Type\":\"String\",\"Overwrite\":true},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn\"}}"
+            ]
+          ]
         },
-        "Delete": {
-          "service": "SSM",
-          "action": "deleteParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn"
-          }
-        },
+        "Delete": "{\"service\":\"SSM\",\"action\":\"deleteParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn\"},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn\"}}",
         "InstallLatestAwsSdk": true
       },
       "DependsOn": [
@@ -286,48 +268,30 @@
           ]
         },
         "Create": {
-          "service": "SSM",
-          "action": "putParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn",
-            "Value": {
-              "Ref": "AuthLambdasHttpHeadersFunctionCurrentVersion8B8CDE2Exxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            },
-            "Type": "String",
-            "Overwrite": "TRUE:BOOLEAN"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn"
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"SSM\",\"action\":\"putParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn\",\"Value\":\"",
+              {
+                "Ref": "AuthLambdasHttpHeadersFunctionCurrentVersion8B8CDE2Exxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              },
+              "\",\"Type\":\"String\",\"Overwrite\":true},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn\"}}"
+            ]
+          ]
         },
         "Update": {
-          "service": "SSM",
-          "action": "putParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn",
-            "Value": {
-              "Ref": "AuthLambdasHttpHeadersFunctionCurrentVersion8B8CDE2Exxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            },
-            "Type": "String",
-            "Overwrite": "TRUE:BOOLEAN"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn"
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"SSM\",\"action\":\"putParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn\",\"Value\":\"",
+              {
+                "Ref": "AuthLambdasHttpHeadersFunctionCurrentVersion8B8CDE2Exxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              },
+              "\",\"Type\":\"String\",\"Overwrite\":true},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn\"}}"
+            ]
+          ]
         },
-        "Delete": {
-          "service": "SSM",
-          "action": "deleteParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn"
-          }
-        },
+        "Delete": "{\"service\":\"SSM\",\"action\":\"deleteParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn\"},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn\"}}",
         "InstallLatestAwsSdk": true
       },
       "DependsOn": [
@@ -430,48 +394,30 @@
           ]
         },
         "Create": {
-          "service": "SSM",
-          "action": "putParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn",
-            "Value": {
-              "Ref": "AuthLambdasParseAuthFunctionCurrentVersionA32A5991xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            },
-            "Type": "String",
-            "Overwrite": "TRUE:BOOLEAN"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn"
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"SSM\",\"action\":\"putParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn\",\"Value\":\"",
+              {
+                "Ref": "AuthLambdasParseAuthFunctionCurrentVersionA32A5991xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              },
+              "\",\"Type\":\"String\",\"Overwrite\":true},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn\"}}"
+            ]
+          ]
         },
         "Update": {
-          "service": "SSM",
-          "action": "putParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn",
-            "Value": {
-              "Ref": "AuthLambdasParseAuthFunctionCurrentVersionA32A5991xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            },
-            "Type": "String",
-            "Overwrite": "TRUE:BOOLEAN"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn"
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"SSM\",\"action\":\"putParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn\",\"Value\":\"",
+              {
+                "Ref": "AuthLambdasParseAuthFunctionCurrentVersionA32A5991xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              },
+              "\",\"Type\":\"String\",\"Overwrite\":true},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn\"}}"
+            ]
+          ]
         },
-        "Delete": {
-          "service": "SSM",
-          "action": "deleteParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn"
-          }
-        },
+        "Delete": "{\"service\":\"SSM\",\"action\":\"deleteParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn\"},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn\"}}",
         "InstallLatestAwsSdk": true
       },
       "DependsOn": [
@@ -574,48 +520,30 @@
           ]
         },
         "Create": {
-          "service": "SSM",
-          "action": "putParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn",
-            "Value": {
-              "Ref": "AuthLambdasRefreshAuthFunctionCurrentVersion632285F6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            },
-            "Type": "String",
-            "Overwrite": "TRUE:BOOLEAN"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn"
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"SSM\",\"action\":\"putParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn\",\"Value\":\"",
+              {
+                "Ref": "AuthLambdasRefreshAuthFunctionCurrentVersion632285F6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              },
+              "\",\"Type\":\"String\",\"Overwrite\":true},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn\"}}"
+            ]
+          ]
         },
         "Update": {
-          "service": "SSM",
-          "action": "putParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn",
-            "Value": {
-              "Ref": "AuthLambdasRefreshAuthFunctionCurrentVersion632285F6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            },
-            "Type": "String",
-            "Overwrite": "TRUE:BOOLEAN"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn"
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"SSM\",\"action\":\"putParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn\",\"Value\":\"",
+              {
+                "Ref": "AuthLambdasRefreshAuthFunctionCurrentVersion632285F6xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              },
+              "\",\"Type\":\"String\",\"Overwrite\":true},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn\"}}"
+            ]
+          ]
         },
-        "Delete": {
-          "service": "SSM",
-          "action": "deleteParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn"
-          }
-        },
+        "Delete": "{\"service\":\"SSM\",\"action\":\"deleteParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn\"},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn\"}}",
         "InstallLatestAwsSdk": true
       },
       "DependsOn": [
@@ -718,48 +646,30 @@
           ]
         },
         "Create": {
-          "service": "SSM",
-          "action": "putParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn",
-            "Value": {
-              "Ref": "AuthLambdasSignOutFunctionCurrentVersion0576BBB1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            },
-            "Type": "String",
-            "Overwrite": "TRUE:BOOLEAN"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn"
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"SSM\",\"action\":\"putParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn\",\"Value\":\"",
+              {
+                "Ref": "AuthLambdasSignOutFunctionCurrentVersion0576BBB1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              },
+              "\",\"Type\":\"String\",\"Overwrite\":true},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn\"}}"
+            ]
+          ]
         },
         "Update": {
-          "service": "SSM",
-          "action": "putParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn",
-            "Value": {
-              "Ref": "AuthLambdasSignOutFunctionCurrentVersion0576BBB1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            },
-            "Type": "String",
-            "Overwrite": "TRUE:BOOLEAN"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn"
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"SSM\",\"action\":\"putParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn\",\"Value\":\"",
+              {
+                "Ref": "AuthLambdasSignOutFunctionCurrentVersion0576BBB1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+              },
+              "\",\"Type\":\"String\",\"Overwrite\":true},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn\"}}"
+            ]
+          ]
         },
-        "Delete": {
-          "service": "SSM",
-          "action": "deleteParameter",
-          "parameters": {
-            "Name": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn"
-          },
-          "region": "eu-west-1",
-          "physicalResourceId": {
-            "id": "/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn"
-          }
-        },
+        "Delete": "{\"service\":\"SSM\",\"action\":\"deleteParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn\"},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn\"}}",
         "InstallLatestAwsSdk": true
       },
       "DependsOn": [

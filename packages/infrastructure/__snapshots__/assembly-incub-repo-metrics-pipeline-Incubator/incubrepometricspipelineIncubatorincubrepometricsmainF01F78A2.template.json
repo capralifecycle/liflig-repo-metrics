@@ -279,50 +279,36 @@
           ]
         },
         "Create": {
-          "service": "CognitoIdentityServiceProvider",
-          "action": "describeUserPoolClient",
-          "parameters": {
-            "UserPoolId": "eu-west-1_oGQHzXmbo",
-            "ClientId": {
-              "Ref": "UserPoolUserPoolClient40176907"
-            }
-          },
-          "physicalResourceId": {
-            "id": {
-              "Fn::Join": [
-                "",
-                [
-                  "eu-west-1_oGQHzXmbo-",
-                  {
-                    "Ref": "UserPoolUserPoolClient40176907"
-                  }
-                ]
-              ]
-            }
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"CognitoIdentityServiceProvider\",\"action\":\"describeUserPoolClient\",\"parameters\":{\"UserPoolId\":\"eu-west-1_oGQHzXmbo\",\"ClientId\":\"",
+              {
+                "Ref": "UserPoolUserPoolClient40176907"
+              },
+              "\"},\"physicalResourceId\":{\"id\":\"eu-west-1_oGQHzXmbo-",
+              {
+                "Ref": "UserPoolUserPoolClient40176907"
+              },
+              "\"}}"
+            ]
+          ]
         },
         "Update": {
-          "service": "CognitoIdentityServiceProvider",
-          "action": "describeUserPoolClient",
-          "parameters": {
-            "UserPoolId": "eu-west-1_oGQHzXmbo",
-            "ClientId": {
-              "Ref": "UserPoolUserPoolClient40176907"
-            }
-          },
-          "physicalResourceId": {
-            "id": {
-              "Fn::Join": [
-                "",
-                [
-                  "eu-west-1_oGQHzXmbo-",
-                  {
-                    "Ref": "UserPoolUserPoolClient40176907"
-                  }
-                ]
-              ]
-            }
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"CognitoIdentityServiceProvider\",\"action\":\"describeUserPoolClient\",\"parameters\":{\"UserPoolId\":\"eu-west-1_oGQHzXmbo\",\"ClientId\":\"",
+              {
+                "Ref": "UserPoolUserPoolClient40176907"
+              },
+              "\"},\"physicalResourceId\":{\"id\":\"eu-west-1_oGQHzXmbo-",
+              {
+                "Ref": "UserPoolUserPoolClient40176907"
+              },
+              "\"}}"
+            ]
+          ]
         },
         "InstallLatestAwsSdk": true
       },
@@ -725,146 +711,64 @@
           ]
         },
         "Create": {
-          "service": "CognitoIdentityServiceProvider",
-          "action": "updateUserPoolClient",
-          "parameters": {
-            "AllowedOAuthFlows": [
-              "code"
-            ],
-            "AllowedOAuthFlowsUserPoolClient": "TRUE:BOOLEAN",
-            "SupportedIdentityProviders": [
-              "Google"
-            ],
-            "AllowedOAuthScopes": [
-              "phone",
-              "email",
-              "profile",
-              "openid",
-              "aws.cognito.signin.user.admin"
-            ],
-            "ClientId": {
-              "Ref": "UserPoolUserPoolClient40176907"
-            },
-            "CallbackURLs": [
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"CognitoIdentityServiceProvider\",\"action\":\"updateUserPoolClient\",\"parameters\":{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthFlowsUserPoolClient\":true,\"SupportedIdentityProviders\":[\"Google\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"profile\",\"openid\",\"aws.cognito.signin.user.admin\"],\"ClientId\":\"",
               {
-                "Fn::Join": [
-                  "",
-                  [
-                    "https://",
-                    {
-                      "Fn::GetAtt": [
-                        "Distribution830FAC52",
-                        "DomainName"
-                      ]
-                    },
-                    "/auth/callback"
-                  ]
-                ]
-              }
-            ],
-            "LogoutURLs": [
+                "Ref": "UserPoolUserPoolClient40176907"
+              },
+              "\",\"CallbackURLs\":[\"https://",
               {
-                "Fn::Join": [
-                  "",
-                  [
-                    "https://",
-                    {
-                      "Fn::GetAtt": [
-                        "Distribution830FAC52",
-                        "DomainName"
-                      ]
-                    },
-                    "/"
-                  ]
+                "Fn::GetAtt": [
+                  "Distribution830FAC52",
+                  "DomainName"
                 ]
-              }
-            ],
-            "UserPoolId": "eu-west-1_oGQHzXmbo"
-          },
-          "physicalResourceId": {
-            "id": {
-              "Fn::Join": [
-                "",
-                [
-                  "eu-west-1_oGQHzXmbo-",
-                  {
-                    "Ref": "UserPoolUserPoolClient40176907"
-                  }
+              },
+              "/auth/callback\"],\"LogoutURLs\":[\"https://",
+              {
+                "Fn::GetAtt": [
+                  "Distribution830FAC52",
+                  "DomainName"
                 ]
-              ]
-            }
-          }
+              },
+              "/\"],\"UserPoolId\":\"eu-west-1_oGQHzXmbo\"},\"physicalResourceId\":{\"id\":\"eu-west-1_oGQHzXmbo-",
+              {
+                "Ref": "UserPoolUserPoolClient40176907"
+              },
+              "\"}}"
+            ]
+          ]
         },
         "Update": {
-          "service": "CognitoIdentityServiceProvider",
-          "action": "updateUserPoolClient",
-          "parameters": {
-            "AllowedOAuthFlows": [
-              "code"
-            ],
-            "AllowedOAuthFlowsUserPoolClient": "TRUE:BOOLEAN",
-            "SupportedIdentityProviders": [
-              "Google"
-            ],
-            "AllowedOAuthScopes": [
-              "phone",
-              "email",
-              "profile",
-              "openid",
-              "aws.cognito.signin.user.admin"
-            ],
-            "ClientId": {
-              "Ref": "UserPoolUserPoolClient40176907"
-            },
-            "CallbackURLs": [
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"CognitoIdentityServiceProvider\",\"action\":\"updateUserPoolClient\",\"parameters\":{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthFlowsUserPoolClient\":true,\"SupportedIdentityProviders\":[\"Google\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"profile\",\"openid\",\"aws.cognito.signin.user.admin\"],\"ClientId\":\"",
               {
-                "Fn::Join": [
-                  "",
-                  [
-                    "https://",
-                    {
-                      "Fn::GetAtt": [
-                        "Distribution830FAC52",
-                        "DomainName"
-                      ]
-                    },
-                    "/auth/callback"
-                  ]
-                ]
-              }
-            ],
-            "LogoutURLs": [
+                "Ref": "UserPoolUserPoolClient40176907"
+              },
+              "\",\"CallbackURLs\":[\"https://",
               {
-                "Fn::Join": [
-                  "",
-                  [
-                    "https://",
-                    {
-                      "Fn::GetAtt": [
-                        "Distribution830FAC52",
-                        "DomainName"
-                      ]
-                    },
-                    "/"
-                  ]
+                "Fn::GetAtt": [
+                  "Distribution830FAC52",
+                  "DomainName"
                 ]
-              }
-            ],
-            "UserPoolId": "eu-west-1_oGQHzXmbo"
-          },
-          "physicalResourceId": {
-            "id": {
-              "Fn::Join": [
-                "",
-                [
-                  "eu-west-1_oGQHzXmbo-",
-                  {
-                    "Ref": "UserPoolUserPoolClient40176907"
-                  }
+              },
+              "/auth/callback\"],\"LogoutURLs\":[\"https://",
+              {
+                "Fn::GetAtt": [
+                  "Distribution830FAC52",
+                  "DomainName"
                 ]
-              ]
-            }
-          }
+              },
+              "/\"],\"UserPoolId\":\"eu-west-1_oGQHzXmbo\"},\"physicalResourceId\":{\"id\":\"eu-west-1_oGQHzXmbo-",
+              {
+                "Ref": "UserPoolUserPoolClient40176907"
+              },
+              "\"}}"
+            ]
+          ]
         },
         "InstallLatestAwsSdk": true
       },
@@ -1885,30 +1789,28 @@
           ]
         },
         "Create": {
-          "service": "Lambda",
-          "action": "invoke",
-          "physicalResourceId": {
-            "id": "webapp-deploy"
-          },
-          "parameters": {
-            "FunctionName": {
-              "Ref": "WebappDeploy4D661524"
-            },
-            "Payload": "{\"artifactS3Url\":\"s3://cdk-hnb659fds-assets-001112238813-eu-west-1/snapshot-value.zip\"}"
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"Lambda\",\"action\":\"invoke\",\"physicalResourceId\":{\"id\":\"webapp-deploy\"},\"parameters\":{\"FunctionName\":\"",
+              {
+                "Ref": "WebappDeploy4D661524"
+              },
+              "\",\"Payload\":\"{\\\"artifactS3Url\\\":\\\"s3://cdk-hnb659fds-assets-001112238813-eu-west-1/snapshot-value.zip\\\"}\"}}"
+            ]
+          ]
         },
         "Update": {
-          "service": "Lambda",
-          "action": "invoke",
-          "physicalResourceId": {
-            "id": "webapp-deploy"
-          },
-          "parameters": {
-            "FunctionName": {
-              "Ref": "WebappDeploy4D661524"
-            },
-            "Payload": "{\"artifactS3Url\":\"s3://cdk-hnb659fds-assets-001112238813-eu-west-1/snapshot-value.zip\"}"
-          }
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"Lambda\",\"action\":\"invoke\",\"physicalResourceId\":{\"id\":\"webapp-deploy\"},\"parameters\":{\"FunctionName\":\"",
+              {
+                "Ref": "WebappDeploy4D661524"
+              },
+              "\",\"Payload\":\"{\\\"artifactS3Url\\\":\\\"s3://cdk-hnb659fds-assets-001112238813-eu-west-1/snapshot-value.zip\\\"}\"}}"
+            ]
+          ]
         },
         "InstallLatestAwsSdk": true
       },
@@ -2154,7 +2056,7 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorSchedule/Resource"
       }
     },
-    "CollectorScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainCollectorSchedule8137825C55B32B05": {
+    "CollectorScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainCollector5F0CF411366F0188": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "Action": "lambda:InvokeFunction",
@@ -2173,7 +2075,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainCollectorSchedule8137825C"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainCollector5F0CF411"
       }
     },
     "AggregatorServiceRole50457C61": {
@@ -2390,7 +2292,7 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorSchedule/Resource"
       }
     },
-    "AggregatorScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregatorScheduleE570483FE19211BA": {
+    "AggregatorScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregator0CC5D92026EEEE0C": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "Action": "lambda:InvokeFunction",
@@ -2409,7 +2311,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregatorScheduleE570483F"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregator0CC5D920"
       }
     },
     "ReporterServiceRole0C7A2B1F": {
@@ -2594,7 +2496,7 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterSchedule/Resource"
       }
     },
-    "ReporterScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporterScheduleFBB1745CEB376D01": {
+    "ReporterScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporter593FA6D5D56F3D22": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "Action": "lambda:InvokeFunction",
@@ -2613,7 +2515,7 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporterScheduleFBB1745C"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporter593FA6D5"
       }
     }
   },
