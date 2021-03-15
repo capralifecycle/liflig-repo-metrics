@@ -985,10 +985,10 @@
   dependencies:
     tslib "^1.8.0"
 
-"@aws-sdk/client-cloudfront@3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-cloudfront/-/client-cloudfront-3.8.0.tgz#e6bf49e60b779592236ed3d6582ea0f798a42fe1"
-  integrity sha512-U9Zexih2NSJEBzcN22gyOtCA9OfdZWm1kr1En5aFfHfN0D3aqGlbPBEomXNpLZ+2W4Aqoa7JHUsFlYjRjujF8A==
+"@aws-sdk/client-cloudfront@3.8.1":
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-cloudfront/-/client-cloudfront-3.8.1.tgz#3b2109f1f64a57b5287ff790d418f6139e3c3192"
+  integrity sha512-Xj1DPQaqbtur7WvbxfRQtkpy+EUHFdV6SeUhWy+H/C4vaDqAugnE9Sgqt+KSLXiscLrHhc0ABokea5htF4RAog==
   dependencies:
     "@aws-crypto/sha256-browser" "^1.0.0"
     "@aws-crypto/sha256-js" "^1.0.0"
@@ -1002,7 +1002,7 @@
     "@aws-sdk/middleware-logger" "3.6.1"
     "@aws-sdk/middleware-retry" "3.8.0"
     "@aws-sdk/middleware-serde" "3.6.1"
-    "@aws-sdk/middleware-signing" "3.6.1"
+    "@aws-sdk/middleware-signing" "3.8.1"
     "@aws-sdk/middleware-stack" "3.6.1"
     "@aws-sdk/middleware-user-agent" "3.6.1"
     "@aws-sdk/node-config-provider" "3.8.0"
@@ -1025,10 +1025,10 @@
     fast-xml-parser "3.17.4"
     tslib "^2.0.0"
 
-"@aws-sdk/client-s3@3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-s3/-/client-s3-3.8.0.tgz#4b1b1aff419afbdb2d3e72069736e4860e9c8d8a"
-  integrity sha512-d52BVMHRxXeOoq5I0q+FRYl5BH6Cmn6elYuiVk3cDCiuuGZXK6mNNAwkqmuTISajdX2vFulKI+ouKnp0fYTnrg==
+"@aws-sdk/client-s3@3.8.1":
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-s3/-/client-s3-3.8.1.tgz#22e4af1fccc99e9b1f25fab0dc1ddf1910515728"
+  integrity sha512-jCYMZ7mppu7kFid0sk57e1Hb9hPLvkKnBSOjVC2IjxFz+qHHr1Bir321iWeWE0V629iW9thk1KE9eWRYUxRTiw==
   dependencies:
     "@aws-crypto/sha256-browser" "^1.0.0"
     "@aws-crypto/sha256-js" "^1.0.0"
@@ -1053,7 +1053,7 @@
     "@aws-sdk/middleware-retry" "3.8.0"
     "@aws-sdk/middleware-sdk-s3" "3.6.1"
     "@aws-sdk/middleware-serde" "3.6.1"
-    "@aws-sdk/middleware-signing" "3.6.1"
+    "@aws-sdk/middleware-signing" "3.8.1"
     "@aws-sdk/middleware-ssec" "3.6.1"
     "@aws-sdk/middleware-stack" "3.6.1"
     "@aws-sdk/middleware-user-agent" "3.6.1"
@@ -1077,10 +1077,10 @@
     fast-xml-parser "3.17.4"
     tslib "^2.0.0"
 
-"@aws-sdk/client-secrets-manager@3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-secrets-manager/-/client-secrets-manager-3.8.0.tgz#c505190af2205ed4ef00e368db58918789be46e3"
-  integrity sha512-LM3jX5QfdJe21rLEzNsFsZkDDFmqTaJD6wpYA703+d9YZ++E5PXiaOpGN/dDTtpSJjz+HfBgc4CvYQYJhEaeLw==
+"@aws-sdk/client-secrets-manager@3.8.1":
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-secrets-manager/-/client-secrets-manager-3.8.1.tgz#63d4a2c56da306171822b690b7dd0b4a4963f533"
+  integrity sha512-tM9ZC+5dGij/uSzclfHqZB+jUKVIBeC610hG4/lwh46gfKhgcEnGqpR0xoWRTI3l6aRSxlS3OjobBJWWHXeVgg==
   dependencies:
     "@aws-crypto/sha256-browser" "^1.0.0"
     "@aws-crypto/sha256-js" "^1.0.0"
@@ -1094,7 +1094,7 @@
     "@aws-sdk/middleware-logger" "3.6.1"
     "@aws-sdk/middleware-retry" "3.8.0"
     "@aws-sdk/middleware-serde" "3.6.1"
-    "@aws-sdk/middleware-signing" "3.6.1"
+    "@aws-sdk/middleware-signing" "3.8.1"
     "@aws-sdk/middleware-stack" "3.6.1"
     "@aws-sdk/middleware-user-agent" "3.6.1"
     "@aws-sdk/node-config-provider" "3.8.0"
@@ -1437,11 +1437,12 @@
     "@aws-sdk/types" "3.6.1"
     tslib "^1.8.0"
 
-"@aws-sdk/middleware-signing@3.6.1":
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/middleware-signing/-/middleware-signing-3.6.1.tgz#e70a2f35d85d70e33c9fddfb54b9520f6382db16"
-  integrity sha512-1woKq+1sU3eausdl8BNdAMRZMkSYuy4mxhLsF0/qAUuLwo1eJLLUCOQp477tICawgu4O4q2OAyUHk7wMqYnQCg==
+"@aws-sdk/middleware-signing@3.8.1":
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/middleware-signing/-/middleware-signing-3.8.1.tgz#ca5029c0efbbb5b3012508f37534fe57a6cfa01f"
+  integrity sha512-g6tJS/ph1whk7AsNOlFetAiZdvB2k0RHfoO5g6TPDAV8pvBLgjdhmTJg349iPyMDD2f1eabN3GGbeC0mDDEFMA==
   dependencies:
+    "@aws-sdk/property-provider" "3.8.0"
     "@aws-sdk/protocol-http" "3.6.1"
     "@aws-sdk/signature-v4" "3.6.1"
     "@aws-sdk/types" "3.6.1"
