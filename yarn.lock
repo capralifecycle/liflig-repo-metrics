@@ -5415,10 +5415,10 @@ date-holidays-parser@^2.1.0:
     deepmerge "^4.2.2"
     moment-timezone "^0.5.32"
 
-date-holidays@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/date-holidays/-/date-holidays-2.0.3.tgz#97bb2bfcca91bd8eb9ecb80f3752adf0a5c43cd6"
-  integrity sha512-oZ6ChwjS2tCkAf6ids+ROxPfjj82j5V6+ix6gVYJeTChzvWCS0+HAYPCpkYAegdERzVYIhSaHCof3s/mkCherg==
+date-holidays@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/date-holidays/-/date-holidays-2.1.0.tgz#03e6ece0dfd4a76e874424ae026bd65c8489679a"
+  integrity sha512-SoEjvi/cPAW2JvRgwuSUbEUVukao2b3ZTGSx0Z7SdzKVk4ftdi+0bT7jlEgtf/ILZ+a/gPCxOu6dXUG1JcSyYQ==
   dependencies:
     date-holidays-parser "^2.1.0"
     js-yaml "^4.0.0"
