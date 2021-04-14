@@ -970,7 +970,7 @@
           }
         },
         "Handler": "framework.onEvent",
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs14.x",
         "Tags": [
           {
             "Key": "Project",
@@ -1303,7 +1303,7 @@
           }
         },
         "Handler": "framework.onEvent",
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs14.x",
         "Tags": [
           {
             "Key": "Project",
