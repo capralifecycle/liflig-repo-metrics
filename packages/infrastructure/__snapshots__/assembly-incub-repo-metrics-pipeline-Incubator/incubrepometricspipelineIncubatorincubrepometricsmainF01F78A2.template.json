@@ -1812,7 +1812,7 @@
             ]
           ]
         },
-        "InstallLatestAwsSdk": true
+        "InstallLatestAwsSdk": false
       },
       "DependsOn": [
         "WebappDeployCustomResourceCustomResourcePolicyB85F7B61"
