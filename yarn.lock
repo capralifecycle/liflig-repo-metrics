@@ -2081,7 +2081,7 @@
     sprintf-js "^1.1.2"
     yargs "^16.0.0"
 
-"@capraconsulting/webapp-deploy-lambda@1.2.1":
+"@capraconsulting/webapp-deploy-lambda@1.2.1", "@capraconsulting/webapp-deploy-lambda@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@capraconsulting/webapp-deploy-lambda/-/webapp-deploy-lambda-1.2.1.tgz#f713bcf508b892862c84275799b61d5c23e84fe6"
   integrity sha512-BL3QuLmZRTHqImuYZyRZ3/8xfvXeb4LVoRWZQYZ6M+kFbm/KFRIo86BRi9VyIogfGALifqtJsjE6dIlLThUxJg==
@@ -2995,12 +2995,12 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@liflig/cdk@1.30.3":
-  version "1.30.3"
-  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-1.30.3.tgz#e9b1b79fe091cb551e754cc0952166de1dfbc42e"
-  integrity sha512-2ulve9AzQ09kaToL7W0UVem8khfZZVEQF95RSH2PQFilga+aVrrFySBZ+Ea7BLRFA4lFL/HTeXxgdINLanwHbQ==
+"@liflig/cdk@1.30.4":
+  version "1.30.4"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-1.30.4.tgz#80702edc39101a597525acf369bd5cd775077346"
+  integrity sha512-iVBCx6kxZamqMmnHbyH2/o2ar7KP9hy5wf/K/MWBARIhs/0I62s/cjoJ8rIo/MybprzclWZ+p6lTwMp8rdAnUQ==
   dependencies:
-    "@capraconsulting/webapp-deploy-lambda" "1.2.1"
+    "@capraconsulting/webapp-deploy-lambda" "^1.2.1"
     cpy "^8.1.0"
     del "^6.0.0"
     execa "^5.0.0"
