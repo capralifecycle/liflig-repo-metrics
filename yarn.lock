@@ -2045,13 +2045,13 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@capraconsulting/cals-cli@2.21.0":
-  version "2.21.0"
-  resolved "https://registry.yarnpkg.com/@capraconsulting/cals-cli/-/cals-cli-2.21.0.tgz#11c2bca6eced275ec492da2b16bee5311a89d3f6"
-  integrity sha512-CFKcwiLrCCS1m1M4mifMxaOUgQ549xsKVdyAfYRuA0edYwR3lZ/tTkF8mtDgfiNs7Uu9U8Py0OZiJs6XCut66Q==
+"@capraconsulting/cals-cli@2.21.1":
+  version "2.21.1"
+  resolved "https://registry.yarnpkg.com/@capraconsulting/cals-cli/-/cals-cli-2.21.1.tgz#419ce975a9d7ed9cf29c28e554bb44befef91c78"
+  integrity sha512-nTvto1XhkGCyLXjoFoNBN97a39gSYd1jhR8TrkpIkptFwJT+Z7cvACqOQ0PvYW/ElcTIozyoQ0HMhUX859NrBw==
   dependencies:
     "@octokit/rest" "^18.0.0"
-    ajv "^7.0.0"
+    ajv "^7.2.1"
     cachedir "^2.3.0"
     chalk "^4.0.0"
     execa "^5.0.0"
@@ -3875,7 +3875,7 @@ ajv@^6.1.0, ajv@^6.10.0, ajv@^6.12.3, ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ajv@^7.0.0:
+ajv@^7.2.1:
   version "7.2.4"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-7.2.4.tgz#8e239d4d56cf884bccca8cca362f508446dc160f"
   integrity sha512-nBeQgg/ZZA3u3SYxyaDvpvDtgZ/EZPF547ARgZBrG9Bhu1vKDwAIjtIf+sDtJUKa2zOcEbmRLBRSyMraS/Oy1A==
