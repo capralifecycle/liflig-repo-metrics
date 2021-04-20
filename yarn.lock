@@ -10422,10 +10422,10 @@ prop-types@^15.6.2, prop-types@^15.7.2:
     object-assign "^4.1.1"
     react-is "^16.8.1"
 
-proposal-temporal@0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/proposal-temporal/-/proposal-temporal-0.7.0.tgz#57663892bbf9370d4bb670e25c02118ba959ae2c"
-  integrity sha512-GXxYGpC2siXqlvoKy/huUGnggtnTsWRzpueyZhnHlSXeqXANPfEFWUYL1Mty/BcAPwAxncU+8OtB/iBAv73seg==
+proposal-temporal@0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/proposal-temporal/-/proposal-temporal-0.8.0.tgz#6787b49d187e9245d38e7b58d028fd1c84dd14b0"
+  integrity sha512-Ho2uZqtuK310ptV//us50nJIe0Yja1g2LI9zDG9eNDV+oo5DmNqT+zXz6jEVbsZHMa+qSD/FfT776eI64bfuRA==
   dependencies:
     big-integer "^1.6.48"
     es-abstract "^1.18.0-next.1"
