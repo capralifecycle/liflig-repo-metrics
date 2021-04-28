@@ -166,7 +166,7 @@
           ]
         },
         "Delete": "{\"service\":\"SSM\",\"action\":\"deleteParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn\"},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-CheckAuthFunction-function-arn\"}}",
-        "InstallLatestAwsSdk": true
+        "InstallLatestAwsSdk": false
       },
       "DependsOn": [
         "AuthLambdasCheckAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicy088F1114"
@@ -292,7 +292,7 @@
           ]
         },
         "Delete": "{\"service\":\"SSM\",\"action\":\"deleteParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn\"},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-HttpHeadersFunction-function-arn\"}}",
-        "InstallLatestAwsSdk": true
+        "InstallLatestAwsSdk": false
       },
       "DependsOn": [
         "AuthLambdasHttpHeadersFunctionVersionParamParameuwest1ResoureCustomResourcePolicyC99B8AA6"
@@ -418,7 +418,7 @@
           ]
         },
         "Delete": "{\"service\":\"SSM\",\"action\":\"deleteParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn\"},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-ParseAuthFunction-function-arn\"}}",
-        "InstallLatestAwsSdk": true
+        "InstallLatestAwsSdk": false
       },
       "DependsOn": [
         "AuthLambdasParseAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicyCEAE27DB"
@@ -544,7 +544,7 @@
           ]
         },
         "Delete": "{\"service\":\"SSM\",\"action\":\"deleteParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn\"},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-RefreshAuthFunction-function-arn\"}}",
-        "InstallLatestAwsSdk": true
+        "InstallLatestAwsSdk": false
       },
       "DependsOn": [
         "AuthLambdasRefreshAuthFunctionVersionParamParameuwest1ResoureCustomResourcePolicy095CEC70"
@@ -670,7 +670,7 @@
           ]
         },
         "Delete": "{\"service\":\"SSM\",\"action\":\"deleteParameter\",\"parameters\":{\"Name\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn\"},\"region\":\"eu-west-1\",\"physicalResourceId\":{\"id\":\"/cf/region/us-east-1/stack/incub-repo-metrics-edge/c81e650052f36c5e83f2cec440852f2592a49b5f74-SignOutFunction-function-arn\"}}",
-        "InstallLatestAwsSdk": true
+        "InstallLatestAwsSdk": false
       },
       "DependsOn": [
         "AuthLambdasSignOutFunctionVersionParamParameuwest1ResoureCustomResourcePolicy16B30BE4"
