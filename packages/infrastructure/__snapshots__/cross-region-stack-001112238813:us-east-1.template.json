@@ -64,7 +64,7 @@
                       {
                         "Ref": "AWS::Partition"
                       },
-                      ":iam::001112238813:role/cdk-hnb659fds-deploy-role-001112238813-us-east-1"
+                      ":iam::001112238813:role/cdk-liflig-deploy-role-001112238813-us-east-1"
                     ]
                   ]
                 }

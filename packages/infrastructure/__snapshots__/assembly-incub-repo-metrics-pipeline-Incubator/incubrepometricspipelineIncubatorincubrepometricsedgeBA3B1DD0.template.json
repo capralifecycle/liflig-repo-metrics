@@ -55,7 +55,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-001112238813-us-east-1",
+          "S3Bucket": "cdk-liflig-assets-001112238813-us-east-1",
           "S3Key": "snapshot-value.zip"
         },
         "Role": {
@@ -181,7 +181,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-001112238813-us-east-1",
+          "S3Bucket": "cdk-liflig-assets-001112238813-us-east-1",
           "S3Key": "snapshot-value.zip"
         },
         "Role": {
@@ -307,7 +307,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-001112238813-us-east-1",
+          "S3Bucket": "cdk-liflig-assets-001112238813-us-east-1",
           "S3Key": "snapshot-value.zip"
         },
         "Role": {
@@ -433,7 +433,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-001112238813-us-east-1",
+          "S3Bucket": "cdk-liflig-assets-001112238813-us-east-1",
           "S3Key": "snapshot-value.zip"
         },
         "Role": {
@@ -559,7 +559,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-001112238813-us-east-1",
+          "S3Bucket": "cdk-liflig-assets-001112238813-us-east-1",
           "S3Key": "snapshot-value.zip"
         },
         "Role": {
@@ -733,7 +733,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-001112238813-us-east-1",
+          "S3Bucket": "cdk-liflig-assets-001112238813-us-east-1",
           "S3Key": "snapshot-value.zip"
         },
         "Role": {
@@ -773,7 +773,7 @@
   "Parameters": {
     "BootstrapVersion": {
       "Type": "AWS::SSM::Parameter::Value<String>",
-      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Default": "/cdk-bootstrap/liflig/version",
       "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store."
     }
   },
