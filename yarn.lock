@@ -2001,7 +2001,12 @@
     sprintf-js "^1.1.2"
     yargs "^17.0.0"
 
-"@capraconsulting/webapp-deploy-lambda@1.2.1", "@capraconsulting/webapp-deploy-lambda@^1.2.1":
+"@capraconsulting/webapp-deploy-lambda@1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@capraconsulting/webapp-deploy-lambda/-/webapp-deploy-lambda-1.2.2.tgz#22b175ef5e9814e5853e8a2e55cd81617251bbfd"
+  integrity sha512-FHdS5p4Zea0SS9RBxUUqLa+eWREkF9CDOPfaWNGXIAbgL20hn1Z3eJpDiz0nNbVBisnD8RA0AVcaLdNgKfCMcw==
+
+"@capraconsulting/webapp-deploy-lambda@^1.2.1":
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/@capraconsulting/webapp-deploy-lambda/-/webapp-deploy-lambda-1.2.1.tgz#f713bcf508b892862c84275799b61d5c23e84fe6"
   integrity sha512-BL3QuLmZRTHqImuYZyRZ3/8xfvXeb4LVoRWZQYZ6M+kFbm/KFRIo86BRi9VyIogfGALifqtJsjE6dIlLThUxJg==
