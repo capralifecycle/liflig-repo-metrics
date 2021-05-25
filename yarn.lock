@@ -2040,10 +2040,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@henrist/cdk-cloudfront-auth@1.3.21":
-  version "1.3.21"
-  resolved "https://registry.yarnpkg.com/@henrist/cdk-cloudfront-auth/-/cdk-cloudfront-auth-1.3.21.tgz#524a76dfa6f48466999af0dbb200ab9ccc31adb8"
-  integrity sha512-iwfZB02lbrxWl/dPD5AgowRjL29bTylKI/e0I30c68SYsPnQ9XFi15oPuouIyuSSfN3pT67M+sTzuhy+2+l98g==
+"@henrist/cdk-cloudfront-auth@1.3.22":
+  version "1.3.22"
+  resolved "https://registry.yarnpkg.com/@henrist/cdk-cloudfront-auth/-/cdk-cloudfront-auth-1.3.22.tgz#323fc10c97ef0b6378852faa7885cfecc842fe3d"
+  integrity sha512-SxZC7dL0tCxG3h8qb0qeAotBVk/Q3MtaSftvOQ5tzK2baGg5mjwTEpB1WzvGpalC2eBl002WoglXjgSJb0ieiQ==
   dependencies:
     "@henrist/cdk-cross-region-params" "^1.0.0"
     "@henrist/cdk-lambda-config" "^1.0.0"
