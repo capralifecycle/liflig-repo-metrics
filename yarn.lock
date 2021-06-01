@@ -1982,15 +1982,15 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@capraconsulting/cals-cli@2.22.0":
-  version "2.22.0"
-  resolved "https://registry.yarnpkg.com/@capraconsulting/cals-cli/-/cals-cli-2.22.0.tgz#ab288a4d3fbc3253e7e97c2e8fc79206d73416bb"
-  integrity sha512-aLkaSZtfNq+c9ZxHS64UB5+klYYMoxCV79TJdZuuNudlc+JkBZKc9C2tmMi60b+NU6XEczh+xfBgA/zXHu9vQg==
+"@capraconsulting/cals-cli@2.22.1":
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/@capraconsulting/cals-cli/-/cals-cli-2.22.1.tgz#36d5e8f028b3436c0e3ad62ae26efdf0d4b43f75"
+  integrity sha512-BYIhfNU9AJ3eHhJJdpD9jUfXIsFAOW40wG1eQCNehjNBgHzOb9XEcdWqG7X7NhA7wNEKVd+QOA200xyR61t6HA==
   dependencies:
     "@aws-sdk/client-secrets-manager" "^3.16.0"
     "@aws-sdk/client-sts" "^3.16.0"
     "@octokit/rest" "^18.0.0"
-    ajv "^7.2.1"
+    ajv "^8.0.0"
     cachedir "^2.3.0"
     chalk "^4.0.0"
     execa "^5.0.0"
@@ -3839,17 +3839,7 @@ ajv@^6.1.0, ajv@^6.10.0, ajv@^6.12.3, ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ajv@^7.2.1:
-  version "7.2.4"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-7.2.4.tgz#8e239d4d56cf884bccca8cca362f508446dc160f"
-  integrity sha512-nBeQgg/ZZA3u3SYxyaDvpvDtgZ/EZPF547ARgZBrG9Bhu1vKDwAIjtIf+sDtJUKa2zOcEbmRLBRSyMraS/Oy1A==
-  dependencies:
-    fast-deep-equal "^3.1.1"
-    json-schema-traverse "^1.0.0"
-    require-from-string "^2.0.2"
-    uri-js "^4.2.2"
-
-ajv@^8.0.1:
+ajv@^8.0.0, ajv@^8.0.1:
   version "8.5.0"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.5.0.tgz#695528274bcb5afc865446aa275484049a18ae4b"
   integrity sha512-Y2l399Tt1AguU3BPRP9Fn4eN+Or+StUGWCUpbnFyXSo8NZ9S4uj+AG2pjs5apK+ZMOwYOz1+a+VKvKH7CudXgQ==
