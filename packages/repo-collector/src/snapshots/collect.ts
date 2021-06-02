@@ -43,10 +43,11 @@ async function createSnapshots(
         it.orgName,
         it.repo.name,
       ),
-      renovateDependencyDashboardIssue: githubService.getRenovateDependencyDashboardIssue(
-        it.orgName,
-        it.repo.name,
-      ),
+      renovateDependencyDashboardIssue:
+        githubService.getRenovateDependencyDashboardIssue(
+          it.orgName,
+          it.repo.name,
+        ),
       snykProjects: (
         snykData[definition.getRepoId(it.orgName, it.repo.name)] ?? []
       ).filter((it) => it.isMonitored),
@@ -90,7 +91,7 @@ async function createSnapshots(
         vulnerabilityAlerts: await repo.githubVulnerabilityAlerts,
       },
       snyk: {
-        projects: (repo.snykProjects as unknown) as SnykProject[],
+        projects: repo.snykProjects as unknown as SnykProject[],
       },
     })
   }

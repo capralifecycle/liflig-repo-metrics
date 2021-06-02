@@ -87,8 +87,9 @@ export const Repo: React.FC<Props> = ({
       toVersion: it.toVersion,
     })),
   )
-  const actionableUpdates = availableUpdates.filter((it) => it.isActionable)
-    .length
+  const actionableUpdates = availableUpdates.filter(
+    (it) => it.isActionable,
+  ).length
 
   const renovateDashboad = data.lastDatapoint.github.renovateDependencyDashboard
 
