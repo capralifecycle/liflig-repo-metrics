@@ -31,11 +31,12 @@ export class RepoMetricsStack extends cdk.Stack {
       ),
     )
 
-    const reporterSlackWebhookUrlSecret = secretsmanager.Secret.fromSecretNameV2(
-      this,
-      "ReporterSlackWebhookUrlSecret",
-      props.reporterSlackWebhookUrlSecretName,
-    )
+    const reporterSlackWebhookUrlSecret =
+      secretsmanager.Secret.fromSecretNameV2(
+        this,
+        "ReporterSlackWebhookUrlSecret",
+        props.reporterSlackWebhookUrlSecretName,
+      )
 
     const dataBucket = new s3.Bucket(this, "DataBucket", {
       encryption: s3.BucketEncryption.S3_MANAGED,
