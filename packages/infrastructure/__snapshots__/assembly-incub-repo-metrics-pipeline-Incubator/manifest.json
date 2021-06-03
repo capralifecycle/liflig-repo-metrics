@@ -18,6 +18,7 @@
           "SourceRepo": "github/capralifecycle/liflig-repo-metrics",
           "StackName": "incub-repo-metrics-edge"
         },
+        "validateOnSynth": true,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-liflig-deploy-role-001112238813-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-liflig-cfn-exec-role-001112238813-us-east-1",
         "stackTemplateAssetObjectUrl": "s3://cdk-liflig-assets-001112238813-us-east-1/snapshot-value.json",
@@ -207,7 +208,8 @@
             "data": "CheckBootstrapVersion"
           }
         ]
-      }
+      },
+      "displayName": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-edge"
     },
     "incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets": {
       "type": "cdk:asset-manifest",
@@ -227,6 +229,7 @@
           "SourceRepo": "github/capralifecycle/liflig-repo-metrics",
           "StackName": "incub-repo-metrics-main"
         },
+        "validateOnSynth": true,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-liflig-deploy-role-001112238813-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-liflig-cfn-exec-role-001112238813-eu-west-1",
         "stackTemplateAssetObjectUrl": "s3://cdk-liflig-assets-001112238813-eu-west-1/snapshot-value.json",
@@ -681,7 +684,8 @@
             "data": "CheckBootstrapVersion"
           }
         ]
-      }
+      },
+      "displayName": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main"
     }
   }
 }
