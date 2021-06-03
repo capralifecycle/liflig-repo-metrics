@@ -7,7 +7,7 @@
 const path = require("path")
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-const GitRevisionPlugin = require("git-revision-webpack-plugin")
+const { GitRevisionPlugin } = require("git-revision-webpack-plugin")
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 const webpack = require("webpack")
