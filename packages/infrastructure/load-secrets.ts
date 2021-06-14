@@ -33,6 +33,17 @@ const reporterSlackWebhookUrlSecret: loadSecrets.Secret = {
   ],
 }
 
+const cicdSlackWebhookUrlSecret: loadSecrets.Secret = {
+  name: "cicd-slack-webhook-url",
+  description: "Slack Webhook URL for CICD purpose",
+  type: "json",
+  fields: [
+    {
+      key: "url",
+    },
+  ],
+}
+
 loadSecrets.loadSecretsCli({
   secretGroups: [
     {
@@ -44,6 +55,7 @@ loadSecrets.loadSecretsCli({
         githubTokenSecret,
         snykTokenSecret,
         reporterSlackWebhookUrlSecret,
+        cicdSlackWebhookUrlSecret,
       ],
     },
   ],

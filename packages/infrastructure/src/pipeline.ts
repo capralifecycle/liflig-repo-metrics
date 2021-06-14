@@ -1,4 +1,5 @@
 import * as s3 from "@aws-cdk/aws-s3"
+import * as sm from "@aws-cdk/aws-secretsmanager"
 import * as cdk from "@aws-cdk/core"
 import { cdkPipelines } from "@liflig/cdk"
 import { incubatorAccountId } from "./config"
@@ -19,6 +20,17 @@ export class PipelineStack extends cdk.Stack {
       artifactsBucket,
       pipelineName: "incub-repo-metrics",
       sourceType: "cloud-assembly",
+    })
+
+    pipeline.addSlackNotification({
+      slackWebhookUrl: sm.Secret.fromSecretNameV2(
+        this,
+        "WebhookUrl",
+        "/incub/repo-metrics/cicd-slack-webhook-url",
+      )
+        .secretValueFromJson("url")
+        .toString(),
+      slackChannel: "#cals-dev-info",
     })
 
     pipeline.cdkPipeline.addApplicationStage(

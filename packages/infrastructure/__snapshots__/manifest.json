@@ -155,6 +155,18 @@
             "data": "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRoleDefaultPolicyAA04AE0A"
           }
         ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Event/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineEvent5A7BDD21"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Event/AllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineEventAllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5D84D81CD"
+          }
+        ],
         "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/UpdatePipeline/SelfMutation/Role/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -255,6 +267,24 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "PipelineCdkPipelineAssetsFileAsset129D5593A4"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/SingletonLambda55954fc8182e497ebd607af1496dc222/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRole0C7C44A2"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/SingletonLambda55954fc8182e497ebd607af1496dc222/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRoleDefaultPolicy537F8C79"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/SingletonLambda55954fc8182e497ebd607af1496dc222/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SingletonLambda55954fc8182e497ebd607af1496dc22235779232"
           }
         ],
         "/incub-repo-metrics-pipeline/CDKMetadata/Default": [

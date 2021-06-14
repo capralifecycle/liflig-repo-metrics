@@ -1471,6 +1471,79 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy/Resource"
       }
     },
+    "PipelineCodePipelineEvent5A7BDD21": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "EventPattern": {
+          "detail": {
+            "state": [
+              "SUCCEEDED",
+              "FAILED"
+            ]
+          },
+          "source": [
+            "aws.codepipeline"
+          ],
+          "resources": [
+            {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":codepipeline:eu-west-1:001112238813:",
+                  {
+                    "Ref": "PipelineCodePipeline4FC0E9B7"
+                  }
+                ]
+              ]
+            }
+          ],
+          "detail-type": [
+            "CodePipeline Pipeline Execution State Change"
+          ]
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "SingletonLambda55954fc8182e497ebd607af1496dc22235779232",
+                "Arn"
+              ]
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Event/Resource"
+      }
+    },
+    "PipelineCodePipelineEventAllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5D84D81CD": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "SingletonLambda55954fc8182e497ebd607af1496dc22235779232",
+            "Arn"
+          ]
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "PipelineCodePipelineEvent5A7BDD21",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Event/AllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5"
+      }
+    },
     "PipelineCdkPipelineUpdatePipelineSelfMutationRole91D6CBA8": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -2453,6 +2526,155 @@
       },
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset12/Default/Resource"
+      }
+    },
+    "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRole0C7C44A2": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambda55954fc8182e497ebd607af1496dc222/ServiceRole/Resource"
+      }
+    },
+    "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRoleDefaultPolicy537F8C79": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codepipeline:ListActionExecutions",
+                "codepipeline:ListPipelineExecutions"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":codepipeline:eu-west-1:001112238813:",
+                    {
+                      "Ref": "PipelineCodePipeline4FC0E9B7"
+                    }
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRoleDefaultPolicy537F8C79",
+        "Roles": [
+          {
+            "Ref": "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRole0C7C44A2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambda55954fc8182e497ebd607af1496dc222/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "SingletonLambda55954fc8182e497ebd607af1496dc22235779232": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-liflig-assets-001112238813-eu-west-1",
+          "S3Key": "snapshot-value.zip"
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRole0C7C44A2",
+            "Arn"
+          ]
+        },
+        "Description": "Handle CodePipeline pipeline state change and report to Slack",
+        "Environment": {
+          "Variables": {
+            "SLACK_URL": {
+              "Fn::Join": [
+                "",
+                [
+                  "{{resolve:secretsmanager:arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/cicd-slack-webhook-url:SecretString:url::}}"
+                ]
+              ]
+            },
+            "SLACK_CHANNEL": "#cals-dev-info",
+            "ALWAYS_SHOW_SUCCEEDED": "false"
+          }
+        },
+        "Handler": "index.handler",
+        "Runtime": "python3.8",
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ],
+        "Timeout": 10
+      },
+      "DependsOn": [
+        "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRoleDefaultPolicy537F8C79",
+        "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRole0C7C44A2"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambda55954fc8182e497ebd607af1496dc222/Resource",
+        "aws:asset:path": "asset.snapshot-value",
+        "aws:asset:property": "Code"
       }
     }
   },
