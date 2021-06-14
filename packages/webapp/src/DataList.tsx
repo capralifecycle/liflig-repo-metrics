@@ -1,5 +1,6 @@
 import {
   WebappMetricData,
+  WebappMetricDataRepo,
   WebappStatsByFetchGroup,
 } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy } from "lodash"
@@ -51,6 +52,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
   const [limitGraphDays, setLimitGraphDays] =
     React.useState<number | null>(limitDays)
   const [sortByRenovateDays, setSortByRenovateDays] = React.useState(false)
+  const [filterDepName, setFilterDepName] = React.useState("")
   const [filterRepoName, setFilterRepoName] = React.useState("")
 
   const [collapseResponsible, setCollapseResponsible] = React.useState<
@@ -77,14 +79,28 @@ export const DataList: React.FC<Props> = ({ data }) => {
     )
   }
 
-  const filteredRepos = data.repos.filter((it) => filterRepoId(it.repoId))
+  function filterByUpdates(repo: WebappMetricDataRepo): boolean {
+    return (
+      filterDepName === "" ||
+      (repo.lastDatapoint.github.availableUpdates?.some((category) =>
+        category.updates.some((update) => update.name.includes(filterDepName)),
+      ) ??
+        false)
+    )
+  }
+
+  const filteredRepos = data.repos
+    .filter((it) => filterRepoId(it.repoId))
+    .filter((it) => filterByUpdates(it))
+
+  const shownRepoIds = filteredRepos.map((it) => it.repoId)
 
   const filteredFetchGroups = filterFetchGroupRepos(
     data.byFetchGroup.filter(
       (it) =>
         limitGraphDays == null || ageInDays(it.timestamp) < limitGraphDays,
     ),
-    (it) => filterRepoId(it.repoId),
+    (it) => shownRepoIds.includes(it.repoId),
   )
 
   const byResponsible = groupByResponsible
@@ -102,8 +118,16 @@ export const DataList: React.FC<Props> = ({ data }) => {
           )
         </Checkbox>
         <Checkbox checked={showDepList} onCheck={setShowDepList}>
-          Vis detaljert liste over avhengigheter
+          Vis detaljert liste over oppdateringer
         </Checkbox>
+        <input
+          type="text"
+          value={filterDepName}
+          onChange={(e) => {
+            setFilterDepName(e.target.value)
+          }}
+          placeholder="Filtrer på navn til oppdatering"
+        />
         <Checkbox checked={showPrList} onCheck={setShowPrList}>
           Vis liste over PRs
         </Checkbox>
