@@ -1652,11 +1652,17 @@
             },
             {
               "Action": "sts:AssumeRole",
+              "Condition": {
+                "ForAnyValue:StringEquals": {
+                  "iam:ResourceTag/aws-cdk:bootstrap-role": [
+                    "image-publishing",
+                    "file-publishing",
+                    "deploy"
+                  ]
+                }
+              },
               "Effect": "Allow",
-              "Resource": [
-                "arn:*:iam::*:role/*-deploy-role-*",
-                "arn:*:iam::*:role/*-publishing-role-*"
-              ]
+              "Resource": "arn:*:iam::001112238813:role/*"
             },
             {
               "Action": "cloudformation:DescribeStacks",
@@ -1893,7 +1899,14 @@
             {
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
-              "Resource": "arn:*:iam::*:role/*-file-publishing-role-*"
+              "Resource": [
+                {
+                  "Fn::Sub": "arn:${AWS::Partition}:iam::001112238813:role/cdk-liflig-file-publishing-role-001112238813-us-east-1"
+                },
+                {
+                  "Fn::Sub": "arn:${AWS::Partition}:iam::001112238813:role/cdk-liflig-file-publishing-role-001112238813-eu-west-1"
+                }
+              ]
             },
             {
               "Action": [
@@ -2696,7 +2709,9 @@
                   [
                     "1",
                     "2",
-                    "3"
+                    "3",
+                    "4",
+                    "5"
                   ],
                   {
                     "Ref": "BootstrapVersion"
@@ -2705,7 +2720,7 @@
               }
             ]
           },
-          "AssertDescription": "CDK bootstrap stack version 4 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
         }
       ]
     }
