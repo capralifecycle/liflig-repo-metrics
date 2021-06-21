@@ -17,7 +17,7 @@
       "type": "cdk:asset-manifest",
       "properties": {
         "file": "incub-repo-metrics-pipeline.assets.json",
-        "requiresBootstrapStackVersion": 4,
+        "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/liflig/version"
       }
     },
@@ -35,7 +35,7 @@
         "assumeRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-liflig-deploy-role-001112238813-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-liflig-cfn-exec-role-001112238813-eu-west-1",
         "stackTemplateAssetObjectUrl": "s3://cdk-liflig-assets-001112238813-eu-west-1/snapshot-value.json",
-        "requiresBootstrapStackVersion": 4,
+        "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/liflig/version",
         "additionalDependencies": [
           "incub-repo-metrics-pipeline.assets"
