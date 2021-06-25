@@ -31,7 +31,7 @@
     "eslint-plugin-prettier": "3.4.0",
     "eslint-plugin-react": "7.24.0",
     "git-revision-webpack-plugin": "5.0.0",
-    "html-webpack-plugin": "5.3.1",
+    "html-webpack-plugin": "5.3.2",
     "http-server": "0.12.3",
     "jest": "27.0.5",
     "jest-each": "27.0.2",
