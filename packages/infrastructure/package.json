@@ -50,6 +50,6 @@
     "@capraconsulting/webapp-deploy-lambda": "1.2.2",
     "@henrist/cdk-cloudfront-auth": "1.3.29",
     "@henrist/cdk-lambda-config": "1.0.38",
-    "@liflig/cdk": "1.45.1"
+    "@liflig/cdk": "1.46.1"
   }
 }
