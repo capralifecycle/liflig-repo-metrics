@@ -101,6 +101,12 @@
             "data": "PipelineCodePipelineArtifactsBucket9E5E7047"
           }
         ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/ArtifactsBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineArtifactsBucketPolicyDD5F42B2"
+          }
+        ],
         "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Role/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -335,6 +341,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "CrossRegionCodePipelineReplicationBucketFC3227F2"
+          }
+        ],
+        "/cross-region-stack-001112238813:us-east-1/Default/CrossRegionCodePipelineReplicationBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CrossRegionCodePipelineReplicationBucketPolicyB7BA2BCA"
           }
         ],
         "/cross-region-stack-001112238813:us-east-1/CDKMetadata/Default": [
