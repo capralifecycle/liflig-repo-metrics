@@ -4,6 +4,7 @@
   "scripts": {
     "clean": "lerna run clean",
     "lint": "lerna run lint",
+    "lint:fix": "lerna run lint:fix",
     "build": "lerna run build",
     "test": "lerna run test"
   },
