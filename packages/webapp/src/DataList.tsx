@@ -49,8 +49,9 @@ export const DataList: React.FC<Props> = ({ data }) => {
   const [showVulList, setShowVulList] = React.useState(false)
   const [showOnlyActionable, setShowOnlyActionable] = React.useState(false)
   const [showOnlyVulnerable, setShowOnlyVulnerable] = React.useState(false)
-  const [limitGraphDays, setLimitGraphDays] =
-    React.useState<number | null>(limitDays)
+  const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
+    limitDays,
+  )
   const [sortByRenovateDays, setSortByRenovateDays] = React.useState(false)
   const [filterDepName, setFilterDepName] = React.useState("")
   const [filterRepoName, setFilterRepoName] = React.useState("")
