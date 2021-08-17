@@ -48,7 +48,7 @@
     "@aws-cdk/core": "1.118.0",
     "@aws-cdk/pipelines": "1.118.0",
     "@capraconsulting/webapp-deploy-lambda": "1.2.2",
-    "@henrist/cdk-cloudfront-auth": "1.3.36",
+    "@henrist/cdk-cloudfront-auth": "1.3.37",
     "@henrist/cdk-lambda-config": "1.0.45",
     "@liflig/cdk": "1.47.0"
   }
