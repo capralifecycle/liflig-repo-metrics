@@ -35,7 +35,7 @@
     "@aws-sdk/client-cloudfront": "3.31.0",
     "@aws-sdk/client-s3": "3.31.0",
     "@aws-sdk/client-secrets-manager": "3.31.0",
-    "@capraconsulting/cals-cli": "2.22.1",
+    "@capraconsulting/cals-cli": "2.22.3",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.14.172",
     "axios": "0.21.4",
