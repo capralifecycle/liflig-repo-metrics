@@ -1,5 +1,6 @@
 import * as cloudfront from "@aws-cdk/aws-cloudfront"
 import * as origins from "@aws-cdk/aws-cloudfront-origins"
+import * as cw from "@aws-cdk/aws-cloudwatch"
 import { UserPool, UserPoolIdentityProvider } from "@aws-cdk/aws-cognito"
 import * as events from "@aws-cdk/aws-events"
 import * as eventstargets from "@aws-cdk/aws-events-targets"
@@ -10,6 +11,7 @@ import * as secretsmanager from "@aws-cdk/aws-secretsmanager"
 import * as cdk from "@aws-cdk/core"
 import * as webappDeploy from "@capraconsulting/webapp-deploy-lambda"
 import { AuthLambdas, CloudFrontAuth } from "@henrist/cdk-cloudfront-auth"
+import { CorePlatformConsumer } from "./core-platform"
 
 interface Props extends cdk.StackProps {
   authDomain: string
@@ -21,6 +23,8 @@ interface Props extends cdk.StackProps {
 export class RepoMetricsStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: Props) {
     super(scope, id, props)
+
+    const corePlatform = new CorePlatformConsumer(this, "CorePlatform")
 
     const userPool = UserPool.fromUserPoolId(this, "UserPool", props.userPoolId)
     userPool.registerIdentityProvider(
@@ -127,6 +131,12 @@ export class RepoMetricsStack extends cdk.Stack {
       enabled: true,
     })
 
+    this.addAlarmIfNotSuccessWithin("CollectorNotSuccessAlarm", {
+      fn: collector,
+      duration: cdk.Duration.hours(12),
+      alarmAction: corePlatform.slackAlarmAction,
+    })
+
     const aggregator = new lambda.Function(this, "Aggregator", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.aggregateHandler",
@@ -156,6 +166,12 @@ export class RepoMetricsStack extends cdk.Stack {
       }),
       targets: [new eventstargets.LambdaFunction(aggregator)],
       enabled: true,
+    })
+
+    this.addAlarmIfNotSuccessWithin("AggregatorNotSuccessAlarm", {
+      fn: aggregator,
+      duration: cdk.Duration.hours(12),
+      alarmAction: corePlatform.slackAlarmAction,
     })
 
     const reporter = new lambda.Function(this, "Reporter", {
@@ -188,6 +204,13 @@ export class RepoMetricsStack extends cdk.Stack {
       enabled: true,
     })
 
+    this.addAlarmIfNotSuccessWithin("ReporterNotSuccessAlarm", {
+      fn: reporter,
+      // Note: Metrics cannot be checked across more than a day
+      duration: cdk.Duration.days(1),
+      alarmAction: corePlatform.slackAlarmAction,
+    })
+
     new cdk.CfnOutput(this, "DataBucketNameOutput", {
       value: dataBucket.bucketName,
     })
@@ -207,5 +230,34 @@ export class RepoMetricsStack extends cdk.Stack {
     new cdk.CfnOutput(this, "ReporterFunctionArnOutput", {
       value: reporter.functionArn,
     })
+  }
+
+  private addAlarmIfNotSuccessWithin(
+    id: string,
+    props: {
+      fn: lambda.Function
+      duration: cdk.Duration
+      alarmAction: cw.IAlarmAction
+    },
+  ) {
+    const alarm = new cw.MathExpression({
+      expression: "invocations - errors",
+      usingMetrics: {
+        invocations: props.fn.metricInvocations(),
+        errors: props.fn.metricErrors(),
+      },
+      period: props.duration,
+    }).createAlarm(this, id, {
+      alarmDescription: `Function ${
+        props.fn.functionName
+      } has not run successful for the last ${props.duration.toHumanString()}`,
+      evaluationPeriods: 1,
+      threshold: 0,
+      treatMissingData: cw.TreatMissingData.BREACHING,
+      comparisonOperator: cw.ComparisonOperator.LESS_THAN_OR_EQUAL_TO_THRESHOLD,
+    })
+
+    alarm.addAlarmAction(props.alarmAction)
+    alarm.addOkAction(props.alarmAction)
   }
 }
