@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@capraconsulting/cals-cli": "2.22.3",
-    "@types/node": "14.17.15",
+    "@types/node": "14.17.17",
     "@typescript-eslint/eslint-plugin": "4.31.1",
     "@typescript-eslint/parser": "4.31.1",
     "aws-cdk": "1.122.0",
