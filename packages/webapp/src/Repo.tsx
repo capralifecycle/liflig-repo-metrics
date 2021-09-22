@@ -36,7 +36,7 @@ interface Props {
   showRenovateDays: boolean
 }
 
-type SnykType = "high" | "medium" | "low"
+type SnykType = "critical" | "high" | "medium" | "low"
 
 function snykStyle(type: SnykType): React.CSSProperties {
   switch (type) {
@@ -49,6 +49,11 @@ function snykStyle(type: SnykType): React.CSSProperties {
         color: "red",
       }
     case "high":
+      return {
+        color: "red",
+        fontWeight: "bold",
+      }
+    case "critical":
       return {
         color: "red",
         fontWeight: "bold",
@@ -223,6 +228,8 @@ export const Repo: React.FC<Props> = ({
           <span style={{ color: "green" }}>Ingen</span>
         ) : (
           <>
+            <SnykItem value={snyk.countsBySeverity.critical ?? 0} type="critical" />
+            <span style={{ color: "#AAA" }}> / </span>
             <SnykItem value={snyk.countsBySeverity.high} type="high" />
             <span style={{ color: "#AAA" }}> / </span>
             <SnykItem value={snyk.countsBySeverity.medium} type="medium" />

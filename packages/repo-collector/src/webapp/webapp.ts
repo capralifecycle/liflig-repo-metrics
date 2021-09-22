@@ -17,11 +17,13 @@ import {
 function sumSnykSeverities(projects: MetricRepoSnapshot["snyk"]["projects"]) {
   return projects.reduce(
     (acc, cur) => ({
+      critical: acc.critical + (cur.issueCountsBySeverity.critical ?? 0),
       high: acc.high + cur.issueCountsBySeverity.high,
       medium: acc.medium + cur.issueCountsBySeverity.medium,
       low: acc.low + cur.issueCountsBySeverity.low,
     }),
     {
+      critical: 0,
       high: 0,
       medium: 0,
       low: 0,
@@ -37,6 +39,7 @@ function snykProjectContainsVulnerability(
   project: MetricRepoSnapshot["snyk"]["projects"][0],
 ): boolean {
   return (
+    (project.issueCountsBySeverity.high ?? 0) > 0 ||
     project.issueCountsBySeverity.high > 0 ||
     project.issueCountsBySeverity.medium > 0 ||
     project.issueCountsBySeverity.low > 0
@@ -98,6 +101,7 @@ function convertDatapoint(
       datapoint.snyk.projects.length > 0
         ? {
             totalIssues:
+              countsBySeverity.critical +
               countsBySeverity.high +
               countsBySeverity.medium +
               countsBySeverity.low,
@@ -180,6 +184,7 @@ export function createWebappFriendlyFormat(
       snykVulnerabilities: sumBy(
         it.snyk.projects,
         (project) =>
+          (project.issueCountsBySeverity.critical ?? 0) +
           project.issueCountsBySeverity.high +
           project.issueCountsBySeverity.medium +
           project.issueCountsBySeverity.low,

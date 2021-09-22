@@ -205,6 +205,7 @@ function sumSnykSeverities(
   return projects.reduce(
     (acc, cur) =>
       acc +
+      (cur.issueCountsBySeverity.critical ?? 0) +
       cur.issueCountsBySeverity.high +
       cur.issueCountsBySeverity.medium +
       cur.issueCountsBySeverity.low,

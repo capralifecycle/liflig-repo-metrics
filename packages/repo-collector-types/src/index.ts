@@ -74,9 +74,10 @@ export interface MetricRepoSnapshot {
       testFrequency: string
       totalDependencies: number
       issueCountsBySeverity: {
-        low: number
+        critical?: number
         high: number
         medium: number
+        low: number
       }
       browseUrl: string
     }[]
@@ -113,9 +114,10 @@ export interface WebappMetricDataRepoDatapoint {
   snyk?: {
     totalIssues: number
     countsBySeverity: {
-      low: number
+      critical?: number
       high: number
       medium: number
+      low: number
     }
     vulnerableProjects: {
       path: string
