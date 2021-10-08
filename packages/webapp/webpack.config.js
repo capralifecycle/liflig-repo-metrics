@@ -114,7 +114,9 @@ module.exports = (env) => {
     mode: "development",
     devtool: "eval-source-map",
     devServer: {
-      contentBase: "./build",
+      static: {
+        directory: "./build",
+      },
       port: 3000,
       historyApiFallback: true,
       proxy: {
