@@ -4147,10 +4147,10 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
-"@types/recharts@1.8.21":
-  version "1.8.21"
-  resolved "https://registry.yarnpkg.com/@types/recharts/-/recharts-1.8.21.tgz#6c8914480d051cb7432c37953283e372674b12e2"
-  integrity sha512-x67lssiIzCTFLDYKv4Axdm+kPR7YSt7eAwjLvDSNFt13GGGtqdQ4SHucyJStM31gRC+NCgiMB2pYfVeyy8wTPw==
+"@types/recharts@1.8.23":
+  version "1.8.23"
+  resolved "https://registry.yarnpkg.com/@types/recharts/-/recharts-1.8.23.tgz#eeb6c52c6b2b916e9383bd5cf8fb5fd941c9c6fe"
+  integrity sha512-O/mIPm9f6dwRWfenOI3GQwsGta3x1YWjwqXOCZqC0MATQ6C+A+Jc8VxFnSUr4N3uYv64zkq90RwXFaMNbhJKvg==
   dependencies:
     "@types/d3-shape" "^1"
     "@types/react" "*"
