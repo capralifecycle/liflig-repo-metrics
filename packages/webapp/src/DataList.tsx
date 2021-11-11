@@ -90,9 +90,18 @@ export const DataList: React.FC<Props> = ({ data }) => {
     )
   }
 
+  function filterByVulnerabilities(repo: WebappMetricDataRepo): boolean {
+    return (
+      filterDepName === "" ||
+      repo.lastDatapoint.github.vulnerabilityAlerts.some((alert) =>
+        alert.packageName.includes(filterDepName),
+      )
+    )
+  }
+
   const filteredRepos = data.repos
     .filter((it) => filterRepoId(it.repoId))
-    .filter((it) => filterByUpdates(it))
+    .filter((it) => filterByUpdates(it) || filterByVulnerabilities(it))
 
   const shownRepoIds = filteredRepos.map((it) => it.repoId)
 
