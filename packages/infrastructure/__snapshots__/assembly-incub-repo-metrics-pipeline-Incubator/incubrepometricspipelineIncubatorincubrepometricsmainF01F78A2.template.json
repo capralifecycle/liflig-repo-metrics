@@ -2325,7 +2325,7 @@
           }
         },
         "Handler": "index.aggregateHandler",
-        "MemorySize": 1024,
+        "MemorySize": 2048,
         "Runtime": "nodejs12.x",
         "Tags": [
           {
