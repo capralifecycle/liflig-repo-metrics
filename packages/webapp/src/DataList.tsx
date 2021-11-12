@@ -13,6 +13,27 @@ interface Props {
   data: WebappMetricData
 }
 
+interface FilterState {
+  showPrList: boolean
+}
+
+enum FilterActionType {
+  TOGGLE_SHOW_PR_LIST = "toggle_show_pr_list",
+}
+
+interface FilterAction {
+  type: FilterActionType
+}
+
+function filterReducer(state: FilterState, action: FilterAction) {
+  switch (action.type) {
+    case FilterActionType.TOGGLE_SHOW_PR_LIST:
+      return { ...state, showPrList: !state.showPrList }
+    default:
+      throw new Error()
+  }
+}
+
 function ageInDays(timestamp: string) {
   // Approx to simplify.
   return Math.floor(
@@ -41,10 +62,11 @@ function filterFetchGroupRepos(
 }
 
 export const DataList: React.FC<Props> = ({ data }) => {
+  const initialState = { showPrList: false }
+  const [state, dispatch] = React.useReducer(filterReducer, initialState)
   const limitDays = 30
 
   const [groupByResponsible, setGroupByResponsible] = React.useState(true)
-  const [showPrList, setShowPrList] = React.useState(false)
   const [showDepList, setShowDepList] = React.useState(false)
   const [showVulList, setShowVulList] = React.useState(false)
   const [showOnlyActionable, setShowOnlyActionable] = React.useState(false)
@@ -138,7 +160,12 @@ export const DataList: React.FC<Props> = ({ data }) => {
           }}
           placeholder="Filtrer på navn til oppdatering"
         />
-        <Checkbox checked={showPrList} onCheck={setShowPrList}>
+        <Checkbox
+          checked={state.showPrList}
+          onCheck={() =>
+            dispatch({ type: FilterActionType.TOGGLE_SHOW_PR_LIST })
+          }
+        >
           Vis liste over PRs
         </Checkbox>
         <Checkbox checked={showVulList} onCheck={setShowVulList}>
@@ -204,7 +231,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
                       (it) => it.responsible === responsible,
                     )}
                     repos={repos}
-                    showPrList={showPrList}
+                    showPrList={state.showPrList}
                     showDepList={showDepList}
                     showVulList={showVulList}
                     sortByRenovateDays={sortByRenovateDays}
@@ -219,7 +246,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
           <DataGroup
             fetchGroups={filteredFetchGroups}
             repos={filteredRepos}
-            showPrList={showPrList}
+            showPrList={state.showPrList}
             showDepList={showDepList}
             showVulList={showVulList}
             sortByRenovateDays={sortByRenovateDays}
