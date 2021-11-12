@@ -16,6 +16,7 @@ interface Props {
 interface FilterState {
   showPrList: boolean
   showDepList: boolean
+  showVulList: boolean
 }
 
 enum FilterActionType {
@@ -64,12 +65,15 @@ function filterFetchGroupRepos(
 }
 
 export const DataList: React.FC<Props> = ({ data }) => {
-  const initialState = { showPrList: false, showDepList: false }
+  const initialState = {
+    showPrList: false,
+    showDepList: false,
+    showVulList: false,
+  }
   const [state, dispatch] = React.useReducer(filterReducer, initialState)
   const limitDays = 30
 
   const [groupByResponsible, setGroupByResponsible] = React.useState(true)
-  const [showVulList, setShowVulList] = React.useState(false)
   const [showOnlyActionable, setShowOnlyActionable] = React.useState(false)
   const [showOnlyVulnerable, setShowOnlyVulnerable] = React.useState(false)
   const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
@@ -180,7 +184,15 @@ export const DataList: React.FC<Props> = ({ data }) => {
         >
           Vis liste over PRs
         </Checkbox>
-        <Checkbox checked={showVulList} onCheck={setShowVulList}>
+        <Checkbox
+          checked={state.showVulList}
+          onCheck={() =>
+            dispatch({
+              type: FilterActionType.TOGGLE_BOOLEAN,
+              prop: "showVulList",
+            })
+          }
+        >
           Vis detaljer om sårbarheter
         </Checkbox>
         <Checkbox checked={showOnlyActionable} onCheck={setShowOnlyActionable}>
@@ -245,7 +257,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
                     repos={repos}
                     showPrList={state.showPrList}
                     showDepList={state.showDepList}
-                    showVulList={showVulList}
+                    showVulList={state.showVulList}
                     sortByRenovateDays={sortByRenovateDays}
                   />
                 )}
@@ -260,7 +272,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
             repos={filteredRepos}
             showPrList={state.showPrList}
             showDepList={state.showDepList}
-            showVulList={showVulList}
+            showVulList={state.showVulList}
             sortByRenovateDays={sortByRenovateDays}
           />
         </>
