@@ -19,20 +19,18 @@ interface FilterState {
 }
 
 enum FilterActionType {
-  TOGGLE_SHOW_PR_LIST = "toggle_show_pr_list",
-  TOGGLE_SHOW_DEP_LIST = "toggle_show_dep_list",
+  TOGGLE_BOOLEAN = "toggle_boolean",
 }
 
-interface FilterAction {
+interface FilterAction<T = keyof FilterState> {
   type: FilterActionType
+  prop: T
 }
 
 function filterReducer(state: FilterState, action: FilterAction) {
   switch (action.type) {
-    case FilterActionType.TOGGLE_SHOW_PR_LIST:
-      return { ...state, showPrList: !state.showPrList }
-    case FilterActionType.TOGGLE_SHOW_DEP_LIST:
-      return { ...state, showDepList: !state.showDepList }
+    case FilterActionType.TOGGLE_BOOLEAN:
+      return { ...state, [action.prop]: !state[action.prop] }
     default:
       throw new Error()
   }
@@ -155,7 +153,10 @@ export const DataList: React.FC<Props> = ({ data }) => {
         <Checkbox
           checked={state.showDepList}
           onCheck={() =>
-            dispatch({ type: FilterActionType.TOGGLE_SHOW_DEP_LIST })
+            dispatch({
+              type: FilterActionType.TOGGLE_BOOLEAN,
+              prop: "showDepList",
+            })
           }
         >
           Vis detaljert liste over oppdateringer
@@ -171,7 +172,10 @@ export const DataList: React.FC<Props> = ({ data }) => {
         <Checkbox
           checked={state.showPrList}
           onCheck={() =>
-            dispatch({ type: FilterActionType.TOGGLE_SHOW_PR_LIST })
+            dispatch({
+              type: FilterActionType.TOGGLE_BOOLEAN,
+              prop: "showPrList",
+            })
           }
         >
           Vis liste over PRs
