@@ -144,6 +144,12 @@ export const DataList: React.FC<Props> = ({ data }) => {
     ? groupBy(filteredRepos, (it) => it.responsible ?? "Ukjent")
     : undefined
 
+  const createOnCheck = (prop: keyof FilterState) => () =>
+    dispatch({
+      type: FilterActionType.TOGGLE_BOOLEAN,
+      prop,
+    })
+
   return (
     <>
       <div className="filters">
@@ -156,12 +162,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
         </Checkbox>
         <Checkbox
           checked={state.showDepList}
-          onCheck={() =>
-            dispatch({
-              type: FilterActionType.TOGGLE_BOOLEAN,
-              prop: "showDepList",
-            })
-          }
+          onCheck={createOnCheck("showDepList")}
         >
           Vis detaljert liste over oppdateringer
         </Checkbox>
@@ -175,23 +176,13 @@ export const DataList: React.FC<Props> = ({ data }) => {
         />
         <Checkbox
           checked={state.showPrList}
-          onCheck={() =>
-            dispatch({
-              type: FilterActionType.TOGGLE_BOOLEAN,
-              prop: "showPrList",
-            })
-          }
+          onCheck={createOnCheck("showPrList")}
         >
           Vis liste over PRs
         </Checkbox>
         <Checkbox
           checked={state.showVulList}
-          onCheck={() =>
-            dispatch({
-              type: FilterActionType.TOGGLE_BOOLEAN,
-              prop: "showVulList",
-            })
-          }
+          onCheck={createOnCheck("showVulList")}
         >
           Vis detaljer om sårbarheter
         </Checkbox>
