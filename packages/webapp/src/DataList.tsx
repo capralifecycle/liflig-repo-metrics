@@ -18,6 +18,9 @@ interface FilterState {
   showDepList: boolean
   showVulList: boolean
   groupByResponsible: boolean
+  showOnlyActionable: boolean
+  showOnlyVulnerable: boolean
+  sortByRenovateDays: boolean
 }
 
 enum FilterActionType {
@@ -71,16 +74,17 @@ export const DataList: React.FC<Props> = ({ data }) => {
     showDepList: false,
     showVulList: false,
     groupByResponsible: true,
+    showOnlyActionable: false,
+    showOnlyVulnerable: false,
+    sortByRenovateDays: false,
   }
   const [state, dispatch] = React.useReducer(filterReducer, initialState)
   const limitDays = 30
 
-  const [showOnlyActionable, setShowOnlyActionable] = React.useState(false)
-  const [showOnlyVulnerable, setShowOnlyVulnerable] = React.useState(false)
   const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
     limitDays,
   )
-  const [sortByRenovateDays, setSortByRenovateDays] = React.useState(false)
+
   const [filterDepName, setFilterDepName] = React.useState("")
   const [filterRepoName, setFilterRepoName] = React.useState("")
 
@@ -88,13 +92,13 @@ export const DataList: React.FC<Props> = ({ data }) => {
     string[]
   >([])
 
-  const actionableRepos = showOnlyActionable
+  const actionableRepos = state.showOnlyActionable
     ? data.repos
         .filter((it) => isActionableRepo(it.lastDatapoint))
         .map((it) => it.repoId)
     : []
 
-  const vulnerableRepos = showOnlyVulnerable
+  const vulnerableRepos = state.showOnlyVulnerable
     ? data.repos
         .filter((it) => isVulnerableRepo(it.lastDatapoint))
         .map((it) => it.repoId)
@@ -103,8 +107,8 @@ export const DataList: React.FC<Props> = ({ data }) => {
   function filterRepoId(repoId: string): boolean {
     return (
       (filterRepoName === "" || repoId.includes(filterRepoName)) &&
-      (!showOnlyActionable || actionableRepos.includes(repoId)) &&
-      (!showOnlyVulnerable || vulnerableRepos.includes(repoId))
+      (!state.showOnlyActionable || actionableRepos.includes(repoId)) &&
+      (!state.showOnlyVulnerable || vulnerableRepos.includes(repoId))
     )
   }
 
@@ -190,10 +194,16 @@ export const DataList: React.FC<Props> = ({ data }) => {
         >
           Vis detaljer om sårbarheter
         </Checkbox>
-        <Checkbox checked={showOnlyActionable} onCheck={setShowOnlyActionable}>
+        <Checkbox
+          checked={state.showOnlyActionable}
+          onCheck={createOnCheckHandler("showOnlyActionable")}
+        >
           Skjul repoer hvor alt er OK nå
         </Checkbox>
-        <Checkbox checked={showOnlyVulnerable} onCheck={setShowOnlyVulnerable}>
+        <Checkbox
+          checked={state.showOnlyVulnerable}
+          onCheck={createOnCheckHandler("showOnlyVulnerable")}
+        >
           Vis kun sårbare repoer
         </Checkbox>
         <Checkbox
@@ -202,7 +212,10 @@ export const DataList: React.FC<Props> = ({ data }) => {
         >
           Begrens graf til siste 30 dager
         </Checkbox>
-        <Checkbox checked={sortByRenovateDays} onCheck={setSortByRenovateDays}>
+        <Checkbox
+          checked={state.sortByRenovateDays}
+          onCheck={createOnCheckHandler("sortByRenovateDays")}
+        >
           Vis alle Renovate dager og sorter baklengs
         </Checkbox>
         <input
@@ -253,7 +266,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
                     showPrList={state.showPrList}
                     showDepList={state.showDepList}
                     showVulList={state.showVulList}
-                    sortByRenovateDays={sortByRenovateDays}
+                    sortByRenovateDays={state.sortByRenovateDays}
                   />
                 )}
               </React.Fragment>
@@ -268,7 +281,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
             showPrList={state.showPrList}
             showDepList={state.showDepList}
             showVulList={state.showVulList}
-            sortByRenovateDays={sortByRenovateDays}
+            sortByRenovateDays={state.sortByRenovateDays}
           />
         </>
       )}
