@@ -145,7 +145,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
     ? groupBy(filteredRepos, (it) => it.responsible ?? "Ukjent")
     : undefined
 
-  const createOnCheck = (prop: keyof FilterState) => () =>
+  const createOnCheckHandler = (prop: keyof FilterState) => () =>
     dispatch({
       type: FilterActionType.TOGGLE_BOOLEAN,
       prop,
@@ -156,7 +156,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
       <div className="filters">
         <Checkbox
           checked={state.groupByResponsible}
-          onCheck={createOnCheck("groupByResponsible")}
+          onCheck={createOnCheckHandler("groupByResponsible")}
         >
           Grupper etter ansvarlig (iht.{" "}
           <a href="https://github.com/capralifecycle/resources-definition">
@@ -166,7 +166,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
         </Checkbox>
         <Checkbox
           checked={state.showDepList}
-          onCheck={createOnCheck("showDepList")}
+          onCheck={createOnCheckHandler("showDepList")}
         >
           Vis detaljert liste over oppdateringer
         </Checkbox>
@@ -180,13 +180,13 @@ export const DataList: React.FC<Props> = ({ data }) => {
         />
         <Checkbox
           checked={state.showPrList}
-          onCheck={createOnCheck("showPrList")}
+          onCheck={createOnCheckHandler("showPrList")}
         >
           Vis liste over PRs
         </Checkbox>
         <Checkbox
           checked={state.showVulList}
-          onCheck={createOnCheck("showVulList")}
+          onCheck={createOnCheckHandler("showVulList")}
         >
           Vis detaljer om sårbarheter
         </Checkbox>
