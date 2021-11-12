@@ -17,6 +17,7 @@ interface FilterState {
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
+  groupByResponsible: boolean
 }
 
 enum FilterActionType {
@@ -69,11 +70,11 @@ export const DataList: React.FC<Props> = ({ data }) => {
     showPrList: false,
     showDepList: false,
     showVulList: false,
+    groupByResponsible: true,
   }
   const [state, dispatch] = React.useReducer(filterReducer, initialState)
   const limitDays = 30
 
-  const [groupByResponsible, setGroupByResponsible] = React.useState(true)
   const [showOnlyActionable, setShowOnlyActionable] = React.useState(false)
   const [showOnlyVulnerable, setShowOnlyVulnerable] = React.useState(false)
   const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
@@ -140,7 +141,7 @@ export const DataList: React.FC<Props> = ({ data }) => {
     (it) => shownRepoIds.includes(it.repoId),
   )
 
-  const byResponsible = groupByResponsible
+  const byResponsible = state.groupByResponsible
     ? groupBy(filteredRepos, (it) => it.responsible ?? "Ukjent")
     : undefined
 
@@ -153,7 +154,10 @@ export const DataList: React.FC<Props> = ({ data }) => {
   return (
     <>
       <div className="filters">
-        <Checkbox checked={groupByResponsible} onCheck={setGroupByResponsible}>
+        <Checkbox
+          checked={state.groupByResponsible}
+          onCheck={createOnCheck("groupByResponsible")}
+        >
           Grupper etter ansvarlig (iht.{" "}
           <a href="https://github.com/capralifecycle/resources-definition">
             resources-definition
