@@ -13,7 +13,7 @@ interface Props {
   data: WebappMetricData
 }
 
-interface FilterState {
+interface FilterState extends Record<string, boolean> {
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
@@ -69,7 +69,7 @@ function filterFetchGroupRepos(
 }
 
 export const DataList: React.FC<Props> = ({ data }) => {
-  const initialState = {
+  const defaultValues: FilterState = {
     showPrList: false,
     showDepList: false,
     showVulList: false,
@@ -78,7 +78,17 @@ export const DataList: React.FC<Props> = ({ data }) => {
     showOnlyVulnerable: false,
     sortByRenovateDays: false,
   }
-  const [state, dispatch] = React.useReducer(filterReducer, initialState)
+  const [state, dispatch] = React.useReducer(filterReducer, defaultValues)
+
+  React.useEffect(() => {
+    const params = Object.keys(defaultValues)
+      .filter((k) => defaultValues[k] !== state[k])
+      .map((k) => `${k}=${state[k].toString()}`)
+      .join("&")
+
+    history.replaceState(state, "", params ? `?${params}` : "/")
+  }, [state])
+
   const limitDays = 30
 
   const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
