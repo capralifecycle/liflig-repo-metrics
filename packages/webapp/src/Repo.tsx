@@ -170,9 +170,9 @@ export const Repo: React.FC<Props> = ({
             )}
             {showDepList && (
               <ul>
-                {availableUpdates.map((available) => (
+                {availableUpdates.map((available, i) => (
                   <li
-                    key={available.name}
+                    key={i}
                     style={available.isActionable ? {} : { color: "#AAA" }}
                   >
                     {available.name} ({available.toVersion}) (
