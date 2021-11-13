@@ -1,31 +1,15 @@
 import * as React from "react"
 import { useData } from "./data"
-import { DataList, FilterState } from "./DataList"
+import { DataList } from "./DataList"
+import { defaultValues, getFilterStateFromUrl } from "./filter"
 
 const App: React.FC = () => {
   const { isLoading: dataIsLoading, data } = useData()
-  const defaultValues: FilterState = {
-    showPrList: false,
-    showDepList: false,
-    showVulList: false,
-    groupByResponsible: true,
-    showOnlyActionable: false,
-    showOnlyVulnerable: false,
-    sortByRenovateDays: false,
-  }
+
   const [filterState, setFilterstate] = React.useState(defaultValues)
 
   React.useEffect(() => {
-    const filterStateFromUrl = location.search
-      .slice(1)
-      .split("&")
-      .map((s) => s.split("="))
-      .reduce((acc, [k, v]) => {
-        acc[k] = v === "true"
-        return acc
-      }, filterState)
-
-    setFilterstate(filterStateFromUrl)
+    setFilterstate(getFilterStateFromUrl())
   }, [])
 
   return (

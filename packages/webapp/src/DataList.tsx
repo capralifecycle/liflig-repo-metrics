@@ -7,31 +7,12 @@ import { groupBy } from "lodash"
 import * as React from "react"
 import { Checkbox } from "./Checkbox"
 import { DataGroup } from "./DataGroup"
+import { FilterState, defaultValues, toQueryString } from "./filter"
 import { isActionableRepo, isVulnerableRepo } from "./Repo"
 
 interface Props {
   data: WebappMetricData
   filterState: FilterState
-}
-
-export interface FilterState extends Record<string, boolean> {
-  showPrList: boolean
-  showDepList: boolean
-  showVulList: boolean
-  groupByResponsible: boolean
-  showOnlyActionable: boolean
-  showOnlyVulnerable: boolean
-  sortByRenovateDays: boolean
-}
-
-export const defaultValues: FilterState = {
-  showPrList: false,
-  showDepList: false,
-  showVulList: false,
-  groupByResponsible: true,
-  showOnlyActionable: false,
-  showOnlyVulnerable: false,
-  sortByRenovateDays: false,
 }
 
 enum FilterActionType {
@@ -83,12 +64,7 @@ export const DataList: React.FC<Props> = ({ data, filterState }) => {
   const [state, dispatch] = React.useReducer(filterReducer, filterState)
 
   React.useEffect(() => {
-    const params = Object.keys(defaultValues)
-      .filter((k) => defaultValues[k] !== state[k])
-      .map((k) => `${k}=${state[k].toString()}`)
-      .join("&")
-
-    history.replaceState(state, "", params ? `?${params}` : "/")
+    history.replaceState(state, "", `?${toQueryString(state)}`)
   }, [state])
 
   const limitDays = 30
