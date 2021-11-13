@@ -11,9 +11,10 @@ import { isActionableRepo, isVulnerableRepo } from "./Repo"
 
 interface Props {
   data: WebappMetricData
+  filterState: FilterState
 }
 
-interface FilterState extends Record<string, boolean> {
+export interface FilterState extends Record<string, boolean> {
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
@@ -21,6 +22,16 @@ interface FilterState extends Record<string, boolean> {
   showOnlyActionable: boolean
   showOnlyVulnerable: boolean
   sortByRenovateDays: boolean
+}
+
+export const defaultValues: FilterState = {
+  showPrList: false,
+  showDepList: false,
+  showVulList: false,
+  groupByResponsible: true,
+  showOnlyActionable: false,
+  showOnlyVulnerable: false,
+  sortByRenovateDays: false,
 }
 
 enum FilterActionType {
@@ -68,17 +79,8 @@ function filterFetchGroupRepos(
   })
 }
 
-export const DataList: React.FC<Props> = ({ data }) => {
-  const defaultValues: FilterState = {
-    showPrList: false,
-    showDepList: false,
-    showVulList: false,
-    groupByResponsible: true,
-    showOnlyActionable: false,
-    showOnlyVulnerable: false,
-    sortByRenovateDays: false,
-  }
-  const [state, dispatch] = React.useReducer(filterReducer, defaultValues)
+export const DataList: React.FC<Props> = ({ data, filterState }) => {
+  const [state, dispatch] = React.useReducer(filterReducer, filterState)
 
   React.useEffect(() => {
     const params = Object.keys(defaultValues)
