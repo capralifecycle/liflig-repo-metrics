@@ -1,15 +1,15 @@
 import * as React from "react"
 import { useData } from "./data"
 import { DataList } from "./DataList"
-import { defaultValues, getFilterStateFromUrl } from "./filter"
+import { defaultValues, getFilterFromUrl } from "./filter"
 
 const App: React.FC = () => {
   const { isLoading: dataIsLoading, data } = useData()
 
-  const [filterState, setFilterstate] = React.useState(defaultValues)
+  const [filter, setFilter] = React.useState(defaultValues)
 
   React.useEffect(() => {
-    setFilterstate(getFilterStateFromUrl())
+    setFilter(getFilterFromUrl())
   }, [])
 
   return (
@@ -28,7 +28,7 @@ const App: React.FC = () => {
       ) : !data ? (
         <p>Klarte ikke å laste inn data.</p>
       ) : (
-        <DataList data={data} filterState={filterState} />
+        <DataList data={data} filter={filter} />
       )}
     </>
   )

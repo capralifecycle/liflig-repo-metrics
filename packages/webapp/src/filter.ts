@@ -1,4 +1,4 @@
-export interface FilterState extends Record<string, boolean> {
+export interface Filter extends Record<string, boolean> {
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
@@ -8,7 +8,7 @@ export interface FilterState extends Record<string, boolean> {
   sortByRenovateDays: boolean
 }
 
-export const defaultValues: FilterState = {
+export const defaultValues: Filter = {
   showPrList: false,
   showDepList: false,
   showVulList: false,
@@ -18,7 +18,7 @@ export const defaultValues: FilterState = {
   sortByRenovateDays: false,
 }
 
-export const getFilterStateFromUrl = (): FilterState =>
+export const getFilterFromUrl = (): Filter =>
   location.search
     .slice(1)
     .split("&")
@@ -28,7 +28,7 @@ export const getFilterStateFromUrl = (): FilterState =>
       Object.assign({}, defaultValues),
     )
 
-export const toQueryString = (state: FilterState): string =>
+export const toQueryString = (state: Filter): string =>
   Object.keys(defaultValues)
     .filter((k) => defaultValues[k] !== state[k])
     .map((k) => `${k}=${state[k].toString()}`)

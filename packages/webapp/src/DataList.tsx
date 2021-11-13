@@ -7,24 +7,24 @@ import { groupBy } from "lodash"
 import * as React from "react"
 import { Checkbox } from "./Checkbox"
 import { DataGroup } from "./DataGroup"
-import { FilterState, defaultValues, toQueryString } from "./filter"
+import { Filter, toQueryString } from "./filter"
 import { isActionableRepo, isVulnerableRepo } from "./Repo"
 
 interface Props {
   data: WebappMetricData
-  filterState: FilterState
+  filter: Filter
 }
 
 enum FilterActionType {
   TOGGLE_BOOLEAN = "toggle_boolean",
 }
 
-interface FilterAction<T = keyof FilterState> {
+interface FilterAction<T = keyof Filter> {
   type: FilterActionType
   prop: T
 }
 
-function filterReducer(state: FilterState, action: FilterAction) {
+function filterReducer(state: Filter, action: FilterAction) {
   switch (action.type) {
     case FilterActionType.TOGGLE_BOOLEAN:
       return { ...state, [action.prop]: !state[action.prop] }
@@ -60,11 +60,12 @@ function filterFetchGroupRepos(
   })
 }
 
-export const DataList: React.FC<Props> = ({ data, filterState }) => {
-  const [state, dispatch] = React.useReducer(filterReducer, filterState)
+export const DataList: React.FC<Props> = ({ data, filter }) => {
+  const [state, dispatch] = React.useReducer(filterReducer, filter)
 
   React.useEffect(() => {
-    history.replaceState(state, "", `?${toQueryString(state)}`)
+    const queryString = toQueryString(state)
+    history.replaceState(state, "", queryString ? `?${queryString}` : "/")
   }, [state])
 
   const limitDays = 30
@@ -137,7 +138,7 @@ export const DataList: React.FC<Props> = ({ data, filterState }) => {
     ? groupBy(filteredRepos, (it) => it.responsible ?? "Ukjent")
     : undefined
 
-  const createOnCheckHandler = (prop: keyof FilterState) => () =>
+  const createOnCheckHandler = (prop: keyof Filter) => () =>
     dispatch({
       type: FilterActionType.TOGGLE_BOOLEAN,
       prop,
