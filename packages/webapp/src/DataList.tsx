@@ -8,29 +8,12 @@ import * as React from "react"
 import { Checkbox } from "./Checkbox"
 import { DataGroup } from "./DataGroup"
 import { Filter, toQueryString } from "./filter"
+import { FilterActionType, filterReducer } from "./filterReducer"
 import { isActionableRepo, isVulnerableRepo } from "./Repo"
 
 interface Props {
   data: WebappMetricData
   filter: Filter
-}
-
-enum FilterActionType {
-  TOGGLE_BOOLEAN = "toggle_boolean",
-}
-
-interface FilterAction<T = keyof Filter> {
-  type: FilterActionType
-  prop: T
-}
-
-function filterReducer(state: Filter, action: FilterAction) {
-  switch (action.type) {
-    case FilterActionType.TOGGLE_BOOLEAN:
-      return { ...state, [action.prop]: !state[action.prop] }
-    default:
-      throw new Error()
-  }
 }
 
 function ageInDays(timestamp: string) {
