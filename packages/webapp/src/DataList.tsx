@@ -60,10 +60,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   const [filterDepName, setFilterDepName] = React.useState("")
   const [filterRepoName, setFilterRepoName] = React.useState("")
 
-  const [collapseResponsible, setCollapseResponsible] = React.useState<
-    string[]
-  >([])
-
   const actionableRepos = state.showOnlyActionable
     ? data.repos
         .filter((it) => isActionableRepo(it.lastDatapoint))
@@ -203,7 +199,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         Object.entries(byResponsible)
           .sort((a, b) => a[0].localeCompare(b[0]))
           .map(([responsible, repos]) => {
-            const collapsed = collapseResponsible.includes(responsible)
+            const collapsed = state.collapseResponsible.includes(responsible)
 
             return (
               <React.Fragment key={responsible}>
@@ -212,16 +208,11 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
                   <button
                     style={{ marginLeft: "5px" }}
                     onClick={() =>
-                      collapsed
-                        ? setCollapseResponsible(
-                            collapseResponsible.filter(
-                              (it) => it !== responsible,
-                            ),
-                          )
-                        : setCollapseResponsible([
-                            ...collapseResponsible,
-                            responsible,
-                          ])
+                      dispatch({
+                        type: FilterActionType.TOGGLE_COLLAPSE_RESPONSIBLE,
+                        prop: "collapseResponsible",
+                        payload: responsible,
+                      })
                     }
                   >
                     {collapsed ? "Vis" : "Skjul"}
