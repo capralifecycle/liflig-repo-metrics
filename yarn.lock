@@ -2167,12 +2167,7 @@
   resolved "https://registry.yarnpkg.com/@henrist/cdk-cross-region-params/-/cdk-cross-region-params-1.0.1.tgz#622c9359c89eddd8f8340fabd227d5bc4b39f2be"
   integrity sha512-yfPv+Zv9e2OMdx/ABI1m7HTCBcVmv5zhKbMLb8y0WAYKLMhSM0+RfczmzVxsyti7BsN+3DyigjJKLV+xgKhgvw==
 
-"@henrist/cdk-lambda-config@1.0.69":
-  version "1.0.69"
-  resolved "https://registry.yarnpkg.com/@henrist/cdk-lambda-config/-/cdk-lambda-config-1.0.69.tgz#e27a5dd04615c6bd5e2907c8f1f92a2b844032b4"
-  integrity sha512-s9CAM/jKnuHsUNi3eX6TyzwuZB2w44V9DqZvl/fUu3xlhNq3l8XjD5o0g5l3r2LyRwbAgSjJUFTuJ+nnhi4EXQ==
-
-"@henrist/cdk-lambda-config@^1.0.0":
+"@henrist/cdk-lambda-config@1.0.70", "@henrist/cdk-lambda-config@^1.0.0":
   version "1.0.70"
   resolved "https://registry.yarnpkg.com/@henrist/cdk-lambda-config/-/cdk-lambda-config-1.0.70.tgz#800d27753eb5a0b9ce2cd959e782effd822a1de8"
   integrity sha512-DIP54pZYtX6e2dcizy22mFXJCFnDTIQ2JcKOLuBwrKVVFO60NIf/WfF8NqirPhWd4siKLLYrzg+RKcAae9IL0Q==
