@@ -76,7 +76,7 @@ export const DataGroup: React.FC<Props> = ({
           }))}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */}
           <Tooltip labelFormatter={(it: any) => new Date(it).toISOString()} />
           <YAxis />
           <YAxis yAxisId="secondary" orientation="right" />

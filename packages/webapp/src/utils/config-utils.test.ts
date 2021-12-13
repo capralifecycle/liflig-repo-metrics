@@ -12,6 +12,7 @@ describe("getEnvironment", () => {
     ${"https://example.com"}            | ${Environment.PROD}
     ${"https://www.example.com"}        | ${Environment.PROD}
   `("should return $expectedResult for $value", ({ expectedResult, value }) => {
+    /* eslint-disable-next-line @typescript-eslint/no-unsafe-argument */
     expect(getEnvironment(value)).toEqual(expectedResult)
   })
 })

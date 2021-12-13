@@ -7,7 +7,6 @@
     "prettier",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["deprecation"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx"]
@@ -15,10 +14,7 @@
   ],
   "parserOptions": {
     "ecmaVersion": 2018,
-    "project": [
-      "./tsconfig.json",
-      "./e2e/tsconfig.json"
-    ]
+    "project": ["./tsconfig.json", "./e2e/tsconfig.json"]
   },
   "settings": {
     "react": {
@@ -26,7 +22,6 @@
     }
   },
   "rules": {
-    "react/prop-types": "off",
-    "deprecation/deprecation": "error"
+    "react/prop-types": "off"
   }
 }
