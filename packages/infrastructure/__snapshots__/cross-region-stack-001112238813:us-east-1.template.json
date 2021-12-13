@@ -122,7 +122,13 @@
             }
           ]
         },
-        "BucketName": "incub-repo-metrics-pipelieplicationbucket6934b6d82988a4c1f534"
+        "BucketName": "incub-repo-metrics-pipelieplicationbucket6934b6d82988a4c1f534",
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        }
       },
       "UpdateReplacePolicy": "Retain",
       "DeletionPolicy": "Retain",
