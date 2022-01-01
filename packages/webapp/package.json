@@ -23,7 +23,7 @@
     "@typescript-eslint/eslint-plugin": "5.8.1",
     "@typescript-eslint/parser": "5.8.1",
     "@webpack-cli/serve": "1.6.0",
-    "autoprefixer": "10.4.0",
+    "autoprefixer": "10.4.1",
     "clean-webpack-plugin": "4.0.0",
     "css-loader": "6.5.1",
     "eslint": "8.5.0",
