@@ -33,7 +33,7 @@
     "eslint-plugin-react": "7.28.0",
     "git-revision-webpack-plugin": "5.0.0",
     "html-webpack-plugin": "5.5.0",
-    "http-server": "14.0.0",
+    "http-server": "14.1.0",
     "jest": "27.4.7",
     "jest-each": "27.4.6",
     "postcss": "8.4.5",
