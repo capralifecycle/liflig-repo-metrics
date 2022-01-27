@@ -531,6 +531,27 @@
     "@aws-cdk/cx-api" "1.140.0"
     constructs "^3.3.69"
 
+"@aws-cdk/aws-lambda-event-sources@1.140.0":
+  version "1.140.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda-event-sources/-/aws-lambda-event-sources-1.140.0.tgz#edda96a94c925a48937889b9ecd155f6916f4e28"
+  integrity sha512-tubPoYgddXHGxcE4GnjNmrIANlOMhJc8mr/T8XbYQK7utuDk/QBcz5mBU1Hp57osIbeIw2YgJfCrlRKbDDoFdQ==
+  dependencies:
+    "@aws-cdk/aws-apigateway" "1.140.0"
+    "@aws-cdk/aws-dynamodb" "1.140.0"
+    "@aws-cdk/aws-ec2" "1.140.0"
+    "@aws-cdk/aws-events" "1.140.0"
+    "@aws-cdk/aws-iam" "1.140.0"
+    "@aws-cdk/aws-kinesis" "1.140.0"
+    "@aws-cdk/aws-lambda" "1.140.0"
+    "@aws-cdk/aws-s3" "1.140.0"
+    "@aws-cdk/aws-s3-notifications" "1.140.0"
+    "@aws-cdk/aws-secretsmanager" "1.140.0"
+    "@aws-cdk/aws-sns" "1.140.0"
+    "@aws-cdk/aws-sns-subscriptions" "1.140.0"
+    "@aws-cdk/aws-sqs" "1.140.0"
+    "@aws-cdk/core" "1.140.0"
+    constructs "^3.3.69"
+
 "@aws-cdk/aws-lambda@1.140.0":
   version "1.140.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda/-/aws-lambda-1.140.0.tgz#c617bff9de76931a2d8a595ca0c2d73d6b002aa5"
@@ -647,6 +668,19 @@
     "@aws-cdk/core" "1.140.0"
     "@aws-cdk/lambda-layer-awscli" "1.140.0"
     case "1.6.3"
+    constructs "^3.3.69"
+
+"@aws-cdk/aws-s3-notifications@1.140.0":
+  version "1.140.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-s3-notifications/-/aws-s3-notifications-1.140.0.tgz#1d15b20a3393e40618492b5b9725808b395fa145"
+  integrity sha512-ZTsCwBv06wDwnzf9OkcuxvokA2ljPmhg8SvMX687+cLakLJ7zlF7EM1dOK0FzUunoLOstNw1WcnofIPp9Tu8OQ==
+  dependencies:
+    "@aws-cdk/aws-iam" "1.140.0"
+    "@aws-cdk/aws-lambda" "1.140.0"
+    "@aws-cdk/aws-s3" "1.140.0"
+    "@aws-cdk/aws-sns" "1.140.0"
+    "@aws-cdk/aws-sqs" "1.140.0"
+    "@aws-cdk/core" "1.140.0"
     constructs "^3.3.69"
 
 "@aws-cdk/aws-s3@1.140.0":
@@ -3575,10 +3609,10 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@liflig/cdk@1.51.1":
-  version "1.51.1"
-  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-1.51.1.tgz#576699d4f368380205dfe5c57fa0407f2d061a9f"
-  integrity sha512-PZNHpeN5hjl9/Z3ARdXWAUa6f5qmEpbw7bexh8dcvaL+QnXb55wRnNhw6AqY72XxzwyCk91puiIqJ/ZDDb1GVA==
+"@liflig/cdk@1.54.0-alpha.1":
+  version "1.54.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-1.54.0-alpha.1.tgz#551d6ed41cda1573f714d7fa76fe5bf89e315928"
+  integrity sha512-YYqtT1uGt6Hruqemep4DhI0S6WtSYhgJJmGFNDb1hl7AuVKwz4KZ7AH+kGqtveOffuNupL1VvpNHzpkMd9j9Dg==
   dependencies:
     "@capraconsulting/webapp-deploy-lambda" "^1.2.1"
     aws-sdk "^2.1012.0"
@@ -4196,15 +4230,6 @@
   integrity sha512-T6UeAUQWojf1toimSIf6sBwaO4HQ4iHdF4BL2RbPbzKTqe5blB7Iih7i7h69NSg/fOjWlkdszNPlaWD1/aX5LQ==
   dependencies:
     webpack-dev-server "*"
-
-"@types/webpack@^5.18.0":
-  version "5.28.0"
-  resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-5.28.0.tgz#78dde06212f038d77e54116cfe69e88ae9ed2c03"
-  integrity sha512-8cP0CzcxUiFuA9xGJkfeVpqmWTk9nx6CWwamRGCj95ph1SmlRRk9KlCZ6avhCbZd4L68LvYT6l1kpdEnQXrF8w==
-  dependencies:
-    "@types/node" "*"
-    tapable "^2.2.0"
-    webpack "^5"
 
 "@types/ws@^8.2.2":
   version "8.2.2"
@@ -12924,7 +12949,7 @@ webpack-merge@^5.7.3:
     clone-deep "^4.0.1"
     wildcard "^2.0.0"
 
-webpack-sources@^3.2.2, webpack-sources@^3.2.3:
+webpack-sources@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.2.3.tgz#2d4daab8451fd4b240cc27055ff6a0c2ccea0cde"
   integrity sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==
@@ -12958,36 +12983,6 @@ webpack@5.67.0:
     terser-webpack-plugin "^5.1.3"
     watchpack "^2.3.1"
     webpack-sources "^3.2.3"
-
-webpack@^5:
-  version "5.66.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.66.0.tgz#789bf36287f407fc92b3e2d6f978ddff1bfc2dbb"
-  integrity sha512-NJNtGT7IKpGzdW7Iwpn/09OXz9inIkeIQ/ibY6B+MdV1x6+uReqz/5z1L89ezWnpPDWpXF0TY5PCYKQdWVn8Vg==
-  dependencies:
-    "@types/eslint-scope" "^3.7.0"
-    "@types/estree" "^0.0.50"
-    "@webassemblyjs/ast" "1.11.1"
-    "@webassemblyjs/wasm-edit" "1.11.1"
-    "@webassemblyjs/wasm-parser" "1.11.1"
-    acorn "^8.4.1"
-    acorn-import-assertions "^1.7.6"
-    browserslist "^4.14.5"
-    chrome-trace-event "^1.0.2"
-    enhanced-resolve "^5.8.3"
-    es-module-lexer "^0.9.0"
-    eslint-scope "5.1.1"
-    events "^3.2.0"
-    glob-to-regexp "^0.4.1"
-    graceful-fs "^4.2.9"
-    json-parse-better-errors "^1.0.2"
-    loader-runner "^4.2.0"
-    mime-types "^2.1.27"
-    neo-async "^2.6.2"
-    schema-utils "^3.1.0"
-    tapable "^2.1.1"
-    terser-webpack-plugin "^5.1.3"
-    watchpack "^2.3.1"
-    webpack-sources "^3.2.2"
 
 websocket-driver@>=0.5.1, websocket-driver@^0.7.4:
   version "0.7.4"
