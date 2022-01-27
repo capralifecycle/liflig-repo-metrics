@@ -33,7 +33,7 @@ export class PipelineStack extends cdk.Stack {
       slackChannel: "#cals-dev-info",
     })
 
-    pipeline.cdkPipeline.addApplicationStage(
+    pipeline.cdkPipeline.addStage(
       new RepoMetricsEnv(this, "Incubator", {
         env: {
           account: incubatorAccountId,
