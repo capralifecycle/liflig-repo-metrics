@@ -1,10 +1,11 @@
-import * as cdk from "@aws-cdk/core"
+import * as constructs from "constructs"
+import * as cdk from "aws-cdk-lib"
 import { applyTags, externalValues } from "./config"
 import { RepoMetricsEdgeStack } from "./repo-metrics-edge-stack"
 import { RepoMetricsStack } from "./repo-metrics-stack"
 
 export class RepoMetricsEnv extends cdk.Stage {
-  constructor(scope: cdk.Construct, id: string, props: cdk.StageProps) {
+  constructor(scope: constructs.Construct, id: string, props: cdk.StageProps) {
     super(scope, id, props)
 
     applyTags(this)

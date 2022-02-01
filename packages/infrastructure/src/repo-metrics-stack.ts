@@ -1,14 +1,15 @@
-import * as cloudfront from "@aws-cdk/aws-cloudfront"
-import * as origins from "@aws-cdk/aws-cloudfront-origins"
-import * as cw from "@aws-cdk/aws-cloudwatch"
-import { UserPool, UserPoolIdentityProvider } from "@aws-cdk/aws-cognito"
-import * as events from "@aws-cdk/aws-events"
-import * as eventstargets from "@aws-cdk/aws-events-targets"
-import * as iam from "@aws-cdk/aws-iam"
-import * as lambda from "@aws-cdk/aws-lambda"
-import * as s3 from "@aws-cdk/aws-s3"
-import * as secretsmanager from "@aws-cdk/aws-secretsmanager"
-import * as cdk from "@aws-cdk/core"
+import * as constructs from "constructs"
+import * as cloudfront from "aws-cdk-lib/aws-cloudfront"
+import * as origins from "aws-cdk-lib/aws-cloudfront-origins"
+import * as cw from "aws-cdk-lib/aws-cloudwatch"
+import { UserPool, UserPoolIdentityProvider } from "aws-cdk-lib/aws-cognito"
+import * as events from "aws-cdk-lib/aws-events"
+import * as eventstargets from "aws-cdk-lib/aws-events-targets"
+import * as iam from "aws-cdk-lib/aws-iam"
+import * as lambda from "aws-cdk-lib/aws-lambda"
+import * as s3 from "aws-cdk-lib/aws-s3"
+import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
+import * as cdk from "aws-cdk-lib"
 import * as webappDeploy from "@capraconsulting/webapp-deploy-lambda"
 import { AuthLambdas, CloudFrontAuth } from "@henrist/cdk-cloudfront-auth"
 import { CorePlatformConsumer } from "./core-platform"
@@ -21,7 +22,7 @@ interface Props extends cdk.StackProps {
 }
 
 export class RepoMetricsStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: Props) {
+  constructor(scope: constructs.Construct, id: string, props: Props) {
     super(scope, id, props)
 
     const corePlatform = new CorePlatformConsumer(this, "CorePlatform")

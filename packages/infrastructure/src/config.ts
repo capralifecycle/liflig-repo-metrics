@@ -1,4 +1,5 @@
-import * as cdk from "@aws-cdk/core"
+import * as constructs from "constructs"
+import * as cdk from "aws-cdk-lib"
 import { tagResources } from "@liflig/cdk"
 
 export const incubatorAccountId = "001112238813"
@@ -13,7 +14,7 @@ export const externalValues = {
     "arn:aws:iam::923402097046:role/buildtools-jenkins-RoleJenkinsSlave-JQGYHR5WE6C5",
 }
 
-export function applyTags(scope: cdk.Construct) {
+export function applyTags(scope: constructs.Construct) {
   tagResources(scope, (stack) => ({
     StackName: stack.stackName,
     Project: "repo-metrics",

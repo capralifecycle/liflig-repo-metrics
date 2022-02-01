@@ -1,12 +1,13 @@
-import * as s3 from "@aws-cdk/aws-s3"
-import * as sm from "@aws-cdk/aws-secretsmanager"
-import * as cdk from "@aws-cdk/core"
+import * as constructs from "constructs"
+import * as s3 from "aws-cdk-lib/aws-s3"
+import * as sm from "aws-cdk-lib/aws-secretsmanager"
+import * as cdk from "aws-cdk-lib"
 import { cdkPipelines } from "@liflig/cdk"
 import { incubatorAccountId } from "./config"
 import { RepoMetricsEnv } from "./environment"
 
 export class PipelineStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props: cdk.StackProps) {
+  constructor(scope: constructs.Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props)
 
     // No Griid for incub yet.

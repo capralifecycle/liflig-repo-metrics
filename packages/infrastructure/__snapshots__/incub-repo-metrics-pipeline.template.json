@@ -60,6 +60,10 @@
                 "s3:List*",
                 "s3:DeleteObject*",
                 "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*"
               ],
               "Effect": "Allow",
@@ -423,6 +427,10 @@
                 "s3:List*",
                 "s3:DeleteObject*",
                 "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*"
               ],
               "Effect": "Allow",
@@ -622,6 +630,10 @@
                 "s3:List*",
                 "s3:DeleteObject*",
                 "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*"
               ],
               "Effect": "Allow",
@@ -1441,6 +1453,10 @@
               "Action": [
                 "s3:DeleteObject*",
                 "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*"
               ],
               "Effect": "Allow",
@@ -1565,6 +1581,10 @@
               "Action": [
                 "s3:DeleteObject*",
                 "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
                 "s3:Abort*"
               ],
               "Effect": "Allow",
@@ -2747,12 +2767,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g aws-cdk@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk -a . deploy incub-repo-metrics-pipeline --require-approval=never --verbose\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g aws-cdk@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk -a . deploy incub-repo-metrics-pipeline --require-approval=never --verbose\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/UpdatePipeline/SelfMutate",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -2975,12 +2996,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset1",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -3026,12 +3048,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset10",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -3077,12 +3100,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset11",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -3128,12 +3152,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset12",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -3179,12 +3204,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\",\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\",\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset2",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -3230,12 +3256,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset3",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -3281,12 +3308,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset4",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -3332,12 +3360,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset5",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -3383,12 +3412,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset6",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -3434,12 +3464,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset7",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -3485,12 +3516,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset8",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -3536,12 +3568,13 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@1\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@2\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Cache": {
           "Type": "NO_CACHE"
         },
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset9",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
