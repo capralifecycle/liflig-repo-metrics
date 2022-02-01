@@ -1,4 +1,5 @@
-import * as cdk from "@aws-cdk/core"
+import * as constructs from "constructs"
+import * as cdk from "aws-cdk-lib"
 import { AuthLambdas } from "@henrist/cdk-cloudfront-auth"
 
 /**
@@ -7,7 +8,7 @@ import { AuthLambdas } from "@henrist/cdk-cloudfront-auth"
 export class RepoMetricsEdgeStack extends cdk.Stack {
   public readonly authLambdas: AuthLambdas
 
-  constructor(scope: cdk.Construct, id: string, props: cdk.StackProps) {
+  constructor(scope: constructs.Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props)
 
     this.authLambdas = new AuthLambdas(this, "AuthLambdas", {

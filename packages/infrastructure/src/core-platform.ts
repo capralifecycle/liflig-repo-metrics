@@ -1,6 +1,7 @@
-import * as cloudwatchActions from "@aws-cdk/aws-cloudwatch-actions"
-import * as sns from "@aws-cdk/aws-sns"
-import * as cdk from "@aws-cdk/core"
+import * as constructs from "constructs"
+import * as cloudwatchActions from "aws-cdk-lib/aws-cloudwatch-actions"
+import * as sns from "aws-cdk-lib/aws-sns"
+import * as cdk from "aws-cdk-lib"
 import { platform } from "@liflig/cdk"
 
 const slackAlarmTopicArnParam = "slack-alarm-topic-arn"
@@ -9,7 +10,7 @@ const platformNamespace = "incub"
 const platformName = "incubator-common-core"
 
 export class CorePlatformConsumer extends platform.PlatformConsumer {
-  constructor(scope: cdk.Construct, id: string) {
+  constructor(scope: constructs.Construct, id: string) {
     super(scope, id, {
       platformNamespace,
       platformName,
