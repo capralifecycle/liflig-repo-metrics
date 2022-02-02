@@ -1837,11 +1837,6 @@
   resolved "https://registry.yarnpkg.com/@capraconsulting/webapp-deploy-lambda/-/webapp-deploy-lambda-2.0.0.tgz#a1e9f6a5bed0af638373c71db5c74d18d78fe216"
   integrity sha512-+x4ie/O7NDDNZD7kFnv5IUTPKGzu8iZIS/B87Lo+424ANcszD8P2n4PqPxIPLfLhlS/GrEq8jSQT5Stx87EMgg==
 
-"@capraconsulting/webapp-deploy-lambda@2.0.0-alpha.1":
-  version "2.0.0-alpha.1"
-  resolved "https://registry.yarnpkg.com/@capraconsulting/webapp-deploy-lambda/-/webapp-deploy-lambda-2.0.0-alpha.1.tgz#c99e37a1cbcadeaceab864bd3985dda8da294fc4"
-  integrity sha512-d4y0Zaoc4mUP3gJiUhQEY8W12LzFbYQ2BpmUeAGpMqJbXjRqHZQINWEwuQ/bNPKg8OI28QTsbycdfqxcPGqSGw==
-
 "@cspotcode/source-map-consumer@0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@cspotcode/source-map-consumer/-/source-map-consumer-0.8.0.tgz#33bf4b7b39c178821606f669bbc447a6a629786b"
@@ -2780,12 +2775,12 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@liflig/cdk@2.0.0-alphav2.1":
-  version "2.0.0-alphav2.1"
-  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.0.0-alphav2.1.tgz#af61e044a7e31b08c5f4bbd0df5cddb6f494530a"
-  integrity sha512-rGMo9c0T/fxr/OYzM7gu4cHw+9cDqspnQEQfyec6tx36/Le2uetuBIAr+Xz5WnaXAKYPPi5w8iSb9iKcFV9I0w==
+"@liflig/cdk@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.0.0.tgz#fe2daa28c571c5bfb5d92d1e88618e6c1853f7f5"
+  integrity sha512-fSJmIr3kaNv/s1SP/opoS5X8WJO4b6ZWotbj0rFk2BW9pN7gU+b0fNMm/H+AMU5S/3ewkk3Jb3fRU+6RoF0/mA==
   dependencies:
-    "@capraconsulting/webapp-deploy-lambda" "2.0.0-alpha.1"
+    "@capraconsulting/webapp-deploy-lambda" "2.0.0"
     aws-sdk "2.1058.0"
     cpy "8.1.2"
     del "6.0.0"
