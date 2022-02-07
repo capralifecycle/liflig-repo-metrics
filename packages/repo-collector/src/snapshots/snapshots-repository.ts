@@ -3,7 +3,7 @@ import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import * as fs from "fs"
 import * as getStream from "get-stream"
 import * as path from "path"
-import { Temporal } from "proposal-temporal"
+import { Temporal } from "@js-temporal/polyfill"
 import { Readable } from "stream"
 
 export interface SnapshotsRepository {

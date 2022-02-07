@@ -6,7 +6,7 @@ import {
   WebappStatsByFetchGroup,
 } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy, minBy, sumBy } from "lodash"
-import { Temporal } from "proposal-temporal"
+import { Temporal } from "@js-temporal/polyfill"
 import { SnapshotsRepository } from "../snapshots/snapshots-repository"
 import {
   calculateRenovateLastUpdateInDays,
@@ -137,8 +137,7 @@ export async function retrieveSnapshotsForWebappAggregation(
   // Include all for last 15 days.
   // Include only daily first for older.
 
-  const oldBefore = Temporal.now
-    .zonedDateTimeISO("UTC")
+  const oldBefore = Temporal.Now.zonedDateTimeISO("UTC")
     .round({
       smallestUnit: "days",
       roundingMode: "trunc",
