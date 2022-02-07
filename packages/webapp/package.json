@@ -36,7 +36,7 @@
     "http-server": "14.1.0",
     "jest": "27.4.7",
     "jest-each": "27.4.6",
-    "postcss": "8.4.5",
+    "postcss": "8.4.6",
     "postcss-loader": "6.2.1",
     "prettier": "2.5.1",
     "source-map-loader": "3.0.1",
