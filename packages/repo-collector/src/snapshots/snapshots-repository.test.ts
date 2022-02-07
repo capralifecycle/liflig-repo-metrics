@@ -1,4 +1,4 @@
-import { Temporal } from "proposal-temporal"
+import { Temporal } from "@js-temporal/polyfill"
 import { forTests } from "./snapshots-repository"
 
 test("formatTimestampForFilename", () => {
