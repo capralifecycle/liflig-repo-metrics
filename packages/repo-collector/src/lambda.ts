@@ -2,7 +2,7 @@ import { SecretsManager } from "@aws-sdk/client-secrets-manager"
 import { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
 import { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
 import { Handler } from "aws-lambda"
-import { Temporal } from "proposal-temporal"
+import { Temporal } from "@js-temporal/polyfill"
 import { isWorkingDay } from "./dates"
 import {
   generateMessage,
@@ -91,7 +91,7 @@ export const aggregateHandler: Handler = async () => {
 
 export const reportHandler: Handler = async () => {
   // Don't report on non-working days.
-  if (!isWorkingDay(Temporal.now.plainDateISO("UTC"))) {
+  if (!isWorkingDay(Temporal.Now.plainDateISO("UTC"))) {
     console.log("Non working day detected - skipping")
     return
   }

@@ -9,7 +9,7 @@ import { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
 import { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
 import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy } from "lodash"
-import { Temporal } from "proposal-temporal"
+import { Temporal } from "@js-temporal/polyfill"
 import { GithubDefinitionProvider } from "./definition-provider"
 import { SnapshotsRepository } from "./snapshots-repository"
 
@@ -130,7 +130,7 @@ export async function collect(
     tokenProvider: snykTokenProvider,
   })
 
-  const timestamp = Temporal.now.instant()
+  const timestamp = Temporal.Now.instant()
 
   const snapshots = await createSnapshots(
     timestamp,

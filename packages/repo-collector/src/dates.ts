@@ -1,5 +1,5 @@
 import * as DateHolidays from "date-holidays"
-import { Temporal } from "proposal-temporal"
+import { Temporal } from "@js-temporal/polyfill"
 
 let holidays: DateHolidays | null = null
 

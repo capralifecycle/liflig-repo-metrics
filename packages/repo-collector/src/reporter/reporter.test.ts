@@ -1,4 +1,4 @@
-import { Temporal } from "proposal-temporal"
+import { Temporal } from "@js-temporal/polyfill"
 import { calculateCutoffTimestamp } from "./reporter"
 
 test("cutoff on wednesday in normal week", () => {
