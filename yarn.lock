@@ -1255,10 +1255,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@capraconsulting/cals-cli@2.23.1":
-  version "2.23.1"
-  resolved "https://registry.yarnpkg.com/@capraconsulting/cals-cli/-/cals-cli-2.23.1.tgz#54f9aab83014f28eceb0e813d312f019d2688616"
-  integrity sha512-emwPsEkI+eSlYn94gJ5/0hDaofaIqdUJvXDPyfNnU2CAKLJYm1VpuWcYmaSE11j3liNbXSFefOTUqSlgBy7GQg==
+"@capraconsulting/cals-cli@2.23.2":
+  version "2.23.2"
+  resolved "https://registry.yarnpkg.com/@capraconsulting/cals-cli/-/cals-cli-2.23.2.tgz#b64f45265182aa1d5078428a3813370498986f72"
+  integrity sha512-rPD03reNYJFoPXYNYrQqH/W8apqdCByKrPJ7O1lHLYHZhNoqUnRihX5V7S0lEVVEDELAAphg6l58wGTXZfbUaA==
   dependencies:
     "@aws-sdk/client-secrets-manager" "^3.16.0"
     "@aws-sdk/client-sts" "^3.16.0"
@@ -1269,7 +1269,7 @@
     execa "^5.0.0"
     find-up "^5.0.0"
     js-yaml "^4.0.0"
-    keytar "^7.0.0"
+    keytar "^7.8.0"
     lodash "^4.17.15"
     node-fetch "^2.6.0"
     p-limit "^3.0.0"
@@ -7807,7 +7807,7 @@ junk@^3.1.0:
   resolved "https://registry.yarnpkg.com/junk/-/junk-3.1.0.tgz#31499098d902b7e98c5d9b9c80f43457a88abfa1"
   integrity sha512-pBxcB3LFc8QVgdggvZWyeys+hnrNWg4OcZIU/1X59k5jQdLBlCsYGRQaz234SqoRLTCgMH00fY0xRJH+F9METQ==
 
-keytar@^7.0.0:
+keytar@^7.8.0:
   version "7.8.0"
   resolved "https://registry.yarnpkg.com/keytar/-/keytar-7.8.0.tgz#28cf5ceeb1275350888870022869b8b4fe6a87f9"
   integrity sha512-mR+BqtAOIW8j+T5FtLVyckCbvROWQD+4FzPeFMuk5njEZkXLpVPCGF26Y3mTyxMAAL1XCfswR7S6kIf+THSRFA==
