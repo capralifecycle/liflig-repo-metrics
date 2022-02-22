@@ -41,7 +41,7 @@ export interface MetricRepoGitHubVulnerabilityAlert {
  * A snapshot of a specific repo with embedded related details.
  */
 export interface MetricRepoSnapshot {
-  version: "1"
+  version: "1.1"
   timestamp: string
   repoId: string
   responsible?: string
