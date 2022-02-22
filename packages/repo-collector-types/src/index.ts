@@ -3,6 +3,7 @@
 // over changes.
 export interface MetricRepoGitHubVulnerabilityAlert {
   dismissReason: string | null
+  state: "DISMISSED" | "FIXED" | "OPEN"
   vulnerableManifestFilename: string
   vulnerableManifestPath: string
   vulnerableRequirements: string | null

@@ -215,6 +215,9 @@ function sumSnykSeverities(
 
 function sumGithubVuls(datapoint: MetricRepoSnapshot): number {
   return datapoint.github.vulnerabilityAlerts.filter(
-    (it) => it.dismissReason == null,
+    // We need to handle multiple snapshot versions here:
+    // Earlier snapshots are missing the `state` field, and rely on `dismissReason`
+    // to determine if a vulnerability is open or not.
+    (it) => (it.state == null ? it.dismissReason == null : it.state === "OPEN"),
   ).length
 }
