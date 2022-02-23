@@ -3,6 +3,7 @@
 // over changes.
 export interface MetricRepoGitHubVulnerabilityAlert {
   dismissReason: string | null
+  state: "DISMISSED" | "FIXED" | "OPEN"
   vulnerableManifestFilename: string
   vulnerableManifestPath: string
   vulnerableRequirements: string | null
@@ -40,7 +41,7 @@ export interface MetricRepoGitHubVulnerabilityAlert {
  * A snapshot of a specific repo with embedded related details.
  */
 export interface MetricRepoSnapshot {
-  version: "1"
+  version: "1.1"
   timestamp: string
   repoId: string
   responsible?: string

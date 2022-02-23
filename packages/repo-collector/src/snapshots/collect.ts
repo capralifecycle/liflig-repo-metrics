@@ -78,7 +78,7 @@ async function createSnapshots(
     }))
 
     result.push({
-      version: "1",
+      version: "1.1",
       timestamp: timestamp.toString(),
       repoId,
       responsible: repo.repo.repo.responsible ?? repo.repo.project.responsible,

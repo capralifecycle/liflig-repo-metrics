@@ -89,7 +89,9 @@ function convertDatapoint(
         createdAt: pr.createdAt,
       })),
       vulnerabilityAlerts: datapoint.github.vulnerabilityAlerts
-        .filter((it) => it.dismissReason == null)
+        .filter((it) =>
+          it.state == null ? it.dismissReason == null : it.state === "OPEN",
+        )
         .map((va) => ({
           vulnerableManifestPath: va.vulnerableManifestPath,
           severity: va.securityAdvisory?.severity,
@@ -177,8 +179,8 @@ export function createWebappFriendlyFormat(
       repoId: it.repoId,
       responsible: it.responsible ?? "Ukjent",
       updates: getAvailableActionableUpdates(it),
-      githubVulnerabilities: it.github.vulnerabilityAlerts.filter(
-        (it) => it.dismissReason == null,
+      githubVulnerabilities: it.github.vulnerabilityAlerts.filter((it) =>
+        it.state == null ? it.dismissReason == null : it.state === "OPEN",
       ).length,
       snykVulnerabilities: sumBy(
         it.snyk.projects,
