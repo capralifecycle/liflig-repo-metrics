@@ -27,6 +27,6 @@
     "@henrist/cdk-lambda-config": "2.0.13",
     "@liflig/cdk": "2.2.0",
     "aws-cdk-lib": "2.17.0",
-    "constructs": "10.0.51"
+    "constructs": "10.0.91"
   }
 }
