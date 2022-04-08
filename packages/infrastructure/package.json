@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@capraconsulting/webapp-deploy-lambda": "2.0.0",
-    "@henrist/cdk-cloudfront-auth": "2.0.15",
+    "@henrist/cdk-cloudfront-auth": "2.0.16",
     "@henrist/cdk-lambda-config": "2.0.14",
     "@liflig/cdk": "2.3.0",
     "aws-cdk-lib": "2.17.0",
