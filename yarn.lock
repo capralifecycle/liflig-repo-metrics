@@ -2737,17 +2737,17 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@liflig/cdk@2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.3.0.tgz#644e0706787bffbf28ab3b1a93141adae3b06db2"
-  integrity sha512-Mdw4ocN0X2jyUchQNs6j9fu+1f/M+jvRNYV+Yc/voWuKGMwrMkgaeEzfUH3puwpjsnxhRbAY5MuOI8N8F8ecEQ==
+"@liflig/cdk@2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.3.1.tgz#42c05f1691d43f8d7b2ef29facd9ede8798f84d9"
+  integrity sha512-UFb5nDF+qZVoUp1k+1oukwXAZVVvZsHVvDWGMPkmAZCiFtZ5H43RkzXIdoGupREkRAcGE4Rezg/LWxJjlz5bYA==
   dependencies:
     "@capraconsulting/webapp-deploy-lambda" "2.0.0"
     aws-sdk "2.1058.0"
     cpy "8.1.2"
     del "6.0.0"
     execa "5.1.1"
-    glob "7.2.0"
+    glob "8.0.3"
     source-map-support "0.5.21"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
@@ -4283,6 +4283,13 @@ brace-expansion@^1.1.7:
   dependencies:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
+
+brace-expansion@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-2.0.1.tgz#1edc459e0f0c548486ecf9fc99f2221364b9a0ae"
+  integrity sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==
+  dependencies:
+    balanced-match "^1.0.0"
 
 braces@^2.3.1:
   version "2.3.2"
@@ -6505,7 +6512,18 @@ glob-to-regexp@^0.4.1:
   resolved "https://registry.yarnpkg.com/glob-to-regexp/-/glob-to-regexp-0.4.1.tgz#c75297087c851b9a578bd217dd59a92f59fe546e"
   integrity sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==
 
-glob@7.2.0, glob@^7.0.3, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6:
+glob@8.0.3:
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-8.0.3.tgz#415c6eb2deed9e502c68fa44a272e6da6eeca42e"
+  integrity sha512-ull455NHSHI/Y1FqGaaYFaLGkNMMJbavMrEGFXG/PGrg6y7sutWHUHrz6gy6WEBH6akM1M414dWKCNs+IhKdiQ==
+  dependencies:
+    fs.realpath "^1.0.0"
+    inflight "^1.0.4"
+    inherits "2"
+    minimatch "^5.0.1"
+    once "^1.3.0"
+
+glob@^7.0.3, glob@^7.1.1, glob@^7.1.2, glob@^7.1.3, glob@^7.1.4, glob@^7.1.6:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.0.tgz#d15535af7732e02e948f4c41628bd910293f6023"
   integrity sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
@@ -8461,6 +8479,13 @@ minimatch@^3.0.4, minimatch@^3.1.2:
   integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
   dependencies:
     brace-expansion "^1.1.7"
+
+minimatch@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-5.0.1.tgz#fb9022f7528125187c92bd9e9b6366be1cf3415b"
+  integrity sha512-nLDxIFRyhDblz3qMuq+SoRZED4+miJ/G+tdDrjkkkRnjAsBexeGpgjLEQ0blJy7rHhR2b93rhQY4SvyWu9v03g==
+  dependencies:
+    brace-expansion "^2.0.1"
 
 minimist-options@4.1.0:
   version "4.1.0"
