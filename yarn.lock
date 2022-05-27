@@ -2461,15 +2461,15 @@
     npmlog "^4.1.2"
     write-file-atomic "^3.0.3"
 
-"@liflig/cdk@2.3.2":
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.3.2.tgz#fa06a8040b87b96c37ba3b052c369c067e45ff73"
-  integrity sha512-8XgU7AGb5NUI79kI/4KlPYlfAbqxrlbRCLnNCpMkzfiHxiDvxQpIsOGCTvUuqCWS97ESbPHM1DiuAQm6ttE/1Q==
+"@liflig/cdk@2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.3.3.tgz#f90b6b042ec82a8f963893ced31e0eb4f76ae576"
+  integrity sha512-2qwJt0femXZrQuSDyLOjZvltzKhL8z43rEjm05BJip8rlxoauSVqvn52xMIhKhFjxShAGQmG9waugkbnYMcfuQ==
   dependencies:
     "@capraconsulting/webapp-deploy-lambda" "2.0.0"
     aws-sdk "2.1058.0"
     cpy "8.1.2"
-    del "6.1.0"
+    del "6.1.1"
     execa "5.1.1"
     glob "8.0.3"
     source-map-support "0.5.21"
@@ -4985,10 +4985,10 @@ define-property@^2.0.2:
     is-descriptor "^1.0.2"
     isobject "^3.0.1"
 
-del@6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/del/-/del-6.1.0.tgz#aa79a5b0a2a9ecc985c0a075e8ad9a5b23bf949c"
-  integrity sha512-OpcRktOt7G7HBfyxP0srBH4Djg4824EQORX8E1qvIhIzthNNArxxhrB/Mm7dRMiLi1nvFyUpDhzD2cTtbBhV8A==
+del@6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/del/-/del-6.1.1.tgz#3b70314f1ec0aa325c6b14eb36b95786671edb7a"
+  integrity sha512-ua8BhapfP0JUJKC/zV9yHHDW/rDoDxP4Zhn3AkA6/xT6gY7jYXJiaeyBZznYVujhZZET+UgcbZiQ7sN3WqcImg==
   dependencies:
     globby "^11.0.1"
     graceful-fs "^4.2.4"
