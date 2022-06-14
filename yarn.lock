@@ -4771,9 +4771,9 @@ color-name@~1.1.4:
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
 
 colorette@^2.0.10, colorette@^2.0.14:
-  version "2.0.17"
-  resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.17.tgz#5dd4c0d15e2984b7433cb4a9f2ead45063b80c47"
-  integrity sha512-hJo+3Bkn0NCHybn9Tu35fIeoOKGOk5OCC32y4Hz2It+qlCO2Q3DeQ1hRn/tDDMQKRYUEzqsl7jbF6dYKjlE60g==
+  version "2.0.18"
+  resolved "https://registry.yarnpkg.com/colorette/-/colorette-2.0.18.tgz#4c260bcf86437ce94fa58e2e49a83b623f3c4d66"
+  integrity sha512-rHDY1i4V4JBCXHnHwaVyA202CKSj2kUrjI5cSJQbTdnFeI4ShV3e19Fe7EQfzL2tjSrvYyWugdGAtEc1lLvGDg==
 
 columnify@^1.5.4:
   version "1.6.0"
@@ -5609,9 +5609,9 @@ ee-first@1.1.1:
   integrity sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==
 
 electron-to-chromium@^1.4.147:
-  version "1.4.153"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.153.tgz#7ed324c039745629041169221ba8dec653146f37"
-  integrity sha512-57AV9DNW1R52HjOqnGOCCTLHMHItLTGu/WjB1KYIa4BQ7p0u8J0j8N78akPcOBStKE801xcMjTpmbAylflfIYQ==
+  version "1.4.154"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.154.tgz#d69c60499fc467a6c59591d29183e520afbc78a1"
+  integrity sha512-GbV9djOkrnj6xmW+YYVVEI3VCQnJ0pnSTu7TW2JyjKd5cakoiSaG5R4RbEtfaD92GsY10DzbU3GYRe+IOA9kqA==
 
 emittery@^0.8.1:
   version "0.8.1"
