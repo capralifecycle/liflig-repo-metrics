@@ -22,7 +22,7 @@
     "@types/webpack-dev-server": "4.7.1",
     "@typescript-eslint/eslint-plugin": "5.27.1",
     "@typescript-eslint/parser": "5.27.1",
-    "@webpack-cli/serve": "1.6.1",
+    "@webpack-cli/serve": "1.7.0",
     "autoprefixer": "10.4.7",
     "clean-webpack-plugin": "4.0.0",
     "css-loader": "6.7.1",
