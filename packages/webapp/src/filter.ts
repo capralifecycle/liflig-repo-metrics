@@ -1,6 +1,6 @@
 import _ from "lodash"
 
-export interface Filter extends Record<string, boolean | string[]> {
+export interface Filter extends Record<string, boolean | string | string[]> {
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
@@ -9,6 +9,8 @@ export interface Filter extends Record<string, boolean | string[]> {
   showOnlyVulnerable: boolean
   sortByRenovateDays: boolean
   collapseResponsible: string[]
+  filterRepoName: string
+  filterUpdateName: string
 }
 
 export const defaultValues: Filter = {
@@ -20,6 +22,8 @@ export const defaultValues: Filter = {
   showOnlyVulnerable: false,
   sortByRenovateDays: false,
   collapseResponsible: [],
+  filterRepoName: "",
+  filterUpdateName: ""
 }
 
 export const getFilterFromUrl = (): Filter =>
@@ -29,14 +33,35 @@ export const getFilterFromUrl = (): Filter =>
     .map((s) => s.split("="))
     .reduce(
       (acc, [k, v]) =>
-        Object.assign(acc, {
-          [k]: k == "collapseResponsible" ? v.split(",") : v === "true",
-        }),
+        Object.assign(
+          acc, parseUrlFilterField(k, v)
+        ),
       Object.assign({}, defaultValues),
     )
 
-export const toQueryString = (state: Filter): string =>
-  Object.keys(defaultValues)
+const parseUrlFilterField = (key: string, value: string) => {
+  if (key == "collapseResponsible") {
+    return {
+      [key]: value.split(",")
+    }
+  }
+  else if (key == "filterRepoName" || key == "filterUpdateName") {
+    return {
+      [key]: value
+    }
+  }
+  else {
+    return {
+      [key]: true
+    }
+  }
+}
+
+
+export const toQueryString = (state: Filter): string => {
+  console.log(Object.keys(defaultValues))
+  return Object.keys(defaultValues)
     .filter((k) => !_.isEqual(defaultValues[k], state[k]))
     .map((k) => `${k}=${state[k].toString()}`)
     .join("&")
+}
