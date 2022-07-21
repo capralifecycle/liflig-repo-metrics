@@ -59,7 +59,6 @@ const parseUrlFilterField = (key: string, value: string) => {
 
 
 export const toQueryString = (state: Filter): string => {
-  console.log(Object.keys(defaultValues))
   return Object.keys(defaultValues)
     .filter((k) => !_.isEqual(defaultValues[k], state[k]))
     .map((k) => `${k}=${state[k].toString()}`)

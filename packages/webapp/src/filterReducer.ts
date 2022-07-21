@@ -28,11 +28,11 @@ export function filterReducer(state: Filter, action: FilterAction): Filter {
     }
     case FilterActionType.CHANGE_SEARCH_FILTER: {
 
-      // If the contents of the filter is empty, leave state as it is
-      if (action.payload === null || action.payload === "")
+      // Null check
+      if (action.payload === null)
         return state
 
-      // Otherwise, update filter state
+      // Non-null search filter values update filter state
       const newFilterValue: string = action.payload as string
       const newFilterState = {
         ...state, [action.prop]: newFilterValue
