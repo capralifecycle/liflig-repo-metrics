@@ -1,6 +1,7 @@
 import _ from "lodash"
 
-export interface Filter extends Record<string, boolean | string | string[] | number | null> {
+export interface Filter
+  extends Record<string, boolean | string | string[] | number | null> {
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
@@ -25,7 +26,7 @@ export const defaultValues: Filter = {
   collapseResponsible: [],
   filterRepoName: "",
   filterUpdateName: "",
-  limitGraphDays: null
+  limitGraphDays: null,
 }
 
 // Parse URL parameters and turn into a filter object.
@@ -36,39 +37,39 @@ export const getFilterFromUrl = (): Filter =>
     .split("&")
     .map((s) => s.split("="))
     .reduce(
-      (acc, [k, v]) =>
-        Object.assign(
-          acc, parseUrlFilterField(k, v)
-        ),
+      (acc, [k, v]) => Object.assign(acc, parseUrlFilterField(k, v)),
       Object.assign({}, defaultValues),
     )
 
 const parseUrlFilterField = (key: string, value: string) => {
-  const keyValueFields = ["filterRepoName", "filterUpdateName", "limitGraphDays"]
+  const keyValueFields = [
+    "filterRepoName",
+    "filterUpdateName",
+    "limitGraphDays",
+  ]
 
   // The collapseResponsible attribute can contain multiple comma separated values,
   // and needs special handling during parsing
   if (key == "collapseResponsible") {
     return {
-      [key]: value.split(",")
+      [key]: value.split(","),
     }
   }
 
   // Attributes with only one value
   else if (keyValueFields.includes(key)) {
     return {
-      [key]: value
+      [key]: value,
     }
   }
 
   // Boolean attributes
   else {
     return {
-      [key]: true
+      [key]: true,
     }
   }
 }
-
 
 export const toQueryString = (state: Filter): string => {
   return Object.keys(defaultValues)

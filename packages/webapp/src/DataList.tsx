@@ -18,10 +18,10 @@ interface Props {
 
 function ageInDays(timestamp: string) {
   // Approx to simplify.
-  const secondsPerDay = 86400000;
+  const secondsPerDay = 86400000
   return Math.floor(
-    (new Date().getTime() - new Date(timestamp).getTime()) / secondsPerDay
-  );
+    (new Date().getTime() - new Date(timestamp).getTime()) / secondsPerDay,
+  )
 }
 
 function filterFetchGroupRepos(
@@ -52,23 +52,17 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
     history.replaceState(state, "", queryString ? `?${queryString}` : "/")
   }, [state])
 
-  //const limitDays = 30
-
-  //const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
-  //  limitDays,
-  //)
-
   const actionableRepos = state.showOnlyActionable
-			? data.repos
-			      .filter((it) => isActionableRepo(it.lastDatapoint))
-			      .map((it) => it.repoId)
-			: []
+    ? data.repos
+        .filter((it) => isActionableRepo(it.lastDatapoint))
+        .map((it) => it.repoId)
+    : []
 
   const vulnerableRepos = state.showOnlyVulnerable
-			? data.repos
-			      .filter((it) => isVulnerableRepo(it.lastDatapoint))
-			      .map((it) => it.repoId)
-			: []
+    ? data.repos
+        .filter((it) => isVulnerableRepo(it.lastDatapoint))
+        .map((it) => it.repoId)
+    : []
 
   function filterRepoId(repoId: string): boolean {
     return (
@@ -82,9 +76,11 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
     return (
       state.filterUpdateName === "" ||
       (repo.lastDatapoint.github.availableUpdates?.some((category) =>
-        category.updates.some((update) => update.name.includes(state.filterUpdateName)),
+        category.updates.some((update) =>
+          update.name.includes(state.filterUpdateName),
+        ),
       ) ??
-       false)
+        false)
     )
   }
 
@@ -98,22 +94,23 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   }
 
   const filteredRepos = data.repos
-			    .filter((it) => filterRepoId(it.repoId))
-			    .filter((it) => filterByUpdates(it) || filterByVulnerabilities(it))
+    .filter((it) => filterRepoId(it.repoId))
+    .filter((it) => filterByUpdates(it) || filterByVulnerabilities(it))
 
   const shownRepoIds = filteredRepos.map((it) => it.repoId)
 
   const filteredFetchGroups = filterFetchGroupRepos(
     data.byFetchGroup.filter(
       (it) =>
-        state.limitGraphDays == null || ageInDays(it.timestamp) < state.limitGraphDays,
+        state.limitGraphDays == null ||
+        ageInDays(it.timestamp) < state.limitGraphDays,
     ),
     (it) => shownRepoIds.includes(it.repoId),
   )
 
   const byResponsible = state.groupByResponsible
-		      ? groupBy(filteredRepos, (it) => it.responsible ?? "Ukjent")
-		      : undefined
+    ? groupBy(filteredRepos, (it) => it.responsible ?? "Ukjent")
+    : undefined
 
   const createOnCheckHandler = (prop: keyof Filter) => () =>
     dispatch({
@@ -128,28 +125,27 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
           checked={state.groupByResponsible}
           onCheck={createOnCheckHandler("groupByResponsible")}
         >
-	  Grupper etter ansvarlig (iht.{" "}
-	  <a href="https://github.com/capralifecycle/resources-definition">
-	    resources-definition
-	  </a>
-	  )
+          Grupper etter ansvarlig (iht.{" "}
+          <a href="https://github.com/capralifecycle/resources-definition">
+            resources-definition
+          </a>
+          )
         </Checkbox>
         <Checkbox
           checked={state.showDepList}
           onCheck={createOnCheckHandler("showDepList")}
         >
-	  Vis detaljert liste over oppdateringer
+          Vis detaljert liste over oppdateringer
         </Checkbox>
         <input
           type="text"
           value={state.filterUpdateName}
           onChange={(e) => {
-	    dispatch({
-	      type: FilterActionType.CHANGE_SEARCH_FILTER,
-	      prop: "filterUpdateName",
-	      payload: e.target.value
-	    })
-	    
+            dispatch({
+              type: FilterActionType.CHANGE_SEARCH_FILTER,
+              prop: "filterUpdateName",
+              payload: e.target.value,
+            })
           }}
           placeholder="Filtrer på navn til oppdatering"
         />
@@ -157,106 +153,106 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
           checked={state.showPrList}
           onCheck={createOnCheckHandler("showPrList")}
         >
-	  Vis liste over PRs
+          Vis liste over PRs
         </Checkbox>
         <Checkbox
           checked={state.showVulList}
           onCheck={createOnCheckHandler("showVulList")}
         >
-	  Vis detaljer om sårbarheter
+          Vis detaljer om sårbarheter
         </Checkbox>
         <Checkbox
           checked={state.showOnlyActionable}
           onCheck={createOnCheckHandler("showOnlyActionable")}
         >
-	  Skjul repoer hvor alt er OK nå
+          Skjul repoer hvor alt er OK nå
         </Checkbox>
         <Checkbox
           checked={state.showOnlyVulnerable}
           onCheck={createOnCheckHandler("showOnlyVulnerable")}
         >
-	  Vis kun sårbare repoer
+          Vis kun sårbare repoer
         </Checkbox>
         <Checkbox
           checked={state.limitGraphDays != null}
           onCheck={(checked) => {
-	    dispatch({
-	      type: FilterActionType.TOGGLE_LAST_30_DAYS,
-	      prop: "limitGraphDays",
-	    })
-	  }}
+            dispatch({
+              type: FilterActionType.TOGGLE_LAST_30_DAYS,
+              prop: "limitGraphDays",
+            })
+          }}
         >
-	  Begrens graf til siste 30 dager
+          Begrens graf til siste 30 dager
         </Checkbox>
         <Checkbox
           checked={state.sortByRenovateDays}
           onCheck={createOnCheckHandler("sortByRenovateDays")}
         >
-	  Vis alle Renovate dager og sorter baklengs
+          Vis alle Renovate dager og sorter baklengs
         </Checkbox>
         <input
           type="text"
           value={state.filterRepoName}
           onChange={(e) => {
-	    dispatch({
-	      type: FilterActionType.CHANGE_SEARCH_FILTER,
-	      prop: "filterRepoName",
-	      payload: e.target.value
-	    });
+            dispatch({
+              type: FilterActionType.CHANGE_SEARCH_FILTER,
+              prop: "filterRepoName",
+              payload: e.target.value,
+            })
           }}
           placeholder="Filtrer på navn til repo"
         />
       </div>
       {byResponsible != null ? (
         Object.entries(byResponsible)
-	      .sort((a, b) => a[0].localeCompare(b[0]))
-	      .map(([responsible, repos]) => {
-		const collapsed = state.collapseResponsible.includes(responsible)
+          .sort((a, b) => a[0].localeCompare(b[0]))
+          .map(([responsible, repos]) => {
+            const collapsed = state.collapseResponsible.includes(responsible)
 
-		return (
-		  <React.Fragment key={responsible}>
-		    <div className="responsible-heading">
-		      <h2>Ansvarlig: {responsible}</h2>
-		      <button
-			style={{ marginLeft: "5px" }}
-			onClick={() =>
-			  dispatch({
-			    type: FilterActionType.TOGGLE_COLLAPSE_RESPONSIBLE,
-			    prop: "collapseResponsible",
-			    payload: responsible,
-			  })
-			}
-		      >
-			{collapsed ? "Vis" : "Skjul"}
-		      </button>
-		    </div>
-		    {!collapsed && (
-		      <DataGroup
-			key={responsible}
-			fetchGroups={filterFetchGroupRepos(
-			  filteredFetchGroups,
-			  (it) => it.responsible === responsible,
-			)}
-			repos={repos}
-			showPrList={state.showPrList}
-			showDepList={state.showDepList}
-			showVulList={state.showVulList}
-			sortByRenovateDays={state.sortByRenovateDays}
-		      />
-		    )}
-		  </React.Fragment>
-		)
-	      })
+            return (
+              <React.Fragment key={responsible}>
+                <div className="responsible-heading">
+                  <h2>Ansvarlig: {responsible}</h2>
+                  <button
+                    style={{ marginLeft: "5px" }}
+                    onClick={() =>
+                      dispatch({
+                        type: FilterActionType.TOGGLE_COLLAPSE_RESPONSIBLE,
+                        prop: "collapseResponsible",
+                        payload: responsible,
+                      })
+                    }
+                  >
+                    {collapsed ? "Vis" : "Skjul"}
+                  </button>
+                </div>
+                {!collapsed && (
+                  <DataGroup
+                    key={responsible}
+                    fetchGroups={filterFetchGroupRepos(
+                      filteredFetchGroups,
+                      (it) => it.responsible === responsible,
+                    )}
+                    repos={repos}
+                    showPrList={state.showPrList}
+                    showDepList={state.showDepList}
+                    showVulList={state.showVulList}
+                    sortByRenovateDays={state.sortByRenovateDays}
+                  />
+                )}
+              </React.Fragment>
+            )
+          })
       ) : (
         <>
           <h2 className="all-repos-heading">Alle repoer</h2>
           <DataGroup
-	    fetchGroups={filteredFetchGroups}
-	    repos={filteredRepos}
-	    showPrList={state.showPrList}
-	    showDepList={state.showDepList}
-	    showVulList={state.showVulList}
-	    sortByRenovateDays={state.sortByRenovateDays}
+            fetchGroups={filteredFetchGroups}
+            repos={filteredRepos}
+            showPrList={state.showPrList}
+            showDepList={state.showDepList}
+            showVulList={state.showVulList}
+            sortByRenovateDays={state.sortByRenovateDays}
           />
         </>
       )}

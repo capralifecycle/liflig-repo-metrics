@@ -20,7 +20,7 @@ const App: React.FC = () => {
           href="https://github.com/capralifecycle/liflig-repo-metrics"
           style={{ marginLeft: "5px" }}
         >
-	  GitHub
+          GitHub
         </a>
       </div>
       {dataIsLoading ? (
