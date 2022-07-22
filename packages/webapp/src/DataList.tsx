@@ -18,8 +18,9 @@ interface Props {
 
 function ageInDays(timestamp: string) {
   // Approx to simplify.
+  const secondsPerDay = 86400000
   return Math.floor(
-    (new Date().getTime() - new Date(timestamp).getTime()) / 86400000,
+    (new Date().getTime() - new Date(timestamp).getTime()) / secondsPerDay,
   )
 }
 
@@ -51,15 +52,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
     history.replaceState(state, "", queryString ? `?${queryString}` : "/")
   }, [state])
 
-  const limitDays = 30
-
-  const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
-    limitDays,
-  )
-
-  const [filterDepName, setFilterDepName] = React.useState("")
-  const [filterRepoName, setFilterRepoName] = React.useState("")
-
   const actionableRepos = state.showOnlyActionable
     ? data.repos
         .filter((it) => isActionableRepo(it.lastDatapoint))
@@ -74,7 +66,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
 
   function filterRepoId(repoId: string): boolean {
     return (
-      (filterRepoName === "" || repoId.includes(filterRepoName)) &&
+      (state.filterRepoName === "" || repoId.includes(state.filterRepoName)) &&
       (!state.showOnlyActionable || actionableRepos.includes(repoId)) &&
       (!state.showOnlyVulnerable || vulnerableRepos.includes(repoId))
     )
@@ -82,9 +74,11 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
 
   function filterByUpdates(repo: WebappMetricDataRepo): boolean {
     return (
-      filterDepName === "" ||
+      state.filterUpdateName === "" ||
       (repo.lastDatapoint.github.availableUpdates?.some((category) =>
-        category.updates.some((update) => update.name.includes(filterDepName)),
+        category.updates.some((update) =>
+          update.name.includes(state.filterUpdateName),
+        ),
       ) ??
         false)
     )
@@ -92,9 +86,9 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
 
   function filterByVulnerabilities(repo: WebappMetricDataRepo): boolean {
     return (
-      filterDepName === "" ||
+      state.filterUpdateName === "" ||
       repo.lastDatapoint.github.vulnerabilityAlerts.some((alert) =>
-        alert.packageName.includes(filterDepName),
+        alert.packageName.includes(state.filterUpdateName),
       )
     )
   }
@@ -108,7 +102,8 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   const filteredFetchGroups = filterFetchGroupRepos(
     data.byFetchGroup.filter(
       (it) =>
-        limitGraphDays == null || ageInDays(it.timestamp) < limitGraphDays,
+        state.limitGraphDays == null ||
+        ageInDays(it.timestamp) < state.limitGraphDays,
     ),
     (it) => shownRepoIds.includes(it.repoId),
   )
@@ -144,9 +139,13 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         </Checkbox>
         <input
           type="text"
-          value={filterDepName}
+          value={state.filterUpdateName}
           onChange={(e) => {
-            setFilterDepName(e.target.value)
+            dispatch({
+              type: FilterActionType.CHANGE_SEARCH_FILTER,
+              prop: "filterUpdateName",
+              payload: e.target.value,
+            })
           }}
           placeholder="Filtrer på navn til oppdatering"
         />
@@ -175,8 +174,13 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
           Vis kun sårbare repoer
         </Checkbox>
         <Checkbox
-          checked={limitGraphDays != null}
-          onCheck={(checked) => setLimitGraphDays(checked ? limitDays : null)}
+          checked={state.limitGraphDays != null}
+          onCheck={(checked) => {
+            dispatch({
+              type: FilterActionType.TOGGLE_LAST_30_DAYS,
+              prop: "limitGraphDays",
+            })
+          }}
         >
           Begrens graf til siste 30 dager
         </Checkbox>
@@ -188,9 +192,13 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         </Checkbox>
         <input
           type="text"
-          value={filterRepoName}
+          value={state.filterRepoName}
           onChange={(e) => {
-            setFilterRepoName(e.target.value)
+            dispatch({
+              type: FilterActionType.CHANGE_SEARCH_FILTER,
+              prop: "filterRepoName",
+              payload: e.target.value,
+            })
           }}
           placeholder="Filtrer på navn til repo"
         />

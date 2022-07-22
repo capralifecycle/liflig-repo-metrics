@@ -1,6 +1,7 @@
 import _ from "lodash"
 
-export interface Filter extends Record<string, boolean | string[]> {
+export interface Filter
+  extends Record<string, boolean | string | string[] | number | null> {
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
@@ -9,6 +10,9 @@ export interface Filter extends Record<string, boolean | string[]> {
   showOnlyVulnerable: boolean
   sortByRenovateDays: boolean
   collapseResponsible: string[]
+  filterRepoName: string
+  filterUpdateName: string
+  limitGraphDays: number | null
 }
 
 export const defaultValues: Filter = {
@@ -20,23 +24,62 @@ export const defaultValues: Filter = {
   showOnlyVulnerable: false,
   sortByRenovateDays: false,
   collapseResponsible: [],
+  filterRepoName: "",
+  filterUpdateName: "",
+  limitGraphDays: null,
 }
 
+// Parse URL parameters and turn into a filter object.
+// Any parameter not specified in the URL assumes a default value
 export const getFilterFromUrl = (): Filter =>
   location.search
     .slice(1)
     .split("&")
     .map((s) => s.split("="))
     .reduce(
-      (acc, [k, v]) =>
-        Object.assign(acc, {
-          [k]: k == "collapseResponsible" ? v.split(",") : v === "true",
-        }),
+      (acc, [k, v]) => Object.assign(acc, parseUrlFilterField(k, v)),
       Object.assign({}, defaultValues),
     )
 
-export const toQueryString = (state: Filter): string =>
-  Object.keys(defaultValues)
+const parseUrlFilterField = (key: string, value: string) => {
+  const keyValueFields = [
+    "filterRepoName",
+    "filterUpdateName",
+    "limitGraphDays",
+  ]
+
+  // The collapseResponsible attribute can contain multiple comma separated values,
+  // and needs special handling during parsing
+  if (key == "collapseResponsible") {
+    return {
+      [key]: value.split(","),
+    }
+  }
+
+  // Attributes with only one value
+  else if (keyValueFields.includes(key)) {
+    return {
+      [key]: value,
+    }
+  }
+
+  // Boolean attributes
+  else {
+    return {
+      [key]: true,
+    }
+  }
+}
+
+export const toQueryString = (state: Filter): string => {
+  return Object.keys(defaultValues)
     .filter((k) => !_.isEqual(defaultValues[k], state[k]))
-    .map((k) => `${k}=${state[k].toString()}`)
+    .map((k) => {
+      if (state[k] == null) {
+        return ""
+      }
+      const curValue = state[k] as string
+      return `${k}=${curValue.toString()}`
+    })
     .join("&")
+}

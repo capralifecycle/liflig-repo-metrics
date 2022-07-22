@@ -9,9 +9,9 @@ const App: React.FC = () => {
   const [filter, setFilter] = React.useState(defaultValues)
 
   React.useEffect(() => {
-    setFilter(getFilterFromUrl())
+    const initialFilter = getFilterFromUrl()
+    setFilter(initialFilter)
   }, [])
-
   return (
     <>
       <div style={{ display: "flex", alignItems: "center" }}>
