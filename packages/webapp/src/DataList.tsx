@@ -52,11 +52,11 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
     history.replaceState(state, "", queryString ? `?${queryString}` : "/")
   }, [state])
 
-  const limitDays = 30
+  //const limitDays = 30
 
-  const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
-    limitDays,
-  )
+  //const [limitGraphDays, setLimitGraphDays] = React.useState<number | null>(
+  //  limitDays,
+  //)
 
   const actionableRepos = state.showOnlyActionable
 			? data.repos
@@ -106,7 +106,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   const filteredFetchGroups = filterFetchGroupRepos(
     data.byFetchGroup.filter(
       (it) =>
-        limitGraphDays == null || ageInDays(it.timestamp) < limitGraphDays,
+        state.limitGraphDays == null || ageInDays(it.timestamp) < state.limitGraphDays,
     ),
     (it) => shownRepoIds.includes(it.repoId),
   )
@@ -178,8 +178,13 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
 	  Vis kun sårbare repoer
         </Checkbox>
         <Checkbox
-          checked={limitGraphDays != null}
-          onCheck={(checked) => setLimitGraphDays(checked ? limitDays : null)}
+          checked={state.limitGraphDays != null}
+          onCheck={(checked) => {
+	    dispatch({
+	      type: FilterActionType.TOGGLE_LAST_30_DAYS,
+	      prop: "limitGraphDays",
+	    })
+	  }}
         >
 	  Begrens graf til siste 30 dager
         </Checkbox>
