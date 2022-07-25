@@ -58,6 +58,13 @@ export const DataGroup: React.FC<Props> = ({
     ...fetchGroups.map((it) => new Date(it.timestamp).getTime()),
   )
 
+  const removeMillisecondsFromTimestamp = (timestamp: string) => {
+    const [yearMonthDay, restOfTimestamp] = timestamp.split("T")
+    const hourMinuteSecond = restOfTimestamp.split(".")[0]
+
+    return yearMonthDay + " " + hourMinuteSecond
+  }
+  
   return (
     <>
       <ResponsiveContainer width="100%" height={170}>
@@ -121,7 +128,11 @@ export const DataGroup: React.FC<Props> = ({
         </LineChart>
       </ResponsiveContainer>
       <p>
-        Siste status: {repos.length} repoer. {updatesAvailable} oppdateringer
+	Sist oppdatert {removeMillisecondsFromTimestamp(fetchGroups[0].timestamp)}
+      </p>
+      <p>
+        Status:
+	{" "}{repos.length} repoer. {updatesAvailable} oppdateringer
         til behandling. {githubAlerts} sårbarheter (GitHub). {snykAlerts}{" "}
         sårbarheter (Snyk)
       </p>
@@ -145,10 +156,10 @@ export const DataGroup: React.FC<Props> = ({
               if (sortByRenovateDays) {
                 const aDays =
                   a.lastDatapoint.github.renovateDependencyDashboard
-                    ?.daysSinceLastUpdate
+                  ?.daysSinceLastUpdate
                 const bDays =
                   b.lastDatapoint.github.renovateDependencyDashboard
-                    ?.daysSinceLastUpdate
+                  ?.daysSinceLastUpdate
 
                 if (aDays != null && bDays != null) {
                   if (aDays == bDays) return compareByName()
@@ -172,7 +183,7 @@ export const DataGroup: React.FC<Props> = ({
                 showVulList={showVulList}
                 showRenovateDays={sortByRenovateDays}
               />
-            ))}
+          ))}
         </tbody>
       </table>
     </>
