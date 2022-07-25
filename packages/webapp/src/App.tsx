@@ -14,15 +14,6 @@ const App: React.FC = () => {
   }, [])
   return (
     <>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <h1>Repo metrics</h1>
-        <a
-          href="https://github.com/capralifecycle/liflig-repo-metrics"
-          style={{ marginLeft: "5px" }}
-        >
-          GitHub
-        </a>
-      </div>
       {dataIsLoading ? (
         <p>Laster data...</p>
       ) : !data ? (
