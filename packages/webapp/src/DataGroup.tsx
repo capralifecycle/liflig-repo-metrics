@@ -64,7 +64,7 @@ export const DataGroup: React.FC<Props> = ({
 
     return yearMonthDay + " " + hourMinuteSecond
   }
-  
+
   return (
     <>
       <ResponsiveContainer width="100%" height={170}>
@@ -128,18 +128,29 @@ export const DataGroup: React.FC<Props> = ({
         </LineChart>
       </ResponsiveContainer>
       <p>
-	Sist oppdatert {removeMillisecondsFromTimestamp(fetchGroups[0].timestamp)}
+        Sist oppdatert{" "}
+        {removeMillisecondsFromTimestamp(fetchGroups[0].timestamp)}
       </p>
       <p>
-        Status:
-	{" "}{repos.length} repoer.
-	{" "}<span style={{color: "#28a745"}}>{updatesAvailable} oppdateringer</span>
-        {" "}til behandling.
-	{" "}<span style={{color: "#cb2431"}}>{snykAlerts} sårbarheter (Snyk)</span>.
-	{" "}<span style={{color: "#663399"}}>{githubAlerts} sårbarheter (GitHub)</span>.
+        Status: {repos.length} repoer.{" "}
+        <span style={{ color: "#28a745" }}>
+          {updatesAvailable} oppdateringer
+        </span>{" "}
+        til behandling.{" "}
+        <span style={{ color: "#cb2431" }}>
+          {snykAlerts} sårbarheter (Snyk)
+        </span>
+        .{" "}
+        <span style={{ color: "#663399" }}>
+          {githubAlerts} sårbarheter (GitHub)
+        </span>
+        .
       </p>
-      <div className="repo-metrics-table-wrap" style={{display: "flex", justifyContent: "center"}}>
-	<table style={{width: "min(100%, 1500px)"}}>
+      <div
+        className="repo-metrics-table-wrap"
+        style={{ display: "flex", justifyContent: "center" }}
+      >
+        <table style={{ width: "min(100%, 1500px)" }}>
           <thead>
             <tr>
               <th>Repo</th>
@@ -153,16 +164,16 @@ export const DataGroup: React.FC<Props> = ({
           <tbody>
             {[...repos]
               .sort((a, b) => {
-		function compareByName() {
+                function compareByName() {
                   return a.repoId.localeCompare(b.repoId)
-		}
-		if (sortByRenovateDays) {
+                }
+                if (sortByRenovateDays) {
                   const aDays =
                     a.lastDatapoint.github.renovateDependencyDashboard
-                    ?.daysSinceLastUpdate
+                      ?.daysSinceLastUpdate
                   const bDays =
                     b.lastDatapoint.github.renovateDependencyDashboard
-                    ?.daysSinceLastUpdate
+                      ?.daysSinceLastUpdate
 
                   if (aDays != null && bDays != null) {
                     if (aDays == bDays) return compareByName()
@@ -174,21 +185,21 @@ export const DataGroup: React.FC<Props> = ({
                     if (aDays == null) return 1
                     return -1
                   }
-		}
-		return compareByName()
+                }
+                return compareByName()
               })
               .map((item) => (
-		<Repo
+                <Repo
                   key={item.repoId}
                   data={item}
                   showPrList={showPrList}
                   showDepList={showDepList}
                   showVulList={showVulList}
                   showRenovateDays={sortByRenovateDays}
-		/>
-            ))}
+                />
+              ))}
           </tbody>
-	</table>
+        </table>
       </div>
     </>
   )
