@@ -132,60 +132,64 @@ export const DataGroup: React.FC<Props> = ({
       </p>
       <p>
         Status:
-	{" "}{repos.length} repoer. {updatesAvailable} oppdateringer
-        til behandling. {githubAlerts} sårbarheter (GitHub). {snykAlerts}{" "}
-        sårbarheter (Snyk)
+	{" "}{repos.length} repoer.
+	{" "}<span style={{color: "#28a745"}}>{updatesAvailable} oppdateringer</span>
+        {" "}til behandling.
+	{" "}<span style={{color: "#cb2431"}}>{snykAlerts} sårbarheter (Snyk)</span>.
+	{" "}<span style={{color: "#663399"}}>{githubAlerts} sårbarheter (GitHub)</span>.
       </p>
-      <table>
-        <thead>
-          <tr>
-            <th>Repo</th>
-            <th>Oppdateringer til behandling</th>
-            <th>Åpne PRs (bots)</th>
-            <th>Åpne PRs (ikke bots)</th>
-            <th>Sårbarheter (GitHub)</th>
-            <th>Sårbarheter (Snyk)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {[...repos]
-            .sort((a, b) => {
-              function compareByName() {
-                return a.repoId.localeCompare(b.repoId)
-              }
-              if (sortByRenovateDays) {
-                const aDays =
-                  a.lastDatapoint.github.renovateDependencyDashboard
-                  ?.daysSinceLastUpdate
-                const bDays =
-                  b.lastDatapoint.github.renovateDependencyDashboard
-                  ?.daysSinceLastUpdate
+      <div className="repo-metrics-table-wrap" style={{display: "flex", justifyContent: "center"}}>
+	<table style={{width: "min(100%, 1500px)"}}>
+          <thead>
+            <tr>
+              <th>Repo</th>
+              <th>Oppdateringer til behandling</th>
+              <th>Åpne PRs (bots)</th>
+              <th>Åpne PRs (ikke bots)</th>
+              <th>Sårbarheter (GitHub)</th>
+              <th>Sårbarheter (Snyk)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[...repos]
+              .sort((a, b) => {
+		function compareByName() {
+                  return a.repoId.localeCompare(b.repoId)
+		}
+		if (sortByRenovateDays) {
+                  const aDays =
+                    a.lastDatapoint.github.renovateDependencyDashboard
+                    ?.daysSinceLastUpdate
+                  const bDays =
+                    b.lastDatapoint.github.renovateDependencyDashboard
+                    ?.daysSinceLastUpdate
 
-                if (aDays != null && bDays != null) {
-                  if (aDays == bDays) return compareByName()
-                  if (aDays > bDays) return -1
-                  return 1
-                }
+                  if (aDays != null && bDays != null) {
+                    if (aDays == bDays) return compareByName()
+                    if (aDays > bDays) return -1
+                    return 1
+                  }
 
-                if (aDays != null || bDays != null) {
-                  if (aDays == null) return 1
-                  return -1
-                }
-              }
-              return compareByName()
-            })
-            .map((item) => (
-              <Repo
-                key={item.repoId}
-                data={item}
-                showPrList={showPrList}
-                showDepList={showDepList}
-                showVulList={showVulList}
-                showRenovateDays={sortByRenovateDays}
-              />
-          ))}
-        </tbody>
-      </table>
+                  if (aDays != null || bDays != null) {
+                    if (aDays == null) return 1
+                    return -1
+                  }
+		}
+		return compareByName()
+              })
+              .map((item) => (
+		<Repo
+                  key={item.repoId}
+                  data={item}
+                  showPrList={showPrList}
+                  showDepList={showDepList}
+                  showVulList={showVulList}
+                  showRenovateDays={sortByRenovateDays}
+		/>
+            ))}
+          </tbody>
+	</table>
+      </div>
     </>
   )
 }
