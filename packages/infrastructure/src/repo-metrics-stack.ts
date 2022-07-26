@@ -158,11 +158,16 @@ export class RepoMetricsStack extends cdk.Stack {
       ],
     })
 
+    // TODO setup custom event bus
+    const collectorEventBus = new events.EventBus(this, 'RepoMetricsCollectorEventBus', {
+      eventBusName: 'RepoMetricsCollectorEventBus'
+    })
+
     dataBucket.grantReadWrite(aggregator)
     webappDataBucket.grantReadWrite(aggregator)
 
     // TODO the aggregator should be triggered by the completion
-    // of the collector, not by cronjob
+    // of the collector, not by cronjob. REMOVE once the new event system is in place
     new events.Rule(this, "AggregatorSchedule", {
       schedule: events.Schedule.cron({
         hour: "0/6",
@@ -170,6 +175,17 @@ export class RepoMetricsStack extends cdk.Stack {
       }),
       targets: [new eventstargets.LambdaFunction(aggregator)],
       enabled: true,
+    })
+
+    // This rule listens to events emitted by the RepoMetricsCollectorEventBus
+    const aggregatorTriggerRule = new events.Rule(this, "AggregatorTrigger", {
+      eventBus: collectorEventBus,
+      eventPattern: {
+        source: ["aws.lambda"],
+        resources: [collector.functionArn]
+      },
+      targets: [new eventstargets.LambdaFunction(aggregator)],
+      enabled: true
     })
 
     this.addAlarmIfNotSuccessWithin("AggregatorNotSuccessAlarm", {
