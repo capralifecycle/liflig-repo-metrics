@@ -123,6 +123,7 @@ export class RepoMetricsStack extends cdk.Stack {
     snykTokenSecret.grantRead(collector)
     dataBucket.grantReadWrite(collector)
 
+
     new events.Rule(this, "CollectorSchedule", {
       schedule: events.Schedule.cron({
         hour: "0/6",
@@ -160,6 +161,8 @@ export class RepoMetricsStack extends cdk.Stack {
     dataBucket.grantReadWrite(aggregator)
     webappDataBucket.grantReadWrite(aggregator)
 
+    // TODO the aggregator should be triggered by the completion
+    // of the collector, not by cronjob
     new events.Rule(this, "AggregatorSchedule", {
       schedule: events.Schedule.cron({
         hour: "0/6",
@@ -249,9 +252,8 @@ export class RepoMetricsStack extends cdk.Stack {
       },
       period: props.duration,
     }).createAlarm(this, id, {
-      alarmDescription: `Function ${
-        props.fn.functionName
-      } has not run successful for the last ${props.duration.toHumanString()}`,
+      alarmDescription: `Function ${props.fn.functionName
+        } has not run successful for the last ${props.duration.toHumanString()}`,
       evaluationPeriods: 1,
       threshold: 0,
       treatMissingData: cw.TreatMissingData.BREACHING,
