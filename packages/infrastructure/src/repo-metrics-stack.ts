@@ -123,7 +123,6 @@ export class RepoMetricsStack extends cdk.Stack {
     snykTokenSecret.grantRead(collector)
     dataBucket.grantReadWrite(collector)
 
-
     new events.Rule(this, "CollectorSchedule", {
       schedule: events.Schedule.cron({
         hour: "0/6",
@@ -159,9 +158,13 @@ export class RepoMetricsStack extends cdk.Stack {
     })
 
     // TODO setup custom event bus
-    const collectorEventBus = new events.EventBus(this, 'RepoMetricsCollectorEventBus', {
-      eventBusName: 'RepoMetricsCollectorEventBus'
-    })
+    const collectorEventBus = new events.EventBus(
+      this,
+      "RepoMetricsCollectorEventBus",
+      {
+        eventBusName: "RepoMetricsCollectorEventBus",
+      },
+    )
 
     dataBucket.grantReadWrite(aggregator)
     webappDataBucket.grantReadWrite(aggregator)
@@ -182,10 +185,10 @@ export class RepoMetricsStack extends cdk.Stack {
       eventBus: collectorEventBus,
       eventPattern: {
         source: ["aws.lambda"],
-        resources: [collector.functionArn]
+        resources: [collector.functionArn],
       },
       targets: [new eventstargets.LambdaFunction(aggregator)],
-      enabled: true
+      enabled: true,
     })
 
     this.addAlarmIfNotSuccessWithin("AggregatorNotSuccessAlarm", {
@@ -268,8 +271,9 @@ export class RepoMetricsStack extends cdk.Stack {
       },
       period: props.duration,
     }).createAlarm(this, id, {
-      alarmDescription: `Function ${props.fn.functionName
-        } has not run successful for the last ${props.duration.toHumanString()}`,
+      alarmDescription: `Function ${
+        props.fn.functionName
+      } has not run successful for the last ${props.duration.toHumanString()}`,
       evaluationPeriods: 1,
       threshold: 0,
       treatMissingData: cw.TreatMissingData.BREACHING,
