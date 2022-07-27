@@ -2407,6 +2407,15 @@
         "aws:asset:property": "Code"
       }
     },
+    "RepoMetricsCollectorEventBusBA6310E3": {
+      "Type": "AWS::Events::EventBus",
+      "Properties": {
+        "Name": "RepoMetricsCollectorEventBus"
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/RepoMetricsCollectorEventBus/Resource"
+      }
+    },
     "AggregatorSchedule80C87EEE": {
       "Type": "AWS::Events::Rule",
       "Properties": {
@@ -2448,6 +2457,64 @@
       },
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregator0CC5D920"
+      }
+    },
+    "AggregatorTriggerBD8F4F2A": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "EventBusName": {
+          "Ref": "RepoMetricsCollectorEventBusBA6310E3"
+        },
+        "EventPattern": {
+          "source": [
+            "aws.lambda"
+          ],
+          "resources": [
+            {
+              "Fn::GetAtt": [
+                "Collector9EBA7CF5",
+                "Arn"
+              ]
+            }
+          ]
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::GetAtt": [
+                "Aggregator84F1B3DF",
+                "Arn"
+              ]
+            },
+            "Id": "Target0"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorTrigger/Resource"
+      }
+    },
+    "AggregatorTriggerAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregator0CC5D920123710CD": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "Aggregator84F1B3DF",
+            "Arn"
+          ]
+        },
+        "Principal": "events.amazonaws.com",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "AggregatorTriggerBD8F4F2A",
+            "Arn"
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorTrigger/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregator0CC5D920"
       }
     },
     "AggregatorNotSuccessAlarm955602B9": {

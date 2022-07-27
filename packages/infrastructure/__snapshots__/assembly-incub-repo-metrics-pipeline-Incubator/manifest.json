@@ -616,6 +616,12 @@
             "data": "Aggregator84F1B3DF"
           }
         ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/RepoMetricsCollectorEventBus/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RepoMetricsCollectorEventBusBA6310E3"
+          }
+        ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorSchedule/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -626,6 +632,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "AggregatorScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregator0CC5D92026EEEE0C"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorTrigger/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AggregatorTriggerBD8F4F2A"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorTrigger/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregator0CC5D920": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AggregatorTriggerAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregator0CC5D920123710CD"
           }
         ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorNotSuccessAlarm/Resource": [
