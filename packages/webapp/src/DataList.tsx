@@ -177,12 +177,20 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
           checked={state.limitGraphDays != null}
           onCheck={(checked) => {
             dispatch({
-              type: FilterActionType.TOGGLE_LAST_30_DAYS,
+              type: FilterActionType.TOGGLE_LAST_N_DAYS,
               prop: "limitGraphDays",
             })
           }}
         >
-          Begrens graf til siste 30 dager
+          <span>
+            Begrens graf til siste{" "}
+            <input
+              className="num-days-input"
+              inputMode="numeric"
+              min="1"
+            ></input>{" "}
+            dager
+          </span>
         </Checkbox>
         <Checkbox
           checked={state.sortByRenovateDays}

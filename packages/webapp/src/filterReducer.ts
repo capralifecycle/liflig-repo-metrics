@@ -4,7 +4,7 @@ export enum FilterActionType {
   TOGGLE_BOOLEAN = "toggle_boolean",
   TOGGLE_COLLAPSE_RESPONSIBLE = "toggle_collapse_responsible",
   CHANGE_SEARCH_FILTER = "change_search_filter",
-  TOGGLE_LAST_30_DAYS = "toggle_last_30_days",
+  TOGGLE_LAST_N_DAYS = "toggle_last_30_days",
 }
 
 interface FilterAction<T = keyof Filter> {
@@ -18,7 +18,7 @@ export function filterReducer(state: Filter, action: FilterAction): Filter {
     case FilterActionType.TOGGLE_BOOLEAN:
       return { ...state, [action.prop]: !state[action.prop] }
 
-    case FilterActionType.TOGGLE_LAST_30_DAYS: {
+    case FilterActionType.TOGGLE_LAST_N_DAYS: {
       const curValue = state[action.prop]
       let newValue = undefined
       // Currently just a toggle between 30 days and null

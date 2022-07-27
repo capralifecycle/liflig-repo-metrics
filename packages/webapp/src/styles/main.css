@@ -61,5 +61,19 @@ td:hover .renovate-logs-link {
 }
 
 .filters {
-  column-count: 3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+}
+
+.filters > * {
+    padding-right: 20px;
+}
+
+.filters input {
+    max-width: 15rem;
+}
+
+.filters .num-days-input {
+    width: 20px;
 }
