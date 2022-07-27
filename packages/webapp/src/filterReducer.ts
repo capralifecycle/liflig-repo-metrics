@@ -4,7 +4,7 @@ export enum FilterActionType {
   TOGGLE_BOOLEAN = "toggle_boolean",
   TOGGLE_COLLAPSE_RESPONSIBLE = "toggle_collapse_responsible",
   CHANGE_SEARCH_FILTER = "change_search_filter",
-  TOGGLE_LAST_N_DAYS = "toggle_last_30_days",
+  CHANGE_NUMBER_OF_DAYS = "change_number_of_days",
 }
 
 interface FilterAction<T = keyof Filter> {
@@ -18,17 +18,13 @@ export function filterReducer(state: Filter, action: FilterAction): Filter {
     case FilterActionType.TOGGLE_BOOLEAN:
       return { ...state, [action.prop]: !state[action.prop] }
 
-    case FilterActionType.TOGGLE_LAST_N_DAYS: {
-      const curValue = state[action.prop]
-      let newValue = undefined
-      // Currently just a toggle between 30 days and null
-      if (curValue === null) {
-        newValue = 30
+    case FilterActionType.CHANGE_NUMBER_OF_DAYS: {
+      const newValue = action.payload
+      if (newValue !== undefined && isValidNumberOfDays(newValue)) {
+        return { ...state, [action.prop]: newValue }
       } else {
-        newValue = null
+        return state
       }
-
-      return { ...state, [action.prop]: newValue }
     }
 
     case FilterActionType.TOGGLE_COLLAPSE_RESPONSIBLE: {
@@ -57,4 +53,9 @@ export function filterReducer(state: Filter, action: FilterAction): Filter {
     default:
       throw new Error()
   }
+}
+
+const isValidNumberOfDays: (value: string) => boolean = (value) => {
+  const numberValue = Number(value)
+  return !isNaN(numberValue) && Number.isInteger(numberValue) && numberValue > 0
 }

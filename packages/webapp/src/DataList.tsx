@@ -102,8 +102,8 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   const filteredFetchGroups = filterFetchGroupRepos(
     data.byFetchGroup.filter(
       (it) =>
-        state.limitGraphDays == null ||
-        ageInDays(it.timestamp) < state.limitGraphDays,
+        state.limitGraphDays == false ||
+        ageInDays(it.timestamp) < state.numberOfGraphDaysToLimit,
     ),
     (it) => shownRepoIds.includes(it.repoId),
   )
@@ -174,10 +174,10 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
           Vis kun sårbare repoer
         </Checkbox>
         <Checkbox
-          checked={state.limitGraphDays != null}
+          checked={state.limitGraphDays != false}
           onCheck={(checked) => {
             dispatch({
-              type: FilterActionType.TOGGLE_LAST_N_DAYS,
+              type: FilterActionType.TOGGLE_BOOLEAN,
               prop: "limitGraphDays",
             })
           }}

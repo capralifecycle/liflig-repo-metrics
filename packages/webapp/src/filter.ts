@@ -1,7 +1,7 @@
 import _ from "lodash"
 
 export interface Filter
-  extends Record<string, boolean | string | string[] | number | null> {
+  extends Record<string, boolean | string | string[] | number> {
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
@@ -12,7 +12,8 @@ export interface Filter
   collapseResponsible: string[]
   filterRepoName: string
   filterUpdateName: string
-  limitGraphDays: number | null
+  limitGraphDays: boolean
+  numberOfGraphDaysToLimit: number
 }
 
 export const defaultValues: Filter = {
@@ -26,7 +27,8 @@ export const defaultValues: Filter = {
   collapseResponsible: [],
   filterRepoName: "",
   filterUpdateName: "",
-  limitGraphDays: null,
+  limitGraphDays: false,
+  numberOfGraphDaysToLimit: 30,
 }
 
 // Parse URL parameters and turn into a filter object.
@@ -78,8 +80,13 @@ export const toQueryString = (state: Filter): string => {
       if (state[k] == null) {
         return ""
       }
-      const curValue = state[k] as string
-      return `${k}=${curValue.toString()}`
+
+      let curParamValue = state[k]
+      // Show the number of days to limit in url, not just the toggle value
+      if (k === "limitGraphDays") {
+        curParamValue = state["numberOfGraphDaysToLimit"]
+      }
+      return `${k}=${curParamValue.toString()}`
     })
     .join("&")
 }
