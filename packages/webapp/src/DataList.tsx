@@ -188,6 +188,16 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               className="num-days-input"
               inputMode="numeric"
               min="1"
+              value={state.numberOfGraphDaysToLimit}
+              onInput={(inputEvent) => {
+                console.log(inputEvent)
+                dispatch({
+                  type: FilterActionType.CHANGE_NUMBER_OF_DAYS,
+                  prop: "numberOfGraphDaysToLimit",
+                  // @ts-expect-error: faulty ts definition stops us from accessing a value that does exist
+                  payload: inputEvent.target.value as string,
+                })
+              }}
             ></input>{" "}
             dager
           </span>
@@ -205,7 +215,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             dispatch({
               type: FilterActionType.CHANGE_SEARCH_FILTER,
               prop: "filterRepoName",
-              payload: e.target.value,
             })
           }}
           placeholder="Filtrer på navn til repo"

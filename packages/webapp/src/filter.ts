@@ -44,11 +44,7 @@ export const getFilterFromUrl = (): Filter =>
     )
 
 const parseUrlFilterField = (key: string, value: string) => {
-  const keyValueFields = [
-    "filterRepoName",
-    "filterUpdateName",
-    "limitGraphDays",
-  ]
+  const keyValueFields = ["filterRepoName", "filterUpdateName"]
 
   // The collapseResponsible attribute can contain multiple comma separated values,
   // and needs special handling during parsing
@@ -56,6 +52,28 @@ const parseUrlFilterField = (key: string, value: string) => {
     return {
       [key]: value.split(","),
     }
+  }
+
+  // Since the attribute limitGraphDays reflects both the boolean internal
+  // parameter limitGraphDays, but also the number of days in the form of
+  // numberOfGraphDaysToLimit, it needs special parsing
+  else if (key === "limitGraphDays") {
+    console.log(key, value)
+    // limitGraphDays used as a boolean flag, set it up with default number of days
+    if (value === undefined) {
+      return {
+        [key]: defaultValues.numberOfGraphDaysToLimit,
+      }
+    } else {
+      return {
+        [key]: value,
+      }
+    }
+  }
+
+  // This attribute should not be directly reflected in the url, and is removed
+  else if (key === "numberOfGraphDaysToLimit") {
+    return null
   }
 
   // Attributes with only one value
@@ -81,11 +99,17 @@ export const toQueryString = (state: Filter): string => {
         return ""
       }
 
+      // The number of days to limit is stored in the limitGraphDays attribute
+      if (k === "numberOfGraphDaysToLimit") {
+        return ""
+      }
+
       let curParamValue = state[k]
       // Show the number of days to limit in url, not just the toggle value
       if (k === "limitGraphDays") {
         curParamValue = state["numberOfGraphDaysToLimit"]
       }
+
       return `${k}=${curParamValue.toString()}`
     })
     .join("&")
