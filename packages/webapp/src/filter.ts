@@ -33,8 +33,8 @@ export const defaultValues: Filter = {
 
 // Parse URL parameters and turn into a filter object.
 // Any parameter not specified in the URL assumes a default value
-export const getFilterFromUrl = (): Filter =>
-  location.search
+export const getFilterFromUrl = (): Filter => {
+  const newFilter = location.search
     .slice(1)
     .split("&")
     .map((s) => s.split("="))
@@ -42,6 +42,11 @@ export const getFilterFromUrl = (): Filter =>
       (acc, [k, v]) => Object.assign(acc, parseUrlFilterField(k, v)),
       Object.assign({}, defaultValues),
     )
+
+  console.log(newFilter)
+
+  return newFilter
+}
 
 const parseUrlFilterField = (key: string, value: string) => {
   const keyValueFields = ["filterRepoName", "filterUpdateName"]
@@ -58,15 +63,16 @@ const parseUrlFilterField = (key: string, value: string) => {
   // parameter limitGraphDays, but also the number of days in the form of
   // numberOfGraphDaysToLimit, it needs special parsing
   else if (key === "limitGraphDays") {
-    console.log(key, value)
     // limitGraphDays used as a boolean flag, set it up with default number of days
     if (value === undefined) {
       return {
-        [key]: defaultValues.numberOfGraphDaysToLimit,
+        limitGraphDays: true,
+        numberOfGraphDaysToLimit: defaultValues.numberOfGraphDaysToLimit,
       }
     } else {
       return {
-        [key]: value,
+        limitGraphDays: true,
+        numberOfGraphDaysToLimit: value,
       }
     }
   }
@@ -93,20 +99,17 @@ const parseUrlFilterField = (key: string, value: string) => {
 
 export const toQueryString = (state: Filter): string => {
   return Object.keys(defaultValues)
-    .filter((k) => !_.isEqual(defaultValues[k], state[k]))
+    .filter(
+      (k) =>
+        !_.isEqual(defaultValues[k], state[k]) &&
+        state[k] !== null &&
+        k !== "numberOfGraphDaysToLimit",
+    )
     .map((k) => {
-      if (state[k] == null) {
-        return ""
-      }
-
-      // The number of days to limit is stored in the limitGraphDays attribute
-      if (k === "numberOfGraphDaysToLimit") {
-        return ""
-      }
-
       let curParamValue = state[k]
       // Show the number of days to limit in url, not just the toggle value
       if (k === "limitGraphDays") {
+        console.log("setting limit graph days to", state[k])
         curParamValue = state["numberOfGraphDaysToLimit"]
       }
 

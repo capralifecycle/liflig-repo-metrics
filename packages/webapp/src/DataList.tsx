@@ -187,7 +187,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             <input
               className="num-days-input"
               inputMode="numeric"
-              min="1"
               value={state.numberOfGraphDaysToLimit}
               onInput={(inputEvent) => {
                 console.log(inputEvent)

@@ -65,6 +65,15 @@ export const DataGroup: React.FC<Props> = ({
     return yearMonthDay + " " + hourMinuteSecond
   }
 
+  // Need to handle the case of no data
+  if (fetchGroups.length < 1) {
+    return (
+      <ResponsiveContainer width="100%" height={170}>
+        <h1>Ingen data å vise i dette tidsrommet</h1>
+      </ResponsiveContainer>
+    )
+  }
+
   return (
     <>
       <ResponsiveContainer width="100%" height={170}>
