@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
-    "@types/jest": "28.1.7",
+    "@types/jest": "28.1.8",
     "@types/jest-each": "24.3.0",
     "@types/lodash": "4.14.184",
     "@types/react": "17.0.48",
