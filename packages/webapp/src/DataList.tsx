@@ -168,6 +168,12 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
           Skjul repoer hvor alt er OK nå
         </Checkbox>
         <Checkbox
+          checked={state.showOrgName}
+          onCheck={createOnCheckHandler("showOrgName")}
+        >
+          Vis GitHub organisasjon
+        </Checkbox>
+        <Checkbox
           checked={state.showOnlyVulnerable}
           onCheck={createOnCheckHandler("showOnlyVulnerable")}
         >
@@ -254,6 +260,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
                     showPrList={state.showPrList}
                     showDepList={state.showDepList}
                     showVulList={state.showVulList}
+                    showOrgName={state.showOrgName}
                     sortByRenovateDays={state.sortByRenovateDays}
                   />
                 )}
@@ -269,6 +276,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             showPrList={state.showPrList}
             showDepList={state.showDepList}
             showVulList={state.showVulList}
+            showOrgName={state.showOrgName}
             sortByRenovateDays={state.sortByRenovateDays}
           />
         </>

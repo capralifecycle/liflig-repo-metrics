@@ -34,6 +34,7 @@ interface Props {
   showDepList: boolean
   showVulList: boolean
   showRenovateDays: boolean
+  showOrgName: boolean
 }
 
 type SnykType = "critical" | "high" | "medium" | "low"
@@ -80,6 +81,7 @@ export const Repo: React.FC<Props> = ({
   showDepList,
   showVulList,
   showRenovateDays,
+  showOrgName,
 }) => {
   const renovateEnabled = data.lastDatapoint.github.availableUpdates != null
   const availableUpdates = (
@@ -130,10 +132,12 @@ export const Repo: React.FC<Props> = ({
     </a>
   )
 
+  const [orgName, repoName] = data.repoId.split("/")
+
   return (
     <tr>
       <td>
-        <a href={repoBaseUrl}>{data.repoId}</a>
+        <a href={repoBaseUrl}>{showOrgName && <span className="repo-org">{orgName}/</span>}<span className="repo-name">{repoName}</span></a>
       </td>
       <td>
         {renovateDashboad?.daysSinceLastUpdate != null &&

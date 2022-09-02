@@ -5,6 +5,7 @@ export interface Filter
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
+  showOrgName: boolean
   groupByResponsible: boolean
   showOnlyActionable: boolean
   showOnlyVulnerable: boolean
@@ -20,6 +21,7 @@ export const defaultValues: Filter = {
   showPrList: false,
   showDepList: false,
   showVulList: false,
+  showOrgName: false,
   groupByResponsible: true,
   showOnlyActionable: false,
   showOnlyVulnerable: false,

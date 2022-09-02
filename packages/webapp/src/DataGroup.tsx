@@ -22,6 +22,7 @@ interface Props {
   showPrList: boolean
   showDepList: boolean
   showVulList: boolean
+  showOrgName: boolean
   sortByRenovateDays: boolean
 }
 
@@ -31,6 +32,7 @@ export const DataGroup: React.FC<Props> = ({
   showPrList,
   showDepList,
   showVulList,
+  showOrgName,
   sortByRenovateDays,
 }) => {
   const updatesAvailable = sumBy(
@@ -208,6 +210,7 @@ export const DataGroup: React.FC<Props> = ({
                   showDepList={showDepList}
                   showVulList={showVulList}
                   showRenovateDays={sortByRenovateDays}
+                  showOrgName={showOrgName}
                 />
               ))}
           </tbody>
