@@ -181,12 +181,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         </Checkbox>
         <Checkbox
           checked={state.limitGraphDays != false}
-          onCheck={(checked) => {
-            dispatch({
-              type: FilterActionType.TOGGLE_BOOLEAN,
-              prop: "limitGraphDays",
-            })
-          }}
+          onCheck={createOnCheckHandler("limitGraphDays")}
         >
           <span>
             Begrens graf til siste{" "}

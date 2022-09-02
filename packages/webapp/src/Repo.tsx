@@ -137,7 +137,10 @@ export const Repo: React.FC<Props> = ({
   return (
     <tr>
       <td>
-        <a href={repoBaseUrl}>{showOrgName && <span className="repo-org">{orgName}/</span>}<span className="repo-name">{repoName}</span></a>
+        <a href={repoBaseUrl}>
+          {showOrgName && <span className="repo-org">{orgName}/</span>}
+          <span className="repo-name">{repoName}</span>
+        </a>
       </td>
       <td>
         {renovateDashboad?.daysSinceLastUpdate != null &&
