@@ -26,8 +26,8 @@ buildConfig(
     insideToolImage("node:14") {
       stage("Check repo-metrics") {
         sh "yarn install --frozen-lockfile"
-        sh "yarn run build"
         sh "yarn run lint"
+        sh "yarn run build"
         sh "yarn run test"
       }
 
