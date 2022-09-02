@@ -214,7 +214,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             dispatch({
               type: FilterActionType.CHANGE_SEARCH_FILTER,
               prop: "filterRepoName",
-	      payload: e.target.value
+              payload: e.target.value,
             })
           }}
           placeholder="Filtrer på navn til repo"
@@ -222,44 +222,44 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       </div>
       {byResponsible != null ? (
         Object.entries(byResponsible)
-              .sort((a, b) => a[0].localeCompare(b[0]))
-              .map(([responsible, repos]) => {
-		const collapsed = state.collapseResponsible.includes(responsible)
+          .sort((a, b) => a[0].localeCompare(b[0]))
+          .map(([responsible, repos]) => {
+            const collapsed = state.collapseResponsible.includes(responsible)
 
-		return (
-		  <React.Fragment key={responsible}>
-                    <div className="responsible-heading">
-                      <h2>Ansvarlig: {responsible}</h2>
-                      <button
-			style={{ marginLeft: "5px" }}
-			onClick={() =>
-			  dispatch({
-                            type: FilterActionType.TOGGLE_COLLAPSE_RESPONSIBLE,
-                            prop: "collapseResponsible",
-                            payload: responsible,
-			  })
-			}
-                      >
-			{collapsed ? "Vis" : "Skjul"}
-                      </button>
-                    </div>
-                    {!collapsed && (
-                      <DataGroup
-			key={responsible}
-			fetchGroups={filterFetchGroupRepos(
-			  filteredFetchGroups,
-			  (it) => it.responsible === responsible,
-			)}
-			repos={repos}
-			showPrList={state.showPrList}
-			showDepList={state.showDepList}
-			showVulList={state.showVulList}
-			sortByRenovateDays={state.sortByRenovateDays}
-                      />
+            return (
+              <React.Fragment key={responsible}>
+                <div className="responsible-heading">
+                  <h2>Ansvarlig: {responsible}</h2>
+                  <button
+                    style={{ marginLeft: "5px" }}
+                    onClick={() =>
+                      dispatch({
+                        type: FilterActionType.TOGGLE_COLLAPSE_RESPONSIBLE,
+                        prop: "collapseResponsible",
+                        payload: responsible,
+                      })
+                    }
+                  >
+                    {collapsed ? "Vis" : "Skjul"}
+                  </button>
+                </div>
+                {!collapsed && (
+                  <DataGroup
+                    key={responsible}
+                    fetchGroups={filterFetchGroupRepos(
+                      filteredFetchGroups,
+                      (it) => it.responsible === responsible,
                     )}
-		  </React.Fragment>
-		)
-              })
+                    repos={repos}
+                    showPrList={state.showPrList}
+                    showDepList={state.showDepList}
+                    showVulList={state.showVulList}
+                    sortByRenovateDays={state.sortByRenovateDays}
+                  />
+                )}
+              </React.Fragment>
+            )
+          })
       ) : (
         <>
           <h2 className="all-repos-heading">Alle repoer</h2>

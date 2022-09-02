@@ -249,8 +249,9 @@ export class RepoMetricsStack extends cdk.Stack {
       },
       period: props.duration,
     }).createAlarm(this, id, {
-      alarmDescription: `Function ${props.fn.functionName
-        } has not run successful for the last ${props.duration.toHumanString()}`,
+      alarmDescription: `Function ${
+        props.fn.functionName
+      } has not run successful for the last ${props.duration.toHumanString()}`,
       evaluationPeriods: 1,
       threshold: 0,
       treatMissingData: cw.TreatMissingData.BREACHING,
