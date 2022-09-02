@@ -65,6 +65,9 @@ export const DataGroup: React.FC<Props> = ({
     return yearMonthDay + " " + hourMinuteSecond
   }
 
+  const tickerDateFormat = new Intl.DateTimeFormat("no-nb", {dateStyle: 'short'})
+  const tooltipDateTimeFormat = new Intl.DateTimeFormat("no-nb", {dateStyle: 'short', timeStyle: 'medium'})
+
   // Need to handle the case of no data
   if (fetchGroups.length < 1) {
     return (
@@ -93,7 +96,7 @@ export const DataGroup: React.FC<Props> = ({
         >
           <CartesianGrid strokeDasharray="3 3" />
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */}
-          <Tooltip labelFormatter={(it: any) => new Date(it).toISOString()} />
+          <Tooltip labelFormatter={(it: any) => tooltipDateTimeFormat.format(new Date(it))} />
           <YAxis />
           <YAxis yAxisId="secondary" orientation="right" />
           <XAxis
@@ -101,7 +104,7 @@ export const DataGroup: React.FC<Props> = ({
             type="number"
             domain={[minTime, maxTime]}
             tickFormatter={(it: number) =>
-              new Date(it).toISOString().slice(0, 10)
+              tickerDateFormat.format(new Date(it))
             }
             minTickGap={20}
           />
