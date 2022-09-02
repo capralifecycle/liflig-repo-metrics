@@ -1,9 +1,14 @@
 :root {
-  --color-primary: blue;
+  --color-primary: #2d2de2;
   --color-secondary: lightgrey;
   --color-warning: orange;
   --color-danger: red;
-  --color-success: green;
+  --color-success: var(--color-mute);
+
+  --color-background: #f8f8f8;
+  --color-foreground: #333333;
+
+  --color-mute: #8f8f8f;
 
   --color-dark: #888;
 

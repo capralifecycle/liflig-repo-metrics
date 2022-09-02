@@ -200,7 +200,7 @@ export const Repo: React.FC<Props> = ({
       </td>
       <td>
         {githubVulAlerts.length === 0 ? (
-          <span style={{ color: "green" }}>Ingen</span>
+          <span style={{ color: "var(--color-success)" }}>Ingen</span>
         ) : (
           <>
             <a
@@ -225,7 +225,7 @@ export const Repo: React.FC<Props> = ({
         {snyk == null ? (
           <>Mangler Snyk</>
         ) : snyk.totalIssues === 0 ? (
-          <span style={{ color: "green" }}>Ingen</span>
+          <span style={{ color: "var(--color-success)" }}>Ingen</span>
         ) : (
           <>
             <SnykItem

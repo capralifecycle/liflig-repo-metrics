@@ -13,7 +13,7 @@ export const PrColumnDetails: React.FC<Props> = ({
   showPrList,
 }) => {
   if (prs.length === 0) {
-    return <span style={{ color: "green" }}>Ingen</span>
+    return <span style={{ color: "var(--color-success)" }}>Ingen</span>
   }
 
   return (
