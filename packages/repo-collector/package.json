@@ -13,7 +13,7 @@
     "serve": "http-server --cors -p 8383 data"
   },
   "devDependencies": {
-    "@types/aws-lambda": "8.10.102",
+    "@types/aws-lambda": "8.10.103",
     "@types/node": "16.11.56",
     "@typescript-eslint/eslint-plugin": "5.36.2",
     "@typescript-eslint/parser": "5.36.2",
