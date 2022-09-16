@@ -29,7 +29,7 @@ export const defaultValues: Filter = {
   collapseResponsible: [],
   filterRepoName: "",
   filterUpdateName: "",
-  limitGraphDays: false,
+  limitGraphDays: true,
   numberOfGraphDaysToLimit: 30,
 }
 
