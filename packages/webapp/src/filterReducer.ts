@@ -20,7 +20,7 @@ export function filterReducer(state: Filter, action: FilterAction): Filter {
 
     case FilterActionType.CHANGE_NUMBER_OF_DAYS: {
       const newValue = action.payload
-      if (newValue !== undefined) {
+      if (newValue !== undefined && isValidNumberOfDays(newValue)) {
         return { ...state, [action.prop]: newValue }
       } else {
         return state
@@ -53,4 +53,9 @@ export function filterReducer(state: Filter, action: FilterAction): Filter {
     default:
       throw new Error()
   }
+}
+
+const isValidNumberOfDays: (value: string) => boolean = (value) => {
+  const numberValue = Number(value)
+  return !isNaN(numberValue) && Number.isInteger(numberValue) && numberValue > 0
 }
