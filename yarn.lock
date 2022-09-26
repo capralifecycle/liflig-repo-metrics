@@ -3786,10 +3786,10 @@ autoprefixer@10.4.12:
     picocolors "^1.0.0"
     postcss-value-parser "^4.2.0"
 
-aws-cdk-lib@2.42.1:
-  version "2.42.1"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.42.1.tgz#a006c7d6cdcd75d7169c4b1c52dd5ee624705ff6"
-  integrity sha512-12KyAXhtKKCpTbwbs/HAYbIeIcB6RGd9mhHWrZA+6RpccXGwrDjFo36xAwmYMrUT+9FVewd703lNy+L3adRxbA==
+aws-cdk-lib@2.43.1:
+  version "2.43.1"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.43.1.tgz#85dcf1c7ba0764333e658fd89ceeeddbfc2a5679"
+  integrity sha512-Sss4qcGAdTTTLHHG2ytjPqfOJRy3z17BnuEmlk7UukMBl1KRusfSYDvYWeN78+v6gMT+0BVlUaLzggdxgo3V+w==
   dependencies:
     "@balena/dockerignore" "^1.0.2"
     case "1.6.3"
@@ -3801,10 +3801,10 @@ aws-cdk-lib@2.42.1:
     semver "^7.3.7"
     yaml "1.10.2"
 
-aws-cdk@2.42.1:
-  version "2.42.1"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.42.1.tgz#a15c5f29034ea50875593f738d38396e0fbefece"
-  integrity sha512-+/mFl2TAT1ybpmTdrq24rc2vVBnJgH8rcOeSKOCY2kdQ8KcMUgT+pTJqJUXz4KJ42ZXhbqrt1KWrDTlTJ134FQ==
+aws-cdk@2.43.1:
+  version "2.43.1"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.43.1.tgz#7bf148865c9921b6250646a48729443a25ba4320"
+  integrity sha512-Y+Pomc+LdQ14h+CvFZg+FeqcLpV8MJcoFhqcoOtGi0xC8CkdGAWH+MfIWcqePk7OVOMIzDJP2eBdd9te2CrjcQ==
   optionalDependencies:
     fsevents "2.3.2"
 
