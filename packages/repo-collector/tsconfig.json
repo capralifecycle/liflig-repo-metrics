@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2018",
-    "lib": ["ESNext", "DOM"],
+    "target": "ES2021",
+    "lib": ["ES2021"],
     "strict": true,
     "module": "commonjs"
   }
