@@ -2054,7 +2054,7 @@
         },
         "Handler": "index.collectHandler",
         "MemorySize": 256,
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Tags": [
           {
             "Key": "Project",
@@ -2379,7 +2379,7 @@
         },
         "Handler": "index.aggregateHandler",
         "MemorySize": 2048,
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Tags": [
           {
             "Key": "Project",
@@ -2668,7 +2668,7 @@
         },
         "Handler": "index.reportHandler",
         "MemorySize": 1024,
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Tags": [
           {
             "Key": "Project",
