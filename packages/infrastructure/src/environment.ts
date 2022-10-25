@@ -1,6 +1,6 @@
 import * as constructs from "constructs"
 import * as cdk from "aws-cdk-lib"
-import { applyTags, externalValues } from "./config"
+import { applyTags, externalValues, overrideLambdaRuntime } from "./config"
 import { RepoMetricsEdgeStack } from "./repo-metrics-edge-stack"
 import { RepoMetricsStack } from "./repo-metrics-stack"
 
@@ -9,6 +9,7 @@ export class RepoMetricsEnv extends cdk.Stage {
     super(scope, id, props)
 
     applyTags(this)
+    overrideLambdaRuntime(this)
 
     const edgeStack = new RepoMetricsEdgeStack(
       this,
