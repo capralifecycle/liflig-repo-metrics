@@ -1,5 +1,6 @@
 import * as constructs from "constructs"
 import * as cdk from "aws-cdk-lib"
+import * as lambda from "aws-cdk-lib/aws-lambda"
 import { tagResources } from "@liflig/cdk"
 
 export const incubatorAccountId = "001112238813"
@@ -20,4 +21,18 @@ export function applyTags(scope: constructs.Construct) {
     Project: "repo-metrics",
     SourceRepo: "github/capralifecycle/liflig-repo-metrics",
   }))
+}
+
+export function overrideLambdaRuntime(scope: constructs.IConstruct) {
+  cdk.Aspects.of(scope).add({
+    visit(construct: constructs.IConstruct) {
+      if (
+        construct.node.defaultChild instanceof lambda.CfnFunction &&
+        (construct.node.scope?.node.id === "AuthLambdas" ||
+          construct.node.scope?.node.id.startsWith("henrist."))
+      ) {
+        construct.node.defaultChild.addPropertyOverride("Runtime", "nodejs16.x")
+      }
+    },
+  })
 }
