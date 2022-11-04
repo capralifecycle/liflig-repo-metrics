@@ -70,7 +70,7 @@
         },
         "Description": "Nonce value: 2",
         "Handler": "index.handler",
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Tags": [
           {
             "Key": "Project",
@@ -197,7 +197,7 @@
         },
         "Description": "Nonce value: 2",
         "Handler": "index.handler",
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Tags": [
           {
             "Key": "Project",
@@ -324,7 +324,7 @@
         },
         "Description": "Nonce value: 2",
         "Handler": "index.handler",
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Tags": [
           {
             "Key": "Project",
@@ -451,7 +451,7 @@
         },
         "Description": "Nonce value: 2",
         "Handler": "index.handler",
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Tags": [
           {
             "Key": "Project",
@@ -578,7 +578,7 @@
         },
         "Description": "Nonce value: 2",
         "Handler": "index.handler",
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Tags": [
           {
             "Key": "Project",
