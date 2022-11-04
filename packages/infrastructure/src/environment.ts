@@ -7,7 +7,6 @@ import { RepoMetricsStack } from "./repo-metrics-stack"
 export class RepoMetricsEnv extends cdk.Stage {
   constructor(scope: constructs.Construct, id: string, props: cdk.StageProps) {
     super(scope, id, props)
-
     applyTags(this)
 
     const edgeStack = new RepoMetricsEdgeStack(
