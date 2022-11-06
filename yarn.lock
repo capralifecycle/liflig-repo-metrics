@@ -2968,10 +2968,10 @@
     npmlog "^6.0.2"
     write-file-atomic "^4.0.1"
 
-"@liflig/cdk@2.8.1":
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.8.1.tgz#8e89f46e42388cebcb7f422ec103831d1853cc81"
-  integrity sha512-H6uo8rDXn12rS3Z2NuK3PHUOxZ5RI1OPBL3WKgjbMj0AfFJdPEa5QjGz0zzVxjU7uEbsHcp3tzVY8B685SFt7w==
+"@liflig/cdk@2.8.2":
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.8.2.tgz#71e43b6c8ea69da96d8f8b6216d139b3f9bbba3e"
+  integrity sha512-5RQIAqxb/TM1pjGfolkqOO9CS6BSbb4prwcXS1ajoWujHAFHeQSrrjsli5ef231GPxdG0SUXQbx8AcYzzGKBrw==
   dependencies:
     "@capraconsulting/webapp-deploy-lambda" "2.0.0"
     aws-sdk "2.1058.0"
