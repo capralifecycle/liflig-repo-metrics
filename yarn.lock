@@ -1521,6 +1521,11 @@
   resolved "https://registry.yarnpkg.com/@capraconsulting/webapp-deploy-lambda/-/webapp-deploy-lambda-2.0.0.tgz#a1e9f6a5bed0af638373c71db5c74d18d78fe216"
   integrity sha512-+x4ie/O7NDDNZD7kFnv5IUTPKGzu8iZIS/B87Lo+424ANcszD8P2n4PqPxIPLfLhlS/GrEq8jSQT5Stx87EMgg==
 
+"@capraconsulting/webapp-deploy-lambda@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@capraconsulting/webapp-deploy-lambda/-/webapp-deploy-lambda-2.1.0.tgz#f46a9f282288ffc21f675d0bc5c82fe9bb075627"
+  integrity sha512-NkN/YRBhGtN1vMbOp/sP8UridDVTHV7dkabLvb29jkC3gx14xJOJu/lPcSTee8Wr3aAyU7w0MEkoIuNRrAwpmw==
+
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz#00629c35a688e05a88b1cda684fb9d5e73f000a1"
