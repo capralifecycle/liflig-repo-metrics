@@ -526,34 +526,46 @@
             "data": "Distribution830FAC52"
           }
         ],
-        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Resource/ServiceRole/Resource": [
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/WebappDeployResource/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "WebappDeployServiceRole78F79841"
+            "data": "WebappDeployWebappDeployResourceServiceRole6D7BB70F"
           }
         ],
-        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Resource/ServiceRole/DefaultPolicy/Resource": [
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/WebappDeployResource/ServiceRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "WebappDeployServiceRoleDefaultPolicyE446530F"
+            "data": "WebappDeployWebappDeployResourceServiceRoleDefaultPolicy5CB528F1"
           }
         ],
-        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Resource/Resource": [
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/WebappDeployResource/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "WebappDeploy4D661524"
+            "data": "WebappDeployWebappDeployResource568A3E18"
           }
         ],
-        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/CustomResource/Resource/Default": [
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Provider/framework-onEvent/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "WebappDeployCustomResourceCF959726"
+            "data": "WebappDeployProviderframeworkonEventServiceRole6401B28E"
           }
         ],
-        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/CustomResource/CustomResourcePolicy/Resource": [
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "WebappDeployCustomResourceCustomResourcePolicyB85F7B61"
+            "data": "WebappDeployProviderframeworkonEventServiceRoleDefaultPolicy007A69B8"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Provider/framework-onEvent/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebappDeployProviderframeworkonEvent095845EB"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/CustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebappDeployCustomResourceCA418804"
           }
         ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Collector/ServiceRole/Resource": [
