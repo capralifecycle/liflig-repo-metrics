@@ -1558,10 +1558,10 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@henrist/cdk-cloudfront-auth@2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@henrist/cdk-cloudfront-auth/-/cdk-cloudfront-auth-2.1.2.tgz#573187e6f2cc252316fc456538aba6138f2f85ab"
-  integrity sha512-8XQmBMTE+Q9PTxJ1vdYVW9oPD5ZDtmx69HE9dH5ZRkiCftMpKKdG12RoKGc1DAuoOOj2tM3C6NwrRhfjFR5s2Q==
+"@henrist/cdk-cloudfront-auth@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@henrist/cdk-cloudfront-auth/-/cdk-cloudfront-auth-2.1.4.tgz#af052c87d72d646d744fd3703acbfc38c3ea9744"
+  integrity sha512-I0fEDXs8IuqG6rQ2qU+uFLOkrAJPMiMroSKeVq8LCMky+VTarLMcO+0/4ryqS3KG3Ta3Diu50RXuyCWeebWkFA==
   dependencies:
     "@henrist/cdk-cross-region-params" "^2.0.0"
     "@henrist/cdk-lambda-config" "^2.1.0"
