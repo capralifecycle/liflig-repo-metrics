@@ -12,6 +12,8 @@ import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
 import * as cdk from "aws-cdk-lib"
 import * as webappDeploy from "@capraconsulting/webapp-deploy-lambda"
 import { AuthLambdas, CloudFrontAuth } from "@henrist/cdk-cloudfront-auth"
+import * as tasks from "aws-cdk-lib/aws-stepfunctions-tasks"
+import * as stepfunctions from "aws-cdk-lib/aws-stepfunctions"
 import { CorePlatformConsumer } from "./core-platform"
 
 interface Props extends cdk.StackProps {
@@ -123,15 +125,6 @@ export class RepoMetricsStack extends cdk.Stack {
     snykTokenSecret.grantRead(collector)
     dataBucket.grantReadWrite(collector)
 
-    new events.Rule(this, "CollectorSchedule", {
-      schedule: events.Schedule.cron({
-        hour: "0/6",
-        minute: "0",
-      }),
-      targets: [new eventstargets.LambdaFunction(collector)],
-      enabled: true,
-    })
-
     this.addAlarmIfNotSuccessWithin("CollectorNotSuccessAlarm", {
       fn: collector,
       duration: cdk.Duration.hours(12),
@@ -160,15 +153,6 @@ export class RepoMetricsStack extends cdk.Stack {
     dataBucket.grantReadWrite(aggregator)
     webappDataBucket.grantReadWrite(aggregator)
 
-    new events.Rule(this, "AggregatorSchedule", {
-      schedule: events.Schedule.cron({
-        hour: "0/6",
-        minute: "10",
-      }),
-      targets: [new eventstargets.LambdaFunction(aggregator)],
-      enabled: true,
-    })
-
     this.addAlarmIfNotSuccessWithin("AggregatorNotSuccessAlarm", {
       fn: aggregator,
       duration: cdk.Duration.hours(12),
@@ -192,24 +176,61 @@ export class RepoMetricsStack extends cdk.Stack {
 
     dataBucket.grantReadWrite(reporter)
 
-    new events.Rule(this, "ReporterSchedule", {
-      // Note: The function itself also has some logic to skip running
-      // non-working days.
-      schedule: events.Schedule.cron({
-        // For Oslo-time: Will trigger 8 am normal time and 9 am summer time.
-        // This should be after the collector has run.
-        hour: "7",
-        minute: "0",
-      }),
-      targets: [new eventstargets.LambdaFunction(reporter)],
-      enabled: true,
-    })
-
     this.addAlarmIfNotSuccessWithin("ReporterNotSuccessAlarm", {
       fn: reporter,
       // Note: Metrics cannot be checked across more than a day
       duration: cdk.Duration.days(1),
       alarmAction: corePlatform.slackAlarmAction,
+    })
+
+    // State machine to synchronize the jobs
+    // States
+    const collectorJob = new tasks.LambdaInvoke(
+      this,
+      "Collect repo metrics data",
+      {
+        lambdaFunction: collector,
+      },
+    )
+
+    const aggregatorJob = new tasks.LambdaInvoke(
+      this,
+      "Aggregate collected repo metrics data",
+      {
+        lambdaFunction: aggregator,
+      },
+    )
+
+    const reporterJob = new tasks.LambdaInvoke(
+      this,
+      "Generate reports from aggregated repo metrics data",
+      {
+        lambdaFunction: reporter,
+      },
+    )
+
+    // State machine
+    const stateMachineDefinition = collectorJob
+      .next(aggregatorJob)
+      .next(reporterJob)
+
+    const stateMachine = new stepfunctions.StateMachine(
+      this,
+      "Repo metrics state machine",
+      {
+        definition: stateMachineDefinition,
+        timeout: cdk.Duration.minutes(10),
+      },
+    )
+
+    // Chron trigger for state machine
+    new events.Rule(this, "Repo metrics state machine schedule", {
+      schedule: events.Schedule.cron({
+        hour: "0/6",
+        minute: "0",
+      }),
+      targets: [new eventstargets.SfnStateMachine(stateMachine)],
+      enabled: true,
     })
 
     new cdk.CfnOutput(this, "DataBucketNameOutput", {
