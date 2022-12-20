@@ -109,7 +109,9 @@ export const Repo: React.FC<Props> = ({
     return `${repoBaseUrl}/issues/${issueNumber}`
   }
 
-  const MaybeRenovateLink: React.FC = ({ children }) =>
+  const MaybeRenovateLink: React.FC<{ children?: React.ReactNode }> = ({
+    children,
+  }) =>
     renovateDashboad != null ? (
       <a
         href={issueUrl(renovateDashboad.issueNumber)}
