@@ -183,48 +183,29 @@ export class RepoMetricsStack extends cdk.Stack {
       alarmAction: corePlatform.slackAlarmAction,
     })
 
-    // State machine to synchronize the jobs
-    // States
-    const collectorJob = new tasks.LambdaInvoke(
-      this,
-      "Collect repo metrics data",
-      {
-        lambdaFunction: collector,
-      },
-    )
+    const collectorJob = new tasks.LambdaInvoke(this, "CollectorJob", {
+      lambdaFunction: collector,
+    })
 
-    const aggregatorJob = new tasks.LambdaInvoke(
-      this,
-      "Aggregate collected repo metrics data",
-      {
-        lambdaFunction: aggregator,
-      },
-    )
+    const aggregatorJob = new tasks.LambdaInvoke(this, "AggregateJob", {
+      lambdaFunction: aggregator,
+    })
 
-    const reporterJob = new tasks.LambdaInvoke(
-      this,
-      "Generate reports from aggregated repo metrics data",
-      {
-        lambdaFunction: reporter,
-      },
-    )
+    const reporterJob = new tasks.LambdaInvoke(this, "ReportsJob", {
+      lambdaFunction: reporter,
+    })
 
-    // State machine
     const stateMachineDefinition = collectorJob
       .next(aggregatorJob)
       .next(reporterJob)
 
-    const stateMachine = new stepfunctions.StateMachine(
-      this,
-      "Repo metrics state machine",
-      {
-        definition: stateMachineDefinition,
-        timeout: cdk.Duration.minutes(10),
-      },
-    )
+    const stateMachine = new stepfunctions.StateMachine(this, "StateMachine", {
+      definition: stateMachineDefinition,
+      timeout: cdk.Duration.minutes(10),
+    })
 
     // Chron trigger for state machine
-    new events.Rule(this, "Repo metrics state machine schedule", {
+    new events.Rule(this, "RepoMetricsSchedule", {
       schedule: events.Schedule.cron({
         hour: "0/6",
         minute: "0",

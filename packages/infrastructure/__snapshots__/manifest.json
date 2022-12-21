@@ -166,6 +166,162 @@
             "data": "PipelineCodePipelineEventAllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5D84D81CD"
           }
         ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRole16D29A61"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRoleDefaultPolicyAA04AE0A"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset1/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset1CodePipelineActionRoleD7717BFB"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset1/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset1CodePipelineActionRoleDefaultPolicy5D55BF7B"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset10/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset10CodePipelineActionRole0AD20E8F"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset10/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset10CodePipelineActionRoleDefaultPolicyB27D1C2A"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset11/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset11CodePipelineActionRole09B0CA4C"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset11/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset11CodePipelineActionRoleDefaultPolicy2CA58350"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset12/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset12CodePipelineActionRole9A35446B"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset12/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset12CodePipelineActionRoleDefaultPolicy62C8CD75"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset2/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset2CodePipelineActionRole390B517C"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset2/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset2CodePipelineActionRoleDefaultPolicy4C6C8FD2"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset3/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset3CodePipelineActionRole973E341A"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset3/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset3CodePipelineActionRoleDefaultPolicy866A508A"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset4/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset4CodePipelineActionRole45B49772"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset4/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset4CodePipelineActionRoleDefaultPolicyB65215B7"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset5/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset5CodePipelineActionRoleF8FD2661"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset5/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset5CodePipelineActionRoleDefaultPolicy9F63A19D"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset6/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset6CodePipelineActionRole66490FBC"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset6/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset6CodePipelineActionRoleDefaultPolicyF2D58733"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset7/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset7CodePipelineActionRole78199B1B"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset7/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset7CodePipelineActionRoleDefaultPolicy2E9CB398"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset8/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset8CodePipelineActionRole3794A7D2"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset8/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset8CodePipelineActionRoleDefaultPolicyBAB82A39"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset9/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset9CodePipelineActionRoleA9D07F2E"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset9/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineAssetsFileAsset9CodePipelineActionRoleDefaultPolicyA33E0AA6"
+          }
+        ],
         "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/UpdatePipeline/SelfMutation/Role/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -182,18 +338,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "PipelineCdkPipelineUpdatePipelineSelfMutation3D8B717E"
-          }
-        ],
-        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/CodeBuildActionRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "PipelineCdkPipelineCodeBuildActionRole1C961342"
-          }
-        ],
-        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/CodeBuildActionRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "PipelineCdkPipelineCodeBuildActionRoleDefaultPolicy0A4D4386"
           }
         ],
         "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileRole/Resource": [

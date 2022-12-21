@@ -130,7 +130,7 @@
         },
         "Handler": "index.handler",
         "MemorySize": 512,
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs12.x",
         "Tags": [
           {
             "Key": "Project",
@@ -498,7 +498,127 @@
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                  "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRole16D29A61",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineAssetsFileAsset1CodePipelineActionRoleD7717BFB",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineAssetsFileAsset10CodePipelineActionRole0AD20E8F",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineAssetsFileAsset11CodePipelineActionRole09B0CA4C",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineAssetsFileAsset12CodePipelineActionRole9A35446B",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineAssetsFileAsset2CodePipelineActionRole390B517C",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineAssetsFileAsset3CodePipelineActionRole973E341A",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineAssetsFileAsset4CodePipelineActionRole45B49772",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineAssetsFileAsset5CodePipelineActionRoleF8FD2661",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineAssetsFileAsset6CodePipelineActionRole66490FBC",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineAssetsFileAsset7CodePipelineActionRole78199B1B",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineAssetsFileAsset8CodePipelineActionRole3794A7D2",
+                  "Arn"
+                ]
+              }
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCodePipelineAssetsFileAsset9CodePipelineActionRoleA9D07F2E",
                   "Arn"
                 ]
               }
@@ -696,7 +816,7 @@
                 "Name": "SelfMutate",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRole16D29A61",
                     "Arn"
                   ]
                 },
@@ -727,7 +847,7 @@
                 "Name": "FileAsset1",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineAssetsFileAsset1CodePipelineActionRoleD7717BFB",
                     "Arn"
                   ]
                 },
@@ -753,7 +873,7 @@
                 "Name": "FileAsset10",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineAssetsFileAsset10CodePipelineActionRole0AD20E8F",
                     "Arn"
                   ]
                 },
@@ -779,7 +899,7 @@
                 "Name": "FileAsset11",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineAssetsFileAsset11CodePipelineActionRole09B0CA4C",
                     "Arn"
                   ]
                 },
@@ -805,7 +925,7 @@
                 "Name": "FileAsset12",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineAssetsFileAsset12CodePipelineActionRole9A35446B",
                     "Arn"
                   ]
                 },
@@ -831,7 +951,7 @@
                 "Name": "FileAsset2",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineAssetsFileAsset2CodePipelineActionRole390B517C",
                     "Arn"
                   ]
                 },
@@ -857,7 +977,7 @@
                 "Name": "FileAsset3",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineAssetsFileAsset3CodePipelineActionRole973E341A",
                     "Arn"
                   ]
                 },
@@ -883,7 +1003,7 @@
                 "Name": "FileAsset4",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineAssetsFileAsset4CodePipelineActionRole45B49772",
                     "Arn"
                   ]
                 },
@@ -909,7 +1029,7 @@
                 "Name": "FileAsset5",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineAssetsFileAsset5CodePipelineActionRoleF8FD2661",
                     "Arn"
                   ]
                 },
@@ -935,7 +1055,7 @@
                 "Name": "FileAsset6",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineAssetsFileAsset6CodePipelineActionRole66490FBC",
                     "Arn"
                   ]
                 },
@@ -961,7 +1081,7 @@
                 "Name": "FileAsset7",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineAssetsFileAsset7CodePipelineActionRole78199B1B",
                     "Arn"
                   ]
                 },
@@ -987,7 +1107,7 @@
                 "Name": "FileAsset8",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineAssetsFileAsset8CodePipelineActionRole3794A7D2",
                     "Arn"
                   ]
                 },
@@ -1013,7 +1133,7 @@
                 "Name": "FileAsset9",
                 "RoleArn": {
                   "Fn::GetAtt": [
-                    "PipelineCdkPipelineCodeBuildActionRole1C961342",
+                    "PipelineCodePipelineAssetsFileAsset9CodePipelineActionRoleA9D07F2E",
                     "Arn"
                   ]
                 },
@@ -1609,6 +1729,838 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Event/AllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5"
       }
     },
+    "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRole16D29A61": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRoleDefaultPolicyAA04AE0A": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineUpdatePipelineSelfMutation3D8B717E",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRoleDefaultPolicyAA04AE0A",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineUpdatePipelineSelfMutateCodePipelineActionRole16D29A61"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/UpdatePipeline/SelfMutate/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset1CodePipelineActionRoleD7717BFB": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset1/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset1CodePipelineActionRoleDefaultPolicy5D55BF7B": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileAsset151D3981E",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineAssetsFileAsset1CodePipelineActionRoleDefaultPolicy5D55BF7B",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineAssetsFileAsset1CodePipelineActionRoleD7717BFB"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset1/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset10CodePipelineActionRole0AD20E8F": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset10/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset10CodePipelineActionRoleDefaultPolicyB27D1C2A": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileAsset106A5B75BE",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineAssetsFileAsset10CodePipelineActionRoleDefaultPolicyB27D1C2A",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineAssetsFileAsset10CodePipelineActionRole0AD20E8F"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset10/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset11CodePipelineActionRole09B0CA4C": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset11/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset11CodePipelineActionRoleDefaultPolicy2CA58350": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileAsset1160F0FA56",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineAssetsFileAsset11CodePipelineActionRoleDefaultPolicy2CA58350",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineAssetsFileAsset11CodePipelineActionRole09B0CA4C"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset11/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset12CodePipelineActionRole9A35446B": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset12/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset12CodePipelineActionRoleDefaultPolicy62C8CD75": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileAsset129D5593A4",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineAssetsFileAsset12CodePipelineActionRoleDefaultPolicy62C8CD75",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineAssetsFileAsset12CodePipelineActionRole9A35446B"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset12/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset2CodePipelineActionRole390B517C": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset2/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset2CodePipelineActionRoleDefaultPolicy4C6C8FD2": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileAsset2207E4C42",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineAssetsFileAsset2CodePipelineActionRoleDefaultPolicy4C6C8FD2",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineAssetsFileAsset2CodePipelineActionRole390B517C"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset2/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset3CodePipelineActionRole973E341A": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset3/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset3CodePipelineActionRoleDefaultPolicy866A508A": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileAsset31CF4901A",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineAssetsFileAsset3CodePipelineActionRoleDefaultPolicy866A508A",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineAssetsFileAsset3CodePipelineActionRole973E341A"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset3/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset4CodePipelineActionRole45B49772": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset4/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset4CodePipelineActionRoleDefaultPolicyB65215B7": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileAsset4908CCAA5",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineAssetsFileAsset4CodePipelineActionRoleDefaultPolicyB65215B7",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineAssetsFileAsset4CodePipelineActionRole45B49772"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset4/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset5CodePipelineActionRoleF8FD2661": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset5/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset5CodePipelineActionRoleDefaultPolicy9F63A19D": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileAsset5AAB63076",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineAssetsFileAsset5CodePipelineActionRoleDefaultPolicy9F63A19D",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineAssetsFileAsset5CodePipelineActionRoleF8FD2661"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset5/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset6CodePipelineActionRole66490FBC": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset6/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset6CodePipelineActionRoleDefaultPolicyF2D58733": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileAsset6BD52B215",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineAssetsFileAsset6CodePipelineActionRoleDefaultPolicyF2D58733",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineAssetsFileAsset6CodePipelineActionRole66490FBC"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset6/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset7CodePipelineActionRole78199B1B": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset7/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset7CodePipelineActionRoleDefaultPolicy2E9CB398": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileAsset712CD7925",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineAssetsFileAsset7CodePipelineActionRoleDefaultPolicy2E9CB398",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineAssetsFileAsset7CodePipelineActionRole78199B1B"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset7/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset8CodePipelineActionRole3794A7D2": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset8/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset8CodePipelineActionRoleDefaultPolicyBAB82A39": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileAsset8AA34989C",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineAssetsFileAsset8CodePipelineActionRoleDefaultPolicyBAB82A39",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineAssetsFileAsset8CodePipelineActionRole3794A7D2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset8/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset9CodePipelineActionRoleA9D07F2E": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "AWS": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":iam::001112238813:root"
+                    ]
+                  ]
+                }
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset9/CodePipelineActionRole/Resource"
+      }
+    },
+    "PipelineCodePipelineAssetsFileAsset9CodePipelineActionRoleDefaultPolicyA33E0AA6": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "codebuild:BatchGetBuilds",
+                "codebuild:StartBuild",
+                "codebuild:StopBuild"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "PipelineCdkPipelineAssetsFileAsset9E9701DDD",
+                  "Arn"
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineAssetsFileAsset9CodePipelineActionRoleDefaultPolicyA33E0AA6",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineAssetsFileAsset9CodePipelineActionRoleA9D07F2E"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Assets/FileAsset9/CodePipelineActionRole/DefaultPolicy/Resource"
+      }
+    },
     "PipelineCdkPipelineUpdatePipelineSelfMutationRole91D6CBA8": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -1861,257 +2813,6 @@
       },
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/UpdatePipeline/SelfMutation/Resource"
-      }
-    },
-    "PipelineCdkPipelineCodeBuildActionRole1C961342": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Condition": {
-                "Bool": {
-                  "aws:ViaAWSService": "codepipeline.amazonaws.com"
-                }
-              },
-              "Effect": "Allow",
-              "Principal": {
-                "AWS": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":iam::001112238813:root"
-                    ]
-                  ]
-                }
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "Tags": [
-          {
-            "Key": "Project",
-            "Value": "repo-metrics"
-          },
-          {
-            "Key": "SourceRepo",
-            "Value": "github/capralifecycle/liflig-repo-metrics"
-          },
-          {
-            "Key": "StackName",
-            "Value": "incub-repo-metrics-pipeline"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/CodeBuildActionRole/Resource"
-      }
-    },
-    "PipelineCdkPipelineCodeBuildActionRoleDefaultPolicy0A4D4386": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineUpdatePipelineSelfMutation3D8B717E",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineAssetsFileAsset151D3981E",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineAssetsFileAsset106A5B75BE",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineAssetsFileAsset1160F0FA56",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineAssetsFileAsset129D5593A4",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineAssetsFileAsset2207E4C42",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineAssetsFileAsset31CF4901A",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineAssetsFileAsset4908CCAA5",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineAssetsFileAsset5AAB63076",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineAssetsFileAsset6BD52B215",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineAssetsFileAsset712CD7925",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineAssetsFileAsset8AA34989C",
-                  "Arn"
-                ]
-              }
-            },
-            {
-              "Action": [
-                "codebuild:BatchGetBuilds",
-                "codebuild:StartBuild",
-                "codebuild:StopBuild"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "PipelineCdkPipelineAssetsFileAsset9E9701DDD",
-                  "Arn"
-                ]
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "PipelineCdkPipelineCodeBuildActionRoleDefaultPolicy0A4D4386",
-        "Roles": [
-          {
-            "Ref": "PipelineCdkPipelineCodeBuildActionRole1C961342"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/CodeBuildActionRole/DefaultPolicy/Resource"
       }
     },
     "PipelineCdkPipelineAssetsFileRole0474FB57": {

@@ -234,6 +234,41 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/NonceSigningSecret/Resource/Default"
       }
     },
+    "AuthClientSecretCustomResourcePolicyA4C1D5EC": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "cognito-idp:DescribeUserPoolClient",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":cognito-idp:eu-west-1:001112238813:userpool/eu-west-1_oGQHzXmbo"
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AuthClientSecretCustomResourcePolicyA4C1D5EC",
+        "Roles": [
+          {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientSecret/Resource/CustomResourcePolicy/Resource"
+      }
+    },
     "AuthClientSecret768E9C19": {
       "Type": "Custom::AWS",
       "Properties": {
@@ -284,41 +319,6 @@
       "DeletionPolicy": "Delete",
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientSecret/Resource/Resource/Default"
-      }
-    },
-    "AuthClientSecretCustomResourcePolicyA4C1D5EC": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "cognito-idp:DescribeUserPoolClient",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":cognito-idp:eu-west-1:001112238813:userpool/eu-west-1_oGQHzXmbo"
-                  ]
-                ]
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "AuthClientSecretCustomResourcePolicyA4C1D5EC",
-        "Roles": [
-          {
-            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientSecret/Resource/CustomResourcePolicy/Resource"
       }
     },
     "AuthCheckAuthFnC12AAE69": {
@@ -666,6 +666,41 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/SignOutFn/Resource/Default"
       }
     },
+    "AuthClientUpdateCustomResourcePolicyF8E9AEC5": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "cognito-idp:UpdateUserPoolClient",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":cognito-idp:eu-west-1:001112238813:userpool/eu-west-1_oGQHzXmbo"
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "AuthClientUpdateCustomResourcePolicyF8E9AEC5",
+        "Roles": [
+          {
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientUpdate/Resource/CustomResourcePolicy/Resource"
+      }
+    },
     "AuthClientUpdate3823E358": {
       "Type": "Custom::AWS",
       "Properties": {
@@ -746,41 +781,6 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientUpdate/Resource/Resource/Default"
       }
     },
-    "AuthClientUpdateCustomResourcePolicyF8E9AEC5": {
-      "Type": "AWS::IAM::Policy",
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "cognito-idp:UpdateUserPoolClient",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":cognito-idp:eu-west-1:001112238813:userpool/eu-west-1_oGQHzXmbo"
-                  ]
-                ]
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "PolicyName": "AuthClientUpdateCustomResourcePolicyF8E9AEC5",
-        "Roles": [
-          {
-            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientUpdate/Resource/CustomResourcePolicy/Resource"
-      }
-    },
     "henristcloudfrontauthgeneratesecretproviderFunctionServiceRole4523A59B": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -843,7 +843,7 @@
           ]
         },
         "Handler": "index.handler",
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs12.x",
         "Tags": [
           {
             "Key": "Project",
@@ -987,7 +987,7 @@
           }
         },
         "Handler": "framework.onEvent",
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs12.x",
         "Tags": [
           {
             "Key": "Project",
@@ -1077,7 +1077,7 @@
           ]
         },
         "Handler": "index.handler",
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs12.x",
         "Tags": [
           {
             "Key": "Project",
@@ -1193,7 +1193,7 @@
           ]
         },
         "Handler": "index.handler",
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs12.x",
         "Tags": [
           {
             "Key": "Project",
@@ -1339,7 +1339,7 @@
           }
         },
         "Handler": "framework.onEvent",
-        "Runtime": "nodejs14.x",
+        "Runtime": "nodejs12.x",
         "Tags": [
           {
             "Key": "Project",
@@ -1574,7 +1574,7 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Distribution/Resource"
       }
     },
-    "WebappDeployWebappDeployResourceServiceRole6D7BB70F": {
+    "WebappDeployServiceRole78F79841": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -1619,10 +1619,10 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/WebappDeployResource/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Resource/ServiceRole/Resource"
       }
     },
-    "WebappDeployWebappDeployResourceServiceRoleDefaultPolicy5CB528F1": {
+    "WebappDeployServiceRoleDefaultPolicyE446530F": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -1706,18 +1706,18 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "WebappDeployWebappDeployResourceServiceRoleDefaultPolicy5CB528F1",
+        "PolicyName": "WebappDeployServiceRoleDefaultPolicyE446530F",
         "Roles": [
           {
-            "Ref": "WebappDeployWebappDeployResourceServiceRole6D7BB70F"
+            "Ref": "WebappDeployServiceRole78F79841"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/WebappDeployResource/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Resource/ServiceRole/DefaultPolicy/Resource"
       }
     },
-    "WebappDeployWebappDeployResource568A3E18": {
+    "WebappDeploy4D661524": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
@@ -1726,7 +1726,7 @@
         },
         "Role": {
           "Fn::GetAtt": [
-            "WebappDeployWebappDeployResourceServiceRole6D7BB70F",
+            "WebappDeployServiceRole78F79841",
             "Arn"
           ]
         },
@@ -1782,65 +1782,17 @@
         "Timeout": 120
       },
       "DependsOn": [
-        "WebappDeployWebappDeployResourceServiceRoleDefaultPolicy5CB528F1",
-        "WebappDeployWebappDeployResourceServiceRole6D7BB70F"
+        "WebappDeployServiceRoleDefaultPolicyE446530F",
+        "WebappDeployServiceRole78F79841"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/WebappDeployResource/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Resource/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:is-bundled": false,
         "aws:asset:property": "Code"
       }
     },
-    "WebappDeployProviderframeworkonEventServiceRole6401B28E": {
-      "Type": "AWS::IAM::Role",
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "lambda.amazonaws.com"
-              }
-            }
-          ],
-          "Version": "2012-10-17"
-        },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition"
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-              ]
-            ]
-          }
-        ],
-        "Tags": [
-          {
-            "Key": "Project",
-            "Value": "repo-metrics"
-          },
-          {
-            "Key": "SourceRepo",
-            "Value": "github/capralifecycle/liflig-repo-metrics"
-          },
-          {
-            "Key": "StackName",
-            "Value": "incub-repo-metrics-main"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Provider/framework-onEvent/ServiceRole/Resource"
-      }
-    },
-    "WebappDeployProviderframeworkonEventServiceRoleDefaultPolicy007A69B8": {
+    "WebappDeployCustomResourceCustomResourcePolicyB85F7B61": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -1848,111 +1800,69 @@
             {
               "Action": "lambda:InvokeFunction",
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
-                    "WebappDeployWebappDeployResource568A3E18",
-                    "Arn"
-                  ]
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      {
-                        "Fn::GetAtt": [
-                          "WebappDeployWebappDeployResource568A3E18",
-                          "Arn"
-                        ]
-                      },
-                      ":*"
-                    ]
-                  ]
-                }
-              ]
+              "Resource": {
+                "Fn::GetAtt": [
+                  "WebappDeploy4D661524",
+                  "Arn"
+                ]
+              }
             }
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "WebappDeployProviderframeworkonEventServiceRoleDefaultPolicy007A69B8",
+        "PolicyName": "WebappDeployCustomResourceCustomResourcePolicyB85F7B61",
         "Roles": [
           {
-            "Ref": "WebappDeployProviderframeworkonEventServiceRole6401B28E"
+            "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/CustomResource/CustomResourcePolicy/Resource"
       }
     },
-    "WebappDeployProviderframeworkonEvent095845EB": {
-      "Type": "AWS::Lambda::Function",
-      "Properties": {
-        "Code": {
-          "S3Bucket": "cdk-liflig-assets-001112238813-eu-west-1",
-          "S3Key": "snapshot-value.zip"
-        },
-        "Role": {
-          "Fn::GetAtt": [
-            "WebappDeployProviderframeworkonEventServiceRole6401B28E",
-            "Arn"
-          ]
-        },
-        "Description": "AWS CDK resource provider framework - onEvent (incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Provider)",
-        "Environment": {
-          "Variables": {
-            "USER_ON_EVENT_FUNCTION_ARN": {
-              "Fn::GetAtt": [
-                "WebappDeployWebappDeployResource568A3E18",
-                "Arn"
-              ]
-            }
-          }
-        },
-        "Handler": "framework.onEvent",
-        "Runtime": "nodejs14.x",
-        "Tags": [
-          {
-            "Key": "Project",
-            "Value": "repo-metrics"
-          },
-          {
-            "Key": "SourceRepo",
-            "Value": "github/capralifecycle/liflig-repo-metrics"
-          },
-          {
-            "Key": "StackName",
-            "Value": "incub-repo-metrics-main"
-          }
-        ],
-        "Timeout": 900
-      },
-      "DependsOn": [
-        "WebappDeployProviderframeworkonEventServiceRoleDefaultPolicy007A69B8",
-        "WebappDeployProviderframeworkonEventServiceRole6401B28E"
-      ],
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/Provider/framework-onEvent/Resource",
-        "aws:asset:path": "asset.snapshot-value",
-        "aws:asset:is-bundled": false,
-        "aws:asset:property": "Code"
-      }
-    },
-    "WebappDeployCustomResourceCA418804": {
-      "Type": "AWS::CloudFormation::CustomResource",
+    "WebappDeployCustomResourceCF959726": {
+      "Type": "Custom::AWS",
       "Properties": {
         "ServiceToken": {
           "Fn::GetAtt": [
-            "WebappDeployProviderframeworkonEvent095845EB",
+            "AWS679f53fac002430cb0da5b7982bd22872D164C4C",
             "Arn"
           ]
         },
-        "artifactS3Url": "s3://cdk-liflig-assets-001112238813-eu-west-1/snapshot-value.zip"
+        "Create": {
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"Lambda\",\"action\":\"invoke\",\"physicalResourceId\":{\"id\":\"webapp-deploy\"},\"parameters\":{\"FunctionName\":\"",
+              {
+                "Ref": "WebappDeploy4D661524"
+              },
+              "\",\"Payload\":\"{\\\"artifactS3Url\\\":\\\"s3://cdk-liflig-assets-001112238813-eu-west-1/snapshot-value.zip\\\"}\"}}"
+            ]
+          ]
+        },
+        "Update": {
+          "Fn::Join": [
+            "",
+            [
+              "{\"service\":\"Lambda\",\"action\":\"invoke\",\"physicalResourceId\":{\"id\":\"webapp-deploy\"},\"parameters\":{\"FunctionName\":\"",
+              {
+                "Ref": "WebappDeploy4D661524"
+              },
+              "\",\"Payload\":\"{\\\"artifactS3Url\\\":\\\"s3://cdk-liflig-assets-001112238813-eu-west-1/snapshot-value.zip\\\"}\"}}"
+            ]
+          ]
+        },
+        "InstallLatestAwsSdk": false
       },
+      "DependsOn": [
+        "WebappDeployCustomResourceCustomResourcePolicyB85F7B61"
+      ],
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/CustomResource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDeploy/CustomResource/Resource/Default"
       }
     },
     "CollectorServiceRole78F40CC4": {
@@ -2170,49 +2080,6 @@
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:is-bundled": false,
         "aws:asset:property": "Code"
-      }
-    },
-    "CollectorScheduleDC767626": {
-      "Type": "AWS::Events::Rule",
-      "Properties": {
-        "ScheduleExpression": "cron(0 0/6 * * ? *)",
-        "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
-              "Fn::GetAtt": [
-                "Collector9EBA7CF5",
-                "Arn"
-              ]
-            },
-            "Id": "Target0"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorSchedule/Resource"
-      }
-    },
-    "CollectorScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainCollector5F0CF411366F0188": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "Collector9EBA7CF5",
-            "Arn"
-          ]
-        },
-        "Principal": "events.amazonaws.com",
-        "SourceArn": {
-          "Fn::GetAtt": [
-            "CollectorScheduleDC767626",
-            "Arn"
-          ]
-        }
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainCollector5F0CF411"
       }
     },
     "CollectorNotSuccessAlarm73851829": {
@@ -2497,49 +2364,6 @@
         "aws:asset:property": "Code"
       }
     },
-    "AggregatorSchedule80C87EEE": {
-      "Type": "AWS::Events::Rule",
-      "Properties": {
-        "ScheduleExpression": "cron(10 0/6 * * ? *)",
-        "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
-              "Fn::GetAtt": [
-                "Aggregator84F1B3DF",
-                "Arn"
-              ]
-            },
-            "Id": "Target0"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorSchedule/Resource"
-      }
-    },
-    "AggregatorScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregator0CC5D92026EEEE0C": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "Aggregator84F1B3DF",
-            "Arn"
-          ]
-        },
-        "Principal": "events.amazonaws.com",
-        "SourceArn": {
-          "Fn::GetAtt": [
-            "AggregatorSchedule80C87EEE",
-            "Arn"
-          ]
-        }
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregator0CC5D920"
-      }
-    },
     "AggregatorNotSuccessAlarm955602B9": {
       "Type": "AWS::CloudWatch::Alarm",
       "Properties": {
@@ -2786,49 +2610,6 @@
         "aws:asset:property": "Code"
       }
     },
-    "ReporterSchedule65E61F50": {
-      "Type": "AWS::Events::Rule",
-      "Properties": {
-        "ScheduleExpression": "cron(0 7 * * ? *)",
-        "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
-              "Fn::GetAtt": [
-                "Reporter08098DAC",
-                "Arn"
-              ]
-            },
-            "Id": "Target0"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterSchedule/Resource"
-      }
-    },
-    "ReporterScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporter593FA6D5D56F3D22": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "Reporter08098DAC",
-            "Arn"
-          ]
-        },
-        "Principal": "events.amazonaws.com",
-        "SourceArn": {
-          "Fn::GetAtt": [
-            "ReporterSchedule65E61F50",
-            "Arn"
-          ]
-        }
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporter593FA6D5"
-      }
-    },
     "ReporterNotSuccessAlarm26AEAE42": {
       "Type": "AWS::CloudWatch::Alarm",
       "Properties": {
@@ -2907,6 +2688,294 @@
       },
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterNotSuccessAlarm/Resource"
+      }
+    },
+    "StateMachineRoleB840431D": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "states.eu-west-1.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/Role/Resource"
+      }
+    },
+    "StateMachineRoleDefaultPolicyDF1E6607": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "Collector9EBA7CF5",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "Collector9EBA7CF5",
+                          "Arn"
+                        ]
+                      },
+                      ":*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "Aggregator84F1B3DF",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "Aggregator84F1B3DF",
+                          "Arn"
+                        ]
+                      },
+                      ":*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "Reporter08098DAC",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "Reporter08098DAC",
+                          "Arn"
+                        ]
+                      },
+                      ":*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "StateMachineRoleDefaultPolicyDF1E6607",
+        "Roles": [
+          {
+            "Ref": "StateMachineRoleB840431D"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/Role/DefaultPolicy/Resource"
+      }
+    },
+    "StateMachine2E01A3A5": {
+      "Type": "AWS::StepFunctions::StateMachine",
+      "Properties": {
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "StateMachineRoleB840431D",
+            "Arn"
+          ]
+        },
+        "DefinitionString": {
+          "Fn::Join": [
+            "",
+            [
+              "{\"StartAt\":\"CollectorJob\",\"States\":{\"CollectorJob\":{\"Next\":\"AggregateJob\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "Collector9EBA7CF5",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload.$\":\"$\"}},\"AggregateJob\":{\"Next\":\"ReportsJob\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "Aggregator84F1B3DF",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload.$\":\"$\"}},\"ReportsJob\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "Reporter08098DAC",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload.$\":\"$\"}}},\"TimeoutSeconds\":600}"
+            ]
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "DependsOn": [
+        "StateMachineRoleDefaultPolicyDF1E6607",
+        "StateMachineRoleB840431D"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/Resource"
+      }
+    },
+    "StateMachineEventsRoleDBCDECD1": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "events.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/EventsRole/Resource"
+      }
+    },
+    "StateMachineEventsRoleDefaultPolicyFB602CA9": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "StateMachine2E01A3A5"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "StateMachineEventsRoleDefaultPolicyFB602CA9",
+        "Roles": [
+          {
+            "Ref": "StateMachineEventsRoleDBCDECD1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/EventsRole/DefaultPolicy/Resource"
+      }
+    },
+    "RepoMetricsSchedule10A365C7": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "ScheduleExpression": "cron(0 0/6 * * ? *)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "StateMachine2E01A3A5"
+            },
+            "Id": "Target0",
+            "RoleArn": {
+              "Fn::GetAtt": [
+                "StateMachineEventsRoleDBCDECD1",
+                "Arn"
+              ]
+            }
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/RepoMetricsSchedule/Resource"
       }
     }
   },
