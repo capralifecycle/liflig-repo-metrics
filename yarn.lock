@@ -118,10 +118,10 @@
   dependencies:
     tslib "^2.3.1"
 
-"@aws-sdk/client-cloudfront@3.241.0":
-  version "3.241.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-cloudfront/-/client-cloudfront-3.241.0.tgz#4c334276315a2263c5162f1a52ca661481e8658d"
-  integrity sha512-tmmuszXRlkkWWJ5lgcTin6+x/MEGWu6c0kS7MwrDS0F7VR7YNPv4O6ac2D5AvZEsq4XqOaTG16qwDUq1YzLFlg==
+"@aws-sdk/client-cloudfront@3.242.0":
+  version "3.242.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-cloudfront/-/client-cloudfront-3.242.0.tgz#d7360bec36cf818db9529d54a3818970292d6ead"
+  integrity sha512-Pzbz8vVGBumjNgpO3wkLFKLa7/1YDYDtZgDATzcdzX4WloIyNXzhh66m3NYHa0eJBbybA/OHDTCRvZ3b39Wf8w==
   dependencies:
     "@aws-crypto/sha256-browser" "2.0.0"
     "@aws-crypto/sha256-js" "2.0.0"
