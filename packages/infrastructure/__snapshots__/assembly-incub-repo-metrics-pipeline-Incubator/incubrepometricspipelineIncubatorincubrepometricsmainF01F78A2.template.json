@@ -2172,86 +2172,6 @@
         "aws:asset:property": "Code"
       }
     },
-    "CollectorNotSuccessAlarm73851829": {
-      "Type": "AWS::CloudWatch::Alarm",
-      "Properties": {
-        "ComparisonOperator": "LessThanOrEqualToThreshold",
-        "EvaluationPeriods": 1,
-        "AlarmActions": [
-          {
-            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "AlarmDescription": {
-          "Fn::Join": [
-            "",
-            [
-              "Function ",
-              {
-                "Ref": "Collector9EBA7CF5"
-              },
-              " has not run successful for the last 12 hours"
-            ]
-          ]
-        },
-        "Metrics": [
-          {
-            "Expression": "invocations - errors",
-            "Id": "expr_1"
-          },
-          {
-            "Id": "invocations",
-            "MetricStat": {
-              "Metric": {
-                "Dimensions": [
-                  {
-                    "Name": "FunctionName",
-                    "Value": {
-                      "Ref": "Collector9EBA7CF5"
-                    }
-                  }
-                ],
-                "MetricName": "Invocations",
-                "Namespace": "AWS/Lambda"
-              },
-              "Period": 43200,
-              "Stat": "Sum"
-            },
-            "ReturnData": false
-          },
-          {
-            "Id": "errors",
-            "MetricStat": {
-              "Metric": {
-                "Dimensions": [
-                  {
-                    "Name": "FunctionName",
-                    "Value": {
-                      "Ref": "Collector9EBA7CF5"
-                    }
-                  }
-                ],
-                "MetricName": "Errors",
-                "Namespace": "AWS/Lambda"
-              },
-              "Period": 43200,
-              "Stat": "Sum"
-            },
-            "ReturnData": false
-          }
-        ],
-        "OKActions": [
-          {
-            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "Threshold": 0,
-        "TreatMissingData": "breaching"
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorNotSuccessAlarm/Resource"
-      }
-    },
     "AggregatorServiceRole50457C61": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -2454,86 +2374,6 @@
         "aws:asset:property": "Code"
       }
     },
-    "AggregatorNotSuccessAlarm955602B9": {
-      "Type": "AWS::CloudWatch::Alarm",
-      "Properties": {
-        "ComparisonOperator": "LessThanOrEqualToThreshold",
-        "EvaluationPeriods": 1,
-        "AlarmActions": [
-          {
-            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "AlarmDescription": {
-          "Fn::Join": [
-            "",
-            [
-              "Function ",
-              {
-                "Ref": "Aggregator84F1B3DF"
-              },
-              " has not run successful for the last 12 hours"
-            ]
-          ]
-        },
-        "Metrics": [
-          {
-            "Expression": "invocations - errors",
-            "Id": "expr_1"
-          },
-          {
-            "Id": "invocations",
-            "MetricStat": {
-              "Metric": {
-                "Dimensions": [
-                  {
-                    "Name": "FunctionName",
-                    "Value": {
-                      "Ref": "Aggregator84F1B3DF"
-                    }
-                  }
-                ],
-                "MetricName": "Invocations",
-                "Namespace": "AWS/Lambda"
-              },
-              "Period": 43200,
-              "Stat": "Sum"
-            },
-            "ReturnData": false
-          },
-          {
-            "Id": "errors",
-            "MetricStat": {
-              "Metric": {
-                "Dimensions": [
-                  {
-                    "Name": "FunctionName",
-                    "Value": {
-                      "Ref": "Aggregator84F1B3DF"
-                    }
-                  }
-                ],
-                "MetricName": "Errors",
-                "Namespace": "AWS/Lambda"
-              },
-              "Period": 43200,
-              "Stat": "Sum"
-            },
-            "ReturnData": false
-          }
-        ],
-        "OKActions": [
-          {
-            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "Threshold": 0,
-        "TreatMissingData": "breaching"
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorNotSuccessAlarm/Resource"
-      }
-    },
     "ReporterServiceRole0C7A2B1F": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -2698,86 +2538,6 @@
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:is-bundled": false,
         "aws:asset:property": "Code"
-      }
-    },
-    "ReporterNotSuccessAlarm26AEAE42": {
-      "Type": "AWS::CloudWatch::Alarm",
-      "Properties": {
-        "ComparisonOperator": "LessThanOrEqualToThreshold",
-        "EvaluationPeriods": 1,
-        "AlarmActions": [
-          {
-            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "AlarmDescription": {
-          "Fn::Join": [
-            "",
-            [
-              "Function ",
-              {
-                "Ref": "Reporter08098DAC"
-              },
-              " has not run successful for the last 1 day"
-            ]
-          ]
-        },
-        "Metrics": [
-          {
-            "Expression": "invocations - errors",
-            "Id": "expr_1"
-          },
-          {
-            "Id": "invocations",
-            "MetricStat": {
-              "Metric": {
-                "Dimensions": [
-                  {
-                    "Name": "FunctionName",
-                    "Value": {
-                      "Ref": "Reporter08098DAC"
-                    }
-                  }
-                ],
-                "MetricName": "Invocations",
-                "Namespace": "AWS/Lambda"
-              },
-              "Period": 86400,
-              "Stat": "Sum"
-            },
-            "ReturnData": false
-          },
-          {
-            "Id": "errors",
-            "MetricStat": {
-              "Metric": {
-                "Dimensions": [
-                  {
-                    "Name": "FunctionName",
-                    "Value": {
-                      "Ref": "Reporter08098DAC"
-                    }
-                  }
-                ],
-                "MetricName": "Errors",
-                "Namespace": "AWS/Lambda"
-              },
-              "Period": 86400,
-              "Stat": "Sum"
-            },
-            "ReturnData": false
-          }
-        ],
-        "OKActions": [
-          {
-            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "Threshold": 0,
-        "TreatMissingData": "breaching"
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterNotSuccessAlarm/Resource"
       }
     },
     "StateMachineRoleB840431D": {
@@ -3042,6 +2802,50 @@
       },
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/EventsRole/DefaultPolicy/Resource"
+      }
+    },
+    "StateMachineExecutionFailureAlarmAC371745": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "ComparisonOperator": "LessThanThreshold",
+        "EvaluationPeriods": 1,
+        "AlarmActions": [
+          {
+            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "Metrics": [
+          {
+            "Id": "m1",
+            "Label": "Repo metrics state machine successes last 12 hours",
+            "MetricStat": {
+              "Metric": {
+                "Dimensions": [
+                  {
+                    "Name": "StateMachineArn",
+                    "Value": {
+                      "Ref": "StateMachine2E01A3A5"
+                    }
+                  }
+                ],
+                "MetricName": "ExecutionsSucceeded",
+                "Namespace": "AWS/States"
+              },
+              "Period": 43200,
+              "Stat": "Sum"
+            },
+            "ReturnData": true
+          }
+        ],
+        "OKActions": [
+          {
+            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "Threshold": 1
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachineExecutionFailureAlarm/Resource"
       }
     },
     "RepoMetricsSchedule10A365C7": {

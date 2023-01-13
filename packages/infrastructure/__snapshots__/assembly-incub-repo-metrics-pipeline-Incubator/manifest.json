@@ -586,18 +586,6 @@
             "data": "Collector9EBA7CF5"
           }
         ],
-        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/SsmParameterValue:--liflig-cdk--incub--platform--incubator-common-core--slack-alarm-topic-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorNotSuccessAlarm/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CollectorNotSuccessAlarm73851829"
-          }
-        ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Aggregator/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -616,12 +604,6 @@
             "data": "Aggregator84F1B3DF"
           }
         ],
-        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorNotSuccessAlarm/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AggregatorNotSuccessAlarm955602B9"
-          }
-        ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Reporter/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -638,12 +620,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "Reporter08098DAC"
-          }
-        ],
-        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterNotSuccessAlarm/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "ReporterNotSuccessAlarm26AEAE42"
           }
         ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/Role/Resource": [
@@ -674,6 +650,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "StateMachineEventsRoleDefaultPolicyFB602CA9"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachineExecutionFailureAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StateMachineExecutionFailureAlarmAC371745"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/SsmParameterValue:--liflig-cdk--incub--platform--incubator-common-core--slack-alarm-topic-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/RepoMetricsSchedule/Resource": [
