@@ -2,6 +2,7 @@
   "app": "ts-node src/app.ts",
   "requireApproval": "never",
   "context": {
-    "@aws-cdk/core:bootstrapQualifier": "liflig"
+    "@aws-cdk/core:bootstrapQualifier": "liflig",
+    "@aws-cdk/customresources:installLatestAwsSdkDefault": false
   }
 }
