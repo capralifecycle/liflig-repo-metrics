@@ -1,5 +1,4 @@
 import * as constructs from "constructs"
-import * as cdk from "aws-cdk-lib"
 import { tagResources } from "@liflig/cdk"
 
 export const incubatorAccountId = "001112238813"

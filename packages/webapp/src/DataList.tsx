@@ -118,6 +118,16 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       prop,
     })
 
+  const onChangeNumberOfGraphDaysToLimit: React.FormEventHandler<
+    HTMLInputElement
+  > = (inputEvent) => {
+    dispatch({
+      type: FilterActionType.CHANGE_NUMBER_OF_DAYS,
+      prop: "numberOfGraphDaysToLimit",
+      payload: (inputEvent.target as HTMLInputElement)?.value,
+    })
+  }
+
   return (
     <>
       <div className="filters">
@@ -188,16 +198,9 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             <input
               className="num-days-input"
               inputMode="numeric"
+              min="1"
               value={state.numberOfGraphDaysToLimit}
-              onInput={(inputEvent) => {
-                console.log(inputEvent)
-                dispatch({
-                  type: FilterActionType.CHANGE_NUMBER_OF_DAYS,
-                  prop: "numberOfGraphDaysToLimit",
-                  // @ts-expect-error: faulty ts definition stops us from accessing a value that does exist
-                  payload: inputEvent.target.value as string,
-                })
-              }}
+              onInput={onChangeNumberOfGraphDaysToLimit}
             ></input>{" "}
             dager
           </span>

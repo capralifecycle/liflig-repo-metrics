@@ -29,7 +29,7 @@ export const defaultValues: Filter = {
   collapseResponsible: [],
   filterRepoName: "",
   filterUpdateName: "",
-  limitGraphDays: false,
+  limitGraphDays: true,
   numberOfGraphDaysToLimit: 30,
 }
 
@@ -51,7 +51,12 @@ export const getFilterFromUrl = (): Filter => {
 }
 
 const parseUrlFilterField = (key: string, value: string) => {
-  const keyValueFields = ["filterRepoName", "filterUpdateName"]
+  const keyValueFields = [
+    "filterRepoName",
+    "filterUpdateName",
+    "limitGraphDays",
+    "numberOfGraphDaysToLimit",
+  ]
 
   // The collapseResponsible attribute can contain multiple comma separated values,
   // and needs special handling during parsing
@@ -59,29 +64,6 @@ const parseUrlFilterField = (key: string, value: string) => {
     return {
       [key]: value.split(","),
     }
-  }
-
-  // Since the attribute limitGraphDays reflects both the boolean internal
-  // parameter limitGraphDays, but also the number of days in the form of
-  // numberOfGraphDaysToLimit, it needs special parsing
-  else if (key === "limitGraphDays") {
-    // limitGraphDays used as a boolean flag, set it up with default number of days
-    if (value === undefined) {
-      return {
-        limitGraphDays: true,
-        numberOfGraphDaysToLimit: defaultValues.numberOfGraphDaysToLimit,
-      }
-    } else {
-      return {
-        limitGraphDays: true,
-        numberOfGraphDaysToLimit: value,
-      }
-    }
-  }
-
-  // This attribute should not be directly reflected in the url, and is removed
-  else if (key === "numberOfGraphDaysToLimit") {
-    return null
   }
 
   // Attributes with only one value
@@ -101,20 +83,9 @@ const parseUrlFilterField = (key: string, value: string) => {
 
 export const toQueryString = (state: Filter): string => {
   return Object.keys(defaultValues)
-    .filter(
-      (k) =>
-        !_.isEqual(defaultValues[k], state[k]) &&
-        state[k] !== null &&
-        k !== "numberOfGraphDaysToLimit",
-    )
+    .filter((k) => !_.isEqual(defaultValues[k], state[k]))
     .map((k) => {
-      let curParamValue = state[k]
-      // Show the number of days to limit in url, not just the toggle value
-      if (k === "limitGraphDays") {
-        console.log("setting limit graph days to", state[k])
-        curParamValue = state["numberOfGraphDaysToLimit"]
-      }
-
+      const curParamValue = state[k]
       return `${k}=${curParamValue.toString()}`
     })
     .join("&")
