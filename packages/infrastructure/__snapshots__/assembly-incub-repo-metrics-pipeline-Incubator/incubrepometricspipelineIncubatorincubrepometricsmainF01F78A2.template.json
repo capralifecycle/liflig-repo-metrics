@@ -275,7 +275,7 @@
             ]
           ]
         },
-        "InstallLatestAwsSdk": true
+        "InstallLatestAwsSdk": false
       },
       "DependsOn": [
         "AuthClientSecretCustomResourcePolicyA4C1D5EC"
@@ -735,7 +735,7 @@
             ]
           ]
         },
-        "InstallLatestAwsSdk": true
+        "InstallLatestAwsSdk": false
       },
       "DependsOn": [
         "AuthClientUpdateCustomResourcePolicyF8E9AEC5"

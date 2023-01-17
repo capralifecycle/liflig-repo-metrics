@@ -7,12 +7,6 @@
         "displayName": "incub-repo-metrics-pipeline/Incubator"
       }
     },
-    "Tree": {
-      "type": "cdk:tree",
-      "properties": {
-        "file": "tree.json"
-      }
-    },
     "incub-repo-metrics-pipeline.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
@@ -318,6 +312,12 @@
         ]
       },
       "displayName": "incub-repo-metrics-pipeline"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
     },
     "cross-region-stack-001112238813:us-east-1": {
       "type": "aws:cloudformation:stack",
