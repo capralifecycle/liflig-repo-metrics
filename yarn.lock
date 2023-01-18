@@ -2463,17 +2463,17 @@
     npmlog "^6.0.2"
     write-file-atomic "^4.0.1"
 
-"@liflig/cdk@2.9.0":
-  version "2.9.0"
-  resolved "https://registry.npmjs.org/@liflig/cdk/-/cdk-2.9.0.tgz"
-  integrity sha512-DrJffvwuy7rgB6tM1cMsMgwNZ5uQKAkeF/zkEr4TlLhdBnZwIQxmJX1I/ypgchTGBZmyXEN7ZQkacXEdSrVA9g==
+"@liflig/cdk@2.9.1":
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.9.1.tgz#fc9b66265d7a64ddcf9cae76e4282c2a39096d79"
+  integrity sha512-UlZU0jd1nFaDoXK3+onzvCt/W5gOR1KwxDwSvZXS8nH6fEeyodT6zLhTr/Dv30hEHXyWLazaiYf5MC4KKUeJlQ==
   dependencies:
     "@capraconsulting/webapp-deploy-lambda" "2.1.0"
     aws-sdk "2.1058.0"
     cpy "8.1.2"
     del "6.1.1"
     execa "5.1.1"
-    glob "8.0.3"
+    glob "8.1.0"
     source-map-support "0.5.21"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
@@ -6424,10 +6424,10 @@ glob@7.1.4:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-glob@8.0.3:
-  version "8.0.3"
-  resolved "https://registry.npmjs.org/glob/-/glob-8.0.3.tgz"
-  integrity sha512-ull455NHSHI/Y1FqGaaYFaLGkNMMJbavMrEGFXG/PGrg6y7sutWHUHrz6gy6WEBH6akM1M414dWKCNs+IhKdiQ==
+glob@8.1.0, glob@^8.0.1:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-8.1.0.tgz#d388f656593ef708ee3e34640fdfb99a9fd1c33e"
+  integrity sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==
   dependencies:
     fs.realpath "^1.0.0"
     inflight "^1.0.4"
@@ -6446,17 +6446,6 @@ glob@^7.0.3, glob@^7.1.3, glob@^7.1.4:
     minimatch "^3.1.1"
     once "^1.3.0"
     path-is-absolute "^1.0.0"
-
-glob@^8.0.1:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-8.1.0.tgz#d388f656593ef708ee3e34640fdfb99a9fd1c33e"
-  integrity sha512-r8hpEjiQEYlF2QU0df3dS+nxxSIreXQS1qRhMJM0Q5NDdR386C7jb7Hwwod8Fgiuex+k0GFjgft18yvxm5XoCQ==
-  dependencies:
-    fs.realpath "^1.0.0"
-    inflight "^1.0.4"
-    inherits "2"
-    minimatch "^5.0.1"
-    once "^1.3.0"
 
 globals@^11.1.0:
   version "11.12.0"
