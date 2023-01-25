@@ -5372,10 +5372,10 @@ console-control-strings@^1.1.0:
   resolved "https://registry.yarnpkg.com/console-control-strings/-/console-control-strings-1.1.0.tgz#3d7cf4464db6446ea644bf4b39507f9851008e8e"
   integrity sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==
 
-constructs@10.1.226:
-  version "10.1.226"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.226.tgz#dbb4714a6346e7f84e0e1fae3035766f8b084fe7"
-  integrity sha512-pGm81tjyg6Z8PmFTMojnDZxTpxkr/bEv8G1Hu9zExcww03ixAnajFvEX/y8u+T3B513UlIgm/8ks1YNYKNdsRg==
+constructs@10.1.227:
+  version "10.1.227"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-10.1.227.tgz#0d7ae43ec48b57bc3a672caf9f999f908909ad95"
+  integrity sha512-pkLVeo+64NKWFStb1FAEs7FMUdrDh+PySxa7NfT4Ol/gI732cmD8lQTtOW0gLSN4+OIMGHVg3+bTKA3i/4TtPw==
 
 content-disposition@0.5.4:
   version "0.5.4"
