@@ -2172,129 +2172,6 @@
         "aws:asset:property": "Code"
       }
     },
-    "CollectorScheduleDC767626": {
-      "Type": "AWS::Events::Rule",
-      "Properties": {
-        "ScheduleExpression": "cron(0 0/6 * * ? *)",
-        "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
-              "Fn::GetAtt": [
-                "Collector9EBA7CF5",
-                "Arn"
-              ]
-            },
-            "Id": "Target0"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorSchedule/Resource"
-      }
-    },
-    "CollectorScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainCollector5F0CF411366F0188": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "Collector9EBA7CF5",
-            "Arn"
-          ]
-        },
-        "Principal": "events.amazonaws.com",
-        "SourceArn": {
-          "Fn::GetAtt": [
-            "CollectorScheduleDC767626",
-            "Arn"
-          ]
-        }
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainCollector5F0CF411"
-      }
-    },
-    "CollectorNotSuccessAlarm73851829": {
-      "Type": "AWS::CloudWatch::Alarm",
-      "Properties": {
-        "ComparisonOperator": "LessThanOrEqualToThreshold",
-        "EvaluationPeriods": 1,
-        "AlarmActions": [
-          {
-            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "AlarmDescription": {
-          "Fn::Join": [
-            "",
-            [
-              "Function ",
-              {
-                "Ref": "Collector9EBA7CF5"
-              },
-              " has not run successful for the last 12 hours"
-            ]
-          ]
-        },
-        "Metrics": [
-          {
-            "Expression": "invocations - errors",
-            "Id": "expr_1"
-          },
-          {
-            "Id": "invocations",
-            "MetricStat": {
-              "Metric": {
-                "Dimensions": [
-                  {
-                    "Name": "FunctionName",
-                    "Value": {
-                      "Ref": "Collector9EBA7CF5"
-                    }
-                  }
-                ],
-                "MetricName": "Invocations",
-                "Namespace": "AWS/Lambda"
-              },
-              "Period": 43200,
-              "Stat": "Sum"
-            },
-            "ReturnData": false
-          },
-          {
-            "Id": "errors",
-            "MetricStat": {
-              "Metric": {
-                "Dimensions": [
-                  {
-                    "Name": "FunctionName",
-                    "Value": {
-                      "Ref": "Collector9EBA7CF5"
-                    }
-                  }
-                ],
-                "MetricName": "Errors",
-                "Namespace": "AWS/Lambda"
-              },
-              "Period": 43200,
-              "Stat": "Sum"
-            },
-            "ReturnData": false
-          }
-        ],
-        "OKActions": [
-          {
-            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "Threshold": 0,
-        "TreatMissingData": "breaching"
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorNotSuccessAlarm/Resource"
-      }
-    },
     "AggregatorServiceRole50457C61": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -2497,129 +2374,6 @@
         "aws:asset:property": "Code"
       }
     },
-    "AggregatorSchedule80C87EEE": {
-      "Type": "AWS::Events::Rule",
-      "Properties": {
-        "ScheduleExpression": "cron(10 0/6 * * ? *)",
-        "State": "ENABLED",
-        "Targets": [
-          {
-            "Arn": {
-              "Fn::GetAtt": [
-                "Aggregator84F1B3DF",
-                "Arn"
-              ]
-            },
-            "Id": "Target0"
-          }
-        ]
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorSchedule/Resource"
-      }
-    },
-    "AggregatorScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregator0CC5D92026EEEE0C": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "Aggregator84F1B3DF",
-            "Arn"
-          ]
-        },
-        "Principal": "events.amazonaws.com",
-        "SourceArn": {
-          "Fn::GetAtt": [
-            "AggregatorSchedule80C87EEE",
-            "Arn"
-          ]
-        }
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainAggregator0CC5D920"
-      }
-    },
-    "AggregatorNotSuccessAlarm955602B9": {
-      "Type": "AWS::CloudWatch::Alarm",
-      "Properties": {
-        "ComparisonOperator": "LessThanOrEqualToThreshold",
-        "EvaluationPeriods": 1,
-        "AlarmActions": [
-          {
-            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "AlarmDescription": {
-          "Fn::Join": [
-            "",
-            [
-              "Function ",
-              {
-                "Ref": "Aggregator84F1B3DF"
-              },
-              " has not run successful for the last 12 hours"
-            ]
-          ]
-        },
-        "Metrics": [
-          {
-            "Expression": "invocations - errors",
-            "Id": "expr_1"
-          },
-          {
-            "Id": "invocations",
-            "MetricStat": {
-              "Metric": {
-                "Dimensions": [
-                  {
-                    "Name": "FunctionName",
-                    "Value": {
-                      "Ref": "Aggregator84F1B3DF"
-                    }
-                  }
-                ],
-                "MetricName": "Invocations",
-                "Namespace": "AWS/Lambda"
-              },
-              "Period": 43200,
-              "Stat": "Sum"
-            },
-            "ReturnData": false
-          },
-          {
-            "Id": "errors",
-            "MetricStat": {
-              "Metric": {
-                "Dimensions": [
-                  {
-                    "Name": "FunctionName",
-                    "Value": {
-                      "Ref": "Aggregator84F1B3DF"
-                    }
-                  }
-                ],
-                "MetricName": "Errors",
-                "Namespace": "AWS/Lambda"
-              },
-              "Period": 43200,
-              "Stat": "Sum"
-            },
-            "ReturnData": false
-          }
-        ],
-        "OKActions": [
-          {
-            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
-          }
-        ],
-        "Threshold": 0,
-        "TreatMissingData": "breaching"
-      },
-      "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorNotSuccessAlarm/Resource"
-      }
-    },
     "ReporterServiceRole0C7A2B1F": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -2786,115 +2540,301 @@
         "aws:asset:property": "Code"
       }
     },
-    "ReporterSchedule65E61F50": {
-      "Type": "AWS::Events::Rule",
+    "StateMachineRoleB840431D": {
+      "Type": "AWS::IAM::Role",
       "Properties": {
-        "ScheduleExpression": "cron(0 7 * * ? *)",
-        "State": "ENABLED",
-        "Targets": [
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "states.eu-west-1.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
           {
-            "Arn": {
-              "Fn::GetAtt": [
-                "Reporter08098DAC",
-                "Arn"
-              ]
-            },
-            "Id": "Target0"
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterSchedule/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/Role/Resource"
       }
     },
-    "ReporterScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporter593FA6D5D56F3D22": {
-      "Type": "AWS::Lambda::Permission",
+    "StateMachineRoleDefaultPolicyDF1E6607": {
+      "Type": "AWS::IAM::Policy",
       "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "Collector9EBA7CF5",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "Collector9EBA7CF5",
+                          "Arn"
+                        ]
+                      },
+                      ":*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "Aggregator84F1B3DF",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "Aggregator84F1B3DF",
+                          "Arn"
+                        ]
+                      },
+                      ":*"
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "Reporter08098DAC",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "Reporter08098DAC",
+                          "Arn"
+                        ]
+                      },
+                      ":*"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "StateMachineRoleDefaultPolicyDF1E6607",
+        "Roles": [
+          {
+            "Ref": "StateMachineRoleB840431D"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/Role/DefaultPolicy/Resource"
+      }
+    },
+    "StateMachine2E01A3A5": {
+      "Type": "AWS::StepFunctions::StateMachine",
+      "Properties": {
+        "RoleArn": {
           "Fn::GetAtt": [
-            "Reporter08098DAC",
+            "StateMachineRoleB840431D",
             "Arn"
           ]
         },
-        "Principal": "events.amazonaws.com",
-        "SourceArn": {
-          "Fn::GetAtt": [
-            "ReporterSchedule65E61F50",
-            "Arn"
+        "DefinitionString": {
+          "Fn::Join": [
+            "",
+            [
+              "{\"StartAt\":\"CollectorJob\",\"States\":{\"CollectorJob\":{\"Next\":\"AggregateJob\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "Collector9EBA7CF5",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload.$\":\"$\"}},\"AggregateJob\":{\"Next\":\"ReportsJob\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "Aggregator84F1B3DF",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload.$\":\"$\"}},\"ReportsJob\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+              {
+                "Fn::GetAtt": [
+                  "Reporter08098DAC",
+                  "Arn"
+                ]
+              },
+              "\",\"Payload.$\":\"$\"}}},\"TimeoutSeconds\":600}"
+            ]
           ]
-        }
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
       },
+      "DependsOn": [
+        "StateMachineRoleDefaultPolicyDF1E6607",
+        "StateMachineRoleB840431D"
+      ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporter593FA6D5"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/Resource"
       }
     },
-    "ReporterNotSuccessAlarm26AEAE42": {
+    "StateMachineEventsRoleDBCDECD1": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "events.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/EventsRole/Resource"
+      }
+    },
+    "StateMachineEventsRoleDefaultPolicyFB602CA9": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "states:StartExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "StateMachine2E01A3A5"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "StateMachineEventsRoleDefaultPolicyFB602CA9",
+        "Roles": [
+          {
+            "Ref": "StateMachineEventsRoleDBCDECD1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/EventsRole/DefaultPolicy/Resource"
+      }
+    },
+    "StateMachineExecutionFailureAlarmAC371745": {
       "Type": "AWS::CloudWatch::Alarm",
       "Properties": {
-        "ComparisonOperator": "LessThanOrEqualToThreshold",
+        "ComparisonOperator": "LessThanThreshold",
         "EvaluationPeriods": 1,
         "AlarmActions": [
           {
             "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
-        "AlarmDescription": {
-          "Fn::Join": [
-            "",
-            [
-              "Function ",
-              {
-                "Ref": "Reporter08098DAC"
-              },
-              " has not run successful for the last 1 day"
-            ]
-          ]
-        },
         "Metrics": [
           {
-            "Expression": "invocations - errors",
-            "Id": "expr_1"
-          },
-          {
-            "Id": "invocations",
+            "Id": "m1",
+            "Label": "Repo metrics state machine successes last 12 hours",
             "MetricStat": {
               "Metric": {
                 "Dimensions": [
                   {
-                    "Name": "FunctionName",
+                    "Name": "StateMachineArn",
                     "Value": {
-                      "Ref": "Reporter08098DAC"
+                      "Ref": "StateMachine2E01A3A5"
                     }
                   }
                 ],
-                "MetricName": "Invocations",
-                "Namespace": "AWS/Lambda"
+                "MetricName": "ExecutionsSucceeded",
+                "Namespace": "AWS/States"
               },
-              "Period": 86400,
+              "Period": 43200,
               "Stat": "Sum"
             },
-            "ReturnData": false
-          },
-          {
-            "Id": "errors",
-            "MetricStat": {
-              "Metric": {
-                "Dimensions": [
-                  {
-                    "Name": "FunctionName",
-                    "Value": {
-                      "Ref": "Reporter08098DAC"
-                    }
-                  }
-                ],
-                "MetricName": "Errors",
-                "Namespace": "AWS/Lambda"
-              },
-              "Period": 86400,
-              "Stat": "Sum"
-            },
-            "ReturnData": false
+            "ReturnData": true
           }
         ],
         "OKActions": [
@@ -2902,11 +2842,34 @@
             "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
-        "Threshold": 0,
-        "TreatMissingData": "breaching"
+        "Threshold": 1
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterNotSuccessAlarm/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachineExecutionFailureAlarm/Resource"
+      }
+    },
+    "RepoMetricsSchedule10A365C7": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "ScheduleExpression": "cron(0 0/6 * * ? *)",
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "StateMachine2E01A3A5"
+            },
+            "Id": "Target0",
+            "RoleArn": {
+              "Fn::GetAtt": [
+                "StateMachineEventsRoleDBCDECD1",
+                "Arn"
+              ]
+            }
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/RepoMetricsSchedule/Resource"
       }
     }
   },
