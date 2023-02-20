@@ -41,7 +41,7 @@ export interface MetricRepoGitHubVulnerabilityAlert {
  * A snapshot of a specific repo with embedded related details.
  */
 export interface MetricRepoSnapshot {
-  version: "1.2"
+  version: "1.1"
   timestamp: string
   repoId: string
   responsible?: string
@@ -82,18 +82,6 @@ export interface MetricRepoSnapshot {
       }
       browseUrl: string
     }[]
-  }
-  sonarCloud?: {
-    component: {
-      id: string
-      key: string
-      name: string
-      qualifier: string
-      measures: {
-        metric: string
-        value: string
-      }[]
-    }
   }
 }
 
@@ -136,16 +124,6 @@ export interface WebappMetricDataRepoDatapoint {
       path: string
       browseUrl: string
     }[]
-  }
-  sonarCloud: {
-    /**
-     * Describes whether SonarCloud is configured for the GitHub repository in question.
-     */
-    enabled: boolean
-    /**
-     * Undefined means that no test coverage has been set up
-     */
-    testCoverage?: string
   }
 }
 

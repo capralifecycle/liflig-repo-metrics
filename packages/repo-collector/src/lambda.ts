@@ -1,7 +1,6 @@
 import { SecretsManager } from "@aws-sdk/client-secrets-manager"
 import { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
 import { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
-import { SonarCloudTokenProvider } from "@capraconsulting/cals-cli/lib/sonarcloud/token"
 import { Handler } from "aws-lambda"
 import { Temporal } from "@js-temporal/polyfill"
 import { isWorkingDay } from "./dates"
@@ -61,18 +60,6 @@ async function getSnykTokenProvider(): Promise<SnykTokenProvider> {
   }
 }
 
-async function getSonarCloudTokenProvider(): Promise<SonarCloudTokenProvider> {
-  const sonarCloudTokenSecretId = requireEnv("SONARCLOUD_TOKEN_SECRET_ID")
-  const sonarCloudToken = (await getSecretValue(sonarCloudTokenSecretId))[
-    "token"
-  ]
-
-  return {
-    getToken: () => Promise.resolve(sonarCloudToken),
-    markInvalid: () => Promise.resolve(),
-  }
-}
-
 export const collectHandler: Handler = async () => {
   const dataBucketName = requireEnv("DATA_BUCKET_NAME")
   const snapshotsRepository = new S3SnapshotsRepository(dataBucketName)
@@ -81,7 +68,6 @@ export const collectHandler: Handler = async () => {
     snapshotsRepository,
     await getGithubTokenProvider(),
     await getSnykTokenProvider(),
-    await getSonarCloudTokenProvider(),
   )
 }
 

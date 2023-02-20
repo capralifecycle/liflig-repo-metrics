@@ -2048,25 +2048,6 @@
             },
             {
               "Action": [
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DescribeSecret"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
-                    ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/sonarcloud-token-??????"
-                  ]
-                ]
-              }
-            },
-            {
-              "Action": [
                 "s3:GetObject*",
                 "s3:GetBucket*",
                 "s3:List*",
@@ -2152,18 +2133,6 @@
                     "Ref": "AWS::Partition"
                   },
                   ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/snyk-token"
-                ]
-              ]
-            },
-            "SONARCLOUD_TOKEN_SECRET_ID": {
-              "Fn::Join": [
-                "",
-                [
-                  "arn:",
-                  {
-                    "Ref": "AWS::Partition"
-                  },
-                  ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/sonarcloud-token"
                 ]
               ]
             },
