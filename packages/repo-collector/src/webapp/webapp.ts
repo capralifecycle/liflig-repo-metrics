@@ -116,6 +116,12 @@ function convertDatapoint(
               })),
           }
         : undefined,
+    sonarCloud: {
+      enabled: !!datapoint.sonarCloud,
+      testCoverage: datapoint.sonarCloud?.component?.measures?.find(
+        (el) => el.metric === "coverage",
+      )?.value,
+    },
   }
 }
 
