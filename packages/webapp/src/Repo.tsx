@@ -62,6 +62,22 @@ function snykStyle(type: SnykType): React.CSSProperties {
   }
 }
 
+function sonarCloudTestCoverageStyle(coverage: string): React.CSSProperties {
+  if (parseInt(coverage) > 70) {
+    return {
+      color: "green",
+    }
+  } else if (parseInt(coverage) > 45) {
+    return {
+      color: "darkgoldenrod",
+    }
+  } else {
+    return {
+      color: "red",
+    }
+  }
+}
+
 const SnykItem: React.FC<{
   value: number
   type: SnykType
@@ -254,6 +270,20 @@ export const Repo: React.FC<Props> = ({
                 </div>
               ))}
           </>
+        )}
+      </td>
+      <td>
+        {data.lastDatapoint.sonarCloud.testCoverage ? (
+          <span
+            className="test-coverage"
+            style={sonarCloudTestCoverageStyle(
+              data.lastDatapoint.sonarCloud.testCoverage,
+            )}
+          >
+            {data.lastDatapoint.sonarCloud.testCoverage}
+          </span>
+        ) : (
+          <>Mangler testdekning</>
         )}
       </td>
     </tr>
