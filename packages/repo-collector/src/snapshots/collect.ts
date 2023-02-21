@@ -112,7 +112,6 @@ async function createSnapshots(
  */
 export async function collect(
   snapshotsRepository: SnapshotsRepository,
-  sonarCloudTokenProvider?: SonarCloudTokenProvider,
   githubTokenProvider?: GitHubTokenProvider,
   snykTokenProvider?: SnykTokenProvider,
   sonarCloudTokenProvider?: SonarCloudTokenProvider,
