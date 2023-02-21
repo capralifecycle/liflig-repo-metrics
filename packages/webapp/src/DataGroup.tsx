@@ -182,6 +182,7 @@ export const DataGroup: React.FC<Props> = ({
               <th>Åpne PRs (ikke bots)</th>
               <th>Sårbarheter (GitHub)</th>
               <th>Sårbarheter (Snyk)</th>
+              <th>Testdekning (%) (SonarCloud)</th>
             </tr>
           </thead>
           <tbody>
