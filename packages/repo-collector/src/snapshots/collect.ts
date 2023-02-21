@@ -4,14 +4,16 @@ import {
   definition,
   github,
   snyk,
+  sonarCloud,
 } from "@capraconsulting/cals-cli"
 import { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
 import { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
-import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy } from "lodash"
 import { Temporal } from "@js-temporal/polyfill"
 import { GithubDefinitionProvider } from "./definition-provider"
 import { SnapshotsRepository } from "./snapshots-repository"
+import { SonarCloudTokenProvider } from "@capraconsulting/cals-cli/lib/sonarcloud/token"
+import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 
 interface SnykProject extends snyk.SnykProject {
   // Not documented in https://snyk.docs.apiary.io/#reference/projects/all-projects/list-all-projects
@@ -22,6 +24,7 @@ async function createSnapshots(
   timestamp: Temporal.Instant,
   snykService: snyk.SnykService,
   githubService: github.GitHubService,
+  sonarCloudService: sonarCloud.SonarCloudService,
   repos: definition.GetReposResponse[],
   snykAccountId?: string,
 ): Promise<MetricRepoSnapshot[]> {
@@ -51,6 +54,9 @@ async function createSnapshots(
       snykProjects: (
         snykData[definition.getRepoId(it.orgName, it.repo.name)] ?? []
       ).filter((it) => it.isMonitored),
+      sonarCloudMetrics: sonarCloudService.getMetricsByProjectKey(
+        `${it.orgName}_${it.repo.name}`,
+      ),
     }))
 
   const pullRequests = groupBy(
@@ -78,7 +84,7 @@ async function createSnapshots(
     }))
 
     result.push({
-      version: "1.1",
+      version: "1.2",
       timestamp: timestamp.toString(),
       repoId,
       responsible: repo.repo.repo.responsible ?? repo.repo.project.responsible,
@@ -93,6 +99,7 @@ async function createSnapshots(
       snyk: {
         projects: repo.snykProjects as unknown as SnykProject[],
       },
+      sonarCloud: await repo.sonarCloudMetrics,
     })
   }
 
@@ -105,6 +112,7 @@ async function createSnapshots(
  */
 export async function collect(
   snapshotsRepository: SnapshotsRepository,
+  sonarCloudTokenProvider?: SonarCloudTokenProvider,
   githubTokenProvider?: GitHubTokenProvider,
   snykTokenProvider?: SnykTokenProvider,
   sonarCloudTokenProvider?: SonarCloudTokenProvider,
@@ -131,12 +139,18 @@ export async function collect(
     tokenProvider: snykTokenProvider,
   })
 
+  const sonarCloudService = sonarCloud.createSonarCloudService({
+    config,
+    tokenProvider: sonarCloudTokenProvider,
+  })
+
   const timestamp = Temporal.Now.instant()
 
   const snapshots = await createSnapshots(
     timestamp,
     snykService,
     githubService,
+    sonarCloudService,
     await definitionProvider.getRepos(),
     await definitionProvider.getSnykAccountId(),
   )
