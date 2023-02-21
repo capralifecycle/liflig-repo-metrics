@@ -104,12 +104,6 @@ export class RepoMetricsStack extends cdk.Stack {
       "/incub/repo-metrics/snyk-token",
     )
 
-    const sonarCloudTokenSecret = secretsmanager.Secret.fromSecretNameV2(
-      this,
-      "SonarCloudTokenSecret",
-      "/incub/repo-metrics/sonarcloud-token",
-    )
-
     const collector = new lambda.Function(this, "Collector", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.collectHandler",
@@ -119,7 +113,6 @@ export class RepoMetricsStack extends cdk.Stack {
       environment: {
         GITHUB_TOKEN_SECRET_ID: githubTokenSecret.secretArn,
         SNYK_TOKEN_SECRET_ID: snykTokenSecret.secretArn,
-        SONARCLOUD_TOKEN_SECRET_ID: sonarCloudTokenSecret.secretArn,
         DATA_BUCKET_NAME: dataBucket.bucketName,
         // Make cals-cli "cache" work.
         XDG_CACHE_HOME: "/tmp",
@@ -128,7 +121,6 @@ export class RepoMetricsStack extends cdk.Stack {
 
     githubTokenSecret.grantRead(collector)
     snykTokenSecret.grantRead(collector)
-    sonarCloudTokenSecret.grantRead(collector)
     dataBucket.grantReadWrite(collector)
 
     new events.Rule(this, "CollectorSchedule", {

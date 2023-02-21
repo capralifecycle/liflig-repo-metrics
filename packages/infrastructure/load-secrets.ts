@@ -22,17 +22,6 @@ const snykTokenSecret: loadSecrets.Secret = {
   ],
 }
 
-const sonarCloudTokenSecret: loadSecrets.Secret = {
-  name: "sonarcloud-token",
-  description: "SonarCloud token",
-  type: "json",
-  fields: [
-    {
-      key: "token",
-    },
-  ],
-}
-
 const reporterSlackWebhookUrlSecret: loadSecrets.Secret = {
   name: "reporter-slack-webhook-url",
   description: "Slack Webhook URL for data reporting",
@@ -67,7 +56,6 @@ loadSecrets.loadSecretsCli({
         snykTokenSecret,
         reporterSlackWebhookUrlSecret,
         cicdSlackWebhookUrlSecret,
-        sonarCloudTokenSecret,
       ],
     },
   ],

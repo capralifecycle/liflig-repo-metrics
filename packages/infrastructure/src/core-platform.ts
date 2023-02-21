@@ -1,6 +1,7 @@
 import * as constructs from "constructs"
 import * as cloudwatchActions from "aws-cdk-lib/aws-cloudwatch-actions"
 import * as sns from "aws-cdk-lib/aws-sns"
+import * as cdk from "aws-cdk-lib"
 import { platform } from "@liflig/cdk"
 
 const slackAlarmTopicArnParam = "slack-alarm-topic-arn"
