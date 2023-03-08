@@ -2320,7 +2320,7 @@
           }
         ],
         "Threshold": 0,
-        "TreatMissingData": "breaching"
+        "TreatMissingData": "notBreaching"
       },
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorNotSuccessAlarm/Resource"
@@ -2645,7 +2645,7 @@
           }
         ],
         "Threshold": 0,
-        "TreatMissingData": "breaching"
+        "TreatMissingData": "notBreaching"
       },
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorNotSuccessAlarm/Resource"
@@ -2934,7 +2934,7 @@
           }
         ],
         "Threshold": 0,
-        "TreatMissingData": "breaching"
+        "TreatMissingData": "notBreaching"
       },
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterNotSuccessAlarm/Resource"
