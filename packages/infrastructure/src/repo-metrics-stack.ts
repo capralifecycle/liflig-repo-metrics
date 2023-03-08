@@ -262,7 +262,7 @@ export class RepoMetricsStack extends cdk.Stack {
       } has not run successful for the last ${props.duration.toHumanString()}`,
       evaluationPeriods: 1,
       threshold: 0,
-      treatMissingData: cw.TreatMissingData.BREACHING,
+      treatMissingData: cw.TreatMissingData.NOT_BREACHING,
       comparisonOperator: cw.ComparisonOperator.LESS_THAN_OR_EQUAL_TO_THRESHOLD,
     })
 
