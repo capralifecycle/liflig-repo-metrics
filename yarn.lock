@@ -2392,10 +2392,10 @@
     validate-npm-package-name "^4.0.0"
     yargs-parser "20.2.4"
 
-"@liflig/cdk@2.10.4":
-  version "2.10.4"
-  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.10.4.tgz#a924414e0f9d7403a2d6413b4122bf3c238d18c3"
-  integrity sha512-Hqcmb737WrDKf+HYEgL7Cm/622rs9keuyYjEf8chMjCMm22MjOpZKILtt876OqJy0MLA4tP3Kl/0MET7088a7g==
+"@liflig/cdk@2.11.0":
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.11.0.tgz#41e7750a44cae65c2fe7c61bc22cc6046b1fc843"
+  integrity sha512-5QA4bsnYyLd/VBCPV1n5JB5Apq8fcaJyUClTcS56T60jqO/Lhn1Mv2pQ7FIiqu37nAE8CNonbkMd7sS4zdr8KA==
   dependencies:
     "@capraconsulting/webapp-deploy-lambda" "2.1.1"
     aws-sdk "2.1058.0"
