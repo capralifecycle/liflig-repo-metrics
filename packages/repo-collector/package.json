@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-cloudfront": "3.303.0",
-    "@aws-sdk/client-s3": "3.303.0",
+    "@aws-sdk/client-s3": "3.304.0",
     "@aws-sdk/client-secrets-manager": "3.303.0",
     "@capraconsulting/cals-cli": "2.25.10",
     "@js-temporal/polyfill": "0.4.3",
