@@ -148,6 +148,18 @@
             "data": "PipelineCodePipelinePrepareCloudAssemblycloudassemblylookupCodePipelineActionRoleDefaultPolicy901A0F32"
           }
         ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineEventsRole6E48CF6D"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelineCodePipelineEventsRoleDefaultPolicy87D65CBE"
+          }
+        ],
         "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Event/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -158,6 +170,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "PipelineCodePipelineEventAllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5D84D81CD"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Pipeline/PipelineTrigger/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PipelinePipelineTriggerDBF83560"
           }
         ],
         "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/UpdatePipeline/SelfMutation/Role/Resource": [

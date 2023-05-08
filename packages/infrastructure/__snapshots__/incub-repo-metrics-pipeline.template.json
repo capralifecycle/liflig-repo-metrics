@@ -622,7 +622,8 @@
                 },
                 "Configuration": {
                   "S3Bucket": "incub-common-build-artifacts-001112238813-eu-west-1",
-                  "S3ObjectKey": "pipelines/incub-repo-metrics/trigger"
+                  "S3ObjectKey": "pipelines/incub-repo-metrics/trigger",
+                  "PollForSourceChanges": false
                 },
                 "Name": "source",
                 "OutputArtifacts": [
@@ -1047,8 +1048,7 @@
                     ]
                   },
                   "TemplateConfiguration": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup::assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.template.json.config.json",
-                  "ActionMode": "CHANGE_SET_REPLACE",
-                  "ChangeSetName": "PipelineChange",
+                  "ActionMode": "CREATE_UPDATE",
                   "TemplatePath": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup::assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.template.json"
                 },
                 "InputArtifacts": [
@@ -1056,34 +1056,6 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "incub-repo-metrics-edge.Prepare",
-                "Region": "us-east-1",
-                "RoleArn": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":iam::001112238813:role/cdk-liflig-deploy-role-001112238813-us-east-1"
-                    ]
-                  ]
-                },
-                "RunOrder": 1
-              },
-              {
-                "ActionTypeId": {
-                  "Category": "Deploy",
-                  "Owner": "AWS",
-                  "Provider": "CloudFormation",
-                  "Version": "1"
-                },
-                "Configuration": {
-                  "StackName": "incub-repo-metrics-edge",
-                  "ActionMode": "CHANGE_SET_EXECUTE",
-                  "ChangeSetName": "PipelineChange"
-                },
                 "Name": "incub-repo-metrics-edge.Deploy",
                 "Region": "us-east-1",
                 "RoleArn": {
@@ -1098,7 +1070,7 @@
                     ]
                   ]
                 },
-                "RunOrder": 2
+                "RunOrder": 1
               },
               {
                 "ActionTypeId": {
@@ -1123,8 +1095,7 @@
                     ]
                   },
                   "TemplateConfiguration": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup::assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.template.json.config.json",
-                  "ActionMode": "CHANGE_SET_REPLACE",
-                  "ChangeSetName": "PipelineChange",
+                  "ActionMode": "CREATE_UPDATE",
                   "TemplatePath": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup::assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.template.json"
                 },
                 "InputArtifacts": [
@@ -1132,33 +1103,6 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "incub-repo-metrics-main.Prepare",
-                "RoleArn": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":iam::001112238813:role/cdk-liflig-deploy-role-001112238813-eu-west-1"
-                    ]
-                  ]
-                },
-                "RunOrder": 3
-              },
-              {
-                "ActionTypeId": {
-                  "Category": "Deploy",
-                  "Owner": "AWS",
-                  "Provider": "CloudFormation",
-                  "Version": "1"
-                },
-                "Configuration": {
-                  "StackName": "incub-repo-metrics-main",
-                  "ActionMode": "CHANGE_SET_EXECUTE",
-                  "ChangeSetName": "PipelineChange"
-                },
                 "Name": "incub-repo-metrics-main.Deploy",
                 "RoleArn": {
                   "Fn::Join": [
@@ -1172,7 +1116,7 @@
                     ]
                   ]
                 },
-                "RunOrder": 4
+                "RunOrder": 2
               }
             ],
             "Name": "Incubator"
@@ -1536,6 +1480,78 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/PrepareCloudAssembly/cloud-assembly-lookup/CodePipelineActionRole/DefaultPolicy/Resource"
       }
     },
+    "PipelineCodePipelineEventsRole6E48CF6D": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "events.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-pipeline"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/EventsRole/Resource"
+      }
+    },
+    "PipelineCodePipelineEventsRoleDefaultPolicy87D65CBE": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "codepipeline:StartPipelineExecution",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":codepipeline:eu-west-1:001112238813:",
+                    {
+                      "Ref": "PipelineCodePipeline4FC0E9B7"
+                    }
+                  ]
+                ]
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "PipelineCodePipelineEventsRoleDefaultPolicy87D65CBE",
+        "Roles": [
+          {
+            "Ref": "PipelineCodePipelineEventsRole6E48CF6D"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/EventsRole/DefaultPolicy/Resource"
+      }
+    },
     "PipelineCodePipelineEvent5A7BDD21": {
       "Type": "AWS::Events::Rule",
       "Properties": {
@@ -1607,6 +1623,61 @@
       },
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Event/AllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5"
+      }
+    },
+    "PipelinePipelineTriggerDBF83560": {
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "EventPattern": {
+          "source": [
+            "aws.s3"
+          ],
+          "detail-type": [
+            "Object Created"
+          ],
+          "detail": {
+            "bucket": {
+              "name": [
+                "incub-common-build-artifacts-001112238813-eu-west-1"
+              ]
+            },
+            "object": {
+              "key": [
+                "pipelines/incub-repo-metrics/trigger"
+              ]
+            }
+          }
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":codepipeline:eu-west-1:001112238813:",
+                  {
+                    "Ref": "PipelineCodePipeline4FC0E9B7"
+                  }
+                ]
+              ]
+            },
+            "Id": "Target0",
+            "RoleArn": {
+              "Fn::GetAtt": [
+                "PipelineCodePipelineEventsRole6E48CF6D",
+                "Arn"
+              ]
+            }
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/PipelineTrigger/Resource"
       }
     },
     "PipelineCdkPipelineUpdatePipelineSelfMutationRole91D6CBA8": {
