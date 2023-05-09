@@ -1753,11 +1753,6 @@
     sprintf-js "^1.1.2"
     yargs "^17.5.1"
 
-"@capraconsulting/webapp-deploy-lambda@2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@capraconsulting/webapp-deploy-lambda/-/webapp-deploy-lambda-2.1.1.tgz#542352cddd2f834a3baf32d4876668794b96c79b"
-  integrity sha512-ewDCX44xjlgMuEAlOvCtg/QgOvDccdDT0wjRWiXL5JC4TdfbzUIh+txvfMKpnD+a16RfRib3EmA6bObIDHIK7A==
-
 "@capraconsulting/webapp-deploy-lambda@2.1.2":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@capraconsulting/webapp-deploy-lambda/-/webapp-deploy-lambda-2.1.2.tgz#09fb5d86be6455343924702358b3af5c0cf5b683"
@@ -2266,12 +2261,12 @@
     write-pkg "4.0.0"
     yargs "16.2.0"
 
-"@liflig/cdk@2.13.0":
-  version "2.13.0"
-  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.13.0.tgz#a4a0d897ff5a727656bcc639e8f420b0e4fab13b"
-  integrity sha512-95AABm4qnP4rF//WdRjuZcTKdC1bj7uFBJBNU1okrSUZlW/RWmde6XuH781z99Osr/f964yUTLwt4YFsIlJ6JQ==
+"@liflig/cdk@2.13.1":
+  version "2.13.1"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.13.1.tgz#3cc97be03bdc0af735d2f6a0c60a27091172526f"
+  integrity sha512-uY42jXpzFa2XbUTDTmogh9wfVOlTeFwWBQEfEQGNBJRke4q/Z/Mq1FoQ3AZg+2ULahJaZdUhhrjWmOXkbD06sw==
   dependencies:
-    "@capraconsulting/webapp-deploy-lambda" "2.1.1"
+    "@capraconsulting/webapp-deploy-lambda" "2.1.2"
     aws-sdk "2.1358.0"
     cpy "8.1.2"
     del "6.1.1"
