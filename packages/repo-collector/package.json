@@ -32,9 +32,9 @@
     "webpack-cli": "5.1.1"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "3.329.0",
-    "@aws-sdk/client-s3": "3.331.0",
-    "@aws-sdk/client-secrets-manager": "3.329.0",
+    "@aws-sdk/client-cloudfront": "3.332.0",
+    "@aws-sdk/client-s3": "3.332.0",
+    "@aws-sdk/client-secrets-manager": "3.332.0",
     "@capraconsulting/cals-cli": "2.25.12",
     "@js-temporal/polyfill": "0.4.3",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
