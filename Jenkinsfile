@@ -23,7 +23,7 @@ buildConfig(
   dockerNode {
     checkout scm
 
-    insideToolImage("node:16") {
+    insideToolImage("node:18") {
       stage("Check repo-metrics") {
         sh "yarn install --frozen-lockfile"
         sh "yarn run build"
