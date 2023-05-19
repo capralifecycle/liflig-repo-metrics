@@ -39,7 +39,7 @@
     "@js-temporal/polyfill": "0.4.3",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.14.194",
-    "axios": "0.27.2",
+    "axios": "1.4.0",
     "date-holidays": "2.1.1",
     "get-stream": "6.0.1",
     "lodash": "4.17.21"
