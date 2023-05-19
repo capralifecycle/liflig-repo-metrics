@@ -30,41 +30,41 @@ These updates have all been created already. Click a checkbox below to force a r
 
 test("extract dependencies from issue body", () => {
   expect(extractDependencyUpdatesFromIssue(example)).toMatchInlineSnapshot(`
-    Array [
-      Object {
+    [
+      {
         "name": "Awaiting Schedule",
-        "updates": Array [
-          Object {
+        "updates": [
+          {
             "name": "aws-sdk",
             "toVersion": "v2.797.0",
           },
         ],
       },
-      Object {
+      {
         "name": "Pending Status Checks",
-        "updates": Array [
-          Object {
+        "updates": [
+          {
             "name": "@types/node",
             "toVersion": "v13.13.32",
           },
-          Object {
+          {
             "name": "eslint",
             "toVersion": "v7.14.0",
           },
-          Object {
+          {
             "name": "prettier",
             "toVersion": "v2.2.0",
           },
-          Object {
+          {
             "name": "typescript",
             "toVersion": "v4.1.2",
           },
         ],
       },
-      Object {
+      {
         "name": "Open",
-        "updates": Array [
-          Object {
+        "updates": [
+          {
             "name": "aws-cdk monorepo",
             "toVersion": "v1.74.0",
           },
