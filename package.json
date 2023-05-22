@@ -9,10 +9,6 @@
     "test": "lerna run test"
   },
   "devDependencies": {
-    "@babel/core": "^7.21.8",
-    "@babel/preset-env": "^7.21.5",
-    "@babel/preset-typescript": "^7.21.5",
-    "babel-loader": "^9.1.2",
     "lerna": "6.6.2"
   },
   "resolutions": {
@@ -20,8 +16,5 @@
   },
   "workspaces": [
     "packages/*"
-  ],
-  "dependencies": {
-    "babel-plugin-transform-jsbi-to-bigint": "^1.4.0"
-  }
+  ]
 }

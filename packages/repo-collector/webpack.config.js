@@ -17,28 +17,10 @@ module.exports = {
       // keychain we stub the package as we cannot include a compiled binary.
       keytar: path.resolve(__dirname, "keytar-stub.js"),
     },
-    extensions: ["*", ".js", ".jsx", ".tsx", ".ts"],
+    extensions: [".ts", ".js"],
   },
   module: {
     rules: [
-      {
-        test: /\.tsx?$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: "babel-loader",
-            options: {
-              presets: [["@babel/preset-env", { targets: "defaults" }]],
-            },
-          },
-          {
-            loader: "ts-loader",
-            options: {
-              transpileOnly: true,
-            },
-          },
-        ],
-      },
       {
         test: /\.ts$/,
         use: "ts-loader",
