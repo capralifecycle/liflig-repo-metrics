@@ -1,7 +1,7 @@
 import { paginateListObjectsV2, S3 } from "@aws-sdk/client-s3"
 import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import * as fs from "fs"
-import * as getStream from "get-stream"
+import getStream from "get-stream"
 import * as path from "path"
 import { Temporal } from "@js-temporal/polyfill"
 import { Readable } from "stream"
