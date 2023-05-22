@@ -36,7 +36,7 @@
     "@aws-sdk/client-s3": "3.335.0",
     "@aws-sdk/client-secrets-manager": "3.335.0",
     "@capraconsulting/cals-cli": "2.25.13",
-    "@js-temporal/polyfill": "0.4.4",
+    "@js-temporal/polyfill": "0.4.3",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.14.194",
     "axios": "1.4.0",
