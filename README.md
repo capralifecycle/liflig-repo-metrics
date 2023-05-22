@@ -61,7 +61,8 @@ This repo is built and deployed automatically on pushes to master.
 
 - Lerna and Yarn Workspaces for multi-package setup
 - TypeScript
-- Webpack for bundling
+- Esbuild for bundling of Lambda functions
+- Webpack for bundling of webapp
 - ESLint and Prettier
 - CDK for infrastructure
 - AWS Lambda
