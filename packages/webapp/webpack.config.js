@@ -22,6 +22,24 @@ module.exports = (env) => {
     module: {
       rules: [
         {
+          test: /\.tsx?$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: "babel-loader",
+              options: {
+                presets: [["@babel/preset-env", { targets: "defaults" }]],
+              },
+            },
+            {
+              loader: "ts-loader",
+              options: {
+                transpileOnly: true,
+              },
+            },
+          ],
+        },
+        {
           test: /\.(ts|tsx)$/,
           use: "ts-loader",
           include: path.resolve(__dirname, "src"),
@@ -54,7 +72,7 @@ module.exports = (env) => {
       ],
     },
     resolve: {
-      extensions: [".js", ".jsx", ".ts", ".tsx", ".css"],
+      extensions: ["*", ".js", ".jsx", ".ts", ".tsx", ".css"],
     },
     output: {
       filename: "[name].[contenthash].js",
