@@ -31,9 +31,9 @@
     "typescript": "5.0.4"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudfront": "3.337.0",
-    "@aws-sdk/client-s3": "3.337.0",
-    "@aws-sdk/client-secrets-manager": "3.337.0",
+    "@aws-sdk/client-cloudfront": "3.338.0",
+    "@aws-sdk/client-s3": "3.338.0",
+    "@aws-sdk/client-secrets-manager": "3.338.0",
     "@capraconsulting/cals-cli": "2.25.14",
     "@js-temporal/polyfill": "0.4.4",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
