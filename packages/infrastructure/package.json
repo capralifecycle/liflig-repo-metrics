@@ -26,6 +26,6 @@
     "@henrist/cdk-cloudfront-auth": "2.1.35",
     "@liflig/cdk": "2.13.1",
     "aws-cdk-lib": "2.81.0",
-    "constructs": "10.2.35"
+    "constructs": "10.2.38"
   }
 }
