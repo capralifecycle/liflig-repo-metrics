@@ -125,14 +125,14 @@
   dependencies:
     tslib "^2.5.0"
 
-"@aws-sdk/client-cloudfront@3.347.0":
-  version "3.347.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-cloudfront/-/client-cloudfront-3.347.0.tgz#1c6dd1111a60ff4c8ba9dba47b05a6dc9f2e4ebf"
-  integrity sha512-Y4iZuITBupTB/JDW/w5o8bUnscJmCHbyR6ZRsYlMAlIefI0gkCGIwCLNSKPopiADydwTtgp4b39h/b77VtViGg==
+"@aws-sdk/client-cloudfront@3.347.1":
+  version "3.347.1"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-cloudfront/-/client-cloudfront-3.347.1.tgz#46a7894afb79586ce479401f9fb36cd2b2d500e6"
+  integrity sha512-xyG43/e0hF7VhDrvXKg2x72MzJb1Zt4k16ZFEZbeDbj9WtKg7tg4hKRmMDxnpRuvSKo2Ox9JrvpbEnkS/MI6Iw==
   dependencies:
     "@aws-crypto/sha256-browser" "3.0.0"
     "@aws-crypto/sha256-js" "3.0.0"
-    "@aws-sdk/client-sts" "3.347.0"
+    "@aws-sdk/client-sts" "3.347.1"
     "@aws-sdk/config-resolver" "3.347.0"
     "@aws-sdk/credential-provider-node" "3.347.0"
     "@aws-sdk/fetch-http-handler" "3.347.0"
@@ -167,18 +167,18 @@
     "@aws-sdk/xml-builder" "3.310.0"
     "@smithy/protocol-http" "^1.0.1"
     "@smithy/types" "^1.0.0"
-    fast-xml-parser "4.1.2"
+    fast-xml-parser "4.2.4"
     tslib "^2.5.0"
 
-"@aws-sdk/client-s3@3.347.0":
-  version "3.347.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-s3/-/client-s3-3.347.0.tgz#d79ff99841f850e6741fd4ce7befb4fc426dc74e"
-  integrity sha512-DLv+Rg2tS9CE9w+2YHoILY8Z9Jr/xebQ/JkQ6WpEmV31GucYb9r7OKZ9Z3smrvhgiiz0VGGECkvFDoPlO5idHA==
+"@aws-sdk/client-s3@3.347.1":
+  version "3.347.1"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-s3/-/client-s3-3.347.1.tgz#afaeabf1860fd25b2ec8b9a7cd35c44e5b87af6b"
+  integrity sha512-s7LPecYBo78uMB4ZrSuSV/cGjc9RLzZ5+SA9Ds0mPWudeRROsogBqxK82qZqoCfjPAUVB24e2MIarV8Hzu6+jw==
   dependencies:
     "@aws-crypto/sha1-browser" "3.0.0"
     "@aws-crypto/sha256-browser" "3.0.0"
     "@aws-crypto/sha256-js" "3.0.0"
-    "@aws-sdk/client-sts" "3.347.0"
+    "@aws-sdk/client-sts" "3.347.1"
     "@aws-sdk/config-resolver" "3.347.0"
     "@aws-sdk/credential-provider-node" "3.347.0"
     "@aws-sdk/eventstream-serde-browser" "3.347.0"
@@ -228,17 +228,17 @@
     "@aws-sdk/xml-builder" "3.310.0"
     "@smithy/protocol-http" "^1.0.1"
     "@smithy/types" "^1.0.0"
-    fast-xml-parser "4.1.2"
+    fast-xml-parser "4.2.4"
     tslib "^2.5.0"
 
-"@aws-sdk/client-secrets-manager@3.347.0":
-  version "3.347.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-secrets-manager/-/client-secrets-manager-3.347.0.tgz#9ce983a33de3f1bdffd3562bfb93fda02369a9d3"
-  integrity sha512-lqBBJobdpVGx5OJpI3P52SaOilPkVW9zKVwPndoou8hpPYMMUVbVZ/Q0rSmjXC7wi9VzMB4SlENDM519Hu/tdQ==
+"@aws-sdk/client-secrets-manager@3.347.1":
+  version "3.347.1"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-secrets-manager/-/client-secrets-manager-3.347.1.tgz#55122d075300bd174b1fbd97a966c89b19f2ae3f"
+  integrity sha512-qrajHauz9mO6IjkhtGVb63hWrrtG5NsCS0kP8hpjwiJWshoYopm2mdwPukRNAPhOpjAhCFxDPLHx7hDSiBgtbA==
   dependencies:
     "@aws-crypto/sha256-browser" "3.0.0"
     "@aws-crypto/sha256-js" "3.0.0"
-    "@aws-sdk/client-sts" "3.347.0"
+    "@aws-sdk/client-sts" "3.347.1"
     "@aws-sdk/config-resolver" "3.347.0"
     "@aws-sdk/credential-provider-node" "3.347.0"
     "@aws-sdk/fetch-http-handler" "3.347.0"
@@ -516,10 +516,10 @@
     fast-xml-parser "4.1.2"
     tslib "^2.5.0"
 
-"@aws-sdk/client-sts@3.347.0":
-  version "3.347.0"
-  resolved "https://registry.yarnpkg.com/@aws-sdk/client-sts/-/client-sts-3.347.0.tgz#44ddb38a7d89046702573618a0b974b5a5e7bf2b"
-  integrity sha512-QcJCUlzJZLAFTFSuELKd4BF5I5W38TR/m7NX2y1tn2la9JIrWSrz+tj598zfp2V4pJPzRJ1i8RglTZxSRIvsxQ==
+"@aws-sdk/client-sts@3.347.1":
+  version "3.347.1"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-sts/-/client-sts-3.347.1.tgz#f7556f8071a10c0a688101226c5cb8b888906680"
+  integrity sha512-i7vomVsbZcGD2pzOuEl0RS7yCtFcT6CVfSP1wZLwgcjAssUKTLHi65I/uSAUF0KituChw31aXlxh7EGq1uDqaA==
   dependencies:
     "@aws-crypto/sha256-browser" "3.0.0"
     "@aws-crypto/sha256-js" "3.0.0"
@@ -556,7 +556,7 @@
     "@aws-sdk/util-utf8" "3.310.0"
     "@smithy/protocol-http" "^1.0.1"
     "@smithy/types" "^1.0.0"
-    fast-xml-parser "4.1.2"
+    fast-xml-parser "4.2.4"
     tslib "^2.5.0"
 
 "@aws-sdk/config-resolver@3.341.0":
@@ -6310,6 +6310,13 @@ fast-xml-parser@4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-4.1.2.tgz#5a98c18238d28a57bbdfa9fe4cda01211fff8f4a"
   integrity sha512-CDYeykkle1LiA/uqQyNwYpFbyF6Axec6YapmpUP+/RHWIoR1zKjocdvNaTsxCxZzQ6v9MLXaSYm9Qq0thv0DHg==
+  dependencies:
+    strnum "^1.0.5"
+
+fast-xml-parser@4.2.4:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-4.2.4.tgz#6e846ede1e56ad9e5ef07d8720809edf0ed07e9b"
+  integrity sha512-fbfMDvgBNIdDJLdLOwacjFAPYt67tr31H9ZhWSm45CDAxvd0I6WTlSOUo7K2P/K5sA5JgMKG64PI3DMcaFdWpQ==
   dependencies:
     strnum "^1.0.5"
 
