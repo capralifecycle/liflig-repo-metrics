@@ -140,9 +140,15 @@ export class RepoMetricsStack extends cdk.Stack {
       enabled: true,
     })
 
-    this.addAlarmIfNotSuccessWithin("CollectorNotSuccessAlarm", {
+    this.addAlarmIfNotSuccessWithin("CollectorNotSuccessWarning", {
       fn: collector,
       duration: cdk.Duration.hours(12),
+      alarmAction: corePlatform.slackWarningsAction,
+    })
+
+    this.addAlarmIfNotSuccessWithin("CollectorNotSuccessAlarm", {
+      fn: collector,
+      duration: cdk.Duration.days(1),
       alarmAction: corePlatform.slackAlarmAction,
     })
 
@@ -177,9 +183,14 @@ export class RepoMetricsStack extends cdk.Stack {
       enabled: true,
     })
 
-    this.addAlarmIfNotSuccessWithin("AggregatorNotSuccessAlarm", {
+    this.addAlarmIfNotSuccessWithin("AggregatorNotSuccessWarning", {
       fn: aggregator,
       duration: cdk.Duration.hours(12),
+      alarmAction: corePlatform.slackWarningsAction,
+    })
+    this.addAlarmIfNotSuccessWithin("AggregatorNotSuccessAlarm", {
+      fn: aggregator,
+      duration: cdk.Duration.days(1),
       alarmAction: corePlatform.slackAlarmAction,
     })
 
@@ -223,7 +234,6 @@ export class RepoMetricsStack extends cdk.Stack {
     new cdk.CfnOutput(this, "DataBucketNameOutput", {
       value: dataBucket.bucketName,
     })
-
     new cdk.CfnOutput(this, "WebappDataBucketNameOutput", {
       value: webappDataBucket.bucketName,
     })
