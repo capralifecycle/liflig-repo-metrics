@@ -2560,10 +2560,10 @@
     write-pkg "4.0.0"
     yargs "16.2.0"
 
-"@liflig/cdk@2.13.2":
-  version "2.13.2"
-  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.13.2.tgz#9fecd2a9aff638426a9ae012b2971a7907369676"
-  integrity sha512-LrfnlQnB8nhDgk5vlUxXJiTQKG6pdv2WEfSlcKE4ebtrrxs5uL/c81xba/63Rj1j80fZTkXoG6t+9Y9dw6bhHw==
+"@liflig/cdk@2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@liflig/cdk/-/cdk-2.14.0.tgz#62655e7d42b995ff0807e3d4ab7756e93ef4a252"
+  integrity sha512-evPi0fqnIxMVV/Qce+GvnQ4KU1EfWndHaxHK45JX9vlxuMvc+0kdzjBEA0ivmN1s7Qmq07dOZhzeMKpikxRXFg==
   dependencies:
     "@capraconsulting/webapp-deploy-lambda" "2.1.2"
     aws-sdk "2.1358.0"
