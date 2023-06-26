@@ -4,6 +4,7 @@ import * as sns from "aws-cdk-lib/aws-sns"
 import { platform } from "@liflig/cdk"
 
 const slackAlarmTopicArnParam = "slack-alarm-topic-arn"
+const slackWarningsTopicArnParam = "slack-warnings-topic-arn"
 
 const platformNamespace = "incub"
 const platformName = "incubator-common-core"
@@ -26,6 +27,20 @@ export class CorePlatformConsumer extends platform.PlatformConsumer {
           this,
           "SlackAlarmTopic",
           this.getParam(slackAlarmTopicArnParam),
+        ),
+      ),
+  )
+
+  public get slackWarningsAction(): cloudwatchActions.SnsAction {
+    return this._slackWarningsAction()
+  }
+  private _slackWarningsAction = this.lazy(
+    () =>
+      new cloudwatchActions.SnsAction(
+        sns.Topic.fromTopicArn(
+          this,
+          "SlackWarningsTopic",
+          this.getParam(slackWarningsTopicArnParam),
         ),
       ),
   )
