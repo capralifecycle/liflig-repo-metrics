@@ -17,7 +17,7 @@
     "@types/node": "18.16.19",
     "@typescript-eslint/eslint-plugin": "5.60.1",
     "@typescript-eslint/parser": "5.60.1",
-    "esbuild": "0.18.10",
+    "esbuild": "0.18.11",
     "eslint": "8.43.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-deprecation": "1.4.1",
