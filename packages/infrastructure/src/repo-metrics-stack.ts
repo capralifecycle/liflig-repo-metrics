@@ -228,7 +228,7 @@ export class RepoMetricsStack extends cdk.Stack {
       fn: reporter,
       // Note: Metrics cannot be checked across more than a day
       duration: cdk.Duration.days(1),
-      alarmAction: corePlatform.slackAlarmAction,
+      alarmAction: corePlatform.slackWarningsAction,
     })
 
     new cdk.CfnOutput(this, "DataBucketNameOutput", {
