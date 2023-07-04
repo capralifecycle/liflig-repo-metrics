@@ -1210,10 +1210,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.44.0.tgz#961a5903c74139390478bdc808bcde3fc45ab7af"
   integrity sha512-Ag+9YM4ocKQx9AarydN0KY2j0ErMHNIocPDrVo8zAE44xLTjEtz81OdR68/cydGtk6m6jDb5Za3r2useMzYmSw==
 
-"@henrist/cdk-cloudfront-auth@2.1.40":
-  version "2.1.40"
-  resolved "https://registry.yarnpkg.com/@henrist/cdk-cloudfront-auth/-/cdk-cloudfront-auth-2.1.40.tgz#55833b959b85bb8bcb8e96dab23ab5ffaeb4606c"
-  integrity sha512-6izSTVw7CdSGkLZoLLYQFcBcTFkXG6/lROKUEZkzs3HaGRhQbqeMUEBZZB4DQuL1bGV3Y/nxrbDqAzQYiChWyQ==
+"@henrist/cdk-cloudfront-auth@2.1.41":
+  version "2.1.41"
+  resolved "https://registry.yarnpkg.com/@henrist/cdk-cloudfront-auth/-/cdk-cloudfront-auth-2.1.41.tgz#868382d5c5eeefda35a236cf29dd170bd407b7eb"
+  integrity sha512-w7DJco7lZ4TgtprARiinh0Zet1UQbOGvNP5efRz9mYqCGOay539jnFpGLf/GAc2gWcb3+/BrTg1miKJgWh/PyQ==
   dependencies:
     "@henrist/cdk-cross-region-params" "^2.0.0"
     "@henrist/cdk-lambda-config" "^2.1.0"
