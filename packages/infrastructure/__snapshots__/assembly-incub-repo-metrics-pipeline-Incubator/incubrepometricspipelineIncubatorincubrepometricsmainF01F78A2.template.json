@@ -3027,7 +3027,7 @@
         "EvaluationPeriods": 1,
         "AlarmActions": [
           {
-            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackwarningstopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
         "AlarmDescription": {
@@ -3090,7 +3090,7 @@
         ],
         "OKActions": [
           {
-            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackalarmtopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackwarningstopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
         "Threshold": 0,
