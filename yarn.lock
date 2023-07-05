@@ -1026,10 +1026,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@capraconsulting/cals-cli@2.25.21":
-  version "2.25.21"
-  resolved "https://registry.yarnpkg.com/@capraconsulting/cals-cli/-/cals-cli-2.25.21.tgz#7bdccf30d9939c9a3b932fb0d8b7ec8e66d73f42"
-  integrity sha512-6q60/1xLX0GCjXp3NwnGRyexspb+g3/6RJSN9ZyixJC5pdrOgps46/ay3nL0vEZVCT2Yg84xUgnzkTVeyk5wcg==
+"@capraconsulting/cals-cli@2.25.22":
+  version "2.25.22"
+  resolved "https://registry.yarnpkg.com/@capraconsulting/cals-cli/-/cals-cli-2.25.22.tgz#420ca274ad30752cf53ad4e8969d7ba0e64de04f"
+  integrity sha512-PDrHViqvuphoxwDNRlGCX2lRb4YKvGSNg5VMX27daJneZvTAJ1CpyTgsa7Q7o1V4jfODKKcUNSwhueaGgzS3bw==
   dependencies:
     "@aws-sdk/client-secrets-manager" "^3.316.0"
     "@aws-sdk/client-sts" "^3.316.0"
