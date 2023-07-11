@@ -15,6 +15,7 @@ import {
   YAxis,
 } from "recharts"
 import { Repo } from "./Repo"
+import styles from "./DataGroup.module.css"
 
 interface Props {
   fetchGroups: WebappMetricData["byFetchGroup"]
@@ -173,7 +174,10 @@ export const DataGroup: React.FC<Props> = ({
         className="repo-metrics-table-wrap"
         style={{ display: "flex", justifyContent: "center" }}
       >
-        <table style={{ width: "min(100%, 1500px)" }}>
+        <table
+          className={styles.container}
+          style={{ width: "min(100%, 1500px)" }}
+        >
           <thead>
             <tr>
               <th>Repo</th>

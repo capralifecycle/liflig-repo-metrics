@@ -11,6 +11,8 @@
   --color-mute: #8f8f8f;
 
   --color-dark: #888;
+  
+  --color-blue-extra-light: #ebeffa;
 
   --spacing-normal: 12px;
   --spacing-large: calc(var(--spacing-normal) * 2);
