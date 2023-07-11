@@ -200,13 +200,13 @@ export const DataGroup: React.FC<Props> = ({
             }
             return compareByName()
           })}
-          columns={repoColumns(
+          columns={repoColumns({
             showPrList,
             showDepList,
             showVulList,
             showOrgName,
-            sortByRenovateDays,
-          )}
+            showRenovateDays: sortByRenovateDays,
+          })}
         />
       </div>
     </>

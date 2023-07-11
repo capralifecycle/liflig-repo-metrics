@@ -6,34 +6,59 @@ import * as React from "react"
 import { PrColumnDetails } from "./PrColumnDetails"
 import { Column } from "./Table"
 
-export const repoColumns = (
-  showPrList: boolean,
-  showDepList: boolean,
-  showVulList: boolean,
-  showOrgName: boolean,
-  showRenovateDays: boolean,
-): Column<WebappMetricDataRepo>[] => [
-  {
-    header: "Repo",
-    sortOn: (data) => {
-      const [_, repoName] = data.repoId.split("/")
-      return repoName.toLowerCase()
+export const repoColumns = (props: {
+  showPrList: boolean
+  showDepList: boolean
+  showVulList: boolean
+  showOrgName: boolean
+  showRenovateDays: boolean
+}): Column<WebappMetricDataRepo>[] => {
+  const {
+    showPrList,
+    showDepList,
+    showVulList,
+    showOrgName,
+    showRenovateDays,
+  } = props
+  return [
+    {
+      header: "Repo",
+      sortOn: (data) => {
+        const [_, repoName] = data.repoId.split("/")
+        return repoName.toLowerCase()
+      },
+      render: (data) => {
+        const [orgName, repoName] = data.repoId.split("/")
+        return (
+          <a href={repoBaseUrl(data)}>
+            {showOrgName && <span className="repo-org">{orgName}/</span>}
+            <span className="repo-name">{repoName}</span>
+          </a>
+        )
+      },
     },
-    render: (data) => {
-      const [orgName, repoName] = data.repoId.split("/")
-      return (
-        <a href={repoBaseUrl(data)}>
-          {showOrgName && <span className="repo-org">{orgName}/</span>}
-          <span className="repo-name">{repoName}</span>
-        </a>
-      )
-    },
-  },
-  {
-    header: "Oppdateringer til behandling",
-    sortOn: (data) =>
-      (data.lastDatapoint.github.availableUpdates ?? [])
-        .flatMap((category) =>
+    {
+      header: "Oppdateringer til behandling",
+      sortOn: (data) =>
+        (data.lastDatapoint.github.availableUpdates ?? [])
+          .flatMap((category) =>
+            category.updates.map((it) => ({
+              name: it.name,
+              isActionable: category.isActionable,
+              categoryName: category.categoryName,
+              toVersion: it.toVersion,
+            })),
+          )
+          .filter((it) => it.isActionable).length,
+      render: (data) => {
+        const renovateDashboad =
+          data.lastDatapoint.github.renovateDependencyDashboard
+
+        const renovateEnabled =
+          data.lastDatapoint.github.availableUpdates != null
+        const availableUpdates = (
+          data.lastDatapoint.github.availableUpdates ?? []
+        ).flatMap((category) =>
           category.updates.map((it) => ({
             name: it.name,
             isActionable: category.isActionable,
@@ -41,189 +66,174 @@ export const repoColumns = (
             toVersion: it.toVersion,
           })),
         )
-        .filter((it) => it.isActionable).length,
-    render: (data) => {
-      const renovateDashboad =
-        data.lastDatapoint.github.renovateDependencyDashboard
+        const actionableUpdates = availableUpdates.filter(
+          (it) => it.isActionable,
+        ).length
 
-      const renovateEnabled = data.lastDatapoint.github.availableUpdates != null
-      const availableUpdates = (
-        data.lastDatapoint.github.availableUpdates ?? []
-      ).flatMap((category) =>
-        category.updates.map((it) => ({
-          name: it.name,
-          isActionable: category.isActionable,
-          categoryName: category.categoryName,
-          toVersion: it.toVersion,
-        })),
-      )
-      const actionableUpdates = availableUpdates.filter(
-        (it) => it.isActionable,
-      ).length
-
-      return (
-        <>
-          {renovateDashboad?.daysSinceLastUpdate != null &&
-            (showRenovateDays ||
-              renovateDashboad.daysSinceLastUpdate >= 20) && (
-              <div
-                className={
-                  renovateDashboad.daysSinceLastUpdate >= 20
-                    ? "renovate-old"
-                    : undefined
-                }
-              >
-                <>
-                  Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
-                  siden
-                </>
-              </div>
+        return (
+          <>
+            {renovateDashboad?.daysSinceLastUpdate != null &&
+              (showRenovateDays ||
+                renovateDashboad.daysSinceLastUpdate >= 20) && (
+                <div
+                  className={
+                    renovateDashboad.daysSinceLastUpdate >= 20
+                      ? "renovate-old"
+                      : undefined
+                  }
+                >
+                  <>
+                    Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
+                    siden
+                  </>
+                </div>
+              )}
+            {!renovateEnabled ? (
+              <span className="renovate-missing">Mangler Renovate</span>
+            ) : (
+              <>
+                {actionableUpdates === 0 ? (
+                  <span className="renovate-ok">
+                    <MaybeRenovateLink data={data}>Ingen</MaybeRenovateLink>
+                    <RenovateLogsLink repoId={data.repoId} />
+                  </span>
+                ) : (
+                  <>
+                    <MaybeRenovateLink data={data}>
+                      <b>{actionableUpdates}</b>
+                    </MaybeRenovateLink>
+                    <RenovateLogsLink repoId={data.repoId} />
+                  </>
+                )}
+                {showDepList && (
+                  <ul>
+                    {availableUpdates.map((available, i) => (
+                      <li
+                        key={i}
+                        style={available.isActionable ? {} : { color: "#AAA" }}
+                      >
+                        {available.name} ({available.toVersion}) (
+                        {available.categoryName})
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </>
             )}
-          {!renovateEnabled ? (
-            <span className="renovate-missing">Mangler Renovate</span>
-          ) : (
-            <>
-              {actionableUpdates === 0 ? (
-                <span className="renovate-ok">
-                  <MaybeRenovateLink data={data}>Ingen</MaybeRenovateLink>
-                  <RenovateLogsLink repoId={data.repoId} />
-                </span>
-              ) : (
-                <>
-                  <MaybeRenovateLink data={data}>
-                    <b>{actionableUpdates}</b>
-                  </MaybeRenovateLink>
-                  <RenovateLogsLink repoId={data.repoId} />
-                </>
-              )}
-              {showDepList && (
-                <ul>
-                  {availableUpdates.map((available, i) => (
-                    <li
-                      key={i}
-                      style={available.isActionable ? {} : { color: "#AAA" }}
-                    >
-                      {available.name} ({available.toVersion}) (
-                      {available.categoryName})
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </>
-          )}
-        </>
-      )
+          </>
+        )
+      },
     },
-  },
-  {
-    header: "Åpne PRs (bots)",
-    sortOn: (data) =>
-      data.lastDatapoint.github.prs.filter((it) => isBotPr(it)).length,
-    render: (data) => {
-      return (
-        <PrColumnDetails
-          prs={data.lastDatapoint.github.prs.filter((it) => isBotPr(it))}
-          repoBaseUrl={repoBaseUrl(data)}
-          showPrList={showPrList}
-        />
-      )
-    },
-  },
-  {
-    header: "Åpne PRs (ikke bots)",
-    sortOn: (data) =>
-      data.lastDatapoint.github.prs.filter((it) => !isBotPr(it)).length,
-    render: (data) => {
-      return (
-        <PrColumnDetails
-          prs={data.lastDatapoint.github.prs.filter((it) => !isBotPr(it))}
-          repoBaseUrl={repoBaseUrl(data)}
-          showPrList={showPrList}
-        />
-      )
-    },
-  },
-  {
-    header: "Sårbarheter (GitHub)",
-    sortOn: (data) => data.lastDatapoint.github.vulnerabilityAlerts.length,
-    render: (data) => {
-      const githubVulAlerts = data.lastDatapoint.github.vulnerabilityAlerts
-      return githubVulAlerts.length === 0 ? (
-        <span style={{ color: "var(--color-success)" }}>Ingen</span>
-      ) : (
-        <>
-          <a
-            href={`${repoBaseUrl(data)}/security/dependabot`}
-            className="dependabot-alerts-link"
-          >
-            <b>{githubVulAlerts.length}</b>
-          </a>
-          {showVulList && (
-            <ul>
-              {githubVulAlerts.map((vul, idx) => (
-                <li key={idx}>
-                  {vul.packageName} ({vul.severity})
-                </li>
-              ))}
-            </ul>
-          )}
-        </>
-      )
-    },
-  },
-  {
-    header: "Sårbarheter (Snyk)",
-    sortOn: (data) => data.lastDatapoint.snyk?.totalIssues,
-    render: (data) => {
-      const snyk = data.lastDatapoint.snyk
-      return snyk == null ? (
-        <>Mangler Snyk</>
-      ) : snyk.totalIssues === 0 ? (
-        <span style={{ color: "var(--color-success)" }}>Ingen</span>
-      ) : (
-        <>
-          <SnykItem
-            value={snyk.countsBySeverity.critical ?? 0}
-            type="critical"
+    {
+      header: "Åpne PRs (bots)",
+      sortOn: (data) =>
+        data.lastDatapoint.github.prs.filter((it) => isBotPr(it)).length,
+      render: (data) => {
+        return (
+          <PrColumnDetails
+            prs={data.lastDatapoint.github.prs.filter((it) => isBotPr(it))}
+            repoBaseUrl={repoBaseUrl(data)}
+            showPrList={showPrList}
           />
-          <span style={{ color: "#AAA" }}> / </span>
-          <SnykItem value={snyk.countsBySeverity.high} type="high" />
-          <span style={{ color: "#AAA" }}> / </span>
-          <SnykItem value={snyk.countsBySeverity.medium} type="medium" />
-          <span style={{ color: "#AAA" }}> / </span>
-          <SnykItem value={snyk.countsBySeverity.low} type="low" />
-          {showVulList &&
-            snyk.vulnerableProjects.map((it) => (
-              <div key={it.path}>
-                <a href={it.browseUrl}>{it.path}</a>
-              </div>
-            ))}
-        </>
-      )
+        )
+      },
     },
-  },
-  {
-    header: "Testdekning (%) (SonarCloud)",
-    sortOn: (data) =>
-      data.lastDatapoint.sonarCloud.testCoverage
-        ? Number(data.lastDatapoint.sonarCloud.testCoverage)
-        : undefined,
-    render: (data) => {
-      return data.lastDatapoint.sonarCloud.testCoverage ? (
-        <span
-          className="test-coverage"
-          style={sonarCloudTestCoverageStyle(
-            data.lastDatapoint.sonarCloud.testCoverage,
-          )}
-        >
-          {data.lastDatapoint.sonarCloud.testCoverage}
-        </span>
-      ) : (
-        <>Mangler testdekning</>
-      )
+    {
+      header: "Åpne PRs (ikke bots)",
+      sortOn: (data) =>
+        data.lastDatapoint.github.prs.filter((it) => !isBotPr(it)).length,
+      render: (data) => {
+        return (
+          <PrColumnDetails
+            prs={data.lastDatapoint.github.prs.filter((it) => !isBotPr(it))}
+            repoBaseUrl={repoBaseUrl(data)}
+            showPrList={showPrList}
+          />
+        )
+      },
     },
-  },
-]
+    {
+      header: "Sårbarheter (GitHub)",
+      sortOn: (data) => data.lastDatapoint.github.vulnerabilityAlerts.length,
+      render: (data) => {
+        const githubVulAlerts = data.lastDatapoint.github.vulnerabilityAlerts
+        return githubVulAlerts.length === 0 ? (
+          <span style={{ color: "var(--color-success)" }}>Ingen</span>
+        ) : (
+          <>
+            <a
+              href={`${repoBaseUrl(data)}/security/dependabot`}
+              className="dependabot-alerts-link"
+            >
+              <b>{githubVulAlerts.length}</b>
+            </a>
+            {showVulList && (
+              <ul>
+                {githubVulAlerts.map((vul, idx) => (
+                  <li key={idx}>
+                    {vul.packageName} ({vul.severity})
+                  </li>
+                ))}
+              </ul>
+            )}
+          </>
+        )
+      },
+    },
+    {
+      header: "Sårbarheter (Snyk)",
+      sortOn: (data) => data.lastDatapoint.snyk?.totalIssues,
+      render: (data) => {
+        const snyk = data.lastDatapoint.snyk
+        return snyk == null ? (
+          <>Mangler Snyk</>
+        ) : snyk.totalIssues === 0 ? (
+          <span style={{ color: "var(--color-success)" }}>Ingen</span>
+        ) : (
+          <>
+            <SnykItem
+              value={snyk.countsBySeverity.critical ?? 0}
+              type="critical"
+            />
+            <span style={{ color: "#AAA" }}> / </span>
+            <SnykItem value={snyk.countsBySeverity.high} type="high" />
+            <span style={{ color: "#AAA" }}> / </span>
+            <SnykItem value={snyk.countsBySeverity.medium} type="medium" />
+            <span style={{ color: "#AAA" }}> / </span>
+            <SnykItem value={snyk.countsBySeverity.low} type="low" />
+            {showVulList &&
+              snyk.vulnerableProjects.map((it) => (
+                <div key={it.path}>
+                  <a href={it.browseUrl}>{it.path}</a>
+                </div>
+              ))}
+          </>
+        )
+      },
+    },
+    {
+      header: "Testdekning (%) (SonarCloud)",
+      sortOn: (data) =>
+        data.lastDatapoint.sonarCloud.testCoverage
+          ? Number(data.lastDatapoint.sonarCloud.testCoverage)
+          : undefined,
+      render: (data) => {
+        return data.lastDatapoint.sonarCloud.testCoverage ? (
+          <span
+            className="test-coverage"
+            style={sonarCloudTestCoverageStyle(
+              data.lastDatapoint.sonarCloud.testCoverage,
+            )}
+          >
+            {data.lastDatapoint.sonarCloud.testCoverage}
+          </span>
+        ) : (
+          <>Mangler testdekning</>
+        )
+      },
+    },
+  ]
+}
 
 function isBotPr(pr: WebappMetricDataRepoDatapoint["github"]["prs"][0]) {
   return (
@@ -340,205 +350,7 @@ const MaybeRenovateLink: React.FC<
     <>{children}</>
   )
 }
+
 function issueUrl(data: WebappMetricDataRepo, issueNumber: number) {
   return `${repoBaseUrl(data)}/issues/${issueNumber}`
 }
-
-// export const Repo: React.FC<Props> = ({
-//   data,
-//   showPrList,
-//   showDepList,
-//   showVulList,
-//   showRenovateDays,
-//   showOrgName,
-// }) => {
-//   const renovateEnabled = data.lastDatapoint.github.availableUpdates != null
-//   const availableUpdates = (
-//     data.lastDatapoint.github.availableUpdates ?? []
-//   ).flatMap((category) =>
-//     category.updates.map((it) => ({
-//       name: it.name,
-//       isActionable: category.isActionable,
-//       categoryName: category.categoryName,
-//       toVersion: it.toVersion,
-//     })),
-//   )
-//   const actionableUpdates = availableUpdates.filter(
-//     (it) => it.isActionable,
-//   ).length
-
-//   const renovateDashboad = data.lastDatapoint.github.renovateDependencyDashboard
-
-//   const githubVulAlerts = data.lastDatapoint.github.vulnerabilityAlerts
-//   const snyk = data.lastDatapoint.snyk
-
-//   const repoBaseUrl = `https://github.com/${data.github.orgName}/${data.github.repoName}`
-
-//   function issueUrl(issueNumber: number) {
-//     return `${repoBaseUrl}/issues/${issueNumber}`
-//   }
-
-//   const MaybeRenovateLink: React.FC<{ children?: React.ReactNode }> = ({
-//     children,
-//   }) =>
-//     renovateDashboad != null ? (
-//       <a
-//         href={issueUrl(renovateDashboad.issueNumber)}
-//         className="renovate-dashboard-link"
-//       >
-//         {children}
-//       </a>
-//     ) : (
-//       <>{children}</>
-//     )
-
-//   const RenovateLogsLink: React.FC = () => (
-//     <a
-//       href={`https://app.renovatebot.com/dashboard#github/${encodeURI(
-//         data.repoId,
-//       )}`}
-//       className="renovate-logs-link"
-//     >
-//       logs
-//     </a>
-//   )
-
-//   const [orgName, repoName] = data.repoId.split("/")
-
-//   return (
-//     <tr>
-//       <td>
-//         <a href={repoBaseUrl}>
-//           {showOrgName && <span className="repo-org">{orgName}/</span>}
-//           <span className="repo-name">{repoName}</span>
-//         </a>
-//       </td>
-//       <td>
-//         {renovateDashboad?.daysSinceLastUpdate != null &&
-//           (showRenovateDays || renovateDashboad.daysSinceLastUpdate >= 20) && (
-//             <div
-//               className={
-//                 renovateDashboad.daysSinceLastUpdate >= 20
-//                   ? "renovate-old"
-//                   : undefined
-//               }
-//             >
-//               <>
-//                 Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
-//                 siden
-//               </>
-//             </div>
-//           )}
-//         {!renovateEnabled ? (
-//           <span className="renovate-missing">Mangler Renovate</span>
-//         ) : (
-//           <>
-//             {actionableUpdates === 0 ? (
-//               <span className="renovate-ok">
-//                 <MaybeRenovateLink>Ingen</MaybeRenovateLink>
-//                 <RenovateLogsLink />
-//               </span>
-//             ) : (
-//               <>
-//                 <MaybeRenovateLink>
-//                   <b>{actionableUpdates}</b>
-//                 </MaybeRenovateLink>
-//                 <RenovateLogsLink />
-//               </>
-//             )}
-//             {showDepList && (
-//               <ul>
-//                 {availableUpdates.map((available, i) => (
-//                   <li
-//                     key={i}
-//                     style={available.isActionable ? {} : { color: "#AAA" }}
-//                   >
-//                     {available.name} ({available.toVersion}) (
-//                     {available.categoryName})
-//                   </li>
-//                 ))}
-//               </ul>
-//             )}
-//           </>
-//         )}
-//       </td>
-//       <td>
-//         <PrColumnDetails
-//           prs={data.lastDatapoint.github.prs.filter((it) => isBotPr(it))}
-//           repoBaseUrl={repoBaseUrl}
-//           showPrList={showPrList}
-//         />
-//       </td>
-//       <td>
-//         <PrColumnDetails
-//           prs={data.lastDatapoint.github.prs.filter((it) => !isBotPr(it))}
-//           repoBaseUrl={repoBaseUrl}
-//           showPrList={showPrList}
-//         />
-//       </td>
-//       <td>
-//         {githubVulAlerts.length === 0 ? (
-//           <span style={{ color: "var(--color-success)" }}>Ingen</span>
-//         ) : (
-//           <>
-//             <a
-//               href={`${repoBaseUrl}/security/dependabot`}
-//               className="dependabot-alerts-link"
-//             >
-//               <b>{githubVulAlerts.length}</b>
-//             </a>
-//             {showVulList && (
-//               <ul>
-//                 {githubVulAlerts.map((vul, idx) => (
-//                   <li key={idx}>
-//                     {vul.packageName} ({vul.severity})
-//                   </li>
-//                 ))}
-//               </ul>
-//             )}
-//           </>
-//         )}
-//       </td>
-//       <td>
-//         {snyk == null ? (
-//           <>Mangler Snyk</>
-//         ) : snyk.totalIssues === 0 ? (
-//           <span style={{ color: "var(--color-success)" }}>Ingen</span>
-//         ) : (
-//           <>
-//             <SnykItem
-//               value={snyk.countsBySeverity.critical ?? 0}
-//               type="critical"
-//             />
-//             <span style={{ color: "#AAA" }}> / </span>
-//             <SnykItem value={snyk.countsBySeverity.high} type="high" />
-//             <span style={{ color: "#AAA" }}> / </span>
-//             <SnykItem value={snyk.countsBySeverity.medium} type="medium" />
-//             <span style={{ color: "#AAA" }}> / </span>
-//             <SnykItem value={snyk.countsBySeverity.low} type="low" />
-//             {showVulList &&
-//               snyk.vulnerableProjects.map((it) => (
-//                 <div key={it.path}>
-//                   <a href={it.browseUrl}>{it.path}</a>
-//                 </div>
-//               ))}
-//           </>
-//         )}
-//       </td>
-//       <td>
-//         {data.lastDatapoint.sonarCloud.testCoverage ? (
-//           <span
-//             className="test-coverage"
-//             style={sonarCloudTestCoverageStyle(
-//               data.lastDatapoint.sonarCloud.testCoverage,
-//             )}
-//           >
-//             {data.lastDatapoint.sonarCloud.testCoverage}
-//           </span>
-//         ) : (
-//           <>Mangler testdekning</>
-//         )}
-//       </td>
-//     </tr>
-//   )
-// }
