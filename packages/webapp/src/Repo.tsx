@@ -40,8 +40,8 @@ export const repoColumns = (props: {
     {
       header: "Oppdateringer til behandling",
       sortOn: (data) =>
-        (data.lastDatapoint.github.availableUpdates ?? [])
-          .flatMap((category) =>
+        data.lastDatapoint.github.availableUpdates
+          ?.flatMap((category) =>
             category.updates.map((it) => ({
               name: it.name,
               isActionable: category.isActionable,
