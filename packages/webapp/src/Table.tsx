@@ -18,6 +18,29 @@ interface Props<T extends object> {
   data: T[]
 }
 
+function compareValues<T>(
+  mapper: (value: T) => string | number | undefined,
+  sortAsc: boolean,
+): (a: T, b: T) => number {
+  return (a, b) => {
+    const valA = mapper(a)
+    const valB = mapper(b)
+    if (valA === valB) return 0
+
+    const result =
+      valA == null
+        ? -1
+        : valB == null
+        ? 1
+        : valA > valB
+        ? 1
+        : valA < valB
+        ? -1
+        : 0
+    return sortAsc ? result : -result
+  }
+}
+
 function Table<T extends object>({ columns, data }: Props<T>) {
   const [sortState, setSortstate] = React.useState<SortState>()
 
@@ -40,23 +63,7 @@ function Table<T extends object>({ columns, data }: Props<T>) {
   const sortedData =
     valueMapperForSorting == null || sortState == null
       ? data
-      : [...data].sort((a, b) => {
-          const valA = valueMapperForSorting(a)
-          const valB = valueMapperForSorting(b)
-          if (valA === valB) return 0
-
-          const result =
-            valA == null
-              ? -1
-              : valB == null
-              ? 1
-              : valA > valB
-              ? 1
-              : valA < valB
-              ? -1
-              : 0
-          return sortState.sortAsc ? result : -result
-        })
+      : [...data].sort(compareValues(valueMapperForSorting, sortState.sortAsc))
 
   return (
     <table style={{ width: "min(100%, 1500px)" }}>
