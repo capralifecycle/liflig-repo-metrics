@@ -14,7 +14,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts"
-import { Repo } from "./Repo"
+import { repoColumns } from "./Repo"
+import Table from "./Table"
 
 interface Props {
   fetchGroups: WebappMetricData["byFetchGroup"]
@@ -173,58 +174,40 @@ export const DataGroup: React.FC<Props> = ({
         className="repo-metrics-table-wrap"
         style={{ display: "flex", justifyContent: "center" }}
       >
-        <table style={{ width: "min(100%, 1500px)" }}>
-          <thead>
-            <tr>
-              <th>Repo</th>
-              <th>Oppdateringer til behandling</th>
-              <th>Åpne PRs (bots)</th>
-              <th>Åpne PRs (ikke bots)</th>
-              <th>Sårbarheter (GitHub)</th>
-              <th>Sårbarheter (Snyk)</th>
-              <th>Testdekning (%) (SonarCloud)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[...repos]
-              .sort((a, b) => {
-                function compareByName() {
-                  return a.repoId.localeCompare(b.repoId)
-                }
-                if (sortByRenovateDays) {
-                  const aDays =
-                    a.lastDatapoint.github.renovateDependencyDashboard
-                      ?.daysSinceLastUpdate
-                  const bDays =
-                    b.lastDatapoint.github.renovateDependencyDashboard
-                      ?.daysSinceLastUpdate
+        <Table
+          data={[...repos].sort((a, b) => {
+            function compareByName() {
+              return a.repoId.localeCompare(b.repoId)
+            }
+            if (sortByRenovateDays) {
+              const aDays =
+                a.lastDatapoint.github.renovateDependencyDashboard
+                  ?.daysSinceLastUpdate
+              const bDays =
+                b.lastDatapoint.github.renovateDependencyDashboard
+                  ?.daysSinceLastUpdate
 
-                  if (aDays != null && bDays != null) {
-                    if (aDays == bDays) return compareByName()
-                    if (aDays > bDays) return -1
-                    return 1
-                  }
+              if (aDays != null && bDays != null) {
+                if (aDays == bDays) return compareByName()
+                if (aDays > bDays) return -1
+                return 1
+              }
 
-                  if (aDays != null || bDays != null) {
-                    if (aDays == null) return 1
-                    return -1
-                  }
-                }
-                return compareByName()
-              })
-              .map((item) => (
-                <Repo
-                  key={item.repoId}
-                  data={item}
-                  showPrList={showPrList}
-                  showDepList={showDepList}
-                  showVulList={showVulList}
-                  showRenovateDays={sortByRenovateDays}
-                  showOrgName={showOrgName}
-                />
-              ))}
-          </tbody>
-        </table>
+              if (aDays != null || bDays != null) {
+                if (aDays == null) return 1
+                return -1
+              }
+            }
+            return compareByName()
+          })}
+          columns={repoColumns(
+            showPrList,
+            showDepList,
+            showVulList,
+            showOrgName,
+            sortByRenovateDays,
+          )}
+        />
       </div>
     </>
   )

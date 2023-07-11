@@ -22,6 +22,10 @@ table tr:hover td {
   background-color: var(--color-blue-extra-light);
 }
 
+.clickeableHeader {
+  cursor: pointer;
+}
+
 th,
 td {
   padding: 3px;
