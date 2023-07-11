@@ -18,6 +18,10 @@ table {
   border-collapse: collapse;
 }
 
+table tr:hover td {
+  background-color: var(--color-blue-extra-light);
+}
+
 th,
 td {
   padding: 3px;
