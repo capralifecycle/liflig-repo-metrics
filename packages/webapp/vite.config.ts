@@ -5,15 +5,7 @@ import path from "path"
 import { defineConfig } from "vite"
 import packageJson from "./package.json"
 
-const commitHash = new GitRevisionPlugin({
-  commithashCommand: "rev-parse --short HEAD",
-}).commithash()
-
-const uploadToSentry =
-  "SENTRY_PROJECT" in process.env && "SENTRY_RELEASE" in process.env
-const sentryRelease = process.env.SENTRY_RELEASE
-
-export default (env: any) => {
+export default () => {
   return defineConfig({
     plugins: [
       react(),
