@@ -23,7 +23,7 @@ buildConfig(
   dockerNode {
     checkout scm
 
-    insideToolImage("node:18") {
+    insideToolImage("node:18-browsers") {
       stage("Check repo-metrics") {
         sh "npm ci"
         sh "npm run build"
