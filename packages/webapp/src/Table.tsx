@@ -66,17 +66,21 @@ function Table<T extends object>({ columns, data }: Props<T>) {
   return (
     <table style={{ width: "min(100%, 1500px)" }}>
       <thead>
-        {columns.map((it) => (
-          <th
-            key={it.header}
-            onClick={() => (it.sortOn ? toggleSortState(it.header) : undefined)}
-            className={it.sortOn ? "clickeableHeader" : undefined}
-          >
-            {it.header}
-            {sortState?.column === it.header &&
-              (sortState.sortAsc ? "👆🏼" : "👇🏼")}
-          </th>
-        ))}
+        <tr>
+          {columns.map((it) => (
+            <th
+              key={it.header}
+              onClick={() =>
+                it.sortOn ? toggleSortState(it.header) : undefined
+              }
+              className={it.sortOn ? "clickeableHeader" : undefined}
+            >
+              {it.header}
+              {sortState?.column === it.header &&
+                (sortState.sortAsc ? "👆🏼" : "👇🏼")}
+            </th>
+          ))}
+        </tr>
       </thead>
       <tbody>
         {sortedData.map((item, idx) => (
