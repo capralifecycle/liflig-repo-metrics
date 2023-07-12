@@ -8,7 +8,9 @@
     "lib": ["dom", "es2017", "ESNext"],
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
-  "include": ["src", "*.js"]
+  "include": ["src", "*.ts", "*.js"],
+  "exclude": ["node_modules"]
 }

@@ -14,7 +14,7 @@
   ],
   "parserOptions": {
     "ecmaVersion": 2018,
-    "project": ["./tsconfig.json", "./e2e/tsconfig.json"]
+    "project": ["./tsconfig.json"]
   },
   "settings": {
     "react": {

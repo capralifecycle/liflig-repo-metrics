@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-key */
-import cn from "classnames"
 import * as React from "react"
 
 export interface Column<T> {
@@ -68,22 +66,27 @@ function Table<T extends object>({ columns, data }: Props<T>) {
   return (
     <table style={{ width: "min(100%, 1500px)" }}>
       <thead>
-        {columns.map((it) => (
-          <th
-            onClick={() => (it.sortOn ? toggleSortState(it.header) : undefined)}
-            className={it.sortOn ? "clickeableHeader" : undefined}
-          >
-            {it.header}
-            {sortState?.column === it.header &&
-              (sortState.sortAsc ? "👆🏼" : "👇🏼")}
-          </th>
-        ))}
+        <tr>
+          {columns.map((it) => (
+            <th
+              key={it.header}
+              onClick={() =>
+                it.sortOn ? toggleSortState(it.header) : undefined
+              }
+              className={it.sortOn ? "clickeableHeader" : undefined}
+            >
+              {it.header}
+              {sortState?.column === it.header &&
+                (sortState.sortAsc ? "👆🏼" : "👇🏼")}
+            </th>
+          ))}
+        </tr>
       </thead>
       <tbody>
-        {sortedData.map((item) => (
-          <tr>
+        {sortedData.map((item, idx) => (
+          <tr key={idx}>
             {columns.map((column) => (
-              <td>{column.render(item)}</td>
+              <td key={column.header}>{column.render(item)}</td>
             ))}
           </tr>
         ))}
