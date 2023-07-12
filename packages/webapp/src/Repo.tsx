@@ -24,7 +24,7 @@ export const repoColumns = (props: {
     {
       header: "Repo",
       sortOn: (data) => {
-        const [_, repoName] = data.repoId.split("/")
+        const [, repoName] = data.repoId.split("/")
         return repoName.toLowerCase()
       },
       render: (data) => {
@@ -256,15 +256,6 @@ export function isVulnerableRepo(repo: WebappMetricDataRepoDatapoint): boolean {
     repo.github.vulnerabilityAlerts.length > 0 ||
     (repo.snyk?.totalIssues ?? 0) > 0
   )
-}
-
-interface Props {
-  data: WebappMetricDataRepo
-  showPrList: boolean
-  showDepList: boolean
-  showVulList: boolean
-  showRenovateDays: boolean
-  showOrgName: boolean
 }
 
 type SnykType = "critical" | "high" | "medium" | "low"

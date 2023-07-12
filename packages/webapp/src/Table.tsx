@@ -1,5 +1,3 @@
-/* eslint-disable react/jsx-key */
-import cn from "classnames"
 import * as React from "react"
 
 export interface Column<T> {
@@ -70,6 +68,7 @@ function Table<T extends object>({ columns, data }: Props<T>) {
       <thead>
         {columns.map((it) => (
           <th
+            key={it.header}
             onClick={() => (it.sortOn ? toggleSortState(it.header) : undefined)}
             className={it.sortOn ? "clickeableHeader" : undefined}
           >
@@ -80,10 +79,10 @@ function Table<T extends object>({ columns, data }: Props<T>) {
         ))}
       </thead>
       <tbody>
-        {sortedData.map((item) => (
-          <tr>
+        {sortedData.map((item, idx) => (
+          <tr key={idx}>
             {columns.map((column) => (
-              <td>{column.render(item)}</td>
+              <td key={column.header}>{column.render(item)}</td>
             ))}
           </tr>
         ))}
