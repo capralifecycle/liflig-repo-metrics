@@ -8679,9 +8679,10 @@ victory-vendor@^36.6.8:
     d3-time "^3.0.0"
     d3-timer "^3.0.1"
 
-vite-plugin-checker@0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/vite-plugin-checker/-/vite-plugin-checker-0.6.0.tgz#f8d09c5f6af427787c657249f7ac775d63cff7e8"
+vite-plugin-checker@0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/vite-plugin-checker/-/vite-plugin-checker-0.6.1.tgz#51a0e654e033b5b9ad6301ae4d0ed0f5886d437c"
+  integrity sha512-4fAiu3W/IwRJuJkkUZlWbLunSzsvijDf0eDN6g/MGh6BUK4SMclOTGbLJCPvdAcMOQvVmm8JyJeYLYd4//8CkA==
   dependencies:
     "@babel/code-frame" "^7.12.13"
     ansi-escapes "^4.3.0"
