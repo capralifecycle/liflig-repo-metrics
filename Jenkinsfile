@@ -26,7 +26,7 @@ buildConfig(
     insideToolImage("node:18") {
       stage("Check repo-metrics") {
         withEnv(['NX_NON_NATIVE_HASHER=true']){
-          sh "npm ci"
+          sh "npm ci --include=optional"
           sh "npm run build"
           sh "npm run lint"
           sh "npm run test"
