@@ -37,7 +37,7 @@
     "url-loader": "4.1.1",
     "vite": "4.4.3",
     "vite-plugin-checker": "0.6.1",
-    "@vitejs/plugin-react": "4.0.2"
+    "@vitejs/plugin-react": "4.0.3"
   },
   "dependencies": {
     "lodash": "4.17.21",
