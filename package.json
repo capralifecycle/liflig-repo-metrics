@@ -9,7 +9,8 @@
     "test": "lerna run test"
   },
   "devDependencies": {
-    "lerna": "7.1.1"
+    "lerna": "7.1.1",
+    "nx": "16.5.1"
   },
   "resolutions": {
     "@types/webpack": "^5.18.0"

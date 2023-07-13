@@ -25,16 +25,16 @@ buildConfig(
 
     insideToolImage("node:18") {
       stage("Check repo-metrics") {
-        sh "yarn install --frozen-lockfile"
-        sh "yarn run build"
-        sh "yarn run lint"
-        sh "yarn run test"
+          sh "npm ci"
+          sh "npm run build"
+          sh "npm run lint"
+          sh "npm run test"
       }
 
       dir("packages/infrastructure") {
         stage("Verify CDK snapshots") {
           sh """
-            yarn run snapshots
+            npm run snapshots
             git status
             git diff --exit-code
           """

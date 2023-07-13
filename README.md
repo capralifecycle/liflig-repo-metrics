@@ -6,11 +6,9 @@ Internal details at https://confluence.capraconsulting.no/x/7_IBC
 
 ## Running locally
 
-(This setup uses Yarn Workspaces instead of NPM. `npm install -g yarn` if needed.)
-
 ```bash
-yarn
-yarn build
+npm ci
+npm run build
 
 # Using existing data.
 cd packages/repo-collector
@@ -19,11 +17,11 @@ aws-vault exec liflig-incubator-admin -- ./fetch-s3-data.sh
 # Serve data locally.
 # (Keep it running in separate session.)
 cd packages/repo-collector
-yarn serve
+npm run serve
 
 # Run the webapp. Will be available at http://localhost:3000
 cd packages/webapp
-yarn start
+npm start
 ```
 
 To collect and aggregate data when doing changes:
@@ -31,11 +29,11 @@ To collect and aggregate data when doing changes:
 ```bash
 # Collect snapshot. See section about keys.
 cd packages/repo-collector
-yarn collect-locally
+npm run collect-locally
 
 # Aggregate snapshots into webapp format.
 cd packages/repo-collector
-yarn aggregate-locally
+npm run aggregate-locally
 ```
 
 ## Tips for local development
@@ -59,10 +57,10 @@ This repo is built and deployed automatically on pushes to master.
 
 ## Tech overview
 
-- Lerna and Yarn Workspaces for multi-package setup
+- Lerna and Npm Workspaces for multi-package setup
 - TypeScript
 - Esbuild for bundling of Lambda functions
-- Webpack for bundling of webapp
+- Vite for bundling of webapp
 - ESLint and Prettier
 - CDK for infrastructure
 - AWS Lambda
