@@ -121,15 +121,6 @@ export class GithubDefinitionProvider implements DefinitionProvider {
         }),
         filterByTag: null,
       })
-
-      this.definitionDataList.push({
-        data: await this.getDefinition({
-          owner: "capraconsulting",
-          path: "resources.yaml",
-          repo: "resources-definition",
-        }),
-        filterByTag: "liflig",
-      })
     }
 
     return this.definitionDataList
