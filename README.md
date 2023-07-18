@@ -2,7 +2,7 @@
 
 https://d2799m9v6pw1zy.cloudfront.net/
 
-Internal details at https://confluence.capraconsulting.no/x/7_IBC
+Internal details at https://liflig.atlassian.net/l/cp/rhke7t35
 
 ## Running locally
 
