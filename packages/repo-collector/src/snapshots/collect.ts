@@ -60,7 +60,7 @@ async function createSnapshots(
     }))
 
   const pullRequests = groupBy(
-    await githubService.getSearchedPullRequestList(),
+    await githubService.getSearchedPullRequestList("capralifecycle"),
     (it) =>
       definition.getRepoId(
         it.baseRepository.owner.login,
