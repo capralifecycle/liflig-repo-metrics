@@ -66,7 +66,8 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
 
   function filterRepoId(repoId: string): boolean {
     return (
-      (state.filterRepoName === "" || repoId.includes(state.filterRepoName)) &&
+      (state.filterRepoName === "" ||
+        repoId.toUpperCase().includes(state.filterRepoName.toUpperCase())) &&
       (!state.showOnlyActionable || actionableRepos.includes(repoId)) &&
       (!state.showOnlyVulnerable || vulnerableRepos.includes(repoId))
     )
