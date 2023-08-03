@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "lerna": "7.1.4",
-    "nx": "16.5.5"
+    "nx": "16.6.0"
   },
   "resolutions": {
     "@types/webpack": "^5.18.0"
