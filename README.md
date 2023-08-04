@@ -57,7 +57,7 @@ This repo is built and deployed automatically on pushes to master.
 
 ## Tech overview
 
-- Lerna and Npm Workspaces for multi-package setup
+- npm workspaces for multi-package setup
 - TypeScript
 - Esbuild for bundling of Lambda functions
 - Vite for bundling of webapp
