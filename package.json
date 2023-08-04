@@ -2,15 +2,11 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "clean": "lerna run clean",
-    "lint": "lerna run lint",
-    "lint:fix": "lerna run lint:fix",
-    "build": "lerna run build",
-    "test": "lerna run test"
-  },
-  "devDependencies": {
-    "lerna": "7.1.4",
-    "nx": "16.6.0"
+    "clean": "npm run clean --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "lint:fix": "npm run lint:fix --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present"
   },
   "resolutions": {
     "@types/webpack": "^5.18.0"
