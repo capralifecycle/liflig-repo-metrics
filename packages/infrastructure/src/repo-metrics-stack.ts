@@ -9,6 +9,7 @@ import * as iam from "aws-cdk-lib/aws-iam"
 import * as lambda from "aws-cdk-lib/aws-lambda"
 import * as s3 from "aws-cdk-lib/aws-s3"
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
+import * as logs from "aws-cdk-lib/aws-logs"
 import * as cdk from "aws-cdk-lib"
 import * as webappDeploy from "@capraconsulting/webapp-deploy-lambda"
 import { AuthLambdas, CloudFrontAuth } from "@henrist/cdk-cloudfront-auth"
@@ -152,6 +153,11 @@ export class RepoMetricsStack extends cdk.Stack {
       alarmAction: corePlatform.slackAlarmAction,
     })
 
+    this.addWarningAlarm({
+      fn: collector,
+      alarmAction: corePlatform.slackWarningsAction,
+    })
+
     const aggregator = new lambda.Function(this, "Aggregator", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.aggregateHandler",
@@ -278,5 +284,38 @@ export class RepoMetricsStack extends cdk.Stack {
 
     alarm.addAlarmAction(props.alarmAction)
     alarm.addOkAction(props.alarmAction)
+  }
+  private addWarningAlarm(props: {
+    fn: lambda.Function
+    alarmAction: cw.IAlarmAction
+    alarmDescription?: string
+  }): void {
+    const warningMetricFilter = props.fn.logGroup.addMetricFilter(
+      "WarningMetricFilter",
+      {
+        filterPattern: logs.FilterPattern.literal("WARN"),
+        metricName: "Warnings",
+        metricNamespace: `stack/${cdk.Stack.of(this).stackName}/${
+          props.fn.functionName
+        }/Warnings`,
+      },
+    )
+
+    const warningAlarm = warningMetricFilter
+      .metric()
+      .with({
+        statistic: "Sum",
+        period: cdk.Duration.seconds(60),
+      })
+      .createAlarm(this, "CollectorWarningAlarm", {
+        alarmDescription:
+          props.alarmDescription ??
+          `${props.fn.functionName} logged a warning.`,
+        evaluationPeriods: 1,
+        threshold: 1,
+        treatMissingData: cw.TreatMissingData.NOT_BREACHING,
+      })
+
+    warningAlarm.addAlarmAction(props.alarmAction)
   }
 }

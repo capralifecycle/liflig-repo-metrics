@@ -2203,6 +2203,64 @@
         "aws:asset:property": "Code"
       }
     },
+    "CollectorLogRetentionF9D3AFBE": {
+      "Type": "Custom::LogRetention",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn"
+          ]
+        },
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "Collector9EBA7CF5"
+              }
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Collector/LogRetention/Resource"
+      }
+    },
+    "CollectorCollectorLogGroupWarningMetricFilter3DCCB631": {
+      "Type": "AWS::Logs::MetricFilter",
+      "Properties": {
+        "FilterPattern": "WARN",
+        "LogGroupName": {
+          "Fn::GetAtt": [
+            "CollectorLogRetentionF9D3AFBE",
+            "LogGroupName"
+          ]
+        },
+        "MetricTransformations": [
+          {
+            "MetricName": "Warnings",
+            "MetricNamespace": {
+              "Fn::Join": [
+                "",
+                [
+                  "stack/incub-repo-metrics-main/",
+                  {
+                    "Ref": "Collector9EBA7CF5"
+                  },
+                  "/Warnings"
+                ]
+              ]
+            },
+            "MetricValue": "1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Collector/Collector-LogGroup/WarningMetricFilter/Resource"
+      }
+    },
     "CollectorScheduleDC767626": {
       "Type": "AWS::Events::Rule",
       "Properties": {
@@ -2404,6 +2462,165 @@
       },
       "Metadata": {
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorNotSuccessAlarm/Resource"
+      }
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource"
+      }
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:PutRetentionPolicy",
+                "logs:DeleteRetentionPolicy"
+              ],
+              "Effect": "Allow",
+              "Resource": "*"
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "Roles": [
+          {
+            "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource"
+      }
+    },
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Handler": "index.handler",
+        "Runtime": "nodejs16.x",
+        "Code": {
+          "S3Bucket": "cdk-liflig-assets-001112238813-eu-west-1",
+          "S3Key": "snapshot-value.zip"
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+            "Arn"
+          ]
+        },
+        "Tags": [
+          {
+            "Key": "Project",
+            "Value": "repo-metrics"
+          },
+          {
+            "Key": "SourceRepo",
+            "Value": "github/capralifecycle/liflig-repo-metrics"
+          },
+          {
+            "Key": "StackName",
+            "Value": "incub-repo-metrics-main"
+          }
+        ]
+      },
+      "DependsOn": [
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+        "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource",
+        "aws:asset:path": "asset.snapshot-value",
+        "aws:asset:is-bundled": false,
+        "aws:asset:property": "Code"
+      }
+    },
+    "CollectorWarningAlarmA0B4423A": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "EvaluationPeriods": 1,
+        "AlarmActions": [
+          {
+            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackwarningstopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "AlarmDescription": {
+          "Fn::Join": [
+            "",
+            [
+              {
+                "Ref": "Collector9EBA7CF5"
+              },
+              " logged a warning."
+            ]
+          ]
+        },
+        "MetricName": "Warnings",
+        "Namespace": {
+          "Fn::Join": [
+            "",
+            [
+              "stack/incub-repo-metrics-main/",
+              {
+                "Ref": "Collector9EBA7CF5"
+              },
+              "/Warnings"
+            ]
+          ]
+        },
+        "Period": 60,
+        "Statistic": "Sum",
+        "Threshold": 1,
+        "TreatMissingData": "notBreaching"
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorWarningAlarm/Resource"
       }
     },
     "AggregatorServiceRole50457C61": {

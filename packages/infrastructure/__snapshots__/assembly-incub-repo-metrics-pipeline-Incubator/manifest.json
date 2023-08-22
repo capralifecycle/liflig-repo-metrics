@@ -586,6 +586,18 @@
             "data": "Collector9EBA7CF5"
           }
         ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Collector/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CollectorLogRetentionF9D3AFBE"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Collector/Collector-LogGroup/WarningMetricFilter/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CollectorCollectorLogGroupWarningMetricFilter3DCCB631"
+          }
+        ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorSchedule/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -620,6 +632,30 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "CollectorNotSuccessAlarm73851829"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CollectorWarningAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CollectorWarningAlarmA0B4423A"
           }
         ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Aggregator/ServiceRole/Resource": [
