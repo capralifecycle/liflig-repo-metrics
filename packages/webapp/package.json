@@ -36,7 +36,7 @@
     "typescript": "5.1.6",
     "url-loader": "4.1.1",
     "vite": "4.4.9",
-    "vite-plugin-checker": "0.6.1",
+    "vite-plugin-checker": "0.6.2",
     "@vitejs/plugin-react": "4.0.4"
   },
   "dependencies": {
