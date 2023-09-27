@@ -1585,7 +1585,9 @@
           "detail": {
             "state": [
               "SUCCEEDED",
-              "FAILED"
+              "FAILED",
+              "STARTED",
+              "SUPERSEDED"
             ]
           },
           "source": [
@@ -3141,6 +3143,40 @@
                   ]
                 ]
               }
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*"
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::incub-common-build-artifacts-001112238813-eu-west-1"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":s3:::incub-common-build-artifacts-001112238813-eu-west-1/pipelines/incub-repo-metrics/trigger"
+                    ]
+                  ]
+                }
+              ]
             }
           ],
           "Version": "2012-10-17"
@@ -3179,7 +3215,7 @@
               ]
             },
             "SLACK_CHANNEL": "#cals-dev-info",
-            "ALWAYS_SHOW_SUCCEEDED": "false"
+            "NOTIFICATION_LEVEL": "WARN"
           }
         },
         "Handler": "index.handler",
@@ -3189,7 +3225,7 @@
             "Arn"
           ]
         },
-        "Runtime": "python3.8",
+        "Runtime": "python3.11",
         "Tags": [
           {
             "Key": "Project",
