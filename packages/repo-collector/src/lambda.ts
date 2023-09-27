@@ -96,9 +96,8 @@ export const aggregateHandler: Handler = async () => {
     cfDistributionId,
   )
 
-  const snapshots = await retrieveSnapshotsForWebappAggregation(
-    snapshotsRepository,
-  )
+  const snapshots =
+    await retrieveSnapshotsForWebappAggregation(snapshotsRepository)
   const webappFriendly = createWebappFriendlyFormat(snapshots)
   await webappDataRepository.store(webappFriendly)
 }

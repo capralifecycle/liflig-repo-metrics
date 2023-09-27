@@ -10,9 +10,8 @@ async function main() {
   const snapshotsRepository = new LocalSnapshotsRepository()
   const webdataRepository = new LocalWebappDataRepository()
 
-  const snapshots = await retrieveSnapshotsForWebappAggregation(
-    snapshotsRepository,
-  )
+  const snapshots =
+    await retrieveSnapshotsForWebappAggregation(snapshotsRepository)
   const webappFriendly = createWebappFriendlyFormat(snapshots)
   await webdataRepository.store(webappFriendly)
 }
