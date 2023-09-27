@@ -13,6 +13,7 @@
       "environment": "aws://001112238813/us-east-1",
       "properties": {
         "templateFile": "incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.template.json",
+        "terminationProtection": false,
         "tags": {
           "Project": "repo-metrics",
           "SourceRepo": "github/capralifecycle/liflig-repo-metrics",
@@ -229,6 +230,7 @@
       "environment": "aws://001112238813/eu-west-1",
       "properties": {
         "templateFile": "incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.template.json",
+        "terminationProtection": false,
         "tags": {
           "Project": "repo-metrics",
           "SourceRepo": "github/capralifecycle/liflig-repo-metrics",
