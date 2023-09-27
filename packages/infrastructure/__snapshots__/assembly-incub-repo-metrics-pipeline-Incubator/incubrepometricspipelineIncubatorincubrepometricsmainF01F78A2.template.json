@@ -2544,6 +2544,7 @@
       "Properties": {
         "Handler": "index.handler",
         "Runtime": "nodejs18.x",
+        "Timeout": 900,
         "Code": {
           "S3Bucket": "cdk-liflig-assets-001112238813-eu-west-1",
           "S3Key": "snapshot-value.zip"
