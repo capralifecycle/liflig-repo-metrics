@@ -186,6 +186,7 @@ export class RepoMetricsStack extends cdk.Stack {
       metricNamespace: `stack/${cdk.Stack.of(this).stackName}/${
         aggregator.functionName
       }/`,
+      metricValue: "$max_memory_used_value",
     })
 
     dataBucket.grantReadWrite(aggregator)

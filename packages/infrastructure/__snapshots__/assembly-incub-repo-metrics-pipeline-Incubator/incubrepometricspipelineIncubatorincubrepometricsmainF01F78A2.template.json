@@ -2891,7 +2891,7 @@
                 ]
               ]
             },
-            "MetricValue": "1"
+            "MetricValue": "$max_memory_used_value"
           }
         ]
       },
