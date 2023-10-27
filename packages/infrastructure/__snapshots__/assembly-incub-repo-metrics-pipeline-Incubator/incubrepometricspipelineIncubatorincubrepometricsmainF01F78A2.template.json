@@ -2651,6 +2651,18 @@
                 ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
               ]
             ]
+          },
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy"
+              ]
+            ]
           }
         ],
         "Tags": [
@@ -2791,6 +2803,9 @@
           }
         },
         "Handler": "index.aggregateHandler",
+        "Layers": [
+          "arn:aws:lambda:eu-west-1:580247275435:layer:LambdaInsightsExtension:38"
+        ],
         "MemorySize": 2560,
         "Role": {
           "Fn::GetAtt": [
