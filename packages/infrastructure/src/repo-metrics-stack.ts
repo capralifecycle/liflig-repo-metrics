@@ -178,6 +178,16 @@ export class RepoMetricsStack extends cdk.Stack {
       ],
     })
 
+    aggregator.logGroup.addMetricFilter("AggregatorMemoryUseFilter", {
+      filterPattern: logs.FilterPattern.literal(
+        '{ $.label="Max Memory Used:" }',
+      ),
+      metricName: "MemoryUse",
+      metricNamespace: `stack/${cdk.Stack.of(this).stackName}/${
+        aggregator.functionName
+      }/`,
+    })
+
     dataBucket.grantReadWrite(aggregator)
     webappDataBucket.grantReadWrite(aggregator)
 
