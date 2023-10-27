@@ -678,6 +678,18 @@
             "data": "Aggregator84F1B3DF"
           }
         ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Aggregator/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AggregatorLogRetentionE23DFF88"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Aggregator/Aggregator-LogGroup/AggregatorMemoryUseFilter/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AggregatorAggregatorLogGroupAggregatorMemoryUseFilter8A44AA8F"
+          }
+        ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/AggregatorSchedule/Resource": [
           {
             "type": "aws:cdk:logicalId",

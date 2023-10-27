@@ -2841,6 +2841,64 @@
         "aws:asset:property": "Code"
       }
     },
+    "AggregatorLogRetentionE23DFF88": {
+      "Type": "Custom::LogRetention",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn"
+          ]
+        },
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "Aggregator84F1B3DF"
+              }
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Aggregator/LogRetention/Resource"
+      }
+    },
+    "AggregatorAggregatorLogGroupAggregatorMemoryUseFilter8A44AA8F": {
+      "Type": "AWS::Logs::MetricFilter",
+      "Properties": {
+        "FilterPattern": "{ $.label=\"Max Memory Used:\" }",
+        "LogGroupName": {
+          "Fn::GetAtt": [
+            "AggregatorLogRetentionE23DFF88",
+            "LogGroupName"
+          ]
+        },
+        "MetricTransformations": [
+          {
+            "MetricName": "MemoryUse",
+            "MetricNamespace": {
+              "Fn::Join": [
+                "",
+                [
+                  "stack/incub-repo-metrics-main/",
+                  {
+                    "Ref": "Aggregator84F1B3DF"
+                  },
+                  "/"
+                ]
+              ]
+            },
+            "MetricValue": "1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Aggregator/Aggregator-LogGroup/AggregatorMemoryUseFilter/Resource"
+      }
+    },
     "AggregatorSchedule80C87EEE": {
       "Type": "AWS::Events::Rule",
       "Properties": {
