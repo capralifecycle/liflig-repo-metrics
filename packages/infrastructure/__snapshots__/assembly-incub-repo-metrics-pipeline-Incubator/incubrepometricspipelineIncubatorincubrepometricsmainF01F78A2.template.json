@@ -2869,7 +2869,7 @@
     "AggregatorAggregatorLogGroupAggregatorMemoryUseFilter8A44AA8F": {
       "Type": "AWS::Logs::MetricFilter",
       "Properties": {
-        "FilterPattern": "{ $.label=\"Max Memory Used:\" }",
+        "FilterPattern": "[ report_label=\"REPORT\", ..., label=\"Used:\", max_memory_used_value, unit=\"MB\" ]",
         "LogGroupName": {
           "Fn::GetAtt": [
             "AggregatorLogRetentionE23DFF88",
