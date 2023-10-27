@@ -2791,7 +2791,7 @@
           }
         },
         "Handler": "index.aggregateHandler",
-        "MemorySize": 2048,
+        "MemorySize": 2560,
         "Role": {
           "Fn::GetAtt": [
             "AggregatorServiceRole50457C61",

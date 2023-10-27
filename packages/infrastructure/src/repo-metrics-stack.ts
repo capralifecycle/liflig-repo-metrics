@@ -163,7 +163,7 @@ export class RepoMetricsStack extends cdk.Stack {
       handler: "index.aggregateHandler",
       runtime: lambda.Runtime.NODEJS_16_X,
       timeout: cdk.Duration.minutes(5),
-      memorySize: 2048,
+      memorySize: 2560,
       environment: {
         DATA_BUCKET_NAME: dataBucket.bucketName,
         WEBAPP_DATA_BUCKET_NAME: webappDataBucket.bucketName,
