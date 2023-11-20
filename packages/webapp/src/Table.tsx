@@ -29,12 +29,12 @@ function compareValues<T>(
       valA == null
         ? -1
         : valB == null
-        ? 1
-        : valA > valB
-        ? 1
-        : valA < valB
-        ? -1
-        : 0
+          ? 1
+          : valA > valB
+            ? 1
+            : valA < valB
+              ? -1
+              : 0
     return sortAsc ? result : -result
   }
 }
