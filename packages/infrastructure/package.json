@@ -8,7 +8,7 @@
     "snapshots": "rm -rf cdk.out __snapshots__ && IS_SNAPSHOT=true cdk synth && cdk-create-snapshots"
   },
   "devDependencies": {
-    "@capraconsulting/cals-cli": "3.2.11",
+    "@capraconsulting/cals-cli": "3.3.0",
     "@types/node": "20.9.4",
     "@typescript-eslint/eslint-plugin": "6.12.0",
     "@typescript-eslint/parser": "6.12.0",
