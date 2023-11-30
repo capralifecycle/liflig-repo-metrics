@@ -161,16 +161,16 @@
             "data": "PipelineCodePipelineEventsRoleDefaultPolicy87D65CBE"
           }
         ],
-        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Event/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/EventSlack/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "PipelineCodePipelineEvent5A7BDD21"
+            "data": "PipelineCodePipelineEventSlackD1EB6741"
           }
         ],
-        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/Event/AllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5": [
+        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/EventSlack/AllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "PipelineCodePipelineEventAllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5D84D81CD"
+            "data": "PipelineCodePipelineEventSlackAllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5888135BC"
           }
         ],
         "/incub-repo-metrics-pipeline/Pipeline/PipelineTrigger/Resource": [
@@ -299,22 +299,22 @@
             "data": "PipelineCdkPipelineAssetsFileAsset9E9701DDD"
           }
         ],
-        "/incub-repo-metrics-pipeline/SingletonLambda55954fc8182e497ebd607af1496dc222/ServiceRole/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/Slack/Function/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRole0C7C44A2"
+            "data": "PipelineSlackFunctionServiceRole69E69618"
           }
         ],
-        "/incub-repo-metrics-pipeline/SingletonLambda55954fc8182e497ebd607af1496dc222/ServiceRole/DefaultPolicy/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/Slack/Function/ServiceRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRoleDefaultPolicy537F8C79"
+            "data": "PipelineSlackFunctionServiceRoleDefaultPolicyB1E5F6A8"
           }
         ],
-        "/incub-repo-metrics-pipeline/SingletonLambda55954fc8182e497ebd607af1496dc222/Resource": [
+        "/incub-repo-metrics-pipeline/Pipeline/Slack/Function/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "SingletonLambda55954fc8182e497ebd607af1496dc22235779232"
+            "data": "PipelineSlackFunction84B58101"
           }
         ],
         "/incub-repo-metrics-pipeline/CDKMetadata/Default": [
