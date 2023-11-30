@@ -3171,7 +3171,8 @@
                   ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/reporter-slack-webhook-url:SecretString:url::}}"
                 ]
               ]
-            }
+            },
+            "SERIAL": "0"
           }
         },
         "Handler": "index.reportHandler",
