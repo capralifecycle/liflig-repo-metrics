@@ -29,6 +29,7 @@ export class PipelineStack extends cdk.Stack {
         "WebhookUrl",
         "/incub/repo-metrics/slack-pipeline-webhook-url",
       ),
+      notificationLevel: "INFO",
     })
 
     pipeline.cdkPipeline.addStage(
