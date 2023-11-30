@@ -1,5 +1,11 @@
 import { loadSecrets } from "@capraconsulting/cals-cli"
 
+const slackPipelineNotificationWebhookUrl: loadSecrets.Secret = {
+  name: "slack-pipeline-webhook-url",
+  description: "Incoming webhook URL for pipeline execution notifications",
+  type: "string",
+}
+
 const githubTokenSecret: loadSecrets.Secret = {
   name: "github-token",
   description: "GitHub token",
@@ -44,17 +50,6 @@ const reporterSlackWebhookUrlSecret: loadSecrets.Secret = {
   ],
 }
 
-const cicdSlackWebhookUrlSecret: loadSecrets.Secret = {
-  name: "cicd-slack-webhook-url",
-  description: "Slack Webhook URL for CICD purpose",
-  type: "json",
-  fields: [
-    {
-      key: "url",
-    },
-  ],
-}
-
 loadSecrets.loadSecretsCli({
   secretGroups: [
     {
@@ -66,7 +61,7 @@ loadSecrets.loadSecretsCli({
         githubTokenSecret,
         snykTokenSecret,
         reporterSlackWebhookUrlSecret,
-        cicdSlackWebhookUrlSecret,
+        slackPipelineNotificationWebhookUrl,
         sonarCloudTokenSecret,
       ],
     },

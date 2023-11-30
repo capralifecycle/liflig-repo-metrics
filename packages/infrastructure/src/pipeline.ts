@@ -24,14 +24,11 @@ export class PipelineStack extends cdk.Stack {
     })
 
     pipeline.addSlackNotification({
-      slackWebhookUrl: sm.Secret.fromSecretNameV2(
+      slackWebhookUrlSecret: sm.Secret.fromSecretNameV2(
         this,
         "WebhookUrl",
-        "/incub/repo-metrics/cicd-slack-webhook-url",
-      )
-        .secretValueFromJson("url")
-        .toString(),
-      slackChannel: "#cals-dev-info",
+        "/incub/repo-metrics/slack-pipeline-webhook-url",
+      ),
     })
 
     pipeline.cdkPipeline.addStage(

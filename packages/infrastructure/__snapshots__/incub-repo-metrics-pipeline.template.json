@@ -1578,7 +1578,7 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/EventsRole/DefaultPolicy/Resource"
       }
     },
-    "PipelineCodePipelineEvent5A7BDD21": {
+    "PipelineCodePipelineEventSlackD1EB6741": {
       "Type": "AWS::Events::Rule",
       "Properties": {
         "EventPattern": {
@@ -1619,7 +1619,7 @@
           {
             "Arn": {
               "Fn::GetAtt": [
-                "SingletonLambda55954fc8182e497ebd607af1496dc22235779232",
+                "PipelineSlackFunction84B58101",
                 "Arn"
               ]
             },
@@ -1628,29 +1628,29 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Event/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/EventSlack/Resource"
       }
     },
-    "PipelineCodePipelineEventAllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5D84D81CD": {
+    "PipelineCodePipelineEventSlackAllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5888135BC": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
           "Fn::GetAtt": [
-            "SingletonLambda55954fc8182e497ebd607af1496dc22235779232",
+            "PipelineSlackFunction84B58101",
             "Arn"
           ]
         },
         "Principal": "events.amazonaws.com",
         "SourceArn": {
           "Fn::GetAtt": [
-            "PipelineCodePipelineEvent5A7BDD21",
+            "PipelineCodePipelineEventSlackD1EB6741",
             "Arn"
           ]
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/Event/AllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CodePipeline/EventSlack/AllowEventRuleincubrepometricspipelinePipelineSlackFunctionC440EDC5"
       }
     },
     "PipelinePipelineTriggerDBF83560": {
@@ -3069,7 +3069,7 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset9/Resource"
       }
     },
-    "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRole0C7C44A2": {
+    "PipelineSlackFunctionServiceRole69E69618": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -3114,10 +3114,10 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambda55954fc8182e497ebd607af1496dc222/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/Slack/Function/ServiceRole/Resource"
       }
     },
-    "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRoleDefaultPolicy537F8C79": {
+    "PipelineSlackFunctionServiceRoleDefaultPolicyB1E5F6A8": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -3140,6 +3140,25 @@
                     {
                       "Ref": "PipelineCodePipeline4FC0E9B7"
                     }
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/slack-pipeline-webhook-url-??????"
                   ]
                 ]
               }
@@ -3181,18 +3200,18 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRoleDefaultPolicy537F8C79",
+        "PolicyName": "PipelineSlackFunctionServiceRoleDefaultPolicyB1E5F6A8",
         "Roles": [
           {
-            "Ref": "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRole0C7C44A2"
+            "Ref": "PipelineSlackFunctionServiceRole69E69618"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambda55954fc8182e497ebd607af1496dc222/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/Slack/Function/ServiceRole/DefaultPolicy/Resource"
       }
     },
-    "SingletonLambda55954fc8182e497ebd607af1496dc22235779232": {
+    "PipelineSlackFunction84B58101": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
@@ -3202,26 +3221,14 @@
         "Description": "Handle CodePipeline pipeline state change and report to Slack",
         "Environment": {
           "Variables": {
-            "SLACK_URL": {
-              "Fn::Join": [
-                "",
-                [
-                  "{{resolve:secretsmanager:arn:",
-                  {
-                    "Ref": "AWS::Partition"
-                  },
-                  ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/cicd-slack-webhook-url:SecretString:url::}}"
-                ]
-              ]
-            },
-            "SLACK_CHANNEL": "#cals-dev-info",
+            "SLACK_URL_SECRET_NAME": "/incub/repo-metrics/slack-pipeline-webhook-url",
             "NOTIFICATION_LEVEL": "WARN"
           }
         },
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
-            "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRole0C7C44A2",
+            "PipelineSlackFunctionServiceRole69E69618",
             "Arn"
           ]
         },
@@ -3243,11 +3250,11 @@
         "Timeout": 10
       },
       "DependsOn": [
-        "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRoleDefaultPolicy537F8C79",
-        "SingletonLambda55954fc8182e497ebd607af1496dc222ServiceRole0C7C44A2"
+        "PipelineSlackFunctionServiceRoleDefaultPolicyB1E5F6A8",
+        "PipelineSlackFunctionServiceRole69E69618"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/SingletonLambda55954fc8182e497ebd607af1496dc222/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Pipeline/Slack/Function/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:is-bundled": false,
         "aws:asset:property": "Code"
