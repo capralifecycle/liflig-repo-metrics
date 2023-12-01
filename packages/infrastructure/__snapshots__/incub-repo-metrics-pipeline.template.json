@@ -3222,7 +3222,7 @@
         "Environment": {
           "Variables": {
             "SLACK_URL_SECRET_NAME": "/incub/repo-metrics/slack-pipeline-webhook-url",
-            "NOTIFICATION_LEVEL": "INFO"
+            "NOTIFICATION_LEVEL": "WARN"
           }
         },
         "Handler": "index.handler",
