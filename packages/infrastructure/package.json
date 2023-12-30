@@ -12,7 +12,7 @@
     "@types/node": "20.10.5",
     "@typescript-eslint/eslint-plugin": "6.16.0",
     "@typescript-eslint/parser": "6.16.0",
-    "aws-cdk": "2.116.1",
+    "aws-cdk": "2.117.0",
     "eslint": "8.56.0",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-deprecation": "2.0.0",
@@ -25,7 +25,7 @@
     "@capraconsulting/webapp-deploy-lambda": "2.1.5",
     "@henrist/cdk-cloudfront-auth": "2.1.44",
     "@liflig/cdk": "2.18.9",
-    "aws-cdk-lib": "2.116.1",
+    "aws-cdk-lib": "2.117.0",
     "constructs": "10.3.0"
   }
 }
