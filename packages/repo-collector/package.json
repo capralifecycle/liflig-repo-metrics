@@ -39,7 +39,7 @@
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.14.202",
     "axios": "1.6.7",
-    "date-holidays": "3.23.7",
+    "date-holidays": "3.23.8",
     "get-stream": "6.0.1",
     "lodash": "4.17.21"
   }
