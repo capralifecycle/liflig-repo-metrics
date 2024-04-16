@@ -15,7 +15,7 @@
     "@types/jest": "29.5.12",
     "@types/jest-each": "24.3.0",
     "@types/lodash": "4.17.0",
-    "@types/react": "18.2.77",
+    "@types/react": "18.2.78",
     "@types/react-dom": "18.2.25",
     "@types/recharts": "1.8.29",
     "@typescript-eslint/eslint-plugin": "6.21.0",
