@@ -37,7 +37,7 @@
     "@capraconsulting/cals-cli": "3.4.15",
     "@js-temporal/polyfill": "0.4.4",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
-    "@types/lodash": "4.17.1",
+    "@types/lodash": "4.17.3",
     "axios": "1.6.8",
     "date-holidays": "3.23.12",
     "get-stream": "6.0.1",
