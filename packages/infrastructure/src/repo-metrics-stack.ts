@@ -285,7 +285,6 @@ export class RepoMetricsStack extends cdk.Stack {
       treatMissingData: cw.TreatMissingData.BREACHING,
       comparisonOperator: cw.ComparisonOperator.LESS_THAN_OR_EQUAL_TO_THRESHOLD,
     })
-
     alarm.addAlarmAction(props.alarmAction)
     alarm.addOkAction(props.alarmAction)
   }
