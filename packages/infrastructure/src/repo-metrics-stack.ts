@@ -114,7 +114,7 @@ export class RepoMetricsStack extends cdk.Stack {
     const collector = new lambda.Function(this, "Collector", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.collectHandler",
-      runtime: lambda.Runtime.NODEJS_16_X,
+      runtime: lambda.Runtime.NODEJS_18_X,
       timeout: cdk.Duration.minutes(5),
       memorySize: 256,
       environment: {
@@ -161,7 +161,7 @@ export class RepoMetricsStack extends cdk.Stack {
     const aggregator = new lambda.Function(this, "Aggregator", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.aggregateHandler",
-      runtime: lambda.Runtime.NODEJS_16_X,
+      runtime: lambda.Runtime.NODEJS_18_X,
       timeout: cdk.Duration.minutes(5),
       insightsVersion: lambda.LambdaInsightsVersion.VERSION_1_0_229_0,
       memorySize: 2560,
@@ -204,7 +204,7 @@ export class RepoMetricsStack extends cdk.Stack {
     const reporter = new lambda.Function(this, "Reporter", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.reportHandler",
-      runtime: lambda.Runtime.NODEJS_16_X,
+      runtime: lambda.Runtime.NODEJS_18_X,
       timeout: cdk.Duration.minutes(5),
       memorySize: 1024,
       environment: {

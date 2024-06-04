@@ -2175,7 +2175,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Tags": [
           {
             "Key": "Project",
@@ -2813,7 +2813,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Tags": [
           {
             "Key": "Project",
@@ -3183,7 +3183,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Tags": [
           {
             "Key": "Project",
