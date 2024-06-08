@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-cloudfront": "3.590.0",
-    "@aws-sdk/client-s3": "3.590.0",
+    "@aws-sdk/client-s3": "3.591.0",
     "@aws-sdk/client-secrets-manager": "3.590.0",
     "@types/aws-lambda": "8.10.138",
     "@types/node": "20.14.2",
