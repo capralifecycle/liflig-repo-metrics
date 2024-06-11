@@ -217,12 +217,12 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/WebappDataBucket/Policy/Resource"
       }
     },
-    "AuthNonceSigningSecretC47F85D8": {
+    "CloudFrontAuthNonceSigningSecret87132FA1": {
       "Type": "AWS::CloudFormation::CustomResource",
       "Properties": {
         "ServiceToken": {
           "Fn::GetAtt": [
-            "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventD98C7326",
+            "lifliginfracloudfrontauthgeneratesecretproviderProviderframeworkonEvent629CC1D7",
             "Arn"
           ]
         },
@@ -231,10 +231,10 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/NonceSigningSecret/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CloudFrontAuth/NonceSigningSecret/Resource/Default"
       }
     },
-    "AuthClientSecret768E9C19": {
+    "CloudFrontAuthClientSecret24A8B19D": {
       "Type": "Custom::AWS",
       "Properties": {
         "ServiceToken": {
@@ -278,15 +278,15 @@
         "InstallLatestAwsSdk": false
       },
       "DependsOn": [
-        "AuthClientSecretCustomResourcePolicyA4C1D5EC"
+        "CloudFrontAuthClientSecretCustomResourcePolicy0C804D38"
       ],
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientSecret/Resource/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CloudFrontAuth/ClientSecret/Resource/Resource/Default"
       }
     },
-    "AuthClientSecretCustomResourcePolicyA4C1D5EC": {
+    "CloudFrontAuthClientSecretCustomResourcePolicy0C804D38": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -310,7 +310,7 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "AuthClientSecretCustomResourcePolicyA4C1D5EC",
+        "PolicyName": "CloudFrontAuthClientSecretCustomResourcePolicy0C804D38",
         "Roles": [
           {
             "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
@@ -318,15 +318,15 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientSecret/Resource/CustomResourcePolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CloudFrontAuth/ClientSecret/Resource/CustomResourcePolicy/Resource"
       }
     },
-    "AuthCheckAuthFnC12AAE69": {
+    "CloudFrontAuthCheckAuthFnF82A663E": {
       "Type": "AWS::CloudFormation::CustomResource",
       "Properties": {
         "ServiceToken": {
           "Fn::GetAtt": [
-            "henristlambdaconfigproviderProviderframeworkonEventB2FC78D4",
+            "lifliginfralambdaconfigproviderProviderframeworkonEvent1D60D68A",
             "Arn"
           ]
         },
@@ -350,7 +350,7 @@
           },
           "clientSecret": {
             "Fn::GetAtt": [
-              "AuthClientSecret768E9C19",
+              "CloudFrontAuthClientSecret24A8B19D",
               "UserPoolClient.ClientSecret"
             ]
           },
@@ -377,7 +377,7 @@
           },
           "nonceSigningSecret": {
             "Fn::GetAtt": [
-              "AuthNonceSigningSecretC47F85D8",
+              "CloudFrontAuthNonceSigningSecret87132FA1",
               "Value"
             ]
           }
@@ -387,15 +387,15 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/CheckAuthFn/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CloudFrontAuth/CheckAuthFn/Resource/Default"
       }
     },
-    "AuthHttpHeadersFn7D541668": {
+    "CloudFrontAuthHttpHeadersFn7FA81DC9": {
       "Type": "AWS::CloudFormation::CustomResource",
       "Properties": {
         "ServiceToken": {
           "Fn::GetAtt": [
-            "henristlambdaconfigproviderProviderframeworkonEventB2FC78D4",
+            "lifliginfralambdaconfigproviderProviderframeworkonEvent1D60D68A",
             "Arn"
           ]
         },
@@ -419,7 +419,7 @@
           },
           "clientSecret": {
             "Fn::GetAtt": [
-              "AuthClientSecret768E9C19",
+              "CloudFrontAuthClientSecret24A8B19D",
               "UserPoolClient.ClientSecret"
             ]
           },
@@ -446,7 +446,7 @@
           },
           "nonceSigningSecret": {
             "Fn::GetAtt": [
-              "AuthNonceSigningSecretC47F85D8",
+              "CloudFrontAuthNonceSigningSecret87132FA1",
               "Value"
             ]
           }
@@ -456,15 +456,15 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/HttpHeadersFn/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CloudFrontAuth/HttpHeadersFn/Resource/Default"
       }
     },
-    "AuthParseAuthFn975D8094": {
+    "CloudFrontAuthParseAuthFn462E5263": {
       "Type": "AWS::CloudFormation::CustomResource",
       "Properties": {
         "ServiceToken": {
           "Fn::GetAtt": [
-            "henristlambdaconfigproviderProviderframeworkonEventB2FC78D4",
+            "lifliginfralambdaconfigproviderProviderframeworkonEvent1D60D68A",
             "Arn"
           ]
         },
@@ -488,7 +488,7 @@
           },
           "clientSecret": {
             "Fn::GetAtt": [
-              "AuthClientSecret768E9C19",
+              "CloudFrontAuthClientSecret24A8B19D",
               "UserPoolClient.ClientSecret"
             ]
           },
@@ -515,7 +515,7 @@
           },
           "nonceSigningSecret": {
             "Fn::GetAtt": [
-              "AuthNonceSigningSecretC47F85D8",
+              "CloudFrontAuthNonceSigningSecret87132FA1",
               "Value"
             ]
           }
@@ -525,15 +525,15 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ParseAuthFn/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CloudFrontAuth/ParseAuthFn/Resource/Default"
       }
     },
-    "AuthRefreshAuthFnEA5CBBAE": {
+    "CloudFrontAuthRefreshAuthFnF048EC20": {
       "Type": "AWS::CloudFormation::CustomResource",
       "Properties": {
         "ServiceToken": {
           "Fn::GetAtt": [
-            "henristlambdaconfigproviderProviderframeworkonEventB2FC78D4",
+            "lifliginfralambdaconfigproviderProviderframeworkonEvent1D60D68A",
             "Arn"
           ]
         },
@@ -557,7 +557,7 @@
           },
           "clientSecret": {
             "Fn::GetAtt": [
-              "AuthClientSecret768E9C19",
+              "CloudFrontAuthClientSecret24A8B19D",
               "UserPoolClient.ClientSecret"
             ]
           },
@@ -584,7 +584,7 @@
           },
           "nonceSigningSecret": {
             "Fn::GetAtt": [
-              "AuthNonceSigningSecretC47F85D8",
+              "CloudFrontAuthNonceSigningSecret87132FA1",
               "Value"
             ]
           }
@@ -594,15 +594,15 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/RefreshAuthFn/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CloudFrontAuth/RefreshAuthFn/Resource/Default"
       }
     },
-    "AuthSignOutFnD060B75E": {
+    "CloudFrontAuthSignOutFn7E430F35": {
       "Type": "AWS::CloudFormation::CustomResource",
       "Properties": {
         "ServiceToken": {
           "Fn::GetAtt": [
-            "henristlambdaconfigproviderProviderframeworkonEventB2FC78D4",
+            "lifliginfralambdaconfigproviderProviderframeworkonEvent1D60D68A",
             "Arn"
           ]
         },
@@ -626,7 +626,7 @@
           },
           "clientSecret": {
             "Fn::GetAtt": [
-              "AuthClientSecret768E9C19",
+              "CloudFrontAuthClientSecret24A8B19D",
               "UserPoolClient.ClientSecret"
             ]
           },
@@ -653,7 +653,7 @@
           },
           "nonceSigningSecret": {
             "Fn::GetAtt": [
-              "AuthNonceSigningSecretC47F85D8",
+              "CloudFrontAuthNonceSigningSecret87132FA1",
               "Value"
             ]
           }
@@ -663,10 +663,10 @@
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/SignOutFn/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CloudFrontAuth/SignOutFn/Resource/Default"
       }
     },
-    "AuthClientUpdate3823E358": {
+    "CloudFrontAuthClientUpdateE28748C6": {
       "Type": "Custom::AWS",
       "Properties": {
         "ServiceToken": {
@@ -738,15 +738,15 @@
         "InstallLatestAwsSdk": false
       },
       "DependsOn": [
-        "AuthClientUpdateCustomResourcePolicyF8E9AEC5"
+        "CloudFrontAuthClientUpdateCustomResourcePolicyD9204C32"
       ],
       "UpdateReplacePolicy": "Delete",
       "DeletionPolicy": "Delete",
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientUpdate/Resource/Resource/Default"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CloudFrontAuth/ClientUpdate/Resource/Resource/Default"
       }
     },
-    "AuthClientUpdateCustomResourcePolicyF8E9AEC5": {
+    "CloudFrontAuthClientUpdateCustomResourcePolicyD9204C32": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -770,7 +770,7 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "AuthClientUpdateCustomResourcePolicyF8E9AEC5",
+        "PolicyName": "CloudFrontAuthClientUpdateCustomResourcePolicyD9204C32",
         "Roles": [
           {
             "Ref": "AWS679f53fac002430cb0da5b7982bd2287ServiceRoleC1EA0FF2"
@@ -778,10 +778,10 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/Auth/ClientUpdate/Resource/CustomResourcePolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/CloudFrontAuth/ClientUpdate/Resource/CustomResourcePolicy/Resource"
       }
     },
-    "henristcloudfrontauthgeneratesecretproviderFunctionServiceRole4523A59B": {
+    "lifliginfracloudfrontauthgeneratesecretproviderFunctionServiceRoleA052E250": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -826,10 +826,10 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Function/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.cloudfront-auth.generate-secret.provider/Function/ServiceRole/Resource"
       }
     },
-    "henristcloudfrontauthgeneratesecretproviderFunction3D1AFA99": {
+    "lifliginfracloudfrontauthgeneratesecretproviderFunction251907C7": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
@@ -839,11 +839,11 @@
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
-            "henristcloudfrontauthgeneratesecretproviderFunctionServiceRole4523A59B",
+            "lifliginfracloudfrontauthgeneratesecretproviderFunctionServiceRoleA052E250",
             "Arn"
           ]
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Tags": [
           {
             "Key": "Project",
@@ -860,16 +860,16 @@
         ]
       },
       "DependsOn": [
-        "henristcloudfrontauthgeneratesecretproviderFunctionServiceRole4523A59B"
+        "lifliginfracloudfrontauthgeneratesecretproviderFunctionServiceRoleA052E250"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Function/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.cloudfront-auth.generate-secret.provider/Function/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:is-bundled": false,
         "aws:asset:property": "Code"
       }
     },
-    "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleEE714F1C": {
+    "lifliginfracloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleCB18E252": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -914,10 +914,10 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/ServiceRole/Resource"
       }
     },
-    "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleDefaultPolicyC126E528": {
+    "lifliginfracloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleDefaultPolicy518E1DB7": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -928,7 +928,7 @@
               "Resource": [
                 {
                   "Fn::GetAtt": [
-                    "henristcloudfrontauthgeneratesecretproviderFunction3D1AFA99",
+                    "lifliginfracloudfrontauthgeneratesecretproviderFunction251907C7",
                     "Arn"
                   ]
                 },
@@ -938,7 +938,7 @@
                     [
                       {
                         "Fn::GetAtt": [
-                          "henristcloudfrontauthgeneratesecretproviderFunction3D1AFA99",
+                          "lifliginfracloudfrontauthgeneratesecretproviderFunction251907C7",
                           "Arn"
                         ]
                       },
@@ -951,30 +951,30 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleDefaultPolicyC126E528",
+        "PolicyName": "lifliginfracloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleDefaultPolicy518E1DB7",
         "Roles": [
           {
-            "Ref": "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleEE714F1C"
+            "Ref": "lifliginfracloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleCB18E252"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource"
       }
     },
-    "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventD98C7326": {
+    "lifliginfracloudfrontauthgeneratesecretproviderProviderframeworkonEvent629CC1D7": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-liflig-assets-001112238813-eu-west-1",
           "S3Key": "snapshot-value.zip"
         },
-        "Description": "AWS CDK resource provider framework - onEvent (incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider)",
+        "Description": "AWS CDK resource provider framework - onEvent (incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.cloudfront-auth.generate-secret.provider/Provider)",
         "Environment": {
           "Variables": {
             "USER_ON_EVENT_FUNCTION_ARN": {
               "Fn::GetAtt": [
-                "henristcloudfrontauthgeneratesecretproviderFunction3D1AFA99",
+                "lifliginfracloudfrontauthgeneratesecretproviderFunction251907C7",
                 "Arn"
               ]
             }
@@ -983,7 +983,7 @@
         "Handler": "framework.onEvent",
         "Role": {
           "Fn::GetAtt": [
-            "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleEE714F1C",
+            "lifliginfracloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleCB18E252",
             "Arn"
           ]
         },
@@ -1005,11 +1005,11 @@
         "Timeout": 900
       },
       "DependsOn": [
-        "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleDefaultPolicyC126E528",
-        "henristcloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleEE714F1C"
+        "lifliginfracloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleDefaultPolicy518E1DB7",
+        "lifliginfracloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleCB18E252"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.cloudfront-auth.generate-secret.provider/Provider/framework-onEvent/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:is-bundled": false,
         "aws:asset:property": "Code"
@@ -1104,7 +1104,7 @@
         "aws:asset:property": "Code"
       }
     },
-    "henristlambdaconfigproviderUpdateCodeFnServiceRole2FF24712": {
+    "lifliginfralambdaconfigproviderUpdateCodeFnServiceRole1C9B6DC9": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -1149,10 +1149,10 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.lambda-config.provider/UpdateCodeFn/ServiceRole/Resource"
       }
     },
-    "henristlambdaconfigproviderUpdateCodeFnServiceRoleDefaultPolicyE51A664A": {
+    "lifliginfralambdaconfigproviderUpdateCodeFnServiceRoleDefaultPolicy02148DBC": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -1168,18 +1168,18 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "henristlambdaconfigproviderUpdateCodeFnServiceRoleDefaultPolicyE51A664A",
+        "PolicyName": "lifliginfralambdaconfigproviderUpdateCodeFnServiceRoleDefaultPolicy02148DBC",
         "Roles": [
           {
-            "Ref": "henristlambdaconfigproviderUpdateCodeFnServiceRole2FF24712"
+            "Ref": "lifliginfralambdaconfigproviderUpdateCodeFnServiceRole1C9B6DC9"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.lambda-config.provider/UpdateCodeFn/ServiceRole/DefaultPolicy/Resource"
       }
     },
-    "henristlambdaconfigproviderUpdateCodeFnBF8DF66B": {
+    "lifliginfralambdaconfigproviderUpdateCodeFnB8571480": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
@@ -1189,11 +1189,11 @@
         "Handler": "index.handler",
         "Role": {
           "Fn::GetAtt": [
-            "henristlambdaconfigproviderUpdateCodeFnServiceRole2FF24712",
+            "lifliginfralambdaconfigproviderUpdateCodeFnServiceRole1C9B6DC9",
             "Arn"
           ]
         },
-        "Runtime": "nodejs16.x",
+        "Runtime": "nodejs18.x",
         "Tags": [
           {
             "Key": "Project",
@@ -1211,17 +1211,17 @@
         "Timeout": 10
       },
       "DependsOn": [
-        "henristlambdaconfigproviderUpdateCodeFnServiceRoleDefaultPolicyE51A664A",
-        "henristlambdaconfigproviderUpdateCodeFnServiceRole2FF24712"
+        "lifliginfralambdaconfigproviderUpdateCodeFnServiceRoleDefaultPolicy02148DBC",
+        "lifliginfralambdaconfigproviderUpdateCodeFnServiceRole1C9B6DC9"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/UpdateCodeFn/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.lambda-config.provider/UpdateCodeFn/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:is-bundled": false,
         "aws:asset:property": "Code"
       }
     },
-    "henristlambdaconfigproviderProviderframeworkonEventServiceRole9AA104AD": {
+    "lifliginfralambdaconfigproviderProviderframeworkonEventServiceRoleD0656D3D": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -1266,10 +1266,10 @@
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/Provider/framework-onEvent/ServiceRole/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.lambda-config.provider/Provider/framework-onEvent/ServiceRole/Resource"
       }
     },
-    "henristlambdaconfigproviderProviderframeworkonEventServiceRoleDefaultPolicy3D96FE9E": {
+    "lifliginfralambdaconfigproviderProviderframeworkonEventServiceRoleDefaultPolicy554FD5A5": {
       "Type": "AWS::IAM::Policy",
       "Properties": {
         "PolicyDocument": {
@@ -1280,7 +1280,7 @@
               "Resource": [
                 {
                   "Fn::GetAtt": [
-                    "henristlambdaconfigproviderUpdateCodeFnBF8DF66B",
+                    "lifliginfralambdaconfigproviderUpdateCodeFnB8571480",
                     "Arn"
                   ]
                 },
@@ -1290,7 +1290,7 @@
                     [
                       {
                         "Fn::GetAtt": [
-                          "henristlambdaconfigproviderUpdateCodeFnBF8DF66B",
+                          "lifliginfralambdaconfigproviderUpdateCodeFnB8571480",
                           "Arn"
                         ]
                       },
@@ -1303,30 +1303,30 @@
           ],
           "Version": "2012-10-17"
         },
-        "PolicyName": "henristlambdaconfigproviderProviderframeworkonEventServiceRoleDefaultPolicy3D96FE9E",
+        "PolicyName": "lifliginfralambdaconfigproviderProviderframeworkonEventServiceRoleDefaultPolicy554FD5A5",
         "Roles": [
           {
-            "Ref": "henristlambdaconfigproviderProviderframeworkonEventServiceRole9AA104AD"
+            "Ref": "lifliginfralambdaconfigproviderProviderframeworkonEventServiceRoleD0656D3D"
           }
         ]
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.lambda-config.provider/Provider/framework-onEvent/ServiceRole/DefaultPolicy/Resource"
       }
     },
-    "henristlambdaconfigproviderProviderframeworkonEventB2FC78D4": {
+    "lifliginfralambdaconfigproviderProviderframeworkonEvent1D60D68A": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": "cdk-liflig-assets-001112238813-eu-west-1",
           "S3Key": "snapshot-value.zip"
         },
-        "Description": "AWS CDK resource provider framework - onEvent (incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/Provider)",
+        "Description": "AWS CDK resource provider framework - onEvent (incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.lambda-config.provider/Provider)",
         "Environment": {
           "Variables": {
             "USER_ON_EVENT_FUNCTION_ARN": {
               "Fn::GetAtt": [
-                "henristlambdaconfigproviderUpdateCodeFnBF8DF66B",
+                "lifliginfralambdaconfigproviderUpdateCodeFnB8571480",
                 "Arn"
               ]
             }
@@ -1335,7 +1335,7 @@
         "Handler": "framework.onEvent",
         "Role": {
           "Fn::GetAtt": [
-            "henristlambdaconfigproviderProviderframeworkonEventServiceRole9AA104AD",
+            "lifliginfralambdaconfigproviderProviderframeworkonEventServiceRoleD0656D3D",
             "Arn"
           ]
         },
@@ -1357,11 +1357,11 @@
         "Timeout": 900
       },
       "DependsOn": [
-        "henristlambdaconfigproviderProviderframeworkonEventServiceRoleDefaultPolicy3D96FE9E",
-        "henristlambdaconfigproviderProviderframeworkonEventServiceRole9AA104AD"
+        "lifliginfralambdaconfigproviderProviderframeworkonEventServiceRoleDefaultPolicy554FD5A5",
+        "lifliginfralambdaconfigproviderProviderframeworkonEventServiceRoleD0656D3D"
       ],
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/henrist.lambda-config.provider/Provider/framework-onEvent/Resource",
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/liflig-infra.lambda-config.provider/Provider/framework-onEvent/Resource",
         "aws:asset:path": "asset.snapshot-value",
         "aws:asset:is-bundled": false,
         "aws:asset:property": "Code"
@@ -1402,7 +1402,7 @@
                   "EventType": "viewer-request",
                   "LambdaFunctionARN": {
                     "Fn::GetAtt": [
-                      "AuthParseAuthFn975D8094",
+                      "CloudFrontAuthParseAuthFn462E5263",
                       "FunctionArn"
                     ]
                   }
@@ -1420,7 +1420,7 @@
                   "EventType": "viewer-request",
                   "LambdaFunctionARN": {
                     "Fn::GetAtt": [
-                      "AuthRefreshAuthFnEA5CBBAE",
+                      "CloudFrontAuthRefreshAuthFnF048EC20",
                       "FunctionArn"
                     ]
                   }
@@ -1438,7 +1438,7 @@
                   "EventType": "viewer-request",
                   "LambdaFunctionARN": {
                     "Fn::GetAtt": [
-                      "AuthSignOutFnD060B75E",
+                      "CloudFrontAuthSignOutFn7E430F35",
                       "FunctionArn"
                     ]
                   }
@@ -1456,7 +1456,7 @@
                   "EventType": "viewer-request",
                   "LambdaFunctionARN": {
                     "Fn::GetAtt": [
-                      "AuthCheckAuthFnC12AAE69",
+                      "CloudFrontAuthCheckAuthFnF82A663E",
                       "FunctionArn"
                     ]
                   }
@@ -1465,7 +1465,7 @@
                   "EventType": "origin-response",
                   "LambdaFunctionARN": {
                     "Fn::GetAtt": [
-                      "AuthHttpHeadersFn7D541668",
+                      "CloudFrontAuthHttpHeadersFn7FA81DC9",
                       "FunctionArn"
                     ]
                   }
@@ -1484,7 +1484,7 @@
                 "EventType": "viewer-request",
                 "LambdaFunctionARN": {
                   "Fn::GetAtt": [
-                    "AuthCheckAuthFnC12AAE69",
+                    "CloudFrontAuthCheckAuthFnF82A663E",
                     "FunctionArn"
                   ]
                 }
@@ -1493,7 +1493,7 @@
                 "EventType": "origin-response",
                 "LambdaFunctionARN": {
                   "Fn::GetAtt": [
-                    "AuthHttpHeadersFn7D541668",
+                    "CloudFrontAuthHttpHeadersFn7FA81DC9",
                     "FunctionArn"
                   ]
                 }
@@ -3336,23 +3336,23 @@
     }
   },
   "Parameters": {
-    "AuthCheckAuthFnImportNonceB0C38324": {
+    "CloudFrontAuthCheckAuthFnImportNonce53D0BEE3": {
       "Type": "String",
       "Default": "snapshot"
     },
-    "AuthHttpHeadersFnImportNonceEA60F8FB": {
+    "CloudFrontAuthHttpHeadersFnImportNonce9F041AEE": {
       "Type": "String",
       "Default": "snapshot"
     },
-    "AuthParseAuthFnImportNonceDB90BFAF": {
+    "CloudFrontAuthParseAuthFnImportNonceCF483E0E": {
       "Type": "String",
       "Default": "snapshot"
     },
-    "AuthRefreshAuthFnImportNonce259C9C85": {
+    "CloudFrontAuthRefreshAuthFnImportNonce88A0DD7E": {
       "Type": "String",
       "Default": "snapshot"
     },
-    "AuthSignOutFnImportNonce71DBA4CA": {
+    "CloudFrontAuthSignOutFnImportNonceCA635C9B": {
       "Type": "String",
       "Default": "snapshot"
     },
