@@ -1,6 +1,6 @@
 import * as constructs from "constructs"
 import * as cdk from "aws-cdk-lib"
-import { AuthLambdas } from "@henrist/cdk-cloudfront-auth"
+import { AuthLambdas } from "@liflig/cdk-cloudfront-auth"
 
 /**
  * Stack deployed in us-east-1 to hold "Lambda@edge" resource.

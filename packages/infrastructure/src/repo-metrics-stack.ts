@@ -12,7 +12,7 @@ import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
 import * as logs from "aws-cdk-lib/aws-logs"
 import * as cdk from "aws-cdk-lib"
 import * as webappDeploy from "@capraconsulting/webapp-deploy-lambda"
-import { AuthLambdas, CloudFrontAuth } from "@henrist/cdk-cloudfront-auth"
+import { AuthLambdas, CloudFrontAuth } from "@liflig/cdk-cloudfront-auth"
 import { CorePlatformConsumer } from "./core-platform"
 
 interface Props extends cdk.StackProps {
@@ -56,7 +56,7 @@ export class RepoMetricsStack extends cdk.Stack {
       encryption: s3.BucketEncryption.S3_MANAGED,
     })
 
-    const auth = new CloudFrontAuth(this, "Auth", {
+    const auth = new CloudFrontAuth(this, "CloudFrontAuth", {
       cognitoAuthDomain: props.authDomain,
       authLambdas: props.authLambdas,
       userPool,
