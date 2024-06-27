@@ -10,7 +10,6 @@ export class PipelineStack extends cdk.Stack {
   constructor(scope: constructs.Construct, id: string, props: cdk.StackProps) {
     super(scope, id, props)
 
-    // No Griid for incub yet.
     const artifactsBucket = s3.Bucket.fromBucketName(
       this,
       "ArtifactsBucket",
