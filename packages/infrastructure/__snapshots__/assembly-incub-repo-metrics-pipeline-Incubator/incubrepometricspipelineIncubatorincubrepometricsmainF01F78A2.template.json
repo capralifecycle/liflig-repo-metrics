@@ -2806,7 +2806,7 @@
         "Layers": [
           "arn:aws:lambda:eu-west-1:580247275435:layer:LambdaInsightsExtension:38"
         ],
-        "MemorySize": 2560,
+        "MemorySize": 3200,
         "Role": {
           "Fn::GetAtt": [
             "AggregatorServiceRole50457C61",
