@@ -22,7 +22,7 @@
     "typescript": "5.5.3"
   },
   "dependencies": {
-    "@capraconsulting/webapp-deploy-lambda": "2.2.0",
+    "@capraconsulting/webapp-deploy-lambda": "2.2.1",
     "@liflig/cdk-cloudfront-auth": "1.2.0",
     "@liflig/cdk": "2.22.3",
     "aws-cdk-lib": "2.127.0",
