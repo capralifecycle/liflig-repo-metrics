@@ -4,3 +4,4 @@ yarn-error.log
 .idea
 .DS_Store
 outfile-collector.json
+outfile-aggregator.json
