@@ -214,13 +214,16 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
   }
 
   async list(): Promise<SnapshotObject[]> {
+    const objectPrefix = "snapshots/"
+    console.log(`Listing objects in ${this.bucketName}:${objectPrefix}/`)
+
     const paginator = paginateListObjectsV2(
       {
         client: this.s3Client,
       },
       {
         Bucket: this.bucketName,
-        Prefix: "snapshots/",
+        Prefix: objectPrefix,
       },
     )
 

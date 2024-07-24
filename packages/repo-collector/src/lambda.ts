@@ -74,32 +74,57 @@ async function getSonarCloudTokenProvider(): Promise<SonarCloudTokenProvider> {
 }
 
 export const collectHandler: Handler = async () => {
+  console.log("Collecting data for aggregation")
+
   const dataBucketName = requireEnv("DATA_BUCKET_NAME")
+  console.log("Data bucket name: ", dataBucketName)
+
+  console.log("Initializing repository for snapshot data")
   const snapshotsRepository = new S3SnapshotsRepository(dataBucketName)
 
+  console.log("Collecting data")
   await collect(
     snapshotsRepository,
     await getGithubTokenProvider(),
     await getSnykTokenProvider(),
     await getSonarCloudTokenProvider(),
   )
+  console.log("Done.")
 }
 
 export const aggregateHandler: Handler = async () => {
+  console.log("Aggregating data for webapp")
+
   const dataBucketName = requireEnv("DATA_BUCKET_NAME")
   const webappDataBucketName = requireEnv("WEBAPP_DATA_BUCKET_NAME")
   const cfDistributionId = requireEnv("CF_DISTRIBUTION_ID")
 
+  const envVars = {
+    dataBucketName: dataBucketName,
+    webappDataBucketName: webappDataBucketName,
+    cfDistributionId: cfDistributionId,
+  }
+
+  console.log(JSON.stringify(envVars))
+
+  console.log("Initializing repositories for snapshot and webapp data")
   const snapshotsRepository = new S3SnapshotsRepository(dataBucketName)
   const webappDataRepository = new S3WebappDataRepository(
     webappDataBucketName,
     cfDistributionId,
   )
 
+  console.log("Retrieving snapshots for webapp aggregation")
   const snapshots =
     await retrieveSnapshotsForWebappAggregation(snapshotsRepository)
+
+  console.log("Converting snapshot data into a webapp friendly format")
   const webappFriendly = createWebappFriendlyFormat(snapshots)
+
+  console.log("Storing webapp data")
   await webappDataRepository.store(webappFriendly)
+
+  console.log("Done.")
 }
 
 export const reportHandler: Handler = async () => {
