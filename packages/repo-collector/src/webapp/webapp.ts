@@ -138,6 +138,7 @@ function getAvailableActionableUpdates(snapshot: MetricRepoSnapshot): number {
 export async function retrieveSnapshotsForWebappAggregation(
   snapshotsRepository: SnapshotsRepository,
 ): Promise<MetricRepoSnapshot[]> {
+  console.log("Retrieving and grouping snapshots from snapshot repository")
   const list = groupBy(await snapshotsRepository.list(), (it) =>
     it.timestamp.toZonedDateTimeISO("UTC").toPlainDate().toString(),
   )
@@ -155,10 +156,10 @@ export async function retrieveSnapshotsForWebappAggregation(
 
   const snapshots: MetricRepoSnapshot[] = []
 
+  console.log("Fetching recent snapshots from S3")
   for (const dailySnapshots of Object.values(list)) {
     const isOld =
       Temporal.Instant.compare(dailySnapshots[0].timestamp, oldBefore) < 0
-
     const toRead = isOld
       ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         [minBy(dailySnapshots, (it) => it.timestamp.epochNanoseconds)!]
@@ -168,6 +169,7 @@ export async function retrieveSnapshotsForWebappAggregation(
       snapshots.push(...(await snapshotsRepository.retrieve(it.timestamp)))
     }
   }
+  console.log(`Returning ${snapshots.length} recent snapshots`)
 
   return snapshots
 }
