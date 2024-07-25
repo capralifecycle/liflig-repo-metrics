@@ -215,8 +215,9 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
 
   async list(): Promise<SnapshotObject[]> {
     const objectPrefix = "snapshots/"
-    console.log(`Listing objects in ${this.bucketName}:${objectPrefix}/`)
+    console.log(`Listing snapshots in s3://${this.bucketName}:${objectPrefix}`)
 
+    console.log("Preparing paginator for retrieving snapshot objects")
     const paginator = paginateListObjectsV2(
       {
         client: this.s3Client,
@@ -229,6 +230,7 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
 
     const objects: SnapshotObject[] = []
 
+    console.log("Retrieving snapshot objects")
     for await (const page of paginator) {
       for (const item of page.Contents || []) {
         if (item.Key == null) {
@@ -242,7 +244,7 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
       }
     }
 
-    console.log(`Found ${objects.length} files`)
+    console.log(`Returning ${objects.length} snapshot objects`)
 
     return objects
   }
