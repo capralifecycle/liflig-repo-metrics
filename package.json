@@ -13,5 +13,8 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "date-fns": "3.6.0"
+  }
 }
