@@ -69,10 +69,13 @@ This repo is built and deployed automatically on pushes to master.
 
 Two lambdas have to be invoked to run a manual update of repo-metrics:
 
-`aws lambda invoke --function-name incub-repo-metrics-main-Collector9EBA7CF5-1PVWAMAFCF1ZJ --log-type Tail outfile-collector.json`
+```bash
+# collect
+aws lambda invoke --function-name incub-repo-metrics-main-Collector9EBA7CF5-1PVWAMAFCF1ZJ --log-type Tail outfile-collector.json
 
-`aws lambda invoke --function-name incub-repo-metrics-main-Aggregator84F1B3DF-17LMXCOQOEV3X --log-type Tail outfile-aggregator.json`
-
+# aggregate
+aws lambda invoke --function-name incub-repo-metrics-main-Aggregator84F1B3DF-17LMXCOQOEV3X --log-type Tail outfile-aggregator.json
+```
 
 ## Contributing
 
