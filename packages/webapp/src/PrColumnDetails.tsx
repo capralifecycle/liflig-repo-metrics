@@ -1,5 +1,6 @@
 import { WebappMetricDataRepoDatapoint } from "@liflig/repo-metrics-repo-collector-types"
 import * as React from "react"
+import { formatDistance } from "date-fns"
 
 interface Props {
   prs: WebappMetricDataRepoDatapoint["github"]["prs"]
@@ -16,6 +17,8 @@ export const PrColumnDetails: React.FC<Props> = ({
     return <span style={{ color: "var(--color-success)" }}>Ingen</span>
   }
 
+  const now = new Date()
+
   return (
     <>
       <b>{prs.length}</b>
@@ -24,7 +27,11 @@ export const PrColumnDetails: React.FC<Props> = ({
           {prs.map((pr, idx) => (
             <li key={idx}>
               <a href={`${repoBaseUrl}/pull/${pr.number}`}>#{pr.number}</a>{" "}
-              {pr.title} ({pr.author})
+              {pr.title} ({pr.author},{" "}
+              {formatDistance(pr.createdAt, now, {
+                addSuffix: true,
+              })}
+              )
             </li>
           ))}
         </ul>
