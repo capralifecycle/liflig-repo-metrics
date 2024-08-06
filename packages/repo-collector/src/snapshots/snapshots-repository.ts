@@ -148,7 +148,6 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
     // Source: https://github.com/aws/aws-sdk-js-v3/issues/1800#issuecomment-749459712
     this.s3Client.middlewareStack.add(
       (next) => async (args) => {
-        args.request
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
         delete (args.request as any).headers["content-type"]
         return next(args)
