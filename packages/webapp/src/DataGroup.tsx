@@ -24,6 +24,7 @@ interface Props {
   showDepList: boolean
   showVulList: boolean
   showOrgName: boolean
+  showGraphWidget: boolean
   sortByRenovateDays: boolean
 }
 
@@ -34,6 +35,7 @@ export const DataGroup: React.FC<Props> = ({
   showDepList,
   showVulList,
   showOrgName,
+  showGraphWidget,
   sortByRenovateDays,
 }) => {
   const updatesAvailable = sumBy(
@@ -85,72 +87,75 @@ export const DataGroup: React.FC<Props> = ({
     )
   }
 
+  // show graph widget if showGraphWidget is true
   return (
     <>
-      <ResponsiveContainer width="100%" height={170}>
-        <LineChart
-          data={fetchGroups.map((it) => ({
-            timestamp: new Date(it.timestamp).getTime(),
-            "snyk vulnerabilities": sumBy(
-              it.repos,
-              (r) => r.snykVulnerabilities,
-            ),
-            "github vulnerabilities": sumBy(
-              it.repos,
-              (r) => r.githubVulnerabilities,
-            ),
-            "available updates": sumBy(it.repos, (r) => r.updates),
-          }))}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          {/* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */}
-          <Tooltip
-            labelFormatter={(it: number) =>
-              tooltipDateTimeFormat.format(new Date(it))
-            }
-          />
-          <YAxis />
-          <YAxis yAxisId="secondary" orientation="right" />
-          <XAxis
-            dataKey="timestamp"
-            type="number"
-            domain={[minTime, maxTime]}
-            tickFormatter={(it: number) =>
-              tickerDateFormat.format(new Date(it))
-            }
-            minTickGap={20}
-          />
-          <Tooltip />
-          <Legend />
-          <Line
-            dataKey="available updates"
-            stroke="#28a745"
-            strokeWidth={2}
-            dot={{
-              fill: "#28a745",
-            }}
-            isAnimationActive={false}
-          />
-          <Line
-            dataKey="snyk vulnerabilities"
-            stroke="#cb2431"
-            strokeWidth={2}
-            dot={{
-              fill: "#cb2431",
-            }}
-            isAnimationActive={false}
-          />
-          <Line
-            dataKey="github vulnerabilities"
-            stroke="#663399"
-            strokeWidth={2}
-            dot={{
-              fill: "#663399",
-            }}
-            isAnimationActive={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      {showGraphWidget && (
+        <ResponsiveContainer width="100%" height={170}>
+          <LineChart
+            data={fetchGroups.map((it) => ({
+              timestamp: new Date(it.timestamp).getTime(),
+              "snyk vulnerabilities": sumBy(
+                it.repos,
+                (r) => r.snykVulnerabilities,
+              ),
+              "github vulnerabilities": sumBy(
+                it.repos,
+                (r) => r.githubVulnerabilities,
+              ),
+              "available updates": sumBy(it.repos, (r) => r.updates),
+            }))}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */}
+            <Tooltip
+              labelFormatter={(it: number) =>
+                tooltipDateTimeFormat.format(new Date(it))
+              }
+            />
+            <YAxis />
+            <YAxis yAxisId="secondary" orientation="right" />
+            <XAxis
+              dataKey="timestamp"
+              type="number"
+              domain={[minTime, maxTime]}
+              tickFormatter={(it: number) =>
+                tickerDateFormat.format(new Date(it))
+              }
+              minTickGap={20}
+            />
+            <Tooltip />
+            <Legend />
+            <Line
+              dataKey="available updates"
+              stroke="#28a745"
+              strokeWidth={2}
+              dot={{
+                fill: "#28a745",
+              }}
+              isAnimationActive={false}
+            />
+            <Line
+              dataKey="snyk vulnerabilities"
+              stroke="#cb2431"
+              strokeWidth={2}
+              dot={{
+                fill: "#cb2431",
+              }}
+              isAnimationActive={false}
+            />
+            <Line
+              dataKey="github vulnerabilities"
+              stroke="#663399"
+              strokeWidth={2}
+              dot={{
+                fill: "#663399",
+              }}
+              isAnimationActive={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      )}
       <p>
         Sist oppdatert{" "}
         {removeMillisecondsFromTimestamp(fetchGroups[0].timestamp)}

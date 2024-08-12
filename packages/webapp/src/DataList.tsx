@@ -190,22 +190,24 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         >
           Vis kun sårbare repoer
         </Checkbox>
-        <Checkbox
-          checked={state.limitGraphDays != false}
-          onCheck={createOnCheckHandler("limitGraphDays")}
-        >
-          <span>
-            Begrens graf til siste{" "}
-            <input
-              className="num-days-input"
-              inputMode="numeric"
-              min="1"
-              value={state.numberOfGraphDaysToLimit}
-              onInput={onChangeNumberOfGraphDaysToLimit}
-            ></input>{" "}
-            dager
-          </span>
-        </Checkbox>
+        {state.showGraphWidget && (
+          <Checkbox
+            checked={state.limitGraphDays != false}
+            onCheck={createOnCheckHandler("limitGraphDays")}
+          >
+            <span>
+              Begrens graf til siste{" "}
+              <input
+                className="num-days-input"
+                inputMode="numeric"
+                min="1"
+                value={state.numberOfGraphDaysToLimit}
+                onInput={onChangeNumberOfGraphDaysToLimit}
+              ></input>{" "}
+              dager
+            </span>
+          </Checkbox>
+        )}
         <Checkbox
           checked={state.sortByRenovateDays}
           onCheck={createOnCheckHandler("sortByRenovateDays")}
@@ -260,6 +262,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
                     showDepList={state.showDepList}
                     showVulList={state.showVulList}
                     showOrgName={state.showOrgName}
+                    showGraphWidget={state.showGraphWidget}
                     sortByRenovateDays={state.sortByRenovateDays}
                   />
                 )}
@@ -276,6 +279,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             showDepList={state.showDepList}
             showVulList={state.showVulList}
             showOrgName={state.showOrgName}
+            showGraphWidget={state.showGraphWidget}
             sortByRenovateDays={state.sortByRenovateDays}
           />
         </>
