@@ -17,7 +17,7 @@ const App: React.FC = () => {
       {dataIsLoading ? (
         <p>Laster data...</p>
       ) : !data ? (
-        <p>Klarte ikke å laste inn data.</p>
+        <p>Klarte ikke å laste inn data</p>
       ) : (
         <DataList data={data} filter={filter} />
       )}
