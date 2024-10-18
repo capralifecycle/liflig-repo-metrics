@@ -34,7 +34,7 @@
     "typescript": "5.6.3"
   },
   "dependencies": {
-    "@capraconsulting/cals-cli": "3.4.21",
+    "@capraconsulting/cals-cli": "3.5.0",
     "@js-temporal/polyfill": "0.4.4",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.17.10",
