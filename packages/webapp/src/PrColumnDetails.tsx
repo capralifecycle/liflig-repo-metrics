@@ -28,7 +28,7 @@ export const PrColumnDetails: React.FC<Props> = ({
             <li key={idx}>
               <a href={`${repoBaseUrl}/pull/${pr.number}`}>#{pr.number}</a>{" "}
               {pr.title} ({pr.author},{" "}
-              {formatDistance(pr.createdAt, now, {
+              {formatDistance(new Date(pr.createdAt), now, {
                 addSuffix: true,
               })}
               )
