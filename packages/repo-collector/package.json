@@ -13,7 +13,7 @@
     "serve": "http-server --cors -p 8383 data"
   },
   "devDependencies": {
-    "@aws-sdk/client-cloudfront": "3.689.0",
+    "@aws-sdk/client-cloudfront": "3.690.0",
     "@aws-sdk/client-s3": "3.689.0",
     "@aws-sdk/client-secrets-manager": "3.687.0",
     "@types/aws-lambda": "8.10.145",
