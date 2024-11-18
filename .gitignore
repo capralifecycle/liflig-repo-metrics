@@ -5,3 +5,4 @@ yarn-error.log
 .DS_Store
 outfile-collector.json
 outfile-aggregator.json
+tsconfig.tsbuildinfo
