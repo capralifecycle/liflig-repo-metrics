@@ -2,6 +2,7 @@
   "name": "@liflig/repo-metrics-repo-collector-types",
   "version": "0.0.0-development",
   "private": true,
+  "type": "module",
   "main": "lib/index.js",
   "scripts": {
     "clean": "rimraf lib",
@@ -19,7 +20,7 @@
     "eslint-plugin-deprecation": "3.0.0",
     "eslint-plugin-prettier": "5.2.1",
     "prettier": "3.3.3",
-    "ts-node": "10.9.2",
+    "tsx": "4.19.2",
     "typescript": "5.6.3"
   }
 }

@@ -1,13 +1,30 @@
+// Based on https://www.totaltypescript.com/tsconfig-cheat-sheet
 {
   "compilerOptions": {
+    // Base options
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "strict": true,
+
+    // Jest with ts-jest requires this to be false. If not using Jest, set to true.
+    "verbatimModuleSyntax": false,
+
+    // Not transpiling with TypeScript
+    "module": "preserve",
+
+    // lib opts
     "declaration": true,
     "declarationMap": true,
     "outDir": "lib",
     "rootDir": "src",
-    "target": "ES2020",
-    "lib": ["ESNext", "DOM"],
-    "strict": true,
-    "module": "commonjs"
+
+    // Not running in the DOM
+    "lib": ["es2022"]
   },
   "exclude": ["./lib"]
 }
