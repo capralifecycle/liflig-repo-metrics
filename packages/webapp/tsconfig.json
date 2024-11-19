@@ -10,7 +10,6 @@
     "moduleDetection": "force",
     "isolatedModules": true,
     "strict": true,
-    "jsx": "react",
 
     // Jest with ts-jest requires this to be false. If not using Jest, set to true.
     "verbatimModuleSyntax": false,
@@ -19,8 +18,9 @@
     "module": "preserve",
     "noEmit": true,
 
-    "lib": ["es2022", "dom", "dom.iterable"]
+    // Running in the DOM
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "jsx": "react-jsx"
   },
-  "include": ["src", "*.ts", "*.js"],
-  "exclude": ["node_modules"]
+  "include": ["src"],
 }
