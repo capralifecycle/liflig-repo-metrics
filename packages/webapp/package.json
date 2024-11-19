@@ -22,7 +22,7 @@
     "@typescript-eslint/eslint-plugin": "8.4.0",
     "@typescript-eslint/parser": "8.4.0",
     "autoprefixer": "10.4.20",
-    "css-loader": "6.11.0",
+    "css-loader": "7.1.2",
     "eslint": "8.57.1",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-deprecation": "3.0.0",
