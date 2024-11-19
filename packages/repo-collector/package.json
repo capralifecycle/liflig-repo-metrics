@@ -2,14 +2,15 @@
   "name": "@liflig/repo-metrics-repo-collector",
   "version": "0.0.0-development",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "tsc -noEmit && rimraf dist && esbuild src/lambda.ts --bundle --alias:keytar=./keytar-stub.js --platform=node --target=\"node16.0\" --outfile=dist/index.js",
     "test": "jest",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "collect-locally": "ts-node src/collect-locally.ts",
-    "aggregate-locally": "ts-node src/aggregate-locally.ts",
-    "report-locally": "ts-node src/report-locally.ts",
+    "collect-locally": "tsx src/collect-locally.ts",
+    "aggregate-locally": "tsx src/aggregate-locally.ts",
+    "report-locally": "tsx src/report-locally.ts",
     "serve": "http-server --cors -p 8383 data"
   },
   "devDependencies": {
@@ -30,7 +31,7 @@
     "prettier": "3.3.3",
     "rimraf": "5.0.10",
     "ts-jest": "29.2.5",
-    "ts-node": "10.9.2",
+    "tsx": "4.19.2",
     "typescript": "5.6.3"
   },
   "dependencies": {

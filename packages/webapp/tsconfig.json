@@ -1,16 +1,31 @@
+// Based on https://www.totaltypescript.com/tsconfig-cheat-sheet
 {
   "compilerOptions": {
-    "sourceMap": true,
-    "strict": true,
-    "module": "es6",
-    "jsx": "react",
-    "target": "es5",
-    "lib": ["dom", "es2017", "ESNext"],
-    "moduleResolution": "node",
+    // Base options
     "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "strict": true,
+
+    // Jest with ts-jest requires this to be false. If not using Jest, set to true.
+    "verbatimModuleSyntax": false,
+
+    // Not transpiling with TypeScript
+    "module": "preserve",
+    "noEmit": true,
+
+    // Running in the DOM
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "jsx": "react-jsx"
   },
-  "include": ["src", "*.ts", "*.js"],
-  "exclude": ["node_modules"]
+  "include": ["src"],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

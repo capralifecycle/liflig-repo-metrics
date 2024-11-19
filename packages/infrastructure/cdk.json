@@ -1,5 +1,5 @@
 {
-  "app": "ts-node src/app.ts",
+  "app": "tsx src/app.ts",
   "requireApproval": "never",
   "context": {
     "@aws-cdk/core:bootstrapQualifier": "liflig",
