@@ -13,8 +13,9 @@
     }
   ],
   "parserOptions": {
-    "ecmaVersion": 2018,
-    "project": ["./tsconfig.json"]
+    "ecmaVersion": 2022,
+    "sourceType": "module",
+    "project": ["./tsconfig.json", "./tsconfig.node.json"]
   },
   "settings": {
     "react": {
