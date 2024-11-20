@@ -4,7 +4,14 @@ import tseslint from "typescript-eslint"
 
 export default tseslint.config(
   {
-    ignores: ["**/*.d.ts", "src/**/*.js", "cdk.out", "__snapshots__/"],
+    ignores: [
+      "build/",
+      "coverage/",
+      "dist/",
+      "jest.config.js",
+      "keytar-stub.js",
+      "postcss.config.cjs",
+    ],
   },
   {
     extends: [
@@ -24,6 +31,7 @@ export default tseslint.config(
           ignoreRestSiblings: true,
         },
       ],
+      "react/prop-types": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/consistent-type-imports": "error",
       "@typescript-eslint/no-non-null-assertion": "off",

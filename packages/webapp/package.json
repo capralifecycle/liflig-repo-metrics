@@ -12,6 +12,7 @@
     "lint:fix": "eslint --fix ."
   },
   "devDependencies": {
+    "@eslint/js": "9.15.0",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/jest": "29.5.14",
     "@types/jest-each": "24.3.0",
@@ -21,11 +22,11 @@
     "@types/recharts": "1.8.29",
     "@typescript-eslint/eslint-plugin": "8.4.0",
     "@typescript-eslint/parser": "8.4.0",
+    "@vitejs/plugin-react": "4.3.3",
     "autoprefixer": "10.4.20",
     "css-loader": "7.1.2",
     "eslint": "9.15.0",
     "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-deprecation": "3.0.0",
     "eslint-plugin-prettier": "5.2.1",
     "eslint-plugin-react": "7.37.2",
     "git-revision-webpack-plugin": "5.0.0",
@@ -35,12 +36,13 @@
     "prettier": "3.3.3",
     "ts-jest": "29.2.5",
     "typescript": "5.6.3",
+    "typescript-eslint": "8.15.0",
     "url-loader": "4.1.1",
     "vite": "5.4.11",
-    "vite-plugin-checker": "0.8.0",
-    "@vitejs/plugin-react": "4.3.3"
+    "vite-plugin-checker": "0.8.0"
   },
   "dependencies": {
+    "date-fns": "4.1.0",
     "lodash": "4.17.21",
     "react": "18.3.1",
     "react-dom": "18.3.1",

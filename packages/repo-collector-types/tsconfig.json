@@ -26,5 +26,8 @@
     // Not running in the DOM
     "lib": ["es2022"]
   },
-  "exclude": ["./lib"]
+  "exclude": [
+    "./lib",
+    "eslint.config.mjs"
+  ]
 }

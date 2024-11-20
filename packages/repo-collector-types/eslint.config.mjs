@@ -4,7 +4,7 @@ import tseslint from "typescript-eslint"
 
 export default tseslint.config(
   {
-    ignores: ["**/*.d.ts", "src/**/*.js", "cdk.out", "__snapshots__/"],
+    ignores: ["lib/"],
   },
   {
     extends: [
