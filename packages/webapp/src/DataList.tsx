@@ -1,4 +1,4 @@
-import {
+import type {
   WebappMetricData,
   WebappMetricDataRepo,
   WebappStatsByFetchGroup,
@@ -7,7 +7,8 @@ import { groupBy } from "lodash"
 import * as React from "react"
 import { Checkbox } from "./Checkbox"
 import { DataGroup } from "./DataGroup"
-import { Filter, toQueryString } from "./filter"
+import type { Filter } from "./filter"
+import { toQueryString } from "./filter"
 import { FilterActionType, filterReducer } from "./filterReducer"
 import { isActionableRepo, isVulnerableRepo } from "./Repo"
 

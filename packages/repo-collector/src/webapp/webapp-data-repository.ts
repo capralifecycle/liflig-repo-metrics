@@ -1,6 +1,6 @@
 import { CloudFront } from "@aws-sdk/client-cloudfront"
 import { S3 } from "@aws-sdk/client-s3"
-import { WebappMetricData } from "@liflig/repo-metrics-repo-collector-types"
+import type { WebappMetricData } from "@liflig/repo-metrics-repo-collector-types"
 import * as fs from "fs"
 import { Temporal } from "@js-temporal/polyfill"
 
@@ -33,7 +33,6 @@ export class S3WebappDataRepository implements WebappDataRepository {
     // Source: https://github.com/aws/aws-sdk-js-v3/issues/1800#issuecomment-749459712
     this.s3Client.middlewareStack.add(
       (next) => async (args) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
         delete (args.request as any).headers["content-type"]
         return next(args)
       },

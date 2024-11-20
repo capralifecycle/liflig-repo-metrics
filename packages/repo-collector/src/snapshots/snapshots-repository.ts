@@ -1,10 +1,10 @@
 import { paginateListObjectsV2, S3 } from "@aws-sdk/client-s3"
-import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
+import type { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import * as fs from "fs"
 import getStream from "get-stream"
 import * as path from "path"
 import { Temporal } from "@js-temporal/polyfill"
-import { Readable } from "stream"
+import type { Readable } from "stream"
 
 export interface SnapshotsRepository {
   store(timestamp: Temporal.Instant, data: MetricRepoSnapshot[]): Promise<void>
@@ -148,7 +148,6 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
     // Source: https://github.com/aws/aws-sdk-js-v3/issues/1800#issuecomment-749459712
     this.s3Client.middlewareStack.add(
       (next) => async (args) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
         delete (args.request as any).headers["content-type"]
         return next(args)
       },

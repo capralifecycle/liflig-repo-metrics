@@ -1,4 +1,4 @@
-import * as constructs from "constructs"
+import type * as constructs from "constructs"
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront"
 import * as origins from "aws-cdk-lib/aws-cloudfront-origins"
 import * as cw from "aws-cdk-lib/aws-cloudwatch"
@@ -12,7 +12,8 @@ import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
 import * as logs from "aws-cdk-lib/aws-logs"
 import * as cdk from "aws-cdk-lib"
 import * as webappDeploy from "@capraconsulting/webapp-deploy-lambda"
-import { AuthLambdas, CloudFrontAuth } from "@liflig/cdk-cloudfront-auth"
+import type { AuthLambdas } from "@liflig/cdk-cloudfront-auth"
+import { CloudFrontAuth } from "@liflig/cdk-cloudfront-auth"
 import { CorePlatformConsumer } from "./core-platform"
 
 interface Props extends cdk.StackProps {

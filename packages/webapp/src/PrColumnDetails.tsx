@@ -1,4 +1,4 @@
-import { WebappMetricDataRepoDatapoint } from "@liflig/repo-metrics-repo-collector-types"
+import type { WebappMetricDataRepoDatapoint } from "@liflig/repo-metrics-repo-collector-types"
 import * as React from "react"
 import { formatDistance } from "date-fns"
 

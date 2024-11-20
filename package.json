@@ -13,9 +13,9 @@
     "@types/webpack": "^5.18.0"
   },
   "workspaces": [
-    "packages/*"
-  ],
-  "dependencies": {
-    "date-fns": "4.1.0"
-  }
+    "packages/repo-collector-types",
+    "packages/repo-collector",
+    "packages/webapp",
+    "packages/infrastructure"
+  ]
 }
