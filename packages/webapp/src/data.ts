@@ -1,4 +1,4 @@
-import { WebappMetricData } from "@liflig/repo-metrics-repo-collector-types"
+import type { WebappMetricData } from "@liflig/repo-metrics-repo-collector-types"
 import * as React from "react"
 
 export function useData(): {

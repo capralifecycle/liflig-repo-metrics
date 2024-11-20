@@ -2,7 +2,6 @@
 // duplicated so we can keep it persisted and have control
 // over changes.
 
-/* eslint-disable  @typescript-eslint/no-redundant-type-constituents */
 export interface MetricRepoGitHubVulnerabilityAlert {
   dismissReason: string | null
   state: "DISMISSED" | "FIXED" | "OPEN"

@@ -1,4 +1,4 @@
-import * as constructs from "constructs"
+import type * as constructs from "constructs"
 import * as s3 from "aws-cdk-lib/aws-s3"
 import * as sm from "aws-cdk-lib/aws-secretsmanager"
 import * as cdk from "aws-cdk-lib"

@@ -6,14 +6,14 @@ import {
   snyk,
   sonarCloud,
 } from "@capraconsulting/cals-cli"
-import { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
-import { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
+import type { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
+import type { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
 import { groupBy } from "lodash"
 import { Temporal } from "@js-temporal/polyfill"
 import { GithubDefinitionProvider } from "./definition-provider"
-import { SnapshotsRepository } from "./snapshots-repository"
-import { SonarCloudTokenProvider } from "@capraconsulting/cals-cli/lib/sonarcloud/token"
-import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
+import type { SnapshotsRepository } from "./snapshots-repository"
+import type { SonarCloudTokenProvider } from "@capraconsulting/cals-cli/lib/sonarcloud/token"
+import type { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 
 interface SnykProject extends snyk.SnykProject {
   // Not documented in https://snyk.docs.apiary.io/#reference/projects/all-projects/list-all-projects

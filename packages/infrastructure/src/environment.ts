@@ -1,4 +1,4 @@
-import * as constructs from "constructs"
+import type * as constructs from "constructs"
 import * as cdk from "aws-cdk-lib"
 import { applyTags, externalValues } from "./config"
 import { RepoMetricsEdgeStack } from "./repo-metrics-edge-stack"

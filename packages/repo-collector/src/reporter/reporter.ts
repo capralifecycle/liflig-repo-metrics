@@ -1,9 +1,10 @@
-import { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
+import type { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import axios from "axios"
-import { Dictionary, groupBy, keyBy, maxBy, sortBy } from "lodash"
+import type { Dictionary } from "lodash"
+import { groupBy, keyBy, maxBy, sortBy } from "lodash"
 import { Temporal } from "@js-temporal/polyfill"
 import { isWorkingDay } from "../dates"
-import { SnapshotsRepository } from "../snapshots/snapshots-repository"
+import type { SnapshotsRepository } from "../snapshots/snapshots-repository"
 
 interface ReporterRepo {
   repoId: string

@@ -1,4 +1,5 @@
-import { definition, github } from "@capraconsulting/cals-cli"
+import type { github } from "@capraconsulting/cals-cli"
+import { definition } from "@capraconsulting/cals-cli"
 
 export interface DefinitionProvider {
   getRepos(): Promise<definition.GetReposResponse[]>

@@ -1,4 +1,4 @@
-import {
+import type {
   WebappMetricData,
   WebappMetricDataRepo,
 } from "@liflig/repo-metrics-repo-collector-types"
@@ -107,7 +107,7 @@ export const DataGroup: React.FC<Props> = ({
             }))}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument */}
+            {}
             <Tooltip
               labelFormatter={(it: number) =>
                 tooltipDateTimeFormat.format(new Date(it))

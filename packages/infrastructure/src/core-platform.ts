@@ -1,4 +1,4 @@
-import * as constructs from "constructs"
+import type * as constructs from "constructs"
 import * as cloudwatchActions from "aws-cdk-lib/aws-cloudwatch-actions"
 import * as sns from "aws-cdk-lib/aws-sns"
 import { platform } from "@liflig/cdk"

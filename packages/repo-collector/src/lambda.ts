@@ -1,8 +1,8 @@
 import { SecretsManager } from "@aws-sdk/client-secrets-manager"
-import { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
-import { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
-import { SonarCloudTokenProvider } from "@capraconsulting/cals-cli/lib/sonarcloud/token"
-import { Handler } from "aws-lambda"
+import type { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
+import type { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
+import type { SonarCloudTokenProvider } from "@capraconsulting/cals-cli/lib/sonarcloud/token"
+import type { Handler } from "aws-lambda"
 import { Temporal } from "@js-temporal/polyfill"
 import { isWorkingDay } from "./dates"
 import {

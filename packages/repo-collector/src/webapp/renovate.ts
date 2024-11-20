@@ -1,4 +1,4 @@
-import { Temporal } from "@js-temporal/polyfill"
+import type { Temporal } from "@js-temporal/polyfill"
 
 // https://github.com/renovatebot/renovate/blob/96f87bd2f49e5d6ef135eb25c42b2b1e91f83537/lib/workers/repository/dependency-dashboard.ts
 type UpdateCategoryName =

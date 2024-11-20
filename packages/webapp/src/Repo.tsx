@@ -1,10 +1,10 @@
-import {
+import type {
   WebappMetricDataRepo,
   WebappMetricDataRepoDatapoint,
 } from "@liflig/repo-metrics-repo-collector-types"
 import * as React from "react"
 import { PrColumnDetails } from "./PrColumnDetails"
-import { Column } from "./Table"
+import type { Column } from "./Table"
 
 export const repoColumns = (props: {
   showPrList: boolean

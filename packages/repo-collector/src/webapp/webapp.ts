@@ -1,4 +1,4 @@
-import {
+import type {
   MetricRepoSnapshot,
   WebappMetricData,
   WebappMetricDataRepo,
@@ -7,7 +7,7 @@ import {
 } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy, minBy, sumBy } from "lodash"
 import { Temporal } from "@js-temporal/polyfill"
-import { SnapshotsRepository } from "../snapshots/snapshots-repository"
+import type { SnapshotsRepository } from "../snapshots/snapshots-repository"
 import {
   calculateRenovateLastUpdateInDays,
   extractDependencyUpdatesFromIssue,
@@ -161,8 +161,7 @@ export async function retrieveSnapshotsForWebappAggregation(
     const isOld =
       Temporal.Instant.compare(dailySnapshots[0].timestamp, oldBefore) < 0
     const toRead = isOld
-      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        [minBy(dailySnapshots, (it) => it.timestamp.epochNanoseconds)!]
+      ? [minBy(dailySnapshots, (it) => it.timestamp.epochNanoseconds)!]
       : dailySnapshots
 
     for (const it of toRead) {
