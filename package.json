@@ -13,6 +13,9 @@
     "@types/webpack": "^5.18.0"
   },
   "workspaces": [
-    "packages/*"
+    "packages/repo-collector-types",
+    "packages/repo-collector",
+    "packages/webapp",
+    "packages/infrastructure"
   ]
 }
