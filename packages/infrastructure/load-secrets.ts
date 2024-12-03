@@ -1,4 +1,6 @@
-import { loadSecrets } from "@capraconsulting/cals-cli"
+#!/usr/bin/env -S npx tsx
+
+import { loadSecrets } from "@liflig/load-secrets"
 
 const slackPipelineNotificationWebhookUrl: loadSecrets.Secret = {
   name: "slack-pipeline-webhook-url",
