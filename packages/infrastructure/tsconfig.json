@@ -20,5 +20,5 @@
     // Not running in the DOM
     "lib": ["es2022"]
   },
-  "exclude": ["cdk.out"]
+  "exclude": ["cdk.out", "load-secrets.ts"]
 }
