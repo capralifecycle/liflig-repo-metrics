@@ -2615,6 +2615,11 @@
             ]
           ]
         },
+        "OKActions": [
+          {
+            "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackwarningstopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
         "Period": 60,
         "Statistic": "Sum",
         "Threshold": 1,

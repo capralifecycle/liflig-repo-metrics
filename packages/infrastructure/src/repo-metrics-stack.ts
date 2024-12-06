@@ -321,5 +321,6 @@ export class RepoMetricsStack extends cdk.Stack {
       })
 
     warningAlarm.addAlarmAction(props.alarmAction)
+    warningAlarm.addOkAction(props.alarmAction)
   }
 }
