@@ -4,7 +4,7 @@ import tseslint from "typescript-eslint"
 
 export default tseslint.config(
   {
-    ignores: ["dist/", "jest.config.cjs", "keytar-stub.js"],
+    ignores: ["dist/", "jest.config.cjs", "keytar-stub.cjs"],
   },
   {
     extends: [
