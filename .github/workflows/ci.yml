@@ -33,7 +33,7 @@ jobs:
 
       - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
-          node-version: 18.20.2
+          node-version: 22.11.0
 
       - uses: capralifecycle/actions-lib/configure-npm@7887a32ad872a79a8e00817659a30876f0a8f1be # v1.5.5
 
