@@ -36,7 +36,7 @@
     "typescript-eslint": "8.15.0"
   },
   "dependencies": {
-    "@capraconsulting/cals-cli": "file:capraconsulting-cals-cli-0.0.0-development.tgz",
+    "@capraconsulting/cals-cli": "3.7.0",
     "@js-temporal/polyfill": "0.4.4",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.17.13",
