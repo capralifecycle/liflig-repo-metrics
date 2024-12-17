@@ -2,21 +2,21 @@
 all: build
 
 .PHONY: build
-build: repo-collector repo-collector-types webapp infrastructure
+build: types app webapp infra
 
-.PHONY: repo-collector
-repo-collector:
+.PHONY: app
+app:
 	@$(MAKE) -C packages/repo-collector
 
-.PHONY: repo-collector-types
-repo-collector-types:
+.PHONY: types
+types:
 	@$(MAKE) -C packages/repo-collector-types
 
 .PHONY: webapp
 webapp:
 	@$(MAKE) -C packages/webapp
 
-.PHONY: infrastructure
-infrastructure:
+.PHONY: infra
+infra:
 	@$(MAKE) -C packages/infrastructure
 
