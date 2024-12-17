@@ -1,20 +1,19 @@
-import type { github } from "@capraconsulting/cals-cli"
-import { definition } from "@capraconsulting/cals-cli"
+import type { GitHubService } from "../github/service"
+import * as definition from "../definition/definition"
+import type { GetReposResponse, Definition } from "../definition/types"
 
 export interface DefinitionProvider {
-  getRepos(): Promise<definition.GetReposResponse[]>
+  getRepos(): Promise<GetReposResponse[]>
   getSnykAccountId(): Promise<string | undefined>
 }
 
 interface DefinitionData {
-  data: definition.Definition
+  data: Definition
   filterByTag: string | null
 }
 
-function getRepos(
-  definitions: DefinitionData[],
-): definition.GetReposResponse[] {
-  const result: definition.GetReposResponse[] = []
+function getRepos(definitions: DefinitionData[]): GetReposResponse[] {
+  const result: GetReposResponse[] = []
 
   for (const def of definitions) {
     const repos = definition
@@ -41,53 +40,12 @@ function getSnykAccountId(definitions: DefinitionData[]): string | undefined {
   return undefined
 }
 
-export class LocalDefinitionProvider implements DefinitionProvider {
-  private capraDefinitionFile: string
-  private lifligDefinitionFile: string
-
-  private definitionDataList: DefinitionData[] | undefined
-
-  constructor(capraDefinitionFile: string, lifligDefinitionFile: string) {
-    this.capraDefinitionFile = capraDefinitionFile
-    this.lifligDefinitionFile = lifligDefinitionFile
-  }
-
-  private async getDefinitions(): Promise<DefinitionData[]> {
-    if (!this.definitionDataList) {
-      this.definitionDataList = []
-
-      this.definitionDataList.push({
-        data: await new definition.DefinitionFile(
-          this.lifligDefinitionFile,
-        ).getDefinition(),
-        filterByTag: null,
-      })
-
-      this.definitionDataList.push({
-        data: await new definition.DefinitionFile(
-          this.capraDefinitionFile,
-        ).getDefinition(),
-        filterByTag: "liflig",
-      })
-    }
-
-    return this.definitionDataList
-  }
-
-  async getRepos(): Promise<definition.GetReposResponse[]> {
-    return getRepos(await this.getDefinitions())
-  }
-  async getSnykAccountId(): Promise<string | undefined> {
-    return getSnykAccountId(await this.getDefinitions())
-  }
-}
-
 export class GithubDefinitionProvider implements DefinitionProvider {
-  private githubService: github.GitHubService
+  private githubService: GitHubService
 
   private definitionDataList: DefinitionData[] | undefined
 
-  constructor(githubService: github.GitHubService) {
+  constructor(githubService: GitHubService) {
     this.githubService = githubService
   }
 
@@ -95,7 +53,7 @@ export class GithubDefinitionProvider implements DefinitionProvider {
     owner: string
     path: string
     repo: string
-  }): Promise<definition.Definition> {
+  }): Promise<Definition> {
     const result = await this.githubService.octokit.repos.getContent({
       owner: request.owner,
       path: request.path,
@@ -127,7 +85,7 @@ export class GithubDefinitionProvider implements DefinitionProvider {
     return this.definitionDataList
   }
 
-  async getRepos(): Promise<definition.GetReposResponse[]> {
+  async getRepos(): Promise<GetReposResponse[]> {
     return getRepos(await this.getDefinitions())
   }
   async getSnykAccountId(): Promise<string | undefined> {

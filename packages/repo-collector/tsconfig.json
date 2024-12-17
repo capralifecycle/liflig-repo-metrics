@@ -2,15 +2,17 @@
 {
   "compilerOptions": {
     // Base options
+    "declaration": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "target": "es2022",
     "allowJs": true,
     "resolveJsonModule": true,
+    "moduleResolution": "node",
     "moduleDetection": "force",
+    "useUnknownInCatchVariables": false,
     "isolatedModules": true,
     "strict": true,
-
     // Jest with ts-jest requires this to be false. If not using Jest, set to true.
     "verbatimModuleSyntax": false,
 

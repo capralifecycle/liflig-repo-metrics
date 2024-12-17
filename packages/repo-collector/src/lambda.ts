@@ -1,7 +1,7 @@
 import { SecretsManager } from "@aws-sdk/client-secrets-manager"
-import type { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
-import type { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
-import type { SonarCloudTokenProvider } from "@capraconsulting/cals-cli/lib/sonarcloud/token"
+import type { GitHubTokenProvider } from "./github/token"
+import type { SnykTokenProvider } from "./snyk/token"
+import type { SonarCloudTokenProvider } from "./sonarcloud/token"
 import type { Handler } from "aws-lambda"
 import { Temporal } from "@js-temporal/polyfill"
 import { isWorkingDay } from "./dates"
@@ -73,6 +73,7 @@ async function getSonarCloudTokenProvider(): Promise<SonarCloudTokenProvider> {
   }
 }
 
+// noinspection JSUnusedGlobalSymbols
 export const collectHandler: Handler = async () => {
   console.log("Collecting data for aggregation")
 
@@ -92,6 +93,7 @@ export const collectHandler: Handler = async () => {
   console.log("Done.")
 }
 
+// noinspection JSUnusedGlobalSymbols
 export const aggregateHandler: Handler = async () => {
   console.log("Aggregating data for webapp")
 
@@ -127,6 +129,7 @@ export const aggregateHandler: Handler = async () => {
   console.log("Done.")
 }
 
+// noinspection JSUnusedGlobalSymbols
 export const reportHandler: Handler = async () => {
   // Don't report on non-working days.
   if (!isWorkingDay(Temporal.Now.plainDateISO("UTC"))) {

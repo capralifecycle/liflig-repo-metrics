@@ -24,6 +24,8 @@ export default tseslint.config(
           ignoreRestSiblings: true,
         },
       ],
+      "no-warning-comments": "off",
+      "eslint-comments/no-unused-disable": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/consistent-type-imports": "error",
       "@typescript-eslint/no-non-null-assertion": "off",
