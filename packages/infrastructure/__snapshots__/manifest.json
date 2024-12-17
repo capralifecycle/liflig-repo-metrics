@@ -83,12 +83,6 @@
             "data": "PipelineCloudAssemblyLookupFn679FAA51"
           }
         ],
-        "/incub-repo-metrics-pipeline/Pipeline/CodePipeline": [
-          {
-            "type": "aws:cdk:warning",
-            "data": "V1 pipeline type is implicitly selected when `pipelineType` is not set. If you want to use V2 type, set `PipelineType.V2`. [ack: @aws-cdk/aws-codepipeline:unspecifiedPipelineType]"
-          }
-        ],
         "/incub-repo-metrics-pipeline/Pipeline/CodePipeline/ArtifactsBucketEncryptionKey/Resource": [
           {
             "type": "aws:cdk:logicalId",
