@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -noEmit && rimraf dist && esbuild src/lambda.ts --bundle --alias:keytar=./keytar-stub.cjs --platform=node --target=\"node18.0\" --outfile=dist/index.js",
-    "test": "jest",
+    "test": "vitest --run",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "collect-locally": "tsx src/collect-locally.ts",
@@ -30,10 +30,8 @@
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-prettier": "5.2.1",
     "http-server": "14.1.1",
-    "jest": "29.7.0",
     "prettier": "3.3.3",
     "rimraf": "6.0.1",
-    "ts-jest": "29.2.5",
     "tsx": "4.19.2",
     "typescript": "5.7.2",
     "typescript-eslint": "8.15.0"
@@ -43,6 +41,7 @@
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@octokit/rest": "^19.0.0",
     "@types/lodash": "4.17.13",
+    "@vitest/ui": "2.1.8",
     "ajv": "8.17.1",
     "axios": "1.7.7",
     "cachedir": "^2.4.0",
@@ -53,5 +52,6 @@
     "lodash": "4.17.21",
     "node-fetch": "^2.6.7",
     "p-limit": "^3.0.0",
+    "vitest": "2.1.8"
   }
 }
