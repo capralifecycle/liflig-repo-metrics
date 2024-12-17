@@ -138,8 +138,8 @@ export class LocalSnapshotsRepository implements SnapshotsRepository {
  * Snapshots repository using S3 as storage.
  */
 export class S3SnapshotsRepository implements SnapshotsRepository {
-  private s3Client: S3
-  private bucketName: string
+  private readonly s3Client: S3
+  private readonly bucketName: string
 
   constructor(bucketName: string) {
     this.s3Client = new S3({})

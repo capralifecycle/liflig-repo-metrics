@@ -38,7 +38,7 @@ function extractUpdates(body: string): Update[] {
   const result: Update[] = []
 
   const matches = body.matchAll(
-    /update (?:dependency )?(.+?) to (.+?)( \(|\]|$)/gm,
+    /update (?:dependency )?(.+?) to (.+?)( \(|]|$)/gm,
   )
   for (const match of matches) {
     result.push({
