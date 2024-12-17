@@ -15,6 +15,7 @@
     "@eslint/js": "9.15.0",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.17.13",
+    "@types/lodash-es": "4.17.12",
     "@types/react": "18.3.12",
     "@types/react-dom": "18.3.1",
     "@types/recharts": "1.8.29",
@@ -31,6 +32,7 @@
     "eslint-plugin-react": "7.37.2",
     "git-revision-webpack-plugin": "5.0.0",
     "http-server": "14.1.1",
+    "lodash-es": "4.17.21",
     "prettier": "3.3.3",
     "typescript": "5.7.2",
     "typescript-eslint": "8.15.0",
@@ -41,7 +43,6 @@
   },
   "dependencies": {
     "date-fns": "4.1.0",
-    "lodash": "4.17.21",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "recharts": "2.13.3"

@@ -5,7 +5,7 @@ import type {
   WebappMetricDataRepoDatapoint,
   WebappStatsByFetchGroup,
 } from "@liflig/repo-metrics-repo-collector-types"
-import { groupBy, minBy, sumBy } from "lodash"
+import { groupBy, minBy, sumBy } from "lodash-es"
 import { Temporal } from "@js-temporal/polyfill"
 import type { SnapshotsRepository } from "../snapshots/snapshots-repository"
 import {

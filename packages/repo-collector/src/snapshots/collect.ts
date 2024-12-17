@@ -15,7 +15,7 @@ import { CacheProvider } from "../cache"
 import { Config } from "../config"
 import { GithubDefinitionProvider } from "./definition-provider"
 import { Temporal } from "@js-temporal/polyfill"
-import { groupBy } from "lodash"
+import { groupBy } from "lodash-es"
 
 async function createSnapshots(
   timestamp: Temporal.Instant,

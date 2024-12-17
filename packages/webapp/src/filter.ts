@@ -1,4 +1,4 @@
-import _ from "lodash"
+import { isEqual } from "lodash-es"
 
 export interface Filter
   extends Record<string, boolean | string | string[] | number> {
@@ -85,7 +85,7 @@ const parseUrlFilterField = (key: string, value: string) => {
 
 export const toQueryString = (state: Filter): string => {
   return Object.keys(defaultValues)
-    .filter((k) => !_.isEqual(defaultValues[k], state[k]))
+    .filter((k) => !isEqual(defaultValues[k], state[k]))
     .map((k) => {
       const curParamValue = state[k]
       return `${k}=${curParamValue.toString()}`

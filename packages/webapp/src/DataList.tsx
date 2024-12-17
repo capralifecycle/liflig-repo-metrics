@@ -3,7 +3,7 @@ import type {
   WebappMetricDataRepo,
   WebappStatsByFetchGroup,
 } from "@liflig/repo-metrics-repo-collector-types"
-import { groupBy } from "lodash"
+import { groupBy } from "lodash-es"
 import * as React from "react"
 import { Checkbox } from "./Checkbox"
 import { DataGroup } from "./DataGroup"
