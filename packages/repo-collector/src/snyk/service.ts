@@ -73,7 +73,7 @@ export class SnykService {
       const sunsetHeader =
         response.headers.get("Sunset") || response.headers.get("sunset")
       if (sunsetHeader) {
-        console.warn(
+        console.log(
           `Snyk endpoint with version ${snykRestApiVersion} has been marked as deprecated with deprecation date ${sunsetHeader}`,
         )
       }
