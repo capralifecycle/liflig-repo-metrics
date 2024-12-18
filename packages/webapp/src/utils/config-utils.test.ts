@@ -1,3 +1,5 @@
+import { expect, test, describe } from "vitest"
+
 import { Environment, getEnvironment, getConfig } from "./config-utils"
 
 describe("getEnvironment", () => {

@@ -1,3 +1,4 @@
+import { expect, test } from "vitest"
 import { extractDependencyUpdatesFromIssue } from "./renovate"
 
 const example = `This issue contains a list of Renovate updates and their statuses.

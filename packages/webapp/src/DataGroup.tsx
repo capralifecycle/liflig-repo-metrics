@@ -2,7 +2,7 @@ import type {
   WebappMetricData,
   WebappMetricDataRepo,
 } from "@liflig/repo-metrics-repo-collector-types"
-import { sumBy } from "lodash"
+import { sumBy } from "lodash-es"
 import * as React from "react"
 import {
   CartesianGrid,

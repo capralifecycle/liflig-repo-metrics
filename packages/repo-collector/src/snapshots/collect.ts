@@ -1,31 +1,28 @@
-import {
-  CacheProvider,
-  Config,
-  definition,
-  github,
-  snyk,
-  sonarCloud,
-} from "@capraconsulting/cals-cli"
-import type { GitHubTokenProvider } from "@capraconsulting/cals-cli/lib/github/token"
-import type { SnykTokenProvider } from "@capraconsulting/cals-cli/lib/snyk/token"
-import { groupBy } from "lodash"
-import { Temporal } from "@js-temporal/polyfill"
-import { GithubDefinitionProvider } from "./definition-provider"
-import type { SnapshotsRepository } from "./snapshots-repository"
-import type { SonarCloudTokenProvider } from "@capraconsulting/cals-cli/lib/sonarcloud/token"
+import type { GetReposResponse } from "../definition/types"
+import type { GitHubTokenProvider } from "../github/token"
 import type { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
+import type { SnapshotsRepository } from "./snapshots-repository"
+import type { SnykProject } from "../snyk/types"
+import type { SnykTokenProvider } from "../snyk/token"
+import type { SonarCloudTokenProvider } from "../sonarcloud/token"
 
-interface SnykProject extends snyk.SnykProject {
-  // Not documented in https://snyk.docs.apiary.io/#reference/projects/all-projects/list-all-projects
-  browseUrl: string
-}
+import * as definition from "../definition/definition"
+import * as github from "../github/service"
+import * as snyk from "../snyk/service"
+import * as snykUtil from "../snyk/util"
+import * as sonarCloud from "../sonarcloud/service"
+import { CacheProvider } from "../cache"
+import { Config } from "../config"
+import { GithubDefinitionProvider } from "./definition-provider"
+import { Temporal } from "@js-temporal/polyfill"
+import { groupBy } from "lodash-es"
 
 async function createSnapshots(
   timestamp: Temporal.Instant,
   snykService: snyk.SnykService,
   githubService: github.GitHubService,
   sonarCloudService: sonarCloud.SonarCloudService,
-  repos: definition.GetReposResponse[],
+  repos: GetReposResponse[],
   snykAccountId?: string,
 ): Promise<MetricRepoSnapshot[]> {
   const snykData = groupBy(
@@ -33,8 +30,8 @@ async function createSnapshots(
       ? await snykService.getProjectsByAccountId(snykAccountId)
       : [],
     (it) => {
-      const repo = snyk.getGitHubRepo(it)
-      return repo ? snyk.getGitHubRepoId(repo) : undefined
+      const repo = snykUtil.getGitHubRepo(it)
+      return repo ? snykUtil.getGitHubRepoId(repo) : undefined
     },
   )
 
@@ -126,13 +123,6 @@ export async function collect(
   })
 
   const definitionProvider = new GithubDefinitionProvider(githubService)
-  /*
-  const definitionProvider = new LocalDefinitionProvider(
-    "../../../../../capraconsulting/misc/resources-definition/resources.yaml",
-    "../../../resources-definition/resources.yaml",
-  )
-  */
-
   const snykService = snyk.createSnykService({
     config,
     tokenProvider: snykTokenProvider,

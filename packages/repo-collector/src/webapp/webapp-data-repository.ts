@@ -23,8 +23,8 @@ export class LocalWebappDataRepository implements WebappDataRepository {
 export class S3WebappDataRepository implements WebappDataRepository {
   private s3Client: S3
   private cloudfrontClient: CloudFront
-  private bucketName: string
-  private cfDistributionId: string
+  private readonly bucketName: string
+  private readonly cfDistributionId: string
 
   constructor(bucketName: string, cfDistributionId: string) {
     this.s3Client = new S3({})

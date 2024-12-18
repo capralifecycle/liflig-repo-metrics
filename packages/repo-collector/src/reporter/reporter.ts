@@ -1,10 +1,14 @@
 import type { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import axios from "axios"
-import type { Dictionary } from "lodash"
-import { groupBy, keyBy, maxBy, sortBy } from "lodash"
+import { groupBy, keyBy, maxBy, sortBy } from "lodash-es"
 import { Temporal } from "@js-temporal/polyfill"
 import { isWorkingDay } from "../dates"
 import type { SnapshotsRepository } from "../snapshots/snapshots-repository"
+
+// Dictionary is missing from lodash-es, so we need to define it here.
+export interface Dictionary<T> {
+  [index: string]: T
+}
 
 interface ReporterRepo {
   repoId: string
