@@ -1160,6 +1160,7 @@
             {
               "Action": [
                 "lambda:GetFunction",
+                "lambda:GetFunctionConfiguration",
                 "lambda:UpdateFunctionCode"
               ],
               "Effect": "Allow",
@@ -1208,7 +1209,7 @@
             "Value": "incub-repo-metrics-main"
           }
         ],
-        "Timeout": 10
+        "Timeout": 120
       },
       "DependsOn": [
         "lifliginfralambdaconfigproviderUpdateCodeFnServiceRoleDefaultPolicy02148DBC",
