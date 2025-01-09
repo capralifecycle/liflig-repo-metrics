@@ -1,13 +1,3 @@
 {
-  "extends": ["github>capraconsulting/renovate-config:aggressive"],
-  "packageRules": [
-    {
-      "matchPackageNames": [
-        "@liflig/cdk-cloudfront-auth"
-      ],
-      "allowedVersions": {
-        "@liflig/cdk-cloudfront-auth": "1.5.43"
-      }
-    }
-  ]
+  "extends": ["github>capraconsulting/renovate-config:aggressive"]
 }
