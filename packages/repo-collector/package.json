@@ -41,7 +41,7 @@
     "@js-temporal/polyfill": "0.4.4",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@octokit/rest": "^19.0.0",
-    "@types/lodash": "4.17.13",
+    "@types/lodash": "4.17.14",
     "@vitest/ui": "2.1.8",
     "ajv": "8.17.1",
     "axios": "1.7.7",
