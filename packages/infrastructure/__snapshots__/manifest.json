@@ -350,12 +350,36 @@
       "properties": {
         "templateFile": "cross-region-stack-001112238813:us-east-1.template.json",
         "terminationProtection": false,
+        "tags": {
+          "Project": "repo-metrics",
+          "SourceRepo": "github/capralifecycle/liflig-repo-metrics",
+          "StackName": "incub-repo-metrics-pipeline-support-us-east-1"
+        },
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-liflig-deploy-role-001112238813-eu-west-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::001112238813:role/cdk-liflig-cfn-exec-role-001112238813-eu-west-1",
         "stackName": "incub-repo-metrics-pipeline-support-us-east-1"
       },
       "metadata": {
+        "/cross-region-stack-001112238813:us-east-1": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "Project",
+                "Value": "repo-metrics"
+              },
+              {
+                "Key": "SourceRepo",
+                "Value": "github/capralifecycle/liflig-repo-metrics"
+              },
+              {
+                "Key": "StackName",
+                "Value": "incub-repo-metrics-pipeline-support-us-east-1"
+              }
+            ]
+          }
+        ],
         "/cross-region-stack-001112238813:us-east-1/Default/CrossRegionCodePipelineReplicationBucketEncryptionKey/Resource": [
           {
             "type": "aws:cdk:logicalId",
