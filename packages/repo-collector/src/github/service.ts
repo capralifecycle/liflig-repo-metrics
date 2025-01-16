@@ -1,7 +1,7 @@
 import { Octokit } from "@octokit/rest"
 import type { OctokitResponse } from "@octokit/types"
 import fetch from "node-fetch"
-import type { Limit } from "p-limit"
+import type { LimitFunction } from "p-limit"
 import pLimit from "p-limit"
 import type { CacheProvider } from "../cache"
 import type { Config } from "../config"
@@ -115,7 +115,7 @@ export class GitHubService {
   public octokit: Octokit
   private cache: CacheProvider
   private tokenProvider: GitHubTokenProvider
-  private readonly semaphore: Limit
+  private readonly semaphore: LimitFunction
 
   public constructor(props: GitHubServiceProps) {
     this.config = props.config

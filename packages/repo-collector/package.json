@@ -52,7 +52,7 @@
     "keytar": "7.9.0",
     "lodash-es": "4.17.21",
     "node-fetch": "^3.0.0",
-    "p-limit": "^3.0.0",
+    "p-limit": "^6.0.0",
     "vitest": "2.1.8"
   }
 }
