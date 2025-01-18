@@ -27,7 +27,7 @@
   "dependencies": {
     "@capraconsulting/webapp-deploy-lambda": "2.4.0",
     "@liflig/cdk": "3.0.10",
-    "@liflig/cdk-cloudfront-auth": "1.6.35",
+    "@liflig/cdk-cloudfront-auth": "1.6.37",
     "aws-cdk-lib": "2.175.1",
     "constructs": "10.4.2"
   }
