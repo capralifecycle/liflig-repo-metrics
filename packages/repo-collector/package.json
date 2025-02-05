@@ -42,7 +42,7 @@
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@octokit/rest": "^21.0.0",
     "@types/lodash": "4.17.15",
-    "@vitest/ui": "3.0.4",
+    "@vitest/ui": "3.0.5",
     "ajv": "8.17.1",
     "axios": "1.7.9",
     "cachedir": "^2.4.0",
