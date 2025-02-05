@@ -39,7 +39,7 @@
     "url-loader": "4.1.1",
     "vite": "6.0.11",
     "vite-plugin-checker": "0.8.0",
-    "vitest": "3.0.4"
+    "vitest": "3.0.5"
   },
   "dependencies": {
     "date-fns": "4.1.0",
