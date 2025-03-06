@@ -12,8 +12,8 @@
     "@eslint/js": "9.21.0",
     "@liflig/load-secrets": "1.0.22",
     "@types/node": "22.13.8",
-    "@typescript-eslint/eslint-plugin": "8.25.0",
-    "@typescript-eslint/parser": "8.25.0",
+    "@typescript-eslint/eslint-plugin": "8.26.0",
+    "@typescript-eslint/parser": "8.26.0",
     "aws-cdk": "2.1001.0",
     "esbuild": "0.25.0",
     "eslint": "9.21.0",
@@ -22,7 +22,7 @@
     "prettier": "3.5.3",
     "tsx": "4.19.3",
     "typescript": "5.8.2",
-    "typescript-eslint": "8.25.0"
+    "typescript-eslint": "8.26.0"
   },
   "dependencies": {
     "@capraconsulting/webapp-deploy-lambda": "2.4.1",
