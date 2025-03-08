@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@eslint/js": "9.21.0",
-    "@liflig/load-secrets": "1.0.22",
+    "@liflig/load-secrets": "1.0.23",
     "@types/node": "22.13.9",
     "@typescript-eslint/eslint-plugin": "8.26.0",
     "@typescript-eslint/parser": "8.26.0",
