@@ -165,7 +165,7 @@ export class RepoMetricsStack extends cdk.Stack {
       runtime: lambda.Runtime.NODEJS_18_X,
       timeout: cdk.Duration.minutes(5),
       insightsVersion: lambda.LambdaInsightsVersion.VERSION_1_0_229_0,
-      memorySize: 3500,
+      memorySize: 4000,
       environment: {
         DATA_BUCKET_NAME: dataBucket.bucketName,
         WEBAPP_DATA_BUCKET_NAME: webappDataBucket.bucketName,
