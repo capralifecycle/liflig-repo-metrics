@@ -38,7 +38,7 @@
     "typescript-eslint": "8.29.0"
   },
   "dependencies": {
-    "@js-temporal/polyfill": "0.5.0",
+    "@js-temporal/polyfill": "0.5.1",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@octokit/rest": "^21.0.0",
     "@types/lodash": "4.17.16",
