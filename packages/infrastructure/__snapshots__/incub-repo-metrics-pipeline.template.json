@@ -774,7 +774,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset1",
+                "Name": "AuthLambdas_CheckAuthFunction_Code",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -800,7 +800,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset10",
+                "Name": "WebappDeploy_WebappDeployResource_Code",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -826,7 +826,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset11",
+                "Name": "WebappDeploy_Asset1",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -852,7 +852,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset12",
+                "Name": "Collector_Code",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -878,7 +878,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset13",
+                "Name": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a_Code",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -904,7 +904,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset2",
+                "Name": "AWS679f53fac002430cb0da5b7982bd2287_Code",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -930,7 +930,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset3",
+                "Name": "AuthLambdas_HttpHeadersFunction_Code",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -956,7 +956,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset4",
+                "Name": "AuthLambdas_ParseAuthFunction_Code",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -982,7 +982,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset5",
+                "Name": "AuthLambdas_RefreshAuthFunction_Code",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -1008,7 +1008,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset6",
+                "Name": "AuthLambdas_SignOutFunction_Code",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -1034,7 +1034,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset7",
+                "Name": "liflig-infra.cloudfront-auth.generate-secret.provider_Function_Code",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -1060,7 +1060,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset8",
+                "Name": "liflig-infra.cloudfront-auth.generate-secret.provider_Provider_framework-onEvent_Code",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -1086,7 +1086,7 @@
                     "Name": "Artifact_PrepareCloudAssembly_cloud-assembly-lookup"
                   }
                 ],
-                "Name": "FileAsset9",
+                "Name": "liflig-infra.lambda-config.provider_UpdateCodeFn_Code",
                 "RoleArn": {
                   "Fn::GetAtt": [
                     "PipelineCdkPipelineCodeBuildActionRole1C961342",
@@ -1230,15 +1230,9 @@
               "Effect": "Allow",
               "Principal": {
                 "AWS": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":iam::001112238813:root"
-                    ]
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelineRoleEE058E60",
+                    "Arn"
                   ]
                 }
               }
@@ -1377,15 +1371,9 @@
               "Effect": "Allow",
               "Principal": {
                 "AWS": {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition"
-                      },
-                      ":iam::001112238813:root"
-                    ]
+                  "Fn::GetAtt": [
+                    "PipelineCodePipelineRoleEE058E60",
+                    "Arn"
                   ]
                 }
               }
@@ -2389,7 +2377,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset1",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/AuthLambdas_CheckAuthFunction_Code",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -2441,7 +2429,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset10",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/WebappDeploy_WebappDeployResource_Code",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -2493,7 +2481,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset11",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/WebappDeploy_Asset1",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -2545,7 +2533,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset12",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/Collector_Code",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -2597,7 +2585,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset13",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a_Code",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -2649,7 +2637,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset2",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/AWS679f53fac002430cb0da5b7982bd2287_Code",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -2701,7 +2689,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset3",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/AuthLambdas_HttpHeadersFunction_Code",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -2753,7 +2741,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset4",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/AuthLambdas_ParseAuthFunction_Code",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -2805,7 +2793,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset5",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/AuthLambdas_RefreshAuthFunction_Code",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -2857,7 +2845,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset6",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/AuthLambdas_SignOutFunction_Code",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -2909,7 +2897,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset7",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/liflig-infra.cloudfront-auth.generate-secret.provider_Function_Code",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -2961,7 +2949,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset8",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/liflig-infra.cloudfront-auth.generate-secret.provider_Provider_framework-onEvent_Code",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
@@ -3013,7 +3001,7 @@
         "Cache": {
           "Type": "NO_CACHE"
         },
-        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/FileAsset9",
+        "Description": "Pipeline step incub-repo-metrics-pipeline/CodePipeline/Assets/liflig-infra.lambda-config.provider_UpdateCodeFn_Code",
         "EncryptionKey": {
           "Fn::GetAtt": [
             "PipelineCodePipelineArtifactsBucketEncryptionKey0E77C3AE",
