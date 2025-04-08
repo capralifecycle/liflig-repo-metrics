@@ -6,3 +6,4 @@ yarn-error.log
 outfile-collector.json
 outfile-aggregator.json
 tsconfig.tsbuildinfo
+.envrc
