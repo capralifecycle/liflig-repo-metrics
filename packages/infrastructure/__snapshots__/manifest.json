@@ -42,7 +42,7 @@
         }
       },
       "dependencies": [
-        "cross-region-stack-001112238813:us-east-1",
+        "cross-region-stack-001112238813_us-east-1",
         "incub-repo-metrics-pipeline.assets"
       ],
       "metadata": {
@@ -344,11 +344,11 @@
         "file": "tree.json"
       }
     },
-    "cross-region-stack-001112238813:us-east-1": {
+    "cross-region-stack-001112238813_us-east-1": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://001112238813/us-east-1",
       "properties": {
-        "templateFile": "cross-region-stack-001112238813:us-east-1.template.json",
+        "templateFile": "cross-region-stack-001112238813_us-east-1.template.json",
         "terminationProtection": false,
         "tags": {
           "Project": "repo-metrics",
@@ -413,5 +413,6 @@
       },
       "displayName": "cross-region-stack-001112238813:us-east-1"
     }
-  }
+  },
+  "minimumCliVersion": "2.1005.0"
 }
