@@ -13,3 +13,6 @@ trim_trailing_whitespace = true
 [*.md]
 # Markdown uses double trailing whitespaces as special chars to force newlines
 trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab
