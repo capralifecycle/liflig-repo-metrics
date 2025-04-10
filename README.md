@@ -1,40 +1,106 @@
 # repo-metrics
 
-https://d2799m9v6pw1zy.cloudfront.net/
+Instance URL: <https://d2799m9v6pw1zy.cloudfront.net/>
 
-Internal details at https://liflig.atlassian.net/l/cp/rhke7t35
+Documentation: <https://liflig.atlassian.net/l/cp/rhke7t35>
 
-## Running locally
+## Overview
 
-```bash
-npm ci
-npm run build
+```mermaid
+%%{init: {'theme':'neutral'}}%%
+graph TB
+subgraph Repo Metrics
 
-# Using existing data.
-cd packages/repo-collector
-aws-vault exec liflig-incubator-admin -- ./fetch-s3-data.sh
+  subgraph Sources
+    GitHub
+    Snyk
+    SonarCloud
+  end
 
-# Serve data locally.
-# (Keep it running in separate session.)
-cd packages/repo-collector
-npm run serve
+  subgraph Collection
+    collector(Lambda: Collector</br>schedule: every 6h)
+    secrets(Secrets Manager)
+    raw_data[(S3 Bucket</br>Raw data)]
+    collector -- Fetch API credentials --> secrets
+    collector -- Write collected data --> raw_data
+  end
 
-# Run the webapp. Will be available at http://localhost:3000
-cd packages/webapp
-npm start
+  subgraph Reporting
+    report(Lambda: Reporter</br>schedule: about every 7h)
+    chat(Slack)
+    report -- Send report --> chat
+  end
+
+  subgraph Aggregation
+    aggregator(Lambda: Aggregator</br>schedule: about every 6h)
+    processed_data[(S3 Bucket</br>Repo data)]
+    aggregator -- Write processed data --> processed_data
+  end
+
+  subgraph Presentation
+    cf(CloudFront)
+    static_files[(S3 Bucket</br>Static files)]
+    user(User)
+    cf -- Read static files --> static_files
+    user -- Browse --> cf
+  end
+
+  Collection -- Fetch data --> Sources
+  Aggregation -- Read repo snapshots --> Collection
+  Reporting -- Read repo snapshots --> Collection
+  Presentation -- Read processed data --> Aggregation
+
+end
 ```
 
-To collect and aggregate data when doing changes:
+## Build
+
+Build all packages:
 
 ```bash
-# Collect snapshot. See section about keys.
-cd packages/repo-collector
-npm run collect-locally
-
-# Aggregate snapshots into webapp format.
-cd packages/repo-collector
-npm run aggregate-locally
+make
+# or
+make build
 ```
+
+Build specific packages:
+
+```bash
+make types
+make lambdas
+make webapp
+make infra
+```
+
+## Run
+
+To run repo-metrics locally, we must provide a data file to the webapp. This file is located at `data/repo-metrics.json`, and may be produced using either of the two approaches outlined below.
+
+### 1. Collect local data
+
+#### Alternative 1: Collect and aggregate from various services
+
+Requires `cals-cli` to be configured with tokens for SonarCloud, Snyk and GitHub.
+
+This approach downloads data from remote sources to the local file system, then processes it into a webapp friendly format.
+
+1. Collect data: `make collect-locally`
+2. Aggregate data: `make aggregate-locally`
+
+#### Alternative 2: Download existing data from S3
+
+Requires: Active shell session using administrative privileges in the liflig-incubator account, e.g. `aws-vault exec liflig-incubator-admin`.
+
+This approach downloads unprocessed (snapshot files) and processed (webapp friendly) data from S3 to the local file system.
+
+### 2. Serve data and run webapp
+
+After data has been collected to `data/repo-metrics.json`, we service it to the webapp.
+
+1. Serve local data: `make serve-local-data`
+2. Start webserver: `make start-webserver`
+
+Open local server at: <http://localhost:3000>
 
 ## Tips for local development
 
@@ -50,6 +116,7 @@ Keys must be set for:
 
 - GitHub
 - Snyk
+- SonarCloud
 
 ## Deployment
 
@@ -58,6 +125,7 @@ This repo is built and deployed automatically on pushes to master.
 ## Tech overview
 
 - npm workspaces for multi-package setup
+- Makefile for task coordination
 - TypeScript
 - Esbuild for bundling of Lambda functions
 - Vite for bundling of webapp
@@ -69,13 +137,8 @@ This repo is built and deployed automatically on pushes to master.
 
 Two lambdas have to be invoked to run a manual update of repo-metrics:
 
-```bash
-# collect
-aws lambda invoke --function-name incub-repo-metrics-main-Collector9EBA7CF5-1PVWAMAFCF1ZJ --log-type Tail outfile-collector.json
-
-# aggregate
-aws lambda invoke --function-name incub-repo-metrics-main-Aggregator84F1B3DF-17LMXCOQOEV3X --log-type Tail outfile-aggregator.json
-```
+- Collect: `make collect-remotely`
+- Aggregate: `make aggregate-remotely`
 
 ## Contributing
 
