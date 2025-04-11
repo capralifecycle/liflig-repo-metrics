@@ -1,7 +1,4 @@
-import type {
-  WebappMetricDataRepo,
-  WebappMetricDataRepoDatapoint,
-} from "@liflig/repo-metrics-repo-collector-types"
+import type { Repo, Metrics } from "@liflig/repo-metrics-repo-collector-types"
 import * as React from "react"
 import { PrColumnDetails } from "./PrColumnDetails"
 import type { Column } from "./Table"
@@ -12,7 +9,7 @@ export const repoColumns = (props: {
   showVulList: boolean
   showOrgName: boolean
   showRenovateDays: boolean
-}): Column<WebappMetricDataRepo>[] => {
+}): Column<Repo>[] => {
   const {
     showPrList,
     showDepList,
@@ -235,14 +232,14 @@ export const repoColumns = (props: {
   ]
 }
 
-function isBotPr(pr: WebappMetricDataRepoDatapoint["github"]["prs"][0]) {
+function isBotPr(pr: Metrics["github"]["prs"][0]) {
   return (
     ["dependabot", "renovate"].includes(pr.author) ||
     pr.title.startsWith("[Snyk]")
   )
 }
 
-export function isActionableRepo(repo: WebappMetricDataRepoDatapoint): boolean {
+export function isActionableRepo(repo: Metrics): boolean {
   return (
     (repo.github.availableUpdates ?? []).filter((it) => it.isActionable)
       .length > 0 ||
@@ -251,7 +248,7 @@ export function isActionableRepo(repo: WebappMetricDataRepoDatapoint): boolean {
   )
 }
 
-export function isVulnerableRepo(repo: WebappMetricDataRepoDatapoint): boolean {
+export function isVulnerableRepo(repo: Metrics): boolean {
   return (
     repo.github.vulnerabilityAlerts.length > 0 ||
     (repo.snyk?.totalIssues ?? 0) > 0
@@ -312,7 +309,7 @@ const SnykItem: React.FC<{
   </span>
 )
 
-const repoBaseUrl = (data: WebappMetricDataRepo) =>
+const repoBaseUrl = (data: Repo) =>
   `https://github.com/${data.github.orgName}/${data.github.repoName}`
 
 const RenovateLogsLink: React.FC<{ repoId: string }> = ({ repoId }) => (
@@ -326,7 +323,7 @@ const RenovateLogsLink: React.FC<{ repoId: string }> = ({ repoId }) => (
 
 const MaybeRenovateLink: React.FC<
   React.PropsWithChildren & {
-    data: WebappMetricDataRepo
+    data: Repo
   }
 > = ({ children, data }) => {
   const renovateDashboad = data.lastDatapoint.github.renovateDependencyDashboard
@@ -342,6 +339,6 @@ const MaybeRenovateLink: React.FC<
   )
 }
 
-function issueUrl(data: WebappMetricDataRepo, issueNumber: number) {
+function issueUrl(data: Repo, issueNumber: number) {
   return `${repoBaseUrl(data)}/issues/${issueNumber}`
 }

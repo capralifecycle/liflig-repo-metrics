@@ -1,11 +1,10 @@
 import type {
-  MetricRepoSnapshot,
-  WebappMetricData,
-  WebappMetricDataRepo,
-  WebappMetricDataRepoDatapoint,
-  WebappStatsByFetchGroup,
+  MetricsSnapshot,
+  WebappData,
+  Repo,
+  Metrics,
 } from "@liflig/repo-metrics-repo-collector-types"
-import { groupBy, minBy, sumBy } from "lodash-es"
+import { groupBy, minBy } from "lodash-es"
 import { Temporal } from "@js-temporal/polyfill"
 import type { SnapshotsRepository } from "../snapshots/snapshots-repository"
 import {
@@ -14,7 +13,7 @@ import {
   isUpdateCategoryActionable,
 } from "./renovate"
 
-function sumSnykSeverities(projects: MetricRepoSnapshot["snyk"]["projects"]) {
+function sumSnykSeverities(projects: MetricsSnapshot["snyk"]["projects"]) {
   return projects.reduce(
     (acc, cur) => ({
       critical: acc.critical + (cur.issueCountsBySeverity.critical ?? 0),
@@ -36,7 +35,7 @@ function extractPathFromSnykName(value: string): string {
 }
 
 function snykProjectContainsVulnerability(
-  project: MetricRepoSnapshot["snyk"]["projects"][0],
+  project: MetricsSnapshot["snyk"]["projects"][0],
 ): boolean {
   return (
     (project.issueCountsBySeverity.high ?? 0) > 0 ||
@@ -46,9 +45,7 @@ function snykProjectContainsVulnerability(
   )
 }
 
-function convertDatapoint(
-  datapoint: MetricRepoSnapshot,
-): WebappMetricDataRepoDatapoint {
+function convertDatapoint(datapoint: MetricsSnapshot): Metrics {
   const countsBySeverity = sumSnykSeverities(datapoint.snyk.projects)
 
   const renovateIssue = datapoint.github.renovateDependencyDashboardIssue
@@ -125,22 +122,19 @@ function convertDatapoint(
   }
 }
 
-function getAvailableActionableUpdates(snapshot: MetricRepoSnapshot): number {
-  return snapshot.github.renovateDependencyDashboardIssue == null
-    ? 0
-    : extractDependencyUpdatesFromIssue(
-        snapshot.github.renovateDependencyDashboardIssue.body,
-      ).flatMap((category) =>
-        isUpdateCategoryActionable(category.name) ? category.updates : [],
-      ).length
-}
-
 export async function retrieveSnapshotsForWebappAggregation(
   snapshotsRepository: SnapshotsRepository,
-): Promise<MetricRepoSnapshot[]> {
-  console.log("Retrieving and grouping snapshots from snapshot repository")
-  const list = groupBy(await snapshotsRepository.list(), (it) =>
+): Promise<MetricsSnapshot[]> {
+  console.log("Retrieving snapshots from snapshot repository")
+  const allSnapshots = await snapshotsRepository.list()
+  console.log("Snapshot repository returned ", allSnapshots.length, " items")
+
+  console.log("Grouping snapshots by their timestamps")
+  const allSnapshotsByTimestamp = groupBy(allSnapshots, (it) =>
     it.timestamp.toZonedDateTimeISO("UTC").toPlainDate().toString(),
+  )
+  console.log(
+    `Grouped snapshots by timestamp into ${Object.keys(allSnapshotsByTimestamp).length}) groups`,
   )
 
   // Include all for last 15 days.
@@ -153,11 +147,12 @@ export async function retrieveSnapshotsForWebappAggregation(
     })
     .subtract({ days: 15 })
     .toInstant()
+  console.log("Cutoff date for old snapshots: ", oldBefore.toString())
 
-  const snapshots: MetricRepoSnapshot[] = []
+  const snapshots: MetricsSnapshot[] = []
 
-  console.log("Fetching recent snapshots from S3")
-  for (const dailySnapshots of Object.values(list)) {
+  console.log("Filtering snapshots, keeping the ones within cutoff date")
+  for (const dailySnapshots of Object.values(allSnapshotsByTimestamp)) {
     const isOld =
       Temporal.Instant.compare(dailySnapshots[0].timestamp, oldBefore) < 0
     const toRead = isOld
@@ -174,64 +169,38 @@ export async function retrieveSnapshotsForWebappAggregation(
 }
 
 export function createWebappFriendlyFormat(
-  snapshots: MetricRepoSnapshot[],
-): WebappMetricData {
+  snapshots: MetricsSnapshot[],
+): WebappData {
   const byRepo = groupBy(snapshots, (it) => it.repoId)
-
-  const byFetchGroup: WebappStatsByFetchGroup[] = Object.entries(
-    groupBy(snapshots, (it) => it.timestamp),
-  ).map<WebappStatsByFetchGroup>(([timestamp, items]) => ({
-    timestamp,
-    repos: items.map<WebappStatsByFetchGroup["repos"][0]>((it) => ({
-      repoId: it.repoId,
-      responsible: it.responsible ?? "Ukjent",
-      updates: getAvailableActionableUpdates(it),
-      githubVulnerabilities: it.github.vulnerabilityAlerts.filter((it) =>
-        it.state == null ? it.dismissReason == null : it.state === "OPEN",
-      ).length,
-      snykVulnerabilities: sumBy(
-        it.snyk.projects,
-        (project) =>
-          (project.issueCountsBySeverity.critical ?? 0) +
-          project.issueCountsBySeverity.high +
-          project.issueCountsBySeverity.medium +
-          project.issueCountsBySeverity.low,
-      ),
-    })),
-  }))
 
   const lastSnapshotTimestamp = [...snapshots].sort((a, b) =>
     b.timestamp.localeCompare(a.timestamp),
   )[0]?.timestamp as string | undefined
 
   return {
-    byFetchGroup,
-    // TODO: Rename to reposLatest or something?
-    repos: Object.entries(byRepo).flatMap<WebappMetricDataRepo>(
-      ([repoId, items]) => {
-        const itemsByTime = [...items].sort((a, b) =>
-          a.timestamp.localeCompare(b.timestamp),
-        )
+    repos: Object.entries(byRepo).flatMap<Repo>(([repoId, items]) => {
+      const itemsByTime = [...items].sort((a, b) =>
+        a.timestamp.localeCompare(b.timestamp),
+      )
 
-        const lastItem = itemsByTime[itemsByTime.length - 1]
+      const lastItem = itemsByTime[itemsByTime.length - 1]
 
-        // Only include the repo if it is included in the last snapshot.
-        if (lastItem.timestamp !== lastSnapshotTimestamp) {
-          return []
-        }
+      // Only include the repo if it is included in the last snapshot.
+      if (lastItem.timestamp !== lastSnapshotTimestamp) {
+        return []
+      }
 
-        return [
-          {
-            repoId,
-            lastDatapoint: convertDatapoint(lastItem),
-            github: {
-              orgName: lastItem.github.orgName,
-              repoName: lastItem.github.repoName,
-            },
-            responsible: lastItem.responsible,
+      return [
+        {
+          repoId,
+          lastDatapoint: convertDatapoint(lastItem),
+          github: {
+            orgName: lastItem.github.orgName,
+            repoName: lastItem.github.repoName,
           },
-        ]
-      },
-    ),
+          responsible: lastItem.responsible,
+        },
+      ]
+    }),
   }
 }
