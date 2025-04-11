@@ -1,6 +1,6 @@
 import type { GetReposResponse } from "../definition/types"
 import type { GitHubTokenProvider } from "../github/token"
-import type { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
+import type { MetricsSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import type { SnapshotsRepository } from "./snapshots-repository"
 import type { SnykProject } from "../snyk/types"
 import type { SnykTokenProvider } from "../snyk/token"
@@ -24,7 +24,7 @@ async function createSnapshots(
   sonarCloudService: sonarCloud.SonarCloudService,
   repos: GetReposResponse[],
   snykAccountId?: string,
-): Promise<MetricRepoSnapshot[]> {
+): Promise<MetricsSnapshot[]> {
   const snykData = groupBy(
     snykAccountId != null
       ? await snykService.getProjectsByAccountId(snykAccountId)
@@ -65,7 +65,7 @@ async function createSnapshots(
       ),
   )
 
-  const result: MetricRepoSnapshot[] = []
+  const result: MetricsSnapshot[] = []
 
   for (const repo of reposWithData) {
     const repoId = definition.getRepoId(repo.repo.orgName, repo.repo.repo.name)
