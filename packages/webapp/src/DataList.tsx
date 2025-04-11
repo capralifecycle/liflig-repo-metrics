@@ -1,7 +1,6 @@
 import type {
-  WebappMetricData,
-  WebappMetricDataRepo,
-  WebappStatsByFetchGroup,
+  WebappData,
+  Repo,
 } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy } from "lodash-es"
 import * as React from "react"
@@ -13,36 +12,8 @@ import { FilterActionType, filterReducer } from "./filterReducer"
 import { isActionableRepo, isVulnerableRepo } from "./Repo"
 
 interface Props {
-  data: WebappMetricData
+  data: WebappData
   filter: Filter
-}
-
-function ageInDays(timestamp: string) {
-  // Approx to simplify.
-  const secondsPerDay = 86400000
-  return Math.floor(
-    (new Date().getTime() - new Date(timestamp).getTime()) / secondsPerDay,
-  )
-}
-
-function filterFetchGroupRepos(
-  data: WebappStatsByFetchGroup[],
-  repoPredicate: (item: WebappStatsByFetchGroup["repos"][0]) => boolean,
-): WebappStatsByFetchGroup[] {
-  return data.flatMap((it) => {
-    const repos = it.repos.filter(repoPredicate)
-
-    if (repos.length === 0) {
-      return []
-    } else {
-      return [
-        {
-          ...it,
-          repos,
-        },
-      ]
-    }
-  })
 }
 
 export const DataList: React.FC<Props> = ({ data, filter }) => {
@@ -74,7 +45,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
     )
   }
 
-  function filterByUpdates(repo: WebappMetricDataRepo): boolean {
+  function filterByUpdates(repo: Repo): boolean {
     return (
       state.filterUpdateName === "" ||
       (repo.lastDatapoint.github.availableUpdates?.some((category) =>
@@ -86,7 +57,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
     )
   }
 
-  function filterByVulnerabilities(repo: WebappMetricDataRepo): boolean {
+  function filterByVulnerabilities(repo: Repo): boolean {
     return (
       state.filterUpdateName === "" ||
       repo.lastDatapoint.github.vulnerabilityAlerts.some((alert) =>
@@ -99,17 +70,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
     .filter((it) => filterRepoId(it.repoId))
     .filter((it) => filterByUpdates(it) || filterByVulnerabilities(it))
 
-  const shownRepoIds = filteredRepos.map((it) => it.repoId)
-
-  const filteredFetchGroups = filterFetchGroupRepos(
-    data.byFetchGroup.filter(
-      (it) =>
-        state.limitGraphDays == false ||
-        ageInDays(it.timestamp) < state.numberOfGraphDaysToLimit,
-    ),
-    (it) => shownRepoIds.includes(it.repoId),
-  )
-
   const byResponsible = state.groupByResponsible
     ? groupBy(filteredRepos, (it) => it.responsible ?? "Ukjent")
     : undefined
@@ -119,16 +79,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       type: FilterActionType.TOGGLE_BOOLEAN,
       prop,
     })
-
-  const onChangeNumberOfGraphDaysToLimit: React.FormEventHandler<
-    HTMLInputElement
-  > = (inputEvent) => {
-    dispatch({
-      type: FilterActionType.CHANGE_NUMBER_OF_DAYS,
-      prop: "numberOfGraphDaysToLimit",
-      payload: (inputEvent.target as HTMLInputElement)?.value,
-    })
-  }
 
   return (
     <>
@@ -191,24 +141,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         >
           Vis kun sårbare repoer
         </Checkbox>
-        {state.showGraphWidget && (
-          <Checkbox
-            checked={state.limitGraphDays != false}
-            onCheck={createOnCheckHandler("limitGraphDays")}
-          >
-            <span>
-              Begrens graf til siste{" "}
-              <input
-                className="num-days-input"
-                inputMode="numeric"
-                min="1"
-                value={state.numberOfGraphDaysToLimit}
-                onInput={onChangeNumberOfGraphDaysToLimit}
-              ></input>{" "}
-              dager
-            </span>
-          </Checkbox>
-        )}
         <Checkbox
           checked={state.sortByRenovateDays}
           onCheck={createOnCheckHandler("sortByRenovateDays")}
@@ -254,16 +186,11 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
                 {!collapsed && (
                   <DataGroup
                     key={responsible}
-                    fetchGroups={filterFetchGroupRepos(
-                      filteredFetchGroups,
-                      (it) => it.responsible === responsible,
-                    )}
                     repos={repos}
                     showPrList={state.showPrList}
                     showDepList={state.showDepList}
                     showVulList={state.showVulList}
                     showOrgName={state.showOrgName}
-                    showGraphWidget={state.showGraphWidget}
                     sortByRenovateDays={state.sortByRenovateDays}
                   />
                 )}
@@ -274,13 +201,11 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         <>
           <h2 className="all-repos-heading">Alle repoer</h2>
           <DataGroup
-            fetchGroups={filteredFetchGroups}
             repos={filteredRepos}
             showPrList={state.showPrList}
             showDepList={state.showDepList}
             showVulList={state.showVulList}
             showOrgName={state.showOrgName}
-            showGraphWidget={state.showGraphWidget}
             sortByRenovateDays={state.sortByRenovateDays}
           />
         </>

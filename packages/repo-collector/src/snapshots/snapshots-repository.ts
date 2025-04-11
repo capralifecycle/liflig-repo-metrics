@@ -1,5 +1,5 @@
 import { paginateListObjectsV2, S3 } from "@aws-sdk/client-s3"
-import type { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
+import type { MetricsSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import * as fs from "fs"
 import getStream from "get-stream"
 import * as path from "path"
@@ -7,9 +7,9 @@ import { Temporal } from "@js-temporal/polyfill"
 import type { Readable } from "stream"
 
 export interface SnapshotsRepository {
-  store(timestamp: Temporal.Instant, data: MetricRepoSnapshot[]): Promise<void>
-  retrieveAll(): Promise<MetricRepoSnapshot[]>
-  retrieve(timestamp: Temporal.Instant): Promise<MetricRepoSnapshot[]>
+  store(timestamp: Temporal.Instant, data: MetricsSnapshot[]): Promise<void>
+  retrieveAll(): Promise<MetricsSnapshot[]>
+  retrieve(timestamp: Temporal.Instant): Promise<MetricsSnapshot[]>
   list(): Promise<SnapshotObject[]>
 }
 
@@ -81,7 +81,7 @@ export class LocalSnapshotsRepository implements SnapshotsRepository {
 
   async store(
     timestamp: Temporal.Instant,
-    data: MetricRepoSnapshot[],
+    data: MetricsSnapshot[],
   ): Promise<void> {
     await fs.promises.writeFile(
       this.pathForTimestamp(timestamp),
@@ -89,8 +89,8 @@ export class LocalSnapshotsRepository implements SnapshotsRepository {
     )
   }
 
-  async retrieveAll(): Promise<MetricRepoSnapshot[]> {
-    const result: MetricRepoSnapshot[] = []
+  async retrieveAll(): Promise<MetricsSnapshot[]> {
+    const result: MetricsSnapshot[] = []
 
     for (const object of await this.list()) {
       const items = await this.retrieve(object.timestamp)
@@ -100,16 +100,14 @@ export class LocalSnapshotsRepository implements SnapshotsRepository {
     return result
   }
 
-  async retrieve(timestamp: Temporal.Instant): Promise<MetricRepoSnapshot[]> {
+  async retrieve(timestamp: Temporal.Instant): Promise<MetricsSnapshot[]> {
     const p = this.pathForTimestamp(timestamp)
 
     const stat = await fs.promises.stat(p)
 
     if (!stat.isFile) throw new Error(`Not a file: ${p}`)
 
-    return fromNdJson<MetricRepoSnapshot>(
-      await fs.promises.readFile(p, "utf-8"),
-    )
+    return fromNdJson<MetricsSnapshot>(await fs.promises.readFile(p, "utf-8"))
   }
 
   async list(): Promise<SnapshotObject[]> {
@@ -167,7 +165,7 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
    */
   async store(
     timestamp: Temporal.Instant,
-    data: MetricRepoSnapshot[],
+    data: MetricsSnapshot[],
   ): Promise<void> {
     await this.s3Client.putObject({
       Bucket: this.bucketName,
@@ -183,8 +181,8 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
    * TODO: This will not scale indefinitely due to memory, so we need to
    *   improve this later e.g. by filtering out what we want to read.
    */
-  async retrieveAll(): Promise<MetricRepoSnapshot[]> {
-    const result: MetricRepoSnapshot[] = []
+  async retrieveAll(): Promise<MetricsSnapshot[]> {
+    const result: MetricsSnapshot[] = []
 
     for (const object of await this.list()) {
       const items = await this.retrieve(object.timestamp)
@@ -194,7 +192,7 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
     return result
   }
 
-  async retrieve(timestamp: Temporal.Instant): Promise<MetricRepoSnapshot[]> {
+  async retrieve(timestamp: Temporal.Instant): Promise<MetricsSnapshot[]> {
     const key = this.keyForTimestamp(timestamp)
 
     console.log(`Reading ${key}`)
@@ -204,7 +202,7 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
     })
 
     const data = await getStream(item.Body as Readable)
-    const items = fromNdJson<MetricRepoSnapshot>(data)
+    const items = fromNdJson<MetricsSnapshot>(data)
 
     console.log(`Found ${items.length} items in ${key}`)
 

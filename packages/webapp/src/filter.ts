@@ -6,7 +6,6 @@ export interface Filter
   showDepList: boolean
   showVulList: boolean
   showOrgName: boolean
-  showGraphWidget: boolean
   groupByResponsible: boolean
   showOnlyActionable: boolean
   showOnlyVulnerable: boolean
@@ -14,8 +13,6 @@ export interface Filter
   collapseResponsible: string[]
   filterRepoName: string
   filterUpdateName: string
-  limitGraphDays: boolean
-  numberOfGraphDaysToLimit: number
 }
 
 export const defaultValues: Filter = {
@@ -23,7 +20,6 @@ export const defaultValues: Filter = {
   showDepList: false,
   showVulList: false,
   showOrgName: false,
-  showGraphWidget: false,
   groupByResponsible: true,
   showOnlyActionable: false,
   showOnlyVulnerable: false,
@@ -31,8 +27,6 @@ export const defaultValues: Filter = {
   collapseResponsible: [],
   filterRepoName: "",
   filterUpdateName: "",
-  limitGraphDays: true,
-  numberOfGraphDaysToLimit: 30,
 }
 
 // Parse URL parameters and turn into a filter object.
@@ -53,12 +47,7 @@ export const getFilterFromUrl = (): Filter => {
 }
 
 const parseUrlFilterField = (key: string, value: string) => {
-  const keyValueFields = [
-    "filterRepoName",
-    "filterUpdateName",
-    "limitGraphDays",
-    "numberOfGraphDaysToLimit",
-  ]
+  const keyValueFields = ["filterRepoName", "filterUpdateName"]
 
   // The collapseResponsible attribute can contain multiple comma separated values,
   // and needs special handling during parsing

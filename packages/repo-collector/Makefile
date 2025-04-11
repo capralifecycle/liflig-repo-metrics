@@ -8,8 +8,13 @@ build:
 	npm run test
 	npm run build
 
+.PHONY: clean
 clean:
 	rm -rf dist
+
+.PHONY: clean-all
+clean-all: clean
+	rm -rf node_modules
 
 # ==============================================================================
 # Local helpers
