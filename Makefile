@@ -28,6 +28,23 @@ webapp:
 infra:
 	@$(MAKE) -C $(infra) build
 
+# clean build artifacts
+.PHONY: clean
+clean:
+	@$(MAKE) -C $(types) clean
+	@$(MAKE) -C $(lambdas) clean
+	@$(MAKE) -C $(webapp) clean
+	@$(MAKE) -C $(infra) clean
+
+# clean build artifacts and node_modules
+.PHONY: clean-all
+clean-all:
+	@$(MAKE) -C $(types) clean-all
+	@$(MAKE) -C $(lambdas) clean-all
+	@$(MAKE) -C $(webapp) clean-all
+	@$(MAKE) -C $(infra) clean-all
+
+
 # ==============================================================================
 # Local helpers
 # ==============================================================================
