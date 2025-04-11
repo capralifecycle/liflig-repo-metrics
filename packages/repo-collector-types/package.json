@@ -5,7 +5,7 @@
   "type": "module",
   "main": "lib/index.js",
   "scripts": {
-    "clean": "rimraf lib",
+    "clean": "rm -rf lib",
     "build": "npm run build:tsc",
     "build:tsc": "tsc -b",
     "lint": "eslint .",
