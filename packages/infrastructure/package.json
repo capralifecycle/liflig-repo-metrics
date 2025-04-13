@@ -17,7 +17,7 @@
     "aws-cdk": "2.1007.0",
     "esbuild": "0.25.2",
     "eslint": "9.24.0",
-    "eslint-config-prettier": "10.1.1",
+    "eslint-config-prettier": "10.1.2",
     "eslint-plugin-prettier": "5.2.6",
     "prettier": "3.5.3",
     "tsx": "4.19.3",
