@@ -48,6 +48,7 @@ serve:
 
 # download data from remote sources to S3
 # requires admin access to incubator account
+# NB: tailing the log currently times out until snapshots are remodeled
 .PHONY: collect-remotely
 collect-remotely:
 	aws lambda invoke --function-name incub-repo-metrics-main-Collector9EBA7CF5-1PVWAMAFCF1ZJ --log-type Tail outfile-collector.json
