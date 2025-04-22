@@ -48,12 +48,12 @@ serve:
 
 # download data from remote sources to S3
 # requires admin access to incubator account
-# .PHONY: collect-remotely
+.PHONY: collect-remotely
 collect-remotely:
-	aws-vault exec $AWS_PROFILE -- aws lambda invoke --function-name incub-repo-metrics-main-Collector9EBA7CF5-1PVWAMAFCF1ZJ --log-type Tail outfile-collector.json
+	aws lambda invoke --function-name incub-repo-metrics-main-Collector9EBA7CF5-1PVWAMAFCF1ZJ --log-type Tail outfile-collector.json
 
 # aggregate S3 data into a webapp-friendly format
 # requires admin access to incubator account
 .PHONY: aggregate-remotely
-aggreggate-remotely:
+aggregate-remotely:
 	aws lambda invoke --function-name incub-repo-metrics-main-Aggregator84F1B3DF-17LMXCOQOEV3X --log-type Tail outfile-aggregator.json
