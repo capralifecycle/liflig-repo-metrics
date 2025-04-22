@@ -25,15 +25,11 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   }, [state])
 
   const actionableRepos = state.showOnlyActionable
-    ? data.repos
-        .filter((it) => isActionableRepo(it.lastDatapoint))
-        .map((it) => it.repoId)
+    ? data.repos.filter((it) => isActionableRepo(it.metrics)).map((it) => it.id)
     : []
 
   const vulnerableRepos = state.showOnlyVulnerable
-    ? data.repos
-        .filter((it) => isVulnerableRepo(it.lastDatapoint))
-        .map((it) => it.repoId)
+    ? data.repos.filter((it) => isVulnerableRepo(it.metrics)).map((it) => it.id)
     : []
 
   function filterRepoId(repoId: string): boolean {
@@ -48,7 +44,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   function filterByUpdates(repo: Repo): boolean {
     return (
       state.filterUpdateName === "" ||
-      (repo.lastDatapoint.github.availableUpdates?.some((category) =>
+      (repo.metrics.github.availableUpdates?.some((category) =>
         category.updates.some((update) =>
           update.name.includes(state.filterUpdateName),
         ),
@@ -60,14 +56,14 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   function filterByVulnerabilities(repo: Repo): boolean {
     return (
       state.filterUpdateName === "" ||
-      repo.lastDatapoint.github.vulnerabilityAlerts.some((alert) =>
+      repo.metrics.github.vulnerabilityAlerts.some((alert) =>
         alert.packageName.includes(state.filterUpdateName),
       )
     )
   }
 
   const filteredRepos = data.repos
-    .filter((it) => filterRepoId(it.repoId))
+    .filter((it) => filterRepoId(it.id))
     .filter((it) => filterByUpdates(it) || filterByVulnerabilities(it))
 
   const byResponsible = state.groupByResponsible
@@ -79,6 +75,12 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       type: FilterActionType.TOGGLE_BOOLEAN,
       prop,
     })
+
+  const removeMillisecondsFromTimestamp = (timestamp: string) => {
+    const [yearMonthDay, restOfTimestamp] = timestamp.split("T")
+    const hourMinuteSecond = restOfTimestamp.split(".")[0]
+    return yearMonthDay + " " + hourMinuteSecond
+  }
 
   return (
     <>
@@ -160,6 +162,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
           placeholder="Filtrer på navn til repo"
         />
       </div>
+      <p>Sist oppdatert {removeMillisecondsFromTimestamp(data.timestamp)}</p>
       {byResponsible != null ? (
         Object.entries(byResponsible)
           .sort((a, b) => a[0].localeCompare(b[0]))

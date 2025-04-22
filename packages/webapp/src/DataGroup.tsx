@@ -24,34 +24,20 @@ export const DataGroup: React.FC<Props> = ({
   const updatesAvailable = sumBy(
     repos,
     (it) =>
-      (it.lastDatapoint.github.availableUpdates ?? []).flatMap((it) =>
+      (it.metrics.github.availableUpdates ?? []).flatMap((it) =>
         it.isActionable ? it.updates : [],
       ).length,
   )
 
   const githubAlerts = sumBy(
     repos,
-    (it) => it.lastDatapoint.github.vulnerabilityAlerts.length,
+    (it) => it.metrics.github.vulnerabilityAlerts.length,
   )
 
-  const snykAlerts = sumBy(
-    repos,
-    (it) => it.lastDatapoint.snyk?.totalIssues ?? 0,
-  )
-
-  const removeMillisecondsFromTimestamp = (timestamp: string) => {
-    const [yearMonthDay, restOfTimestamp] = timestamp.split("T")
-    const hourMinuteSecond = restOfTimestamp.split(".")[0]
-
-    return yearMonthDay + " " + hourMinuteSecond
-  }
+  const snykAlerts = sumBy(repos, (it) => it.metrics.snyk?.totalIssues ?? 0)
 
   return (
     <>
-      <p>
-        Sist oppdatert{" "}
-        {removeMillisecondsFromTimestamp(repos[0].lastDatapoint["timestamp"])}
-      </p>
       <p>
         Status: {repos.length} repoer.{" "}
         <span style={{ color: "#28a745" }}>
@@ -74,14 +60,14 @@ export const DataGroup: React.FC<Props> = ({
         <Table
           data={[...repos].sort((a, b) => {
             function compareByName() {
-              return a.repoId.localeCompare(b.repoId)
+              return a.id.localeCompare(b.id)
             }
             if (sortByRenovateDays) {
               const aDays =
-                a.lastDatapoint.github.renovateDependencyDashboard
+                a.metrics.github.renovateDependencyDashboard
                   ?.daysSinceLastUpdate
               const bDays =
-                b.lastDatapoint.github.renovateDependencyDashboard
+                b.metrics.github.renovateDependencyDashboard
                   ?.daysSinceLastUpdate
 
               if (aDays != null && bDays != null) {

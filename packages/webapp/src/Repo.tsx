@@ -20,24 +20,22 @@ export const repoColumns = (props: {
   return [
     {
       header: "Repo",
-      sortOn: (data) => {
-        const [, repoName] = data.repoId.split("/")
-        return repoName.toLowerCase()
+      sortOn: (repo) => {
+        return repo.name.toLowerCase()
       },
-      render: (data) => {
-        const [orgName, repoName] = data.repoId.split("/")
+      render: (repo) => {
         return (
-          <a href={repoBaseUrl(data)}>
-            {showOrgName && <span className="repo-org">{orgName}/</span>}
-            <span className="repo-name">{repoName}</span>
+          <a href={repoBaseUrl(repo)}>
+            {showOrgName && <span className="repo-org">{repo.org}/</span>}
+            <span className="repo-name">{repo.name}</span>
           </a>
         )
       },
     },
     {
       header: "Oppdateringer til behandling",
-      sortOn: (data) =>
-        data.lastDatapoint.github.availableUpdates
+      sortOn: (repo) =>
+        repo.metrics.github.availableUpdates
           ?.flatMap((category) =>
             category.updates.map((it) => ({
               name: it.name,
@@ -47,14 +45,12 @@ export const repoColumns = (props: {
             })),
           )
           .filter((it) => it.isActionable).length,
-      render: (data) => {
-        const renovateDashboad =
-          data.lastDatapoint.github.renovateDependencyDashboard
+      render: (repo) => {
+        const renovateDashboad = repo.metrics.github.renovateDependencyDashboard
 
-        const renovateEnabled =
-          data.lastDatapoint.github.availableUpdates != null
+        const renovateEnabled = repo.metrics.github.availableUpdates != null
         const availableUpdates = (
-          data.lastDatapoint.github.availableUpdates ?? []
+          repo.metrics.github.availableUpdates ?? []
         ).flatMap((category) =>
           category.updates.map((it) => ({
             name: it.name,
@@ -91,15 +87,15 @@ export const repoColumns = (props: {
               <>
                 {actionableUpdates === 0 ? (
                   <span className="renovate-ok">
-                    <MaybeRenovateLink data={data}>Ingen</MaybeRenovateLink>
-                    <RenovateLogsLink repoId={data.repoId} />
+                    <MaybeRenovateLink repo={repo}>Ingen</MaybeRenovateLink>
+                    <RenovateLogsLink repoId={repo.id} />
                   </span>
                 ) : (
                   <>
-                    <MaybeRenovateLink data={data}>
+                    <MaybeRenovateLink repo={repo}>
                       <b>{actionableUpdates}</b>
                     </MaybeRenovateLink>
-                    <RenovateLogsLink repoId={data.repoId} />
+                    <RenovateLogsLink repoId={repo.id} />
                   </>
                 )}
                 {showDepList && (
@@ -123,13 +119,13 @@ export const repoColumns = (props: {
     },
     {
       header: "Åpne PRs (bots)",
-      sortOn: (data) =>
-        data.lastDatapoint.github.prs.filter((it) => isBotPr(it)).length,
-      render: (data) => {
+      sortOn: (repo) =>
+        repo.metrics.github.prs.filter((it) => isBotPr(it)).length,
+      render: (repo) => {
         return (
           <PrColumnDetails
-            prs={data.lastDatapoint.github.prs.filter((it) => isBotPr(it))}
-            repoBaseUrl={repoBaseUrl(data)}
+            prs={repo.metrics.github.prs.filter((it) => isBotPr(it))}
+            repoBaseUrl={repoBaseUrl(repo)}
             showPrList={showPrList}
           />
         )
@@ -137,13 +133,13 @@ export const repoColumns = (props: {
     },
     {
       header: "Åpne PRs (ikke bots)",
-      sortOn: (data) =>
-        data.lastDatapoint.github.prs.filter((it) => !isBotPr(it)).length,
-      render: (data) => {
+      sortOn: (repo) =>
+        repo.metrics.github.prs.filter((it) => !isBotPr(it)).length,
+      render: (repo) => {
         return (
           <PrColumnDetails
-            prs={data.lastDatapoint.github.prs.filter((it) => !isBotPr(it))}
-            repoBaseUrl={repoBaseUrl(data)}
+            prs={repo.metrics.github.prs.filter((it) => !isBotPr(it))}
+            repoBaseUrl={repoBaseUrl(repo)}
             showPrList={showPrList}
           />
         )
@@ -151,15 +147,15 @@ export const repoColumns = (props: {
     },
     {
       header: "Sårbarheter (GitHub)",
-      sortOn: (data) => data.lastDatapoint.github.vulnerabilityAlerts.length,
-      render: (data) => {
-        const githubVulAlerts = data.lastDatapoint.github.vulnerabilityAlerts
+      sortOn: (repo) => repo.metrics.github.vulnerabilityAlerts.length,
+      render: (repo) => {
+        const githubVulAlerts = repo.metrics.github.vulnerabilityAlerts
         return githubVulAlerts.length === 0 ? (
           <span style={{ color: "var(--color-success)" }}>Ingen</span>
         ) : (
           <>
             <a
-              href={`${repoBaseUrl(data)}/security/dependabot`}
+              href={`${repoBaseUrl(repo)}/security/dependabot`}
               className="dependabot-alerts-link"
             >
               <b>{githubVulAlerts.length}</b>
@@ -179,9 +175,9 @@ export const repoColumns = (props: {
     },
     {
       header: "Sårbarheter (Snyk)",
-      sortOn: (data) => data.lastDatapoint.snyk?.totalIssues,
-      render: (data) => {
-        const snyk = data.lastDatapoint.snyk
+      sortOn: (repo) => repo.metrics.snyk?.totalIssues,
+      render: (repo) => {
+        const snyk = repo.metrics.snyk
         return snyk == null ? (
           <>Mangler Snyk</>
         ) : snyk.totalIssues === 0 ? (
@@ -210,19 +206,19 @@ export const repoColumns = (props: {
     },
     {
       header: "Testdekning (%) (SonarCloud)",
-      sortOn: (data) =>
-        data.lastDatapoint.sonarCloud.testCoverage
-          ? Number(data.lastDatapoint.sonarCloud.testCoverage)
+      sortOn: (repo) =>
+        repo.metrics.sonarCloud.testCoverage
+          ? Number(repo.metrics.sonarCloud.testCoverage)
           : undefined,
-      render: (data) => {
-        return data.lastDatapoint.sonarCloud.testCoverage ? (
+      render: (repo) => {
+        return repo.metrics.sonarCloud.testCoverage ? (
           <span
             className="test-coverage"
             style={sonarCloudTestCoverageStyle(
-              data.lastDatapoint.sonarCloud.testCoverage,
+              repo.metrics.sonarCloud.testCoverage,
             )}
           >
-            {data.lastDatapoint.sonarCloud.testCoverage}
+            {repo.metrics.sonarCloud.testCoverage}
           </span>
         ) : (
           <>Mangler testdekning</>
@@ -309,8 +305,8 @@ const SnykItem: React.FC<{
   </span>
 )
 
-const repoBaseUrl = (data: Repo) =>
-  `https://github.com/${data.github.orgName}/${data.github.repoName}`
+const repoBaseUrl = (repo: Repo) =>
+  `https://github.com/${repo.org}/${repo.name}`
 
 const RenovateLogsLink: React.FC<{ repoId: string }> = ({ repoId }) => (
   <a
@@ -323,13 +319,13 @@ const RenovateLogsLink: React.FC<{ repoId: string }> = ({ repoId }) => (
 
 const MaybeRenovateLink: React.FC<
   React.PropsWithChildren & {
-    data: Repo
+    repo: Repo
   }
-> = ({ children, data }) => {
-  const renovateDashboad = data.lastDatapoint.github.renovateDependencyDashboard
+> = ({ children, repo }) => {
+  const renovateDashboad = repo.metrics.github.renovateDependencyDashboard
   return renovateDashboad != null ? (
     <a
-      href={issueUrl(data, renovateDashboad.issueNumber)}
+      href={issueUrl(repo, renovateDashboad.issueNumber)}
       className="renovate-dashboard-link"
     >
       {children}
@@ -339,6 +335,6 @@ const MaybeRenovateLink: React.FC<
   )
 }
 
-function issueUrl(data: Repo, issueNumber: number) {
-  return `${repoBaseUrl(data)}/issues/${issueNumber}`
+function issueUrl(repo: Repo, issueNumber: number) {
+  return `${repoBaseUrl(repo)}/issues/${issueNumber}`
 }

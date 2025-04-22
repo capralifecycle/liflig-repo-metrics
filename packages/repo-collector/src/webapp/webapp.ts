@@ -1,8 +1,8 @@
 import type {
-  MetricsSnapshot,
-  WebappData,
-  Repo,
   Metrics,
+  MetricsSnapshot,
+  Repo,
+  WebappData,
 } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy, minBy } from "lodash-es"
 import { Temporal } from "@js-temporal/polyfill"
@@ -45,10 +45,14 @@ function snykProjectContainsVulnerability(
   )
 }
 
-function convertDatapoint(datapoint: MetricsSnapshot): Metrics {
-  const countsBySeverity = sumSnykSeverities(datapoint.snyk.projects)
+/**
+ * Create a repo metrics object from a repo snapshot for a single repository.
+ * @param snapshot
+ */
+function mapSnapshotToMetrics(snapshot: MetricsSnapshot): Metrics {
+  const countsBySeverity = sumSnykSeverities(snapshot.snyk.projects)
 
-  const renovateIssue = datapoint.github.renovateDependencyDashboardIssue
+  const renovateIssue = snapshot.github.renovateDependencyDashboardIssue
 
   const updateCategories =
     renovateIssue == null
@@ -61,12 +65,11 @@ function convertDatapoint(datapoint: MetricsSnapshot): Metrics {
     lastUpdatedByRenovate == null
       ? null
       : calculateRenovateLastUpdateInDays(
-          Temporal.Instant.from(datapoint.timestamp),
+          Temporal.Instant.from(snapshot.timestamp),
           Temporal.Instant.from(lastUpdatedByRenovate),
         )
 
   return {
-    timestamp: datapoint.timestamp,
     github: {
       renovateDependencyDashboard: renovateIssue
         ? {
@@ -79,13 +82,13 @@ function convertDatapoint(datapoint: MetricsSnapshot): Metrics {
         isActionable: isUpdateCategoryActionable(category.name),
         updates: category.updates,
       })),
-      prs: datapoint.github.prs.map((pr) => ({
+      prs: snapshot.github.prs.map((pr) => ({
         number: pr.number,
         author: pr.author.login,
         title: pr.title,
         createdAt: pr.createdAt,
       })),
-      vulnerabilityAlerts: datapoint.github.vulnerabilityAlerts
+      vulnerabilityAlerts: snapshot.github.vulnerabilityAlerts
         .filter((it) =>
           it.state == null ? it.dismissReason == null : it.state === "OPEN",
         )
@@ -97,7 +100,7 @@ function convertDatapoint(datapoint: MetricsSnapshot): Metrics {
         })),
     },
     snyk:
-      datapoint.snyk.projects.length > 0
+      snapshot.snyk.projects.length > 0
         ? {
             totalIssues:
               countsBySeverity.critical +
@@ -105,7 +108,7 @@ function convertDatapoint(datapoint: MetricsSnapshot): Metrics {
               countsBySeverity.medium +
               countsBySeverity.low,
             countsBySeverity,
-            vulnerableProjects: datapoint.snyk.projects
+            vulnerableProjects: snapshot.snyk.projects
               .filter(snykProjectContainsVulnerability)
               .map((it) => ({
                 path: extractPathFromSnykName(it.name),
@@ -114,14 +117,23 @@ function convertDatapoint(datapoint: MetricsSnapshot): Metrics {
           }
         : undefined,
     sonarCloud: {
-      enabled: !!datapoint.sonarCloud,
-      testCoverage: datapoint.sonarCloud?.component?.measures?.find(
+      enabled: !!snapshot.sonarCloud,
+      testCoverage: snapshot.sonarCloud?.component?.measures?.find(
         (el) => el.metric === "coverage",
       )?.value,
     },
   }
 }
 
+/**
+ * Retrieves repo snapshots from the provided snapshot repository.
+ *
+ * Snapshots are retrieved from the repository, filtered by their recency and
+ * grouped by their timestamp. Only snapshots from the last 15 days are
+ * included in the response.
+ *
+ * @param snapshotsRepository
+ */
 export async function retrieveSnapshotsForWebappAggregation(
   snapshotsRepository: SnapshotsRepository,
 ): Promise<MetricsSnapshot[]> {
@@ -177,8 +189,8 @@ export function createWebappFriendlyFormat(
     b.timestamp.localeCompare(a.timestamp),
   )[0]?.timestamp as string | undefined
 
-  return {
-    repos: Object.entries(byRepo).flatMap<Repo>(([repoId, items]) => {
+  const repos: Repo[] = Object.entries(byRepo).flatMap<Repo>(
+    ([repoId, items]) => {
       const itemsByTime = [...items].sort((a, b) =>
         a.timestamp.localeCompare(b.timestamp),
       )
@@ -190,17 +202,21 @@ export function createWebappFriendlyFormat(
         return []
       }
 
-      return [
-        {
-          repoId,
-          lastDatapoint: convertDatapoint(lastItem),
-          github: {
-            orgName: lastItem.github.orgName,
-            repoName: lastItem.github.repoName,
-          },
-          responsible: lastItem.responsible,
-        },
-      ]
-    }),
+      const repo = {
+        id: repoId,
+        org: lastItem.github.orgName,
+        name: lastItem.github.repoName,
+        responsible: lastItem.responsible,
+        metrics: mapSnapshotToMetrics(lastItem),
+      }
+
+      return [repo]
+    },
+  )
+
+  return {
+    // Shouldn't be nullable. Make non null when snapshot storage model is simplified
+    timestamp: lastSnapshotTimestamp ?? "Couldn't find snapshot timestamp",
+    repos: repos,
   }
 }

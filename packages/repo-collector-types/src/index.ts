@@ -99,7 +99,6 @@ export interface MetricsSnapshot {
 }
 
 export interface Metrics {
-  timestamp: string
   github: {
     renovateDependencyDashboard: {
       issueNumber: number
@@ -150,19 +149,22 @@ export interface Metrics {
   }
 }
 
+/**
+ * Core and Metric data for a single repository.
+ * Constructed using data
+ */
 export interface Repo {
-  repoId: string
+  id: string
+  org: string
+  name: string
   responsible?: string
-  github: {
-    orgName: string
-    repoName: string
-  }
-  lastDatapoint: Metrics
+  metrics: Metrics
 }
 
 /**
  * Data for webapp.
  */
 export interface WebappData {
+  timestamp: string
   repos: Repo[]
 }
