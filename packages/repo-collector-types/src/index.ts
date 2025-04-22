@@ -151,7 +151,7 @@ export interface Metrics {
 
 /**
  * Core and Metric data for a single repository.
- * Constructed using data
+ * Constructed using data from snapshots.
  */
 export interface Repo {
   id: string
