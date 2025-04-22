@@ -12,3 +12,13 @@ build:
 .PHONY: start-webserver
 start-webserver:
 	npm run start
+
+.PHONY: clean
+clean:
+	rm -rf dist
+	rm -rf build
+	rm -rf coverage
+
+.PHONY: clean-all
+clean-all: clean
+	rm -rf node_modules

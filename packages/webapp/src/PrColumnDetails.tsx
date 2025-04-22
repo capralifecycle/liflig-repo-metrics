@@ -1,9 +1,9 @@
-import type { WebappMetricDataRepoDatapoint } from "@liflig/repo-metrics-repo-collector-types"
+import type { Metrics } from "@liflig/repo-metrics-repo-collector-types"
 import * as React from "react"
 import { formatDistance } from "date-fns"
 
 interface Props {
-  prs: WebappMetricDataRepoDatapoint["github"]["prs"]
+  prs: Metrics["github"]["prs"]
   repoBaseUrl: string
   showPrList: boolean
 }

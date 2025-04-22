@@ -1,4 +1,4 @@
-import type { MetricRepoSnapshot } from "@liflig/repo-metrics-repo-collector-types"
+import type { MetricsSnapshot } from "@liflig/repo-metrics-repo-collector-types"
 import axios from "axios"
 import { groupBy, keyBy, maxBy, sortBy } from "lodash-es"
 import { Temporal } from "@js-temporal/polyfill"
@@ -205,7 +205,7 @@ async function getRepos(
 }
 
 function sumSnykSeverities(
-  projects: MetricRepoSnapshot["snyk"]["projects"],
+  projects: MetricsSnapshot["snyk"]["projects"],
 ): number {
   return projects.reduce(
     (acc, cur) =>
@@ -218,7 +218,7 @@ function sumSnykSeverities(
   )
 }
 
-function sumGithubVuls(datapoint: MetricRepoSnapshot): number {
+function sumGithubVuls(datapoint: MetricsSnapshot): number {
   return datapoint.github.vulnerabilityAlerts.filter(
     // We need to handle multiple snapshot versions here:
     // Earlier snapshots are missing the `state` field, and rely on `dismissReason`

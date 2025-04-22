@@ -2,7 +2,7 @@
 // duplicated so we can keep it persisted and have control
 // over changes.
 
-export interface MetricRepoGitHubVulnerabilityAlert {
+export interface GitHubVulnerabilityAlert {
   dismissReason: string | null
   state: "DISMISSED" | "FIXED" | "OPEN"
   vulnerableManifestFilename: string
@@ -41,7 +41,7 @@ export interface MetricRepoGitHubVulnerabilityAlert {
 /**
  * A snapshot of a specific repo with embedded related details.
  */
-export interface MetricRepoSnapshot {
+export interface MetricsSnapshot {
   version: "1.2"
   timestamp: string
   repoId: string
@@ -58,7 +58,7 @@ export interface MetricRepoSnapshot {
       createdAt: string
       updatedAt: string
     }[]
-    vulnerabilityAlerts: MetricRepoGitHubVulnerabilityAlert[]
+    vulnerabilityAlerts: GitHubVulnerabilityAlert[]
     renovateDependencyDashboardIssue: {
       number: number
       body: string
@@ -98,8 +98,7 @@ export interface MetricRepoSnapshot {
   }
 }
 
-export interface WebappMetricDataRepoDatapoint {
-  timestamp: string
+export interface Metrics {
   github: {
     renovateDependencyDashboard: {
       issueNumber: number
@@ -150,31 +149,22 @@ export interface WebappMetricDataRepoDatapoint {
   }
 }
 
-export interface WebappStatsByFetchGroup {
-  timestamp: string
-  repos: {
-    repoId: string
-    responsible: string
-    updates: number
-    githubVulnerabilities: number
-    snykVulnerabilities: number
-  }[]
-}
-
-export interface WebappMetricDataRepo {
-  repoId: string
+/**
+ * Core and Metric data for a single repository.
+ * Constructed using data
+ */
+export interface Repo {
+  id: string
+  org: string
+  name: string
   responsible?: string
-  github: {
-    orgName: string
-    repoName: string
-  }
-  lastDatapoint: WebappMetricDataRepoDatapoint
+  metrics: Metrics
 }
 
 /**
  * Data for webapp.
  */
-export interface WebappMetricData {
-  byFetchGroup: WebappStatsByFetchGroup[]
-  repos: WebappMetricDataRepo[]
+export interface WebappData {
+  timestamp: string
+  repos: Repo[]
 }
