@@ -17,6 +17,12 @@ import { GithubDefinitionProvider } from "./definition-provider"
 import { Temporal } from "@js-temporal/polyfill"
 import { groupBy } from "lodash-es"
 
+/**
+ * Queries the various services for the current state of the repositories
+ *
+ * @returns A list of repos with supplementary data, sufficient for
+ * snapshot storage.
+ */
 async function createSnapshots(
   timestamp: Temporal.Instant,
   snykService: snyk.SnykService,
