@@ -1,5 +1,5 @@
 import type {
-  GitHubVulnerabilityAlerts,
+  GitHubVulnerabilityAlert,
   SnapshotData,
   SnapshotMetrics,
 } from "@liflig/repo-metrics-repo-collector-types"
@@ -121,7 +121,7 @@ function sumSnykSeverities(
 }
 
 function sumGithubVuls(
-  vulnerabilityAlerts: GitHubVulnerabilityAlerts[],
+  vulnerabilityAlerts: GitHubVulnerabilityAlert[],
 ): number {
   return vulnerabilityAlerts.filter((it) =>
     it.state == null ? it.dismissReason == null : it.state === "OPEN",

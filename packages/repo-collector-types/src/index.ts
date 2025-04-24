@@ -32,7 +32,7 @@ export interface SnapshotMetrics {
       createdAt: string
       updatedAt: string
     }[]
-    vulnerabilityAlerts: GitHubVulnerabilityAlerts[]
+    vulnerabilityAlerts: GitHubVulnerabilityAlert[]
     renovateDependencyDashboardIssue: {
       number: number
       body: string
@@ -89,7 +89,7 @@ export interface SnykProject {
   browseUrl: string
 }
 
-export interface GitHubVulnerabilityAlerts {
+export interface GitHubVulnerabilityAlert {
   dismissReason: string | null
   state: "DISMISSED" | "FIXED" | "OPEN"
   vulnerableManifestFilename: string
