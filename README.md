@@ -74,45 +74,40 @@ make infra
 
 ## Run
 
-To run repo-metrics locally, we must provide a data file to the webapp. This file is located at `data/repo-metrics.json`, and may be produced using either of the two approaches outlined below.
+To run repo-metrics locally, we must provide a data file to the webapp. This file is located in `packages/repo-collector/data/webapp.json`, and may be produced using either of the two approaches outlined below.
 
 ### 1. Collect local data
 
-#### Alternative 1: Collect and aggregate from various services
-
-Requires `cals-cli` to be configured with tokens for SonarCloud, Snyk and GitHub.
+#### Alternative 1: Collect and aggregate data from live services (GitHub, ..)
 
 This approach downloads data from remote sources to the local file system, then processes it into a webapp friendly format.
+
+Requires `cals-cli` to be configured with tokens for SonarCloud, Snyk and GitHub.
 
 1. Collect data: `make collect-locally`
 2. Aggregate data: `make aggregate-locally`
 
 #### Alternative 2: Download existing data from S3
 
-Requires: Active shell session using administrative privileges in the liflig-incubator account, e.g. `aws-vault exec liflig-incubator-admin`.
-
 This approach downloads unprocessed (snapshot files) and processed (webapp friendly) data from S3 to the local file system.
+
+Requires: Active shell session using administrative privileges in the liflig-incubator account, e.g. `aws-vault exec liflig-incubator-admin`.
 
 ### 2. Serve data and run webapp
 
-After data has been collected to `data/repo-metrics.json`, we service it to the webapp.
+After data has been collected and aggregated into `packages/repo-collector/data/webapp.json`, we serve it to the webapp. Do this in two separate windows/panes, as data must be served while the webserver runs.
 
 1. Serve local data: `make serve-local-data`
 2. Start webserver: `make start-webserver`
 
 Open local server at: <http://localhost:3000>
 
-## Tips for local development
-
-- Open each package in a separate VS Code window for it to
-  identify the expected packages.
-
-## Keys setup
+## API Key setup
 
 [cals-cli](https://github.com/capralifecycle/cals-cli) is used to do the remote calls
 and also controls how keys are set up.
 
-Keys must be set for:
+API Keys must be set for:
 
 - GitHub
 - Snyk
@@ -122,23 +117,14 @@ Keys must be set for:
 
 This repo is built and deployed automatically on pushes to master.
 
-## Tech overview
-
-- npm workspaces for multi-package setup
-- Makefile for task coordination
-- TypeScript
-- Esbuild for bundling of Lambda functions
-- Vite for bundling of webapp
-- ESLint and Prettier
-- CDK for infrastructure
-- AWS Lambda
-
 ## Manually updating repo-metrics
 
-Two lambdas have to be invoked to run a manual update of repo-metrics:
+Two lambdas have to be invoked to run a manual update of the live instance of repo-metrics:
 
-- Collect: `make collect-remotely`
-- Aggregate: `make aggregate-remotely`
+Run these using AWS Vault and the `liflig-incubator-admin` role.
+
+- Collector: `make collect-remotely`
+- Aggregator: `make aggregate-remotely`
 
 ## Contributing
 

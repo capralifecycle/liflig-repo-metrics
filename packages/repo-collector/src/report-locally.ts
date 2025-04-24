@@ -1,6 +1,6 @@
 import {
   generateMessage,
-  getReporterDetails,
+  formatReportData,
   sendSlackMessage,
 } from "./reporter/reporter"
 import { LocalSnapshotsRepository } from "./snapshots/snapshots-repository"
@@ -8,7 +8,8 @@ import { LocalSnapshotsRepository } from "./snapshots/snapshots-repository"
 async function main() {
   const snapshotsRepository = new LocalSnapshotsRepository()
 
-  const details = await getReporterDetails(snapshotsRepository)
+  const snapshotData = await snapshotsRepository.get()
+  const details = await formatReportData(snapshotData)
 
   if (details == null) {
     console.log("No data found to generate details")

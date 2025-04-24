@@ -2,48 +2,22 @@
 // duplicated so we can keep it persisted and have control
 // over changes.
 
-export interface GitHubVulnerabilityAlert {
-  dismissReason: string | null
-  state: "DISMISSED" | "FIXED" | "OPEN"
-  vulnerableManifestFilename: string
-  vulnerableManifestPath: string
-  vulnerableRequirements: string | null
-  securityAdvisory: {
-    description: string
-    identifiers: Array<{
-      type: string
-      value: string
-    }>
-    references: Array<{
-      url: string
-    }>
-    severity: "CRITICAL" | "HIGH" | "LOW" | "MODERATE"
-  } | null
-  securityVulnerability: {
-    package: {
-      name: string
-      ecosystem:
-        | "COMPOSER"
-        | "MAVEN"
-        | "NPM"
-        | "NUGET"
-        | "PIP"
-        | "RUBYGEMS"
-        | string
-    }
-    firstPatchedVersion: {
-      identifier: string
-    }
-    vulnerableVersionRange: string
-  } | null
+/**
+ * A snapshot of all repos with embedded related details.
+ *
+ * This is stored in the snapshot repository and later used for aggregation
+ * into a webapp-friendly format.
+ */
+export interface SnapshotData {
+  timestamp: string
+  metrics: SnapshotMetrics[]
 }
 
 /**
  * A snapshot of a specific repo with embedded related details.
  */
-export interface MetricsSnapshot {
+export interface SnapshotMetrics {
   version: "1.2"
-  timestamp: string
   repoId: string
   responsible?: string
   github: {
@@ -98,6 +72,80 @@ export interface MetricsSnapshot {
   }
 }
 
+export interface SnykProject {
+  name: string
+  id: string
+  created: string
+  origin: string
+  type: string
+  testFrequency: string
+  totalDependencies: number
+  issueCountsBySeverity: {
+    critical?: number
+    high: number
+    medium: number
+    low: number
+  }
+  browseUrl: string
+}
+
+export interface GitHubVulnerabilityAlert {
+  dismissReason: string | null
+  state: "DISMISSED" | "FIXED" | "OPEN"
+  vulnerableManifestFilename: string
+  vulnerableManifestPath: string
+  vulnerableRequirements: string | null
+  securityAdvisory: {
+    description: string
+    identifiers: Array<{
+      type: string
+      value: string
+    }>
+    references: Array<{
+      url: string
+    }>
+    severity: "CRITICAL" | "HIGH" | "LOW" | "MODERATE"
+  } | null
+  securityVulnerability: {
+    package: {
+      name: string
+      ecosystem:
+        | "COMPOSER"
+        | "MAVEN"
+        | "NPM"
+        | "NUGET"
+        | "PIP"
+        | "RUBYGEMS"
+        | string
+    }
+    firstPatchedVersion: {
+      identifier: string
+    }
+    vulnerableVersionRange: string
+  } | null
+}
+
+/**
+ * Data for webapp.
+ */
+export interface WebappData {
+  collectedAt: string
+  aggregatedAt: string
+  repos: Repo[]
+}
+
+/**
+ * Core and Metric data for a single repository.
+ * Constructed using data from snapshots.
+ */
+export interface Repo {
+  id: string
+  org: string
+  name: string
+  responsible?: string
+  metrics: Metrics
+}
+
 export interface Metrics {
   github: {
     renovateDependencyDashboard: {
@@ -147,24 +195,4 @@ export interface Metrics {
      */
     testCoverage?: string
   }
-}
-
-/**
- * Core and Metric data for a single repository.
- * Constructed using data
- */
-export interface Repo {
-  id: string
-  org: string
-  name: string
-  responsible?: string
-  metrics: Metrics
-}
-
-/**
- * Data for webapp.
- */
-export interface WebappData {
-  timestamp: string
-  repos: Repo[]
 }
