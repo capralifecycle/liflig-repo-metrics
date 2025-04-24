@@ -57,6 +57,10 @@ collect-locally:
 aggregate-locally:
 	@$(MAKE) -C $(lambdas) aggregate-locally
 
+.PHONY: report-locally
+report-locally:
+	@$(MAKE) -C $(lambdas) report-locally
+
 .PHONY: download-s3-data
 download-s3-data:
 	@$(MAKE) -C $(lambdas) download-s3-data

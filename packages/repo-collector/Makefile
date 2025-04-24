@@ -30,6 +30,11 @@ collect-locally:
 aggregate-locally:
 	npm run aggregate-locally
 
+# report on locally collected snapshot-data
+.PHONY: report-locally
+report-locally:
+	npm run report-locally
+
 # download raw and aggregated data directly from s3
 # requires admin access to incubator account
 .PHONY: download-s3-data
