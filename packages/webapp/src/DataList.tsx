@@ -162,7 +162,13 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
           placeholder="Filtrer på navn til repo"
         />
       </div>
-      <p>Sist oppdatert {removeMillisecondsFromTimestamp(data.timestamp)}</p>
+      <p>
+        Sist hentet fra kilder:{" "}
+        {removeMillisecondsFromTimestamp(data.collectedAt)}
+      </p>
+      <p>
+        Sist prosessert: {removeMillisecondsFromTimestamp(data.aggregatedAt)}
+      </p>
       {byResponsible != null ? (
         Object.entries(byResponsible)
           .sort((a, b) => a[0].localeCompare(b[0]))

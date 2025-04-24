@@ -1,6 +1,9 @@
 import type { GetReposResponse } from "../definition/types"
 import type { GitHubTokenProvider } from "../github/token"
-import type { MetricsSnapshot } from "@liflig/repo-metrics-repo-collector-types"
+import type {
+  SnapshotData,
+  SnapshotMetrics,
+} from "@liflig/repo-metrics-repo-collector-types"
 import type { SnapshotsRepository } from "./snapshots-repository"
 import type { SnykProject } from "../snyk/types"
 import type { SnykTokenProvider } from "../snyk/token"
@@ -18,19 +21,24 @@ import { Temporal } from "@js-temporal/polyfill"
 import { groupBy } from "lodash-es"
 
 /**
- * Queries the various services for the current state of the repositories
+ * Queries the various services for the current state of the repositories.
  *
  * @returns A list of repos with supplementary data, sufficient for
  * snapshot storage.
+ *
+ * @param snykService
+ * @param githubService
+ * @param sonarCloudService
+ * @param repos
+ * @param snykAccountId
  */
-async function createSnapshots(
-  timestamp: Temporal.Instant,
+async function createSnapshotData(
   snykService: snyk.SnykService,
   githubService: github.GitHubService,
   sonarCloudService: sonarCloud.SonarCloudService,
   repos: GetReposResponse[],
   snykAccountId?: string,
-): Promise<MetricsSnapshot[]> {
+): Promise<SnapshotData> {
   const snykData = groupBy(
     snykAccountId != null
       ? await snykService.getProjectsByAccountId(snykAccountId)
@@ -71,7 +79,7 @@ async function createSnapshots(
       ),
   )
 
-  const result: MetricsSnapshot[] = []
+  const result: SnapshotMetrics[] = []
 
   for (const repo of reposWithData) {
     const repoId = definition.getRepoId(repo.repo.orgName, repo.repo.repo.name)
@@ -88,7 +96,6 @@ async function createSnapshots(
 
     result.push({
       version: "1.2",
-      timestamp: timestamp.toString(),
       repoId,
       responsible: repo.repo.repo.responsible ?? repo.repo.project.responsible,
       github: {
@@ -106,7 +113,15 @@ async function createSnapshots(
     })
   }
 
-  return result
+  const now = Temporal.Now.instant()
+
+  // noinspection UnnecessaryLocalVariableJS
+  const snapshotData: SnapshotData = {
+    timestamp: now.toString(),
+    metrics: result,
+  }
+
+  return snapshotData
 }
 
 /**
@@ -139,10 +154,7 @@ export async function collect(
     tokenProvider: sonarCloudTokenProvider,
   })
 
-  const timestamp = Temporal.Now.instant()
-
-  const snapshots = await createSnapshots(
-    timestamp,
+  const snapshotData = await createSnapshotData(
     snykService,
     githubService,
     sonarCloudService,
@@ -150,5 +162,5 @@ export async function collect(
     await definitionProvider.getSnykAccountId(),
   )
 
-  await snapshotsRepository.store(timestamp, snapshots)
+  await snapshotsRepository.store(snapshotData)
 }

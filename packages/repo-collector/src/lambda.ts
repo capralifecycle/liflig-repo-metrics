@@ -7,7 +7,7 @@ import { Temporal } from "@js-temporal/polyfill"
 import { isWorkingDay } from "./dates"
 import {
   generateMessage,
-  getReporterDetails,
+  formatReportData,
   sendSlackMessage,
 } from "./reporter/reporter"
 import { collect } from "./snapshots/collect"
@@ -117,11 +117,11 @@ export const aggregateHandler: Handler = async () => {
   )
 
   console.log("Retrieving snapshots for webapp aggregation")
-  const snapshots =
+  const snapshotData =
     await retrieveSnapshotsForWebappAggregation(snapshotsRepository)
 
   console.log("Converting snapshot data into a webapp friendly format")
-  const webappFriendly = createWebappFriendlyFormat(snapshots)
+  const webappFriendly = createWebappFriendlyFormat(snapshotData)
 
   console.log("Storing webapp data")
   await webappDataRepository.store(webappFriendly)
@@ -142,7 +142,8 @@ export const reportHandler: Handler = async () => {
 
   const snapshotsRepository = new S3SnapshotsRepository(dataBucketName)
 
-  const details = await getReporterDetails(snapshotsRepository)
+  const snapshotData = await snapshotsRepository.get()
+  const details = await formatReportData(snapshotData)
 
   if (details == null) {
     console.log("No data found to generate details")

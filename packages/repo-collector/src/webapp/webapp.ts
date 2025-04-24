@@ -1,10 +1,9 @@
 import type {
   Metrics,
-  MetricsSnapshot,
-  Repo,
+  SnapshotData,
+  SnapshotMetrics,
   WebappData,
 } from "@liflig/repo-metrics-repo-collector-types"
-import { groupBy, minBy } from "lodash-es"
 import { Temporal } from "@js-temporal/polyfill"
 import type { SnapshotsRepository } from "../snapshots/snapshots-repository"
 import {
@@ -13,7 +12,7 @@ import {
   isUpdateCategoryActionable,
 } from "./renovate"
 
-function sumSnykSeverities(projects: MetricsSnapshot["snyk"]["projects"]) {
+function sumSnykSeverities(projects: SnapshotMetrics["snyk"]["projects"]) {
   return projects.reduce(
     (acc, cur) => ({
       critical: acc.critical + (cur.issueCountsBySeverity.critical ?? 0),
@@ -35,7 +34,7 @@ function extractPathFromSnykName(value: string): string {
 }
 
 function snykProjectContainsVulnerability(
-  project: MetricsSnapshot["snyk"]["projects"][0],
+  project: SnapshotMetrics["snyk"]["projects"][0],
 ): boolean {
   return (
     (project.issueCountsBySeverity.high ?? 0) > 0 ||
@@ -47,12 +46,17 @@ function snykProjectContainsVulnerability(
 
 /**
  * Create a repo metrics object from a repo snapshot for a single repository.
- * @param snapshot
+ * @param aggregationTimestamp Specifies the time of aggregation (now), and is used to calculate relative time for
+ * Renovate, i.e., how long ago the last update was.
+ * @param snapshotMetrics The snapshot metrics for a single repository.
  */
-function mapSnapshotToMetrics(snapshot: MetricsSnapshot): Metrics {
-  const countsBySeverity = sumSnykSeverities(snapshot.snyk.projects)
+function mapSnapshotMetricToWebappMetrics(
+  aggregationTimestamp: Temporal.Instant,
+  snapshotMetrics: SnapshotMetrics,
+): Metrics {
+  const countsBySeverity = sumSnykSeverities(snapshotMetrics.snyk.projects)
 
-  const renovateIssue = snapshot.github.renovateDependencyDashboardIssue
+  const renovateIssue = snapshotMetrics.github.renovateDependencyDashboardIssue
 
   const updateCategories =
     renovateIssue == null
@@ -65,7 +69,7 @@ function mapSnapshotToMetrics(snapshot: MetricsSnapshot): Metrics {
     lastUpdatedByRenovate == null
       ? null
       : calculateRenovateLastUpdateInDays(
-          Temporal.Instant.from(snapshot.timestamp),
+          Temporal.Instant.from(aggregationTimestamp),
           Temporal.Instant.from(lastUpdatedByRenovate),
         )
 
@@ -82,13 +86,13 @@ function mapSnapshotToMetrics(snapshot: MetricsSnapshot): Metrics {
         isActionable: isUpdateCategoryActionable(category.name),
         updates: category.updates,
       })),
-      prs: snapshot.github.prs.map((pr) => ({
+      prs: snapshotMetrics.github.prs.map((pr) => ({
         number: pr.number,
         author: pr.author.login,
         title: pr.title,
         createdAt: pr.createdAt,
       })),
-      vulnerabilityAlerts: snapshot.github.vulnerabilityAlerts
+      vulnerabilityAlerts: snapshotMetrics.github.vulnerabilityAlerts
         .filter((it) =>
           it.state == null ? it.dismissReason == null : it.state === "OPEN",
         )
@@ -100,7 +104,7 @@ function mapSnapshotToMetrics(snapshot: MetricsSnapshot): Metrics {
         })),
     },
     snyk:
-      snapshot.snyk.projects.length > 0
+      snapshotMetrics.snyk.projects.length > 0
         ? {
             totalIssues:
               countsBySeverity.critical +
@@ -108,7 +112,7 @@ function mapSnapshotToMetrics(snapshot: MetricsSnapshot): Metrics {
               countsBySeverity.medium +
               countsBySeverity.low,
             countsBySeverity,
-            vulnerableProjects: snapshot.snyk.projects
+            vulnerableProjects: snapshotMetrics.snyk.projects
               .filter(snykProjectContainsVulnerability)
               .map((it) => ({
                 path: extractPathFromSnykName(it.name),
@@ -117,8 +121,8 @@ function mapSnapshotToMetrics(snapshot: MetricsSnapshot): Metrics {
           }
         : undefined,
     sonarCloud: {
-      enabled: !!snapshot.sonarCloud,
-      testCoverage: snapshot.sonarCloud?.component?.measures?.find(
+      enabled: !!snapshotMetrics.sonarCloud,
+      testCoverage: snapshotMetrics.sonarCloud?.component?.measures?.find(
         (el) => el.metric === "coverage",
       )?.value,
     },
@@ -136,87 +140,38 @@ function mapSnapshotToMetrics(snapshot: MetricsSnapshot): Metrics {
  */
 export async function retrieveSnapshotsForWebappAggregation(
   snapshotsRepository: SnapshotsRepository,
-): Promise<MetricsSnapshot[]> {
-  console.log("Retrieving snapshots from snapshot repository")
-  const allSnapshots = await snapshotsRepository.list()
-  console.log("Snapshot repository returned ", allSnapshots.length, " items")
+): Promise<SnapshotData> {
+  console.log("Retrieving snapshot data from snapshot repository")
+  const snapshotData = await snapshotsRepository.get()
 
-  console.log("Grouping snapshots by their timestamps")
-  const allSnapshotsByTimestamp = groupBy(allSnapshots, (it) =>
-    it.timestamp.toZonedDateTimeISO("UTC").toPlainDate().toString(),
-  )
-  console.log(
-    `Grouped snapshots by timestamp into ${Object.keys(allSnapshotsByTimestamp).length}) groups`,
-  )
+  console.log("Snapshot data retrieved: ", {
+    timestamp: snapshotData.timestamp,
+    metricCount: snapshotData.metrics.length,
+  })
 
-  // Include all for last 15 days.
-  // Include only daily first for older.
-
-  const oldBefore = Temporal.Now.zonedDateTimeISO("UTC")
-    .round({
-      smallestUnit: "days",
-      roundingMode: "trunc",
-    })
-    .subtract({ days: 15 })
-    .toInstant()
-  console.log("Cutoff date for old snapshots: ", oldBefore.toString())
-
-  const snapshots: MetricsSnapshot[] = []
-
-  console.log("Filtering snapshots, keeping the ones within cutoff date")
-  for (const dailySnapshots of Object.values(allSnapshotsByTimestamp)) {
-    const isOld =
-      Temporal.Instant.compare(dailySnapshots[0].timestamp, oldBefore) < 0
-    const toRead = isOld
-      ? [minBy(dailySnapshots, (it) => it.timestamp.epochNanoseconds)!]
-      : dailySnapshots
-
-    for (const it of toRead) {
-      snapshots.push(...(await snapshotsRepository.retrieve(it.timestamp)))
-    }
-  }
-  console.log(`Returning ${snapshots.length} recent snapshots`)
-
-  return snapshots
+  return snapshotData
 }
 
+/**
+ * Map snapshot data to webapp-friendly format, retaining timestamps for
+ * collection and aggregation.
+ * @param snapshotData
+ */
 export function createWebappFriendlyFormat(
-  snapshots: MetricsSnapshot[],
+  snapshotData: SnapshotData,
 ): WebappData {
-  const byRepo = groupBy(snapshots, (it) => it.repoId)
-
-  const lastSnapshotTimestamp = [...snapshots].sort((a, b) =>
-    b.timestamp.localeCompare(a.timestamp),
-  )[0]?.timestamp as string | undefined
-
-  const repos: Repo[] = Object.entries(byRepo).flatMap<Repo>(
-    ([repoId, items]) => {
-      const itemsByTime = [...items].sort((a, b) =>
-        a.timestamp.localeCompare(b.timestamp),
-      )
-
-      const lastItem = itemsByTime[itemsByTime.length - 1]
-
-      // Only include the repo if it is included in the last snapshot.
-      if (lastItem.timestamp !== lastSnapshotTimestamp) {
-        return []
-      }
-
-      const repo = {
-        id: repoId,
-        org: lastItem.github.orgName,
-        name: lastItem.github.repoName,
-        responsible: lastItem.responsible,
-        metrics: mapSnapshotToMetrics(lastItem),
-      }
-
-      return [repo]
-    },
-  )
+  const now = Temporal.Now.instant()
+  const repos = snapshotData.metrics.map((metrics) => ({
+    id: metrics.repoId,
+    org: metrics.github.orgName,
+    name: metrics.github.repoName,
+    responsible: metrics.responsible,
+    metrics: mapSnapshotMetricToWebappMetrics(now, metrics),
+  }))
 
   return {
-    // Shouldn't be nullable. Make non null when snapshot storage model is simplified
-    timestamp: lastSnapshotTimestamp ?? "Couldn't find snapshot timestamp",
+    collectedAt: snapshotData.timestamp,
+    aggregatedAt: now.toString(),
     repos: repos,
   }
 }

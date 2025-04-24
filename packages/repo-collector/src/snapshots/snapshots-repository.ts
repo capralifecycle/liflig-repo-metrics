@@ -1,71 +1,12 @@
-import { paginateListObjectsV2, S3 } from "@aws-sdk/client-s3"
-import type { MetricsSnapshot } from "@liflig/repo-metrics-repo-collector-types"
-import * as fs from "fs"
+import { S3 } from "@aws-sdk/client-s3"
+import type { SnapshotData } from "@liflig/repo-metrics-repo-collector-types"
+import { promises as fs } from "fs"
 import getStream from "get-stream"
-import * as path from "path"
-import { Temporal } from "@js-temporal/polyfill"
 import type { Readable } from "stream"
 
 export interface SnapshotsRepository {
-  store(timestamp: Temporal.Instant, data: MetricsSnapshot[]): Promise<void>
-  retrieveAll(): Promise<MetricsSnapshot[]>
-  retrieve(timestamp: Temporal.Instant): Promise<MetricsSnapshot[]>
-  list(): Promise<SnapshotObject[]>
-}
-
-interface SnapshotObject {
-  timestamp: Temporal.Instant
-}
-
-function toNdJson<T>(data: T[]): string {
-  let result = ""
-  for (const item of data) {
-    result += JSON.stringify(item) + "\n"
-  }
-  return result
-}
-
-function fromNdJson<T>(data: string): T[] {
-  const result: T[] = []
-  const lines = data.split("\n")
-  for (const line of lines) {
-    if (line == "") continue
-    result.push(JSON.parse(line) as T)
-  }
-  return result
-}
-
-function formatTimestampForFilename(instant: Temporal.Instant): string {
-  // Format as YYYYMMDDTHHmmss.SSSZ
-  const z = instant.toZonedDateTimeISO("UTC")
-  const day = z.toPlainDate().toString().replace(/-/g, "")
-  const time = z
-    .toPlainTime()
-    .round({ smallestUnit: "seconds", roundingMode: "trunc" })
-    .toString()
-    .replace(/:/g, "")
-  const ms = z.millisecond.toString().padStart(3, "0")
-  return `${day}T${time}.${ms}Z`
-}
-
-function parsePathToTimestamp(p: string): Temporal.Instant | undefined {
-  // Parse YYYYMMDDTHHmmss.SSSZ
-  const match = /^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})\.(\d{3})Z$/.exec(
-    p.replace(/.*\//, "").replace(/\.json$/, ""),
-  )
-
-  if (!match) return undefined
-
-  return Temporal.ZonedDateTime.from({
-    timeZone: "UTC",
-    year: parseInt(match[1]),
-    month: parseInt(match[2]),
-    day: parseInt(match[3]),
-    hour: parseInt(match[4]),
-    minute: parseInt(match[5]),
-    second: parseInt(match[6]),
-    millisecond: parseInt(match[7]),
-  }).toInstant()
+  store(data: SnapshotData): Promise<void>
+  get(): Promise<SnapshotData>
 }
 
 /**
@@ -73,180 +14,62 @@ function parsePathToTimestamp(p: string): Temporal.Instant | undefined {
  * local development and testing.
  */
 export class LocalSnapshotsRepository implements SnapshotsRepository {
-  private base = "data/snapshots"
+  private readonly snapshotDataPath = "data/snapshot.json"
 
-  private pathForTimestamp(timestamp: Temporal.Instant): string {
-    return `${this.base}/${formatTimestampForFilename(timestamp)}.json`
-  }
-
-  async store(
-    timestamp: Temporal.Instant,
-    data: MetricsSnapshot[],
-  ): Promise<void> {
-    await fs.promises.writeFile(
-      this.pathForTimestamp(timestamp),
-      toNdJson(data),
+  async store(snapshotData: SnapshotData): Promise<void> {
+    await fs.writeFile(
+      this.snapshotDataPath,
+      JSON.stringify(snapshotData, undefined, "  "),
+      "utf-8",
     )
   }
 
-  async retrieveAll(): Promise<MetricsSnapshot[]> {
-    const result: MetricsSnapshot[] = []
-
-    for (const object of await this.list()) {
-      const items = await this.retrieve(object.timestamp)
-      result.push(...items)
+  /**
+   * Read SnapshotData from a local file
+   */
+  async get(): Promise<SnapshotData> {
+    const stat = await fs.stat(this.snapshotDataPath)
+    if (!stat.isFile()) {
+      throw new Error(`Not a file: ${this.snapshotDataPath}`)
     }
 
-    return result
-  }
-
-  async retrieve(timestamp: Temporal.Instant): Promise<MetricsSnapshot[]> {
-    const p = this.pathForTimestamp(timestamp)
-
-    const stat = await fs.promises.stat(p)
-
-    if (!stat.isFile) throw new Error(`Not a file: ${p}`)
-
-    return fromNdJson<MetricsSnapshot>(await fs.promises.readFile(p, "utf-8"))
-  }
-
-  async list(): Promise<SnapshotObject[]> {
-    const items = await fs.promises.readdir(this.base)
-    const result: SnapshotObject[] = []
-
-    for (const item of items) {
-      if (!item.endsWith(".json")) continue
-
-      const p = path.join(this.base, item)
-
-      const stat = await fs.promises.stat(p)
-      if (!stat.isFile) continue
-
-      const timestamp = parsePathToTimestamp(item)
-      if (timestamp === undefined) continue
-
-      result.push({ timestamp })
-    }
-
-    return result
+    const data: string = await fs.readFile(this.snapshotDataPath, "utf-8")
+    return JSON.parse(data) as SnapshotData
   }
 }
 
 /**
- * Snapshots repository using S3 as storage.
+ * Snapshot repository using S3 as storage.
  */
 export class S3SnapshotsRepository implements SnapshotsRepository {
   private readonly s3Client: S3
   private readonly bucketName: string
+  private readonly snapshotDataS3Key = "snapshot.json"
 
   constructor(bucketName: string) {
     this.s3Client = new S3({})
-
-    // Workaround for https://github.com/aws/aws-sdk-js-v3/issues/1800
-    // Source: https://github.com/aws/aws-sdk-js-v3/issues/1800#issuecomment-749459712
-    this.s3Client.middlewareStack.add(
-      (next) => async (args) => {
-        delete (args.request as any).headers["content-type"]
-        return next(args)
-      },
-      { step: "build" },
-    )
-
     this.bucketName = bucketName
   }
 
-  private keyForTimestamp(timestamp: Temporal.Instant): string {
-    return `snapshots/${formatTimestampForFilename(timestamp)}.json`
-  }
-
   /**
-   * Store snapshots of data to S3 by putting them in a newline delimited
+   * Store snapshots of data to S3 by putting them in a newline-delimited
    * JSON file specific for this batch.
    */
-  async store(
-    timestamp: Temporal.Instant,
-    data: MetricsSnapshot[],
-  ): Promise<void> {
+  async store(snapshotData: SnapshotData): Promise<void> {
     await this.s3Client.putObject({
       Bucket: this.bucketName,
-      Key: this.keyForTimestamp(timestamp),
-      Body: toNdJson(data),
+      Key: this.snapshotDataS3Key,
+      Body: JSON.stringify(snapshotData, undefined, "  "),
       ContentType: "application/json",
     })
   }
 
-  /**
-   * Retrieve all snapshots from S3.
-   *
-   * TODO: This will not scale indefinitely due to memory, so we need to
-   *   improve this later e.g. by filtering out what we want to read.
-   */
-  async retrieveAll(): Promise<MetricsSnapshot[]> {
-    const result: MetricsSnapshot[] = []
-
-    for (const object of await this.list()) {
-      const items = await this.retrieve(object.timestamp)
-      result.push(...items)
-    }
-
-    return result
-  }
-
-  async retrieve(timestamp: Temporal.Instant): Promise<MetricsSnapshot[]> {
-    const key = this.keyForTimestamp(timestamp)
-
-    console.log(`Reading ${key}`)
+  async get(): Promise<SnapshotData> {
     const item = await this.s3Client.getObject({
       Bucket: this.bucketName,
-      Key: key,
+      Key: this.snapshotDataS3Key,
     })
-
-    const data = await getStream(item.Body as Readable)
-    const items = fromNdJson<MetricsSnapshot>(data)
-
-    console.log(`Found ${items.length} items in ${key}`)
-
-    return items
+    const data: string = await getStream(item.Body as Readable)
+    return JSON.parse(data) as SnapshotData
   }
-
-  async list(): Promise<SnapshotObject[]> {
-    const objectPrefix = "snapshots/"
-    console.log(`Listing snapshots in s3://${this.bucketName}:${objectPrefix}`)
-
-    console.log("Preparing paginator for retrieving snapshot objects")
-    const paginator = paginateListObjectsV2(
-      {
-        client: this.s3Client,
-      },
-      {
-        Bucket: this.bucketName,
-        Prefix: objectPrefix,
-      },
-    )
-
-    const objects: SnapshotObject[] = []
-
-    console.log("Retrieving snapshot objects")
-    for await (const page of paginator) {
-      for (const item of page.Contents || []) {
-        if (item.Key == null) {
-          throw new Error("Missing Key")
-        }
-
-        const timestamp = parsePathToTimestamp(item.Key)
-        if (timestamp != null) {
-          objects.push({ timestamp })
-        }
-      }
-    }
-
-    console.log(`Returning ${objects.length} snapshot objects`)
-
-    return objects
-  }
-}
-
-export const forTests = {
-  formatTimestampForFilename,
-  parsePathToTimestamp,
 }

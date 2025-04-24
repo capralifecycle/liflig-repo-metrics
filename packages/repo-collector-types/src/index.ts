@@ -3,11 +3,21 @@
 // over changes.
 
 /**
+ * A snapshot of all repos with embedded related details.
+ *
+ * This is stored in the snapshot repository and later used for aggregation
+ * into a webapp-friendly format.
+ */
+export interface SnapshotData {
+  timestamp: string
+  metrics: SnapshotMetrics[]
+}
+
+/**
  * A snapshot of a specific repo with embedded related details.
  */
-export interface MetricsSnapshot {
+export interface SnapshotMetrics {
   version: "1.2"
-  timestamp: string
   repoId: string
   responsible?: string
   github: {
@@ -22,7 +32,7 @@ export interface MetricsSnapshot {
       createdAt: string
       updatedAt: string
     }[]
-    vulnerabilityAlerts: GitHubVulnerabilityAlert[]
+    vulnerabilityAlerts: GitHubVulnerabilityAlerts[]
     renovateDependencyDashboardIssue: {
       number: number
       body: string
@@ -62,7 +72,24 @@ export interface MetricsSnapshot {
   }
 }
 
-export interface GitHubVulnerabilityAlert {
+export interface SnykProject {
+  name: string
+  id: string
+  created: string
+  origin: string
+  type: string
+  testFrequency: string
+  totalDependencies: number
+  issueCountsBySeverity: {
+    critical?: number
+    high: number
+    medium: number
+    low: number
+  }
+  browseUrl: string
+}
+
+export interface GitHubVulnerabilityAlerts {
   dismissReason: string | null
   state: "DISMISSED" | "FIXED" | "OPEN"
   vulnerableManifestFilename: string
@@ -102,7 +129,8 @@ export interface GitHubVulnerabilityAlert {
  * Data for webapp.
  */
 export interface WebappData {
-  timestamp: string
+  collectedAt: string
+  aggregatedAt: string
   repos: Repo[]
 }
 
