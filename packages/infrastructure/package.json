@@ -9,14 +9,14 @@
     "snapshots": "rm -rf cdk.out __snapshots__ && IS_SNAPSHOT=true cdk synth && cdk-create-snapshots"
   },
   "devDependencies": {
-    "@eslint/js": "9.25.0",
+    "@eslint/js": "9.25.1",
     "@liflig/load-secrets": "1.0.30",
     "@types/node": "22.14.1",
     "@typescript-eslint/eslint-plugin": "8.30.1",
     "@typescript-eslint/parser": "8.30.1",
     "aws-cdk": "2.1010.0",
     "esbuild": "0.25.2",
-    "eslint": "9.25.0",
+    "eslint": "9.25.1",
     "eslint-config-prettier": "10.1.2",
     "eslint-plugin-prettier": "5.2.6",
     "prettier": "3.5.3",
