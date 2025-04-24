@@ -159,13 +159,14 @@ export class RepoMetricsStack extends cdk.Stack {
       alarmAction: corePlatform.slackWarningsAction,
     })
 
+    const aggregatorMemoryMB = 300
     const aggregator = new lambda.Function(this, "Aggregator", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.aggregateHandler",
       runtime: lambda.Runtime.NODEJS_18_X,
       timeout: cdk.Duration.minutes(5),
       insightsVersion: lambda.LambdaInsightsVersion.VERSION_1_0_229_0,
-      memorySize: 4000,
+      memorySize: aggregatorMemoryMB,
       environment: {
         DATA_BUCKET_NAME: dataBucket.bucketName,
         WEBAPP_DATA_BUCKET_NAME: webappDataBucket.bucketName,
