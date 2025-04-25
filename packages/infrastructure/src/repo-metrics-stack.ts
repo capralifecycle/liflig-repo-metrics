@@ -64,10 +64,15 @@ export class RepoMetricsStack extends cdk.Stack {
       requireGroupAnyOf: ["liflig-active"],
     })
 
-    const webappOrigin = new origins.S3Origin(webappBucket, {
-      originPath: "/web",
-    })
-    const webappDataOrigin = new origins.S3Origin(webappDataBucket)
+    const webappOrigin = origins.S3BucketOrigin.withOriginAccessIdentity(
+      webappBucket,
+      {
+        originPath: "/web",
+      },
+    )
+
+    const webappDataOrigin =
+      origins.S3BucketOrigin.withOriginAccessIdentity(webappDataBucket)
 
     const distribution = new cloudfront.Distribution(this, "Distribution", {
       defaultBehavior: auth.createProtectedBehavior(webappOrigin),
