@@ -1,5 +1,12 @@
 # repo-metrics
 
+Repo Metrics collects, processes and presents various metrics related to GitHub repositories.
+
+- Collection: The collector lambda collects metrics from GitHub and supplementary services like SonarCloud and Snyk, and stores them in a file, `snapshot.json`.
+- Aggregation: `snapshot.json` is read by the aggregation lambda, its data processed into a format suitable for presentation, and stored in another file, `webapp.json`.
+- Reporting: `snapshot.json` is read by the reporter lambda, and the sum of current vulnerabilities is sent to Slack channel `#cals-dev-info`.
+- Presentation: `webapp.json` read by the webapp and presented at <https://d2799m9v6pw1zy.cloudfront.net/>.
+
 Instance URL: <https://d2799m9v6pw1zy.cloudfront.net/>
 
 Documentation: <https://liflig.atlassian.net/l/cp/rhke7t35>
