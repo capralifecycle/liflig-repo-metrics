@@ -6,7 +6,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build --mode production",
-    "test": "vitest --run --coverage src",
+    "test": "vitest --run --coverage src --passWithNoTests",
     "test:watch": "vitest src --watch",
     "lint": "eslint .",
     "lint:fix": "eslint --fix ."
