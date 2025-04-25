@@ -72,9 +72,6 @@ export class RepoMetricsStack extends cdk.Stack {
     const distribution = new cloudfront.Distribution(this, "Distribution", {
       defaultBehavior: auth.createProtectedBehavior(webappOrigin),
       defaultRootObject: "index.html",
-      // Custom domain later?
-      // certificate: props.cloudfrontCertificate,
-      // domainNames: [props.domainName],
       additionalBehaviors: {
         ...auth.createAuthPagesBehaviors(webappOrigin),
         "/data/*": auth.createProtectedBehavior(webappDataOrigin),
