@@ -43,7 +43,7 @@
     "@types/lodash": "4.17.16",
     "@vitest/ui": "3.1.2",
     "ajv": "8.17.1",
-    "axios": "1.8.4",
+    "axios": "1.9.0",
     "cachedir": "^2.4.0",
     "date-holidays": "3.24.2",
     "get-stream": "9.0.1",
