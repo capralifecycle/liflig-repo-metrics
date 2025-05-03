@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@aws-sdk/client-cloudfront": "3.799.0",
-    "@aws-sdk/client-s3": "3.799.0",
+    "@aws-sdk/client-s3": "3.800.0",
     "@aws-sdk/client-secrets-manager": "3.799.0",
     "@eslint/js": "9.25.1",
     "@octokit/types": "13.10.0",
