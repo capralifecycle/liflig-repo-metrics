@@ -11,7 +11,7 @@
   "devDependencies": {
     "@eslint/js": "9.26.0",
     "@liflig/load-secrets": "1.0.35",
-    "@types/node": "22.15.3",
+    "@types/node": "22.15.12",
     "@typescript-eslint/eslint-plugin": "8.31.1",
     "@typescript-eslint/parser": "8.31.1",
     "aws-cdk": "2.1013.0",
