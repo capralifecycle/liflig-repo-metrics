@@ -14,9 +14,9 @@
     "serve": "http-server --cors -p 8383 data"
   },
   "devDependencies": {
-    "@aws-sdk/client-cloudfront": "3.816.0",
-    "@aws-sdk/client-s3": "3.816.0",
-    "@aws-sdk/client-secrets-manager": "3.816.0",
+    "@aws-sdk/client-cloudfront": "3.817.0",
+    "@aws-sdk/client-s3": "3.817.0",
+    "@aws-sdk/client-secrets-manager": "3.817.0",
     "@eslint/js": "9.27.0",
     "@octokit/types": "14.0.0",
     "@types/aws-lambda": "8.10.149",
