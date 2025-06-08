@@ -21,8 +21,8 @@
     "@typescript-eslint/eslint-plugin": "8.33.1",
     "@typescript-eslint/parser": "8.33.1",
     "@vitejs/plugin-react": "4.5.1",
-    "@vitest/coverage-v8": "3.2.1",
-    "@vitest/ui": "3.2.1",
+    "@vitest/coverage-v8": "3.2.2",
+    "@vitest/ui": "3.2.2",
     "autoprefixer": "10.4.21",
     "css-loader": "7.1.2",
     "eslint": "9.28.0",
@@ -38,7 +38,7 @@
     "url-loader": "4.1.1",
     "vite": "6.3.5",
     "vite-plugin-checker": "0.9.3",
-    "vitest": "3.2.1"
+    "vitest": "3.2.2"
   },
   "dependencies": {
     "date-fns": "4.1.0",
