@@ -28,6 +28,10 @@ webapp:
 infra:
 	@$(MAKE) -C $(infra) build
 
+.PHONY: fail-if-snapshots-changed
+fail-if-snapshots-changed:
+	@$(MAKE) -C $(infra) fail-if-snapshots-changed
+
 # clean build artifacts
 .PHONY: clean
 clean:
