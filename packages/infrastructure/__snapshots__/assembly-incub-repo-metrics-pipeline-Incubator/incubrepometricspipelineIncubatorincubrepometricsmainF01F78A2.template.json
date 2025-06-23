@@ -997,7 +997,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs22.x",
         "Tags": [
           {
             "Key": "Project",
@@ -1087,7 +1087,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs22.x",
         "Tags": [
           {
             "Key": "Project",
@@ -1360,7 +1360,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs22.x",
         "Tags": [
           {
             "Key": "Project",
@@ -1941,7 +1941,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs22.x",
         "Tags": [
           {
             "Key": "Project",
@@ -2360,7 +2360,8 @@
         "Metrics": [
           {
             "Expression": "invocations - errors",
-            "Id": "expr_1"
+            "Id": "expr_1",
+            "ReturnData": true
           },
           {
             "Id": "invocations",
@@ -2440,7 +2441,8 @@
         "Metrics": [
           {
             "Expression": "invocations - errors",
-            "Id": "expr_1"
+            "Id": "expr_1",
+            "ReturnData": true
           },
           {
             "Id": "invocations",
@@ -2574,7 +2576,7 @@
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Handler": "index.handler",
-        "Runtime": "nodejs20.x",
+        "Runtime": "nodejs22.x",
         "Timeout": 900,
         "Code": {
           "S3Bucket": "cdk-liflig-assets-001112238813-eu-west-1",
@@ -2945,7 +2947,8 @@
         "Metrics": [
           {
             "Expression": "invocations - errors",
-            "Id": "expr_1"
+            "Id": "expr_1",
+            "ReturnData": true
           },
           {
             "Id": "invocations",
@@ -3025,7 +3028,8 @@
         "Metrics": [
           {
             "Expression": "invocations - errors",
-            "Id": "expr_1"
+            "Id": "expr_1",
+            "ReturnData": true
           },
           {
             "Id": "invocations",
@@ -3315,7 +3319,8 @@
         "Metrics": [
           {
             "Expression": "invocations - errors",
-            "Id": "expr_1"
+            "Id": "expr_1",
+            "ReturnData": true
           },
           {
             "Id": "invocations",
