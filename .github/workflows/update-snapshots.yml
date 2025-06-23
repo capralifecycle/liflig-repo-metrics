@@ -68,7 +68,16 @@ jobs:
         with:
           node-version: 22.16.0
 
-      - name: Update CDK snapshots
+      - name: build types
+        run: make types
+
+      - name: build lambdas
+        run: make lambdas
+
+      - name: build webapp
+        run: make webapp
+
+      - name: build infra and update snapshots
         run: make infra
 
       - name: Check for snapshot changes
