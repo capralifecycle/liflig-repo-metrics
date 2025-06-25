@@ -105,7 +105,8 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-edge/AuthLambdas/CheckAuthFunction/CurrentVersion/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-edge/AuthLambdas/CheckAuthFunction/CurrentVersion/Resource",
+        "aws:cdk:do-not-refactor": true
       }
     },
     "AuthLambdasCheckAuthFunctionVersionParamParameuwest1Resoure8ACD3434": {
@@ -232,7 +233,8 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-edge/AuthLambdas/HttpHeadersFunction/CurrentVersion/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-edge/AuthLambdas/HttpHeadersFunction/CurrentVersion/Resource",
+        "aws:cdk:do-not-refactor": true
       }
     },
     "AuthLambdasHttpHeadersFunctionVersionParamParameuwest1Resoure0C3C81F2": {
@@ -359,7 +361,8 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-edge/AuthLambdas/ParseAuthFunction/CurrentVersion/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-edge/AuthLambdas/ParseAuthFunction/CurrentVersion/Resource",
+        "aws:cdk:do-not-refactor": true
       }
     },
     "AuthLambdasParseAuthFunctionVersionParamParameuwest1Resoure934661C6": {
@@ -486,7 +489,8 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-edge/AuthLambdas/RefreshAuthFunction/CurrentVersion/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-edge/AuthLambdas/RefreshAuthFunction/CurrentVersion/Resource",
+        "aws:cdk:do-not-refactor": true
       }
     },
     "AuthLambdasRefreshAuthFunctionVersionParamParameuwest1Resoure0C0D8913": {
@@ -613,7 +617,8 @@
         }
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-edge/AuthLambdas/SignOutFunction/CurrentVersion/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-edge/AuthLambdas/SignOutFunction/CurrentVersion/Resource",
+        "aws:cdk:do-not-refactor": true
       }
     },
     "AuthLambdasSignOutFunctionVersionParamParameuwest1Resoure18583D2D": {
