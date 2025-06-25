@@ -133,6 +133,12 @@ Run these using AWS Vault and the `liflig-incubator-admin` role.
 - Collector: `make collect-remotely`
 - Aggregator: `make aggregate-remotely`
 
+## Architecture Decision Records (ADR)
+
+Architecture Decision Records in this project are stored in the `./doc/adr` directory.
+
+Refer to the [first ADR](doc/adr/0001-record-architecture-decisions.md) for more information.
+
 ## Contributing
 
 This project accepts contributions. To get started, please contact the maintainers at [Slack](https://liflig.slack.com/archives/C02T4KTPYS2).
