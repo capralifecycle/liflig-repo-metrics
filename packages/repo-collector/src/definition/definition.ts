@@ -49,8 +49,7 @@ function requireValidDefinition(definition: Definition) {
 
   // Verify team members exists as users.
   definition.github.teams
-    .map((it) => it.teams)
-    .flat()
+    .flatMap((it) => it.teams)
     .forEach((team) => {
       team.members.forEach((login) => {
         if (!loginList.includes(login)) {
@@ -96,13 +95,9 @@ function requireValidDefinition(definition: Definition) {
   // Verify no duplicates in repos.
   definition.projects
     .flatMap((project) =>
-      project.github
-        .map((org) =>
-          (org.repos || []).map((repo) =>
-            getRepoId(org.organization, repo.name),
-          ),
-        )
-        .flat(),
+      project.github.flatMap((org) =>
+        (org.repos || []).map((repo) => getRepoId(org.organization, repo.name)),
+      ),
     )
     .reduce<string[]>((acc, repoName) => {
       if (acc.includes(repoName)) {
@@ -116,7 +111,7 @@ export function parseDefinition(value: string): Definition {
   const result = checkAgainstSchema(yaml.load(value))
 
   if ("error" in result) {
-    throw new Error("Definition content invalid: " + result.error)
+    throw new Error(`Definition content invalid: ${result.error}`)
   }
 
   requireValidDefinition(result.definition)
@@ -125,15 +120,13 @@ export function parseDefinition(value: string): Definition {
 
 export function getRepos(definition: Definition): GetReposResponse[] {
   return definition.projects.flatMap((project) =>
-    project.github
-      .map((org) =>
-        (org.repos || []).map((repo) => ({
-          id: getRepoId(org.organization, repo.name),
-          orgName: org.organization,
-          project,
-          repo,
-        })),
-      )
-      .flat(),
+    project.github.flatMap((org) =>
+      (org.repos || []).map((repo) => ({
+        id: getRepoId(org.organization, repo.name),
+        orgName: org.organization,
+        project,
+        repo,
+      })),
+    ),
   )
 }

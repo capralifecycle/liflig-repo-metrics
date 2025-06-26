@@ -1,24 +1,23 @@
-import type { GetReposResponse } from "../definition/types"
-import type { GitHubTokenProvider } from "../github/token"
+import { Temporal } from "@js-temporal/polyfill"
 import type {
   SnapshotData,
   SnapshotMetrics,
 } from "@liflig/repo-metrics-repo-collector-types"
-import type { SnapshotsRepository } from "./snapshots-repository"
-import type { SnykProject } from "../snyk/types"
-import type { SnykTokenProvider } from "../snyk/token"
-import type { SonarCloudTokenProvider } from "../sonarcloud/token"
-
-import * as definition from "../definition/definition"
-import * as github from "../github/service"
-import * as snyk from "../snyk/service"
-import * as snykUtil from "../snyk/util"
-import * as sonarCloud from "../sonarcloud/service"
+import { groupBy } from "lodash-es"
 import { CacheProvider } from "../cache"
 import { Config } from "../config"
+import * as definition from "../definition/definition"
+import type { GetReposResponse } from "../definition/types"
+import * as github from "../github/service"
+import type { GitHubTokenProvider } from "../github/token"
+import * as snyk from "../snyk/service"
+import type { SnykTokenProvider } from "../snyk/token"
+import type { SnykProject } from "../snyk/types"
+import * as snykUtil from "../snyk/util"
+import * as sonarCloud from "../sonarcloud/service"
+import type { SonarCloudTokenProvider } from "../sonarcloud/token"
 import { GithubDefinitionProvider } from "./definition-provider"
-import { Temporal } from "@js-temporal/polyfill"
-import { groupBy } from "lodash-es"
+import type { SnapshotsRepository } from "./snapshots-repository"
 
 /**
  * Queries the various services for the current state of the repositories.

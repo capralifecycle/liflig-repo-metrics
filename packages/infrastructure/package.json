@@ -4,25 +4,18 @@
   "type": "module",
   "scripts": {
     "cdk": "cdk",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
+    "lint": "biome check",
+    "lint:fix": "biome check --fix",
     "snapshots": "rm -rf cdk.out __snapshots__ && IS_SNAPSHOT=true cdk synth && cdk-create-snapshots"
   },
   "devDependencies": {
-    "@eslint/js": "9.29.0",
+    "@biomejs/biome": "2.0.5",
     "@liflig/load-secrets": "1.0.48",
     "@types/node": "22.15.32",
-    "@typescript-eslint/eslint-plugin": "8.34.1",
-    "@typescript-eslint/parser": "8.34.1",
     "aws-cdk": "2.1019.1",
     "esbuild": "0.25.5",
-    "eslint": "9.29.0",
-    "eslint-config-prettier": "10.1.5",
-    "eslint-plugin-prettier": "5.5.0",
-    "prettier": "3.6.0",
     "tsx": "4.20.3",
-    "typescript": "5.8.3",
-    "typescript-eslint": "8.34.1"
+    "typescript": "5.8.3"
   },
   "dependencies": {
     "@capraconsulting/webapp-deploy-lambda": "2.4.1",

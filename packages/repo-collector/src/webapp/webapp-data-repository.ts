@@ -1,8 +1,8 @@
+import * as fs from "node:fs"
 import { CloudFront } from "@aws-sdk/client-cloudfront"
 import { S3 } from "@aws-sdk/client-s3"
-import type { WebappData } from "@liflig/repo-metrics-repo-collector-types"
-import * as fs from "fs"
 import { Temporal } from "@js-temporal/polyfill"
+import type { WebappData } from "@liflig/repo-metrics-repo-collector-types"
 
 export interface WebappDataRepository {
   store(data: WebappData): Promise<void>
@@ -48,7 +48,7 @@ export class S3WebappDataRepository implements WebappDataRepository {
   async store(data: WebappData): Promise<void> {
     await this.s3Client.putObject({
       Bucket: this.bucketName,
-      Key: `data/webapp.json`,
+      Key: "data/webapp.json",
       Body: JSON.stringify(data, undefined, "  "),
       ContentType: "application/json",
     })

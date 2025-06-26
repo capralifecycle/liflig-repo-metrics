@@ -1,6 +1,6 @@
-import type { GitHubService } from "../github/service"
 import * as definition from "../definition/definition"
-import type { GetReposResponse, Definition } from "../definition/types"
+import type { Definition, GetReposResponse } from "../definition/types"
+import type { GitHubService } from "../github/service"
 
 export interface DefinitionProvider {
   getRepos(): Promise<GetReposResponse[]>

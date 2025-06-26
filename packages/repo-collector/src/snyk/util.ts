@@ -15,10 +15,8 @@ export function getGitHubRepo(
       owner: match[1],
       name: match[2],
     }
-  } else if (
-    snykProject.origin === "cli" &&
-    snykProject.remoteRepoUrl != null
-  ) {
+  }
+  if (snykProject.origin === "cli" && snykProject.remoteRepoUrl != null) {
     const match = /github.com\/([^/]+)\/(.+)\.git$/.exec(
       snykProject.remoteRepoUrl,
     )
@@ -30,9 +28,8 @@ export function getGitHubRepo(
       owner: match[1],
       name: match[2],
     }
-  } else {
-    return undefined
   }
+  return undefined
 }
 
 export function getGitHubRepoId(

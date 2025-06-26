@@ -1,5 +1,5 @@
-import type { Repo, Metrics } from "@liflig/repo-metrics-repo-collector-types"
-import * as React from "react"
+import type { Metrics, Repo } from "@liflig/repo-metrics-repo-collector-types"
+import type * as React from "react"
 import { PrColumnDetails } from "./PrColumnDetails"
 import type { Column } from "./Table"
 
@@ -75,10 +75,8 @@ export const repoColumns = (props: {
                       : undefined
                   }
                 >
-                  <>
-                    Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
-                    siden
-                  </>
+                  Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
+                  siden
                 </div>
               )}
             {!renovateEnabled ? (
@@ -179,7 +177,7 @@ export const repoColumns = (props: {
       render: (repo) => {
         const snyk = repo.metrics.snyk
         return snyk == null ? (
-          <>Mangler Snyk</>
+          "Mangler Snyk"
         ) : snyk.totalIssues === 0 ? (
           <span style={{ color: "var(--color-success)" }}>Ingen</span>
         ) : (
@@ -221,7 +219,7 @@ export const repoColumns = (props: {
             {repo.metrics.sonarCloud.testCoverage}
           </span>
         ) : (
-          <>Mangler testdekning</>
+          "Mangler testdekning"
         )
       },
     },
@@ -277,18 +275,18 @@ function snykStyle(type: SnykType): React.CSSProperties {
 }
 
 function sonarCloudTestCoverageStyle(coverage: string): React.CSSProperties {
-  if (parseInt(coverage) > 70) {
+  if (Number.parseInt(coverage) > 70) {
     return {
       color: "green",
     }
-  } else if (parseInt(coverage) > 45) {
+  }
+  if (Number.parseInt(coverage) > 45) {
     return {
       color: "darkgoldenrod",
     }
-  } else {
-    return {
-      color: "red",
-    }
+  }
+  return {
+    color: "red",
   }
 }
 
@@ -331,7 +329,7 @@ const MaybeRenovateLink: React.FC<
       {children}
     </a>
   ) : (
-    <>{children}</>
+    children
   )
 }
 

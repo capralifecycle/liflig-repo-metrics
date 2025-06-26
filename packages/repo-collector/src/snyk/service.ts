@@ -2,7 +2,7 @@ import fetch from "node-fetch"
 import type { Config } from "../config"
 import type { SnykTokenProvider } from "./token"
 import { SnykTokenCliProvider } from "./token"
-import type { RestAPIProject, ProjectResponse, SnykProject } from "./types"
+import type { ProjectResponse, RestAPIProject, SnykProject } from "./types"
 
 interface SnykServiceProps {
   config: Config

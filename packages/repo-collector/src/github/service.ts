@@ -1,3 +1,5 @@
+import { performance } from "node:perf_hooks"
+import * as process from "node:process"
 import { Octokit } from "@octokit/rest"
 import type { OctokitResponse } from "@octokit/types"
 import fetch from "node-fetch"
@@ -11,8 +13,6 @@ import type {
   RenovateDependencyDashboardIssue,
   VulnerabilityAlert,
 } from "./types"
-import * as process from "process"
-import { performance } from "perf_hooks"
 
 interface SearchedPullRequestListQueryResult {
   search: {
@@ -262,7 +262,7 @@ export class GitHubService {
 
     if (json.data == null) {
       throw new Error(
-        `No data received from GitHub GraphQL API (unknown reason)`,
+        "No data received from GitHub GraphQL API (unknown reason)",
       )
     }
 
@@ -490,7 +490,7 @@ export class GitHubService {
       },
     )
 
-    if (issues.length == 0) {
+    if (issues.length === 0) {
       return undefined
     }
 

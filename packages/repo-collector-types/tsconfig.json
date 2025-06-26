@@ -27,7 +27,6 @@
     "lib": ["es2022"]
   },
   "exclude": [
-    "./lib",
-    "eslint.config.mjs"
+    "./lib"
   ]
 }

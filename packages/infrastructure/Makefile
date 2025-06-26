@@ -11,6 +11,10 @@ build:
 fail-if-snapshots-changed:
 	git status __snapshots__ && git add __snapshots__ --intent-to-add && git diff --exit-code __snapshots__
 
+.PHONY: lint
+lint:
+	npm run lint
+
 .PHONY: clean
 clean:
 	rm -rf cdk.out

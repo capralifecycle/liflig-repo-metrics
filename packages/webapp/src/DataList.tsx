@@ -1,6 +1,6 @@
 import type {
-  WebappData,
   Repo,
+  WebappData,
 } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy } from "lodash-es"
 import * as React from "react"
@@ -79,7 +79,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   const removeMillisecondsFromTimestamp = (timestamp: string) => {
     const [yearMonthDay, restOfTimestamp] = timestamp.split("T")
     const hourMinuteSecond = restOfTimestamp.split(".")[0]
-    return yearMonthDay + " " + hourMinuteSecond
+    return `${yearMonthDay} ${hourMinuteSecond}`
   }
 
   return (
@@ -180,6 +180,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
                 <div className="responsible-heading">
                   <h2>Ansvarlig: {responsible}</h2>
                   <button
+                    type="button"
                     style={{ marginLeft: "5px" }}
                     onClick={() =>
                       dispatch({

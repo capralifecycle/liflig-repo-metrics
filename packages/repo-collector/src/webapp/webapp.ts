@@ -1,10 +1,10 @@
+import { Temporal } from "@js-temporal/polyfill"
 import type {
   Metrics,
   SnapshotData,
   SnapshotMetrics,
   WebappData,
 } from "@liflig/repo-metrics-repo-collector-types"
-import { Temporal } from "@js-temporal/polyfill"
 import type { SnapshotsRepository } from "../snapshots/snapshots-repository"
 import {
   calculateRenovateLastUpdateInDays,

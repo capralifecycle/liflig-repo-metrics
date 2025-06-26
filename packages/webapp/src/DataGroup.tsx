@@ -1,6 +1,6 @@
 import type { Repo } from "@liflig/repo-metrics-repo-collector-types"
 import { sumBy } from "lodash-es"
-import * as React from "react"
+import type * as React from "react"
 import { repoColumns } from "./Repo"
 import Table from "./Table"
 
@@ -71,7 +71,7 @@ export const DataGroup: React.FC<Props> = ({
                   ?.daysSinceLastUpdate
 
               if (aDays != null && bDays != null) {
-                if (aDays == bDays) return compareByName()
+                if (aDays === bDays) return compareByName()
                 if (aDays > bDays) return -1
                 return 1
               }
