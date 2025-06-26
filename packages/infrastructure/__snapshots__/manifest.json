@@ -245,12 +245,6 @@
             "data": "PipelineCdkPipelineAssetsFileAsset129D5593A4"
           }
         ],
-        "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset13/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "PipelineCdkPipelineAssetsFileAsset13DA849FD2"
-          }
-        ],
         "/incub-repo-metrics-pipeline/Pipeline/CdkPipeline/Assets/FileAsset2/Resource": [
           {
             "type": "aws:cdk:logicalId",

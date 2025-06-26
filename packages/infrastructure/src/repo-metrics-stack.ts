@@ -2,6 +2,7 @@ import * as webappDeploy from "@capraconsulting/webapp-deploy-lambda"
 import type { AuthLambdas } from "@liflig/cdk-cloudfront-auth"
 import { CloudFrontAuth } from "@liflig/cdk-cloudfront-auth"
 import * as cdk from "aws-cdk-lib"
+import { Duration } from "aws-cdk-lib"
 import * as cloudfront from "aws-cdk-lib/aws-cloudfront"
 import * as origins from "aws-cdk-lib/aws-cloudfront-origins"
 import * as cw from "aws-cdk-lib/aws-cloudwatch"
@@ -10,9 +11,10 @@ import * as events from "aws-cdk-lib/aws-events"
 import * as eventstargets from "aws-cdk-lib/aws-events-targets"
 import * as iam from "aws-cdk-lib/aws-iam"
 import * as lambda from "aws-cdk-lib/aws-lambda"
-import * as logs from "aws-cdk-lib/aws-logs"
 import * as s3 from "aws-cdk-lib/aws-s3"
 import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager"
+import * as stepfunctions from "aws-cdk-lib/aws-stepfunctions"
+import * as tasks from "aws-cdk-lib/aws-stepfunctions-tasks"
 import type * as constructs from "constructs"
 import { CorePlatformConsumer } from "./core-platform"
 
@@ -135,32 +137,6 @@ export class RepoMetricsStack extends cdk.Stack {
     sonarCloudTokenSecret.grantRead(collector)
     dataBucket.grantReadWrite(collector)
 
-    new events.Rule(this, "CollectorSchedule", {
-      schedule: events.Schedule.cron({
-        hour: "0/6",
-        minute: "0",
-      }),
-      targets: [new eventstargets.LambdaFunction(collector)],
-      enabled: true,
-    })
-
-    this.addAlarmIfNotSuccessWithin("CollectorNotSuccessWarning", {
-      fn: collector,
-      duration: cdk.Duration.hours(12),
-      alarmAction: corePlatform.slackWarningsAction,
-    })
-
-    this.addAlarmIfNotSuccessWithin("CollectorNotSuccessAlarm", {
-      fn: collector,
-      duration: cdk.Duration.days(1),
-      alarmAction: corePlatform.slackAlarmAction,
-    })
-
-    this.addWarningAlarm({
-      fn: collector,
-      alarmAction: corePlatform.slackWarningsAction,
-    })
-
     const aggregatorMemoryMB = 300
     const aggregator = new lambda.Function(this, "Aggregator", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
@@ -185,26 +161,6 @@ export class RepoMetricsStack extends cdk.Stack {
     dataBucket.grantReadWrite(aggregator)
     webappDataBucket.grantReadWrite(aggregator)
 
-    new events.Rule(this, "AggregatorSchedule", {
-      schedule: events.Schedule.cron({
-        hour: "0/6",
-        minute: "10",
-      }),
-      targets: [new eventstargets.LambdaFunction(aggregator)],
-      enabled: true,
-    })
-
-    this.addAlarmIfNotSuccessWithin("AggregatorNotSuccessWarning", {
-      fn: aggregator,
-      duration: cdk.Duration.hours(12),
-      alarmAction: corePlatform.slackWarningsAction,
-    })
-    this.addAlarmIfNotSuccessWithin("AggregatorNotSuccessAlarm", {
-      fn: aggregator,
-      duration: cdk.Duration.days(1),
-      alarmAction: corePlatform.slackAlarmAction,
-    })
-
     const reporter = new lambda.Function(this, "Reporter", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.reportHandler",
@@ -225,29 +181,57 @@ export class RepoMetricsStack extends cdk.Stack {
 
     dataBucket.grantReadWrite(reporter)
 
-    new events.Rule(this, "ReporterSchedule", {
-      // Note: The function itself also has some logic to skip running
-      // non-working days.
-      schedule: events.Schedule.cron({
-        // For Oslo-time: Will trigger 8 am normal time and 9 am summer time.
-        // This should be after the collector has run.
-        hour: "7",
-        minute: "0",
-      }),
-      targets: [new eventstargets.LambdaFunction(reporter)],
-      enabled: true,
+    const collectorJob = new tasks.LambdaInvoke(this, "CollectorJob", {
+      lambdaFunction: collector,
     })
 
-    this.addAlarmIfNotSuccessWithin("ReporterNotSuccessAlarm", {
-      fn: reporter,
-      // Note: Metrics cannot be checked across more than a day
-      duration: cdk.Duration.days(1),
-      alarmAction: corePlatform.slackWarningsAction,
+    const aggregatorJob = new tasks.LambdaInvoke(this, "AggregateJob", {
+      lambdaFunction: aggregator,
+    })
+
+    const reporterJob = new tasks.LambdaInvoke(this, "ReportsJob", {
+      lambdaFunction: reporter,
+    })
+
+    const stateMachineDefinition = collectorJob
+      .next(aggregatorJob)
+      .next(reporterJob)
+
+    const stateMachine = new stepfunctions.StateMachine(this, "StateMachine", {
+      definition: stateMachineDefinition,
+      timeout: cdk.Duration.minutes(10),
+    })
+
+    const executionSuccessesLast12Hours = stateMachine.metricSucceeded({
+      statistic: cw.Stats.SUM,
+      period: Duration.hours(12),
+      label: "Repo metrics state machine successes last 12 hours",
+    })
+
+    const alarm = new cw.Alarm(this, "StateMachineExecutionFailureAlarm", {
+      comparisonOperator: cw.ComparisonOperator.LESS_THAN_THRESHOLD,
+      threshold: 1,
+      evaluationPeriods: 1,
+      metric: executionSuccessesLast12Hours,
+    })
+
+    alarm.addAlarmAction(corePlatform.slackWarningsAction)
+    alarm.addOkAction(corePlatform.slackWarningsAction)
+
+    // State machine schedule
+    new events.Rule(this, "RepoMetricsSchedule", {
+      schedule: events.Schedule.cron({
+        hour: "0/6",
+        minute: "0",
+      }),
+      targets: [new eventstargets.SfnStateMachine(stateMachine)],
+      enabled: true,
     })
 
     new cdk.CfnOutput(this, "DataBucketNameOutput", {
       value: dataBucket.bucketName,
     })
+
     new cdk.CfnOutput(this, "WebappDataBucketNameOutput", {
       value: webappDataBucket.bucketName,
     })
@@ -263,67 +247,5 @@ export class RepoMetricsStack extends cdk.Stack {
     new cdk.CfnOutput(this, "ReporterFunctionArnOutput", {
       value: reporter.functionArn,
     })
-  }
-
-  private addAlarmIfNotSuccessWithin(
-    id: string,
-    props: {
-      fn: lambda.Function
-      duration: cdk.Duration
-      alarmAction: cw.IAlarmAction
-    },
-  ) {
-    const alarm = new cw.MathExpression({
-      expression: "invocations - errors",
-      usingMetrics: {
-        invocations: props.fn.metricInvocations(),
-        errors: props.fn.metricErrors(),
-      },
-      period: props.duration,
-    }).createAlarm(this, id, {
-      alarmDescription: `Function ${
-        props.fn.functionName
-      } has not run successful for the last ${props.duration.toHumanString()}`,
-      evaluationPeriods: 1,
-      threshold: 0,
-      treatMissingData: cw.TreatMissingData.BREACHING,
-      comparisonOperator: cw.ComparisonOperator.LESS_THAN_OR_EQUAL_TO_THRESHOLD,
-    })
-    alarm.addAlarmAction(props.alarmAction)
-    alarm.addOkAction(props.alarmAction)
-  }
-  private addWarningAlarm(props: {
-    fn: lambda.Function
-    alarmAction: cw.IAlarmAction
-    alarmDescription?: string
-  }): void {
-    const warningMetricFilter = props.fn.logGroup.addMetricFilter(
-      "WarningMetricFilter",
-      {
-        filterPattern: logs.FilterPattern.literal("WARN"),
-        metricName: "Warnings",
-        metricNamespace: `stack/${cdk.Stack.of(this).stackName}/${
-          props.fn.functionName
-        }/Warnings`,
-      },
-    )
-
-    const warningAlarm = warningMetricFilter
-      .metric()
-      .with({
-        statistic: "Sum",
-        period: cdk.Duration.seconds(60),
-      })
-      .createAlarm(this, "CollectorWarningAlarm", {
-        alarmDescription:
-          props.alarmDescription ??
-          `${props.fn.functionName} logged a warning.`,
-        evaluationPeriods: 1,
-        threshold: 1,
-        treatMissingData: cw.TreatMissingData.NOT_BREACHING,
-      })
-
-    warningAlarm.addAlarmAction(props.alarmAction)
-    warningAlarm.addOkAction(props.alarmAction)
   }
 }
