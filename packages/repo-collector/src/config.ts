@@ -1,6 +1,6 @@
+import https from "node:https"
+import path from "node:path"
 import cachedir from "cachedir"
-import https from "https"
-import path from "path"
 
 export class Config {
   public cwd = path.resolve(process.cwd())

@@ -1,8 +1,8 @@
+import { promises as fs } from "node:fs"
+import type { Readable } from "node:stream"
 import { S3 } from "@aws-sdk/client-s3"
 import type { SnapshotData } from "@liflig/repo-metrics-repo-collector-types"
-import { promises as fs } from "fs"
 import getStream from "get-stream"
-import type { Readable } from "stream"
 
 export interface SnapshotsRepository {
   store(data: SnapshotData): Promise<void>

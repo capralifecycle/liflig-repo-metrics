@@ -27,7 +27,7 @@ export async function formatReportData(
       sumSnykSeverities(metrics.snyk.projects) +
       sumGithubVuls(metrics.github.vulnerabilityAlerts)
 
-    return sumVulnerabilities == 0
+    return sumVulnerabilities === 0
       ? []
       : [
           {

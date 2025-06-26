@@ -43,7 +43,7 @@ function requireEnv(name: string): string {
 
 async function getGithubTokenProvider(): Promise<GitHubTokenProvider> {
   const githubTokenSecretId = requireEnv("GITHUB_TOKEN_SECRET_ID")
-  const githubToken = (await getSecretValue(githubTokenSecretId))["token"]
+  const githubToken = (await getSecretValue(githubTokenSecretId)).token
 
   return {
     getToken: () => Promise.resolve(githubToken),
@@ -53,7 +53,7 @@ async function getGithubTokenProvider(): Promise<GitHubTokenProvider> {
 
 async function getSnykTokenProvider(): Promise<SnykTokenProvider> {
   const snykTokenSecretId = requireEnv("SNYK_TOKEN_SECRET_ID")
-  const snykToken = (await getSecretValue(snykTokenSecretId))["token"]
+  const snykToken = (await getSecretValue(snykTokenSecretId)).token
 
   return {
     getToken: () => Promise.resolve(snykToken),
@@ -63,9 +63,7 @@ async function getSnykTokenProvider(): Promise<SnykTokenProvider> {
 
 async function getSonarCloudTokenProvider(): Promise<SonarCloudTokenProvider> {
   const sonarCloudTokenSecretId = requireEnv("SONARCLOUD_TOKEN_SECRET_ID")
-  const sonarCloudToken = (await getSecretValue(sonarCloudTokenSecretId))[
-    "token"
-  ]
+  const sonarCloudToken = (await getSecretValue(sonarCloudTokenSecretId)).token
 
   return {
     getToken: () => Promise.resolve(sonarCloudToken),

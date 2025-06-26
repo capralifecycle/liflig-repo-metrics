@@ -1,8 +1,8 @@
+import * as fs from "node:fs"
 import { CloudFront } from "@aws-sdk/client-cloudfront"
 import { S3 } from "@aws-sdk/client-s3"
 import { Temporal } from "@js-temporal/polyfill"
 import type { WebappData } from "@liflig/repo-metrics-repo-collector-types"
-import * as fs from "fs"
 
 export interface WebappDataRepository {
   store(data: WebappData): Promise<void>

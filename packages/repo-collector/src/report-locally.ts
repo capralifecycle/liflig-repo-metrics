@@ -20,7 +20,7 @@ async function main() {
 
   console.log(message)
 
-  const slackWebhookUrl = process.env["SLACK_WEBHOOK_URL"]
+  const slackWebhookUrl = process.env.SLACK_WEBHOOK_URL
   if (slackWebhookUrl) {
     console.log("Got Slack webhook URL - will send")
     await sendSlackMessage(slackWebhookUrl, message)
