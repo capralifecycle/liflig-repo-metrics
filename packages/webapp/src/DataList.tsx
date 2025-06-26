@@ -79,7 +79,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   const removeMillisecondsFromTimestamp = (timestamp: string) => {
     const [yearMonthDay, restOfTimestamp] = timestamp.split("T")
     const hourMinuteSecond = restOfTimestamp.split(".")[0]
-    return yearMonthDay + " " + hourMinuteSecond
+    return `${yearMonthDay} ${hourMinuteSecond}`
   }
 
   return (

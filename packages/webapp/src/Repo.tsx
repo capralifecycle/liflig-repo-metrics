@@ -75,10 +75,8 @@ export const repoColumns = (props: {
                       : undefined
                   }
                 >
-                  <>
-                    Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
-                    siden
-                  </>
+                  Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
+                  siden
                 </div>
               )}
             {!renovateEnabled ? (
@@ -179,7 +177,7 @@ export const repoColumns = (props: {
       render: (repo) => {
         const snyk = repo.metrics.snyk
         return snyk == null ? (
-          <>Mangler Snyk</>
+          "Mangler Snyk"
         ) : snyk.totalIssues === 0 ? (
           <span style={{ color: "var(--color-success)" }}>Ingen</span>
         ) : (
@@ -221,7 +219,7 @@ export const repoColumns = (props: {
             {repo.metrics.sonarCloud.testCoverage}
           </span>
         ) : (
-          <>Mangler testdekning</>
+          "Mangler testdekning"
         )
       },
     },
@@ -331,7 +329,7 @@ const MaybeRenovateLink: React.FC<
       {children}
     </a>
   ) : (
-    <>{children}</>
+    children
   )
 }
 

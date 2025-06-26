@@ -56,5 +56,9 @@ export function filterReducer(state: Filter, action: FilterAction): Filter {
 
 const isValidNumberOfDays: (value: string) => boolean = (value) => {
   const numberValue = Number(value)
-  return !isNaN(numberValue) && Number.isInteger(numberValue) && numberValue > 0
+  return (
+    !Number.isNaN(numberValue) &&
+    Number.isInteger(numberValue) &&
+    numberValue > 0
+  )
 }

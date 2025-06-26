@@ -51,7 +51,7 @@ const parseUrlFilterField = (key: string, value: string) => {
 
   // The collapseResponsible attribute can contain multiple comma separated values,
   // and needs special handling during parsing
-  if (key == "collapseResponsible") {
+  if (key === "collapseResponsible") {
     return {
       [key]: value.split(","),
     }

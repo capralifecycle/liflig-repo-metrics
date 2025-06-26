@@ -71,7 +71,7 @@ export const DataGroup: React.FC<Props> = ({
                   ?.daysSinceLastUpdate
 
               if (aDays != null && bDays != null) {
-                if (aDays == bDays) return compareByName()
+                if (aDays === bDays) return compareByName()
                 if (aDays > bDays) return -1
                 return 1
               }
