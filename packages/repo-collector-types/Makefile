@@ -14,3 +14,7 @@ clean:
 .PHONY: clean-all
 clean-all: clean
 	rm -rf node_modules
+
+.PHONY: lint
+lint:
+	npm run lint
