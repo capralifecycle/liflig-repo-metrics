@@ -180,6 +180,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
                 <div className="responsible-heading">
                   <h2>Ansvarlig: {responsible}</h2>
                   <button
+                    type="button"
                     style={{ marginLeft: "5px" }}
                     onClick={() =>
                       dispatch({

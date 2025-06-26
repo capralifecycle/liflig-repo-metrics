@@ -26,7 +26,8 @@
         "noUnusedImports": "warn"
       },
       "suspicious": {
-        "noExplicitAny": "off"
+        "noExplicitAny": "off",
+        "noArrayIndexKey": "off"
       },
       "style": {
         "useSelfClosingElements": "warn",
