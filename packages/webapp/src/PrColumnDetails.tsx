@@ -1,6 +1,6 @@
 import type { Metrics } from "@liflig/repo-metrics-repo-collector-types"
-import * as React from "react"
 import { formatDistance } from "date-fns"
+import type * as React from "react"
 
 interface Props {
   prs: Metrics["github"]["prs"]

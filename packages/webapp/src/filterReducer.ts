@@ -22,9 +22,8 @@ export function filterReducer(state: Filter, action: FilterAction): Filter {
       const newValue = action.payload
       if (newValue !== undefined && isValidNumberOfDays(newValue)) {
         return { ...state, [action.prop]: newValue }
-      } else {
-        return state
       }
+      return state
     }
 
     case FilterActionType.TOGGLE_COLLAPSE_RESPONSIBLE: {

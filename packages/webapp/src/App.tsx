@@ -1,6 +1,6 @@
 import * as React from "react"
-import { useData } from "./data"
 import { DataList } from "./DataList"
+import { useData } from "./data"
 import { defaultValues, getFilterFromUrl } from "./filter"
 
 const App: React.FC = () => {

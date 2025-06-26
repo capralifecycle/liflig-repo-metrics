@@ -58,17 +58,16 @@ const parseUrlFilterField = (key: string, value: string) => {
   }
 
   // Attributes with only one value
-  else if (keyValueFields.includes(key)) {
+  if (keyValueFields.includes(key)) {
     return {
       [key]: value,
     }
   }
 
   // Boolean attributes
-  else {
-    return {
-      [key]: true,
-    }
+
+  return {
+    [key]: true,
   }
 }
 

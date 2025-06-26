@@ -1,6 +1,6 @@
 import type { Repo } from "@liflig/repo-metrics-repo-collector-types"
 import { sumBy } from "lodash-es"
-import * as React from "react"
+import type * as React from "react"
 import { repoColumns } from "./Repo"
 import Table from "./Table"
 

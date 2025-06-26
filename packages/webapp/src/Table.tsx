@@ -46,11 +46,11 @@ function Table<T extends object>({ columns, data }: Props<T>) {
     setSortstate((prev) => {
       if (prev?.column !== header) {
         return { column: header, sortAsc: true }
-      } else if (prev.sortAsc === true) {
-        return { column: header, sortAsc: false }
-      } else {
-        return undefined
       }
+      if (prev.sortAsc === true) {
+        return { column: header, sortAsc: false }
+      }
+      return undefined
     })
   }
 

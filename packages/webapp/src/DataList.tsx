@@ -1,6 +1,6 @@
 import type {
-  WebappData,
   Repo,
+  WebappData,
 } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy } from "lodash-es"
 import * as React from "react"
