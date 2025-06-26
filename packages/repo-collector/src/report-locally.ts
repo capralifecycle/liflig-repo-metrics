@@ -1,6 +1,6 @@
 import {
-  generateMessage,
   formatReportData,
+  generateMessage,
   sendSlackMessage,
 } from "./reporter/reporter"
 import { LocalSnapshotsRepository } from "./snapshots/snapshots-repository"

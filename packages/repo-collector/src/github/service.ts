@@ -3,6 +3,8 @@ import type { OctokitResponse } from "@octokit/types"
 import fetch from "node-fetch"
 import type { LimitFunction } from "p-limit"
 import pLimit from "p-limit"
+import { performance } from "perf_hooks"
+import * as process from "process"
 import type { CacheProvider } from "../cache"
 import type { Config } from "../config"
 import type { GitHubTokenProvider } from "./token"
@@ -11,8 +13,6 @@ import type {
   RenovateDependencyDashboardIssue,
   VulnerabilityAlert,
 } from "./types"
-import * as process from "process"
-import { performance } from "perf_hooks"
 
 interface SearchedPullRequestListQueryResult {
   search: {
@@ -262,7 +262,7 @@ export class GitHubService {
 
     if (json.data == null) {
       throw new Error(
-        `No data received from GitHub GraphQL API (unknown reason)`,
+        "No data received from GitHub GraphQL API (unknown reason)",
       )
     }
 

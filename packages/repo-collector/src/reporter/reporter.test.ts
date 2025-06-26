@@ -1,5 +1,5 @@
-import { expect, test } from "vitest"
 import { Temporal } from "@js-temporal/polyfill"
+import { expect, test } from "vitest"
 import { calculateCutoffTimestamp } from "./reporter"
 
 test("cutoff on wednesday in normal week", () => {

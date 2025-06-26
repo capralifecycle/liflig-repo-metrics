@@ -1,17 +1,17 @@
 import { SecretsManager } from "@aws-sdk/client-secrets-manager"
-import type { GitHubTokenProvider } from "./github/token"
-import type { SnykTokenProvider } from "./snyk/token"
-import type { SonarCloudTokenProvider } from "./sonarcloud/token"
-import type { Handler } from "aws-lambda"
 import { Temporal } from "@js-temporal/polyfill"
+import type { Handler } from "aws-lambda"
 import { isWorkingDay } from "./dates"
+import type { GitHubTokenProvider } from "./github/token"
 import {
-  generateMessage,
   formatReportData,
+  generateMessage,
   sendSlackMessage,
 } from "./reporter/reporter"
 import { collect } from "./snapshots/collect"
 import { S3SnapshotsRepository } from "./snapshots/snapshots-repository"
+import type { SnykTokenProvider } from "./snyk/token"
+import type { SonarCloudTokenProvider } from "./sonarcloud/token"
 import {
   createWebappFriendlyFormat,
   retrieveSnapshotsForWebappAggregation,

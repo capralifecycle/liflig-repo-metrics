@@ -1,3 +1,4 @@
+import { Temporal } from "@js-temporal/polyfill"
 import type {
   GitHubVulnerabilityAlert,
   SnapshotData,
@@ -5,7 +6,6 @@ import type {
 } from "@liflig/repo-metrics-repo-collector-types"
 import axios from "axios"
 import { groupBy, sortBy } from "lodash-es"
-import { Temporal } from "@js-temporal/polyfill"
 import { isWorkingDay } from "../dates"
 
 interface ReportData {
