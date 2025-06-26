@@ -209,6 +209,8 @@ export class RepoMetricsStack extends cdk.Stack {
     })
 
     const alarm = new cw.Alarm(this, "StateMachineExecutionFailureAlarm", {
+      alarmDescription:
+        "Enter alarm state when state machine has not succeeded in the last 12 hours.",
       comparisonOperator: cw.ComparisonOperator.LESS_THAN_THRESHOLD,
       threshold: 1,
       evaluationPeriods: 1,

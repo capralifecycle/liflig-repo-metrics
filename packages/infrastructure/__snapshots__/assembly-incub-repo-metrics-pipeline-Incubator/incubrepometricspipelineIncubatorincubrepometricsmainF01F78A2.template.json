@@ -2892,6 +2892,7 @@
             "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackwarningstopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
+        "AlarmDescription": "Enter alarm state when state machine has not succeeded in the last 12 hours.",
         "ComparisonOperator": "LessThanThreshold",
         "EvaluationPeriods": 1,
         "Metrics": [
