@@ -1,5 +1,5 @@
-import type * as constructs from "constructs"
 import { tagResources } from "@liflig/cdk"
+import type * as constructs from "constructs"
 
 export const incubatorAccountId = "001112238813"
 

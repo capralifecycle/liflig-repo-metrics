@@ -1,8 +1,8 @@
-import type * as constructs from "constructs"
+import { cdkPipelines } from "@liflig/cdk"
+import * as cdk from "aws-cdk-lib"
 import * as s3 from "aws-cdk-lib/aws-s3"
 import * as sm from "aws-cdk-lib/aws-secretsmanager"
-import * as cdk from "aws-cdk-lib"
-import { cdkPipelines } from "@liflig/cdk"
+import type * as constructs from "constructs"
 import { incubatorAccountId } from "./config"
 import { RepoMetricsEnv } from "./environment"
 
