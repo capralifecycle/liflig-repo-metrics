@@ -8,10 +8,11 @@
     "build": "vite build --mode production",
     "test": "vitest --run --coverage src --passWithNoTests",
     "test:watch": "vitest src --watch",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint": "biome check",
+    "lint:fix": "biome check --fix"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.0.5",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.17.18",
     "@types/lodash-es": "4.17.12",
