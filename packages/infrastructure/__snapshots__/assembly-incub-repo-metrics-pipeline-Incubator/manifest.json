@@ -684,6 +684,30 @@
             "data": "Reporter08098DAC"
           }
         ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/RepoMetricsReporterSchedule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RepoMetricsReporterSchedule0DDC473C"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/RepoMetricsReporterSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporter593FA6D5": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RepoMetricsReporterScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporter593FA6D5CACEAB79"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/SsmParameterValue:--liflig-cdk--incub--platform--incubator-common-core--slack-warnings-topic-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackwarningstopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
+          }
+        ],
+        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterNotSuccessAlarm/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ReporterNotSuccessAlarm26AEAE42"
+          }
+        ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/Role/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -718,12 +742,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "StateMachineExecutionFailureAlarmAC371745"
-          }
-        ],
-        "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/SsmParameterValue:--liflig-cdk--incub--platform--incubator-common-core--slack-warnings-topic-arn:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackwarningstopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
         "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/RepoMetricsSchedule/Resource": [
