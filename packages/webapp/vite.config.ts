@@ -10,8 +10,9 @@ export default () => {
     plugins: [
       react(),
       checker({
-        typescript: true,
-        overlay: { initialIsOpen: false },
+        biome: {
+          command: 'check',
+        },
       }),
     ],
     define: {
