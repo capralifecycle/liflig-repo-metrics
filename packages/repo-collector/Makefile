@@ -24,6 +24,9 @@ lint:
 # Local helpers
 # ==============================================================================
 
+.PHONY: update-local-data
+update-data-locally: collect-locally aggregate-locally
+
 # collect data from remote sources into local filesystem.
 .PHONY: collect-locally
 collect-locally:
@@ -55,15 +58,6 @@ serve:
 # Remote helpers (affects running instance of repo metrics)
 # ==============================================================================
 
-# download data from remote sources to S3
-# requires admin access to incubator account
-# NB: tailing the log currently times out until snapshots are remodeled
-.PHONY: collect-remotely
-collect-remotely:
-	aws lambda invoke --function-name incub-repo-metrics-main-Collector9EBA7CF5-1PVWAMAFCF1ZJ --log-type Tail outfile-collector.json
-
-# aggregate S3 data into a webapp-friendly format
-# requires admin access to incubator account
-.PHONY: aggregate-remotely
-aggregate-remotely:
-	aws lambda invoke --function-name incub-repo-metrics-main-Aggregator84F1B3DF-17LMXCOQOEV3X --log-type Tail outfile-aggregator.json
+.PHONY: update-remote-data
+update-remote-data:
+	aws stepfunctions start-execution --state-machine-arn "arn:aws:states:eu-west-1:001112238813:stateMachine:StateMachine2E01A3A5-2QjhssOgQmZm"

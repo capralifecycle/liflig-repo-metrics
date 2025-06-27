@@ -53,13 +53,13 @@ clean-all:
 # Local helpers
 # ==============================================================================
 
-.PHONY: collect-locally
-collect-locally:
-	@$(MAKE) -C $(lambdas) collect-locally
+.PHONY: update-remote-data
+update-remote-data:
+	@$(MAKE) -C $(lambdas) update-remote-data
 
-.PHONY: aggregate-locally
-aggregate-locally:
-	@$(MAKE) -C $(lambdas) aggregate-locally
+.PHONY: update-local-data
+update-local-data:
+	@$(MAKE) -C $(lambdas) update-local-data
 
 .PHONY: report-locally
 report-locally:
