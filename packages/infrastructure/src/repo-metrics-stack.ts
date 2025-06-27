@@ -116,7 +116,7 @@ export class RepoMetricsStack extends cdk.Stack {
       "/incub/repo-metrics/sonarcloud-token",
     )
 
-    const collector = new lambda.Function(this, "Collector", {
+    const collectorFn = new lambda.Function(this, "Collector", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.collectHandler",
       runtime: lambda.Runtime.NODEJS_18_X,
@@ -132,13 +132,13 @@ export class RepoMetricsStack extends cdk.Stack {
       },
     })
 
-    githubTokenSecret.grantRead(collector)
-    snykTokenSecret.grantRead(collector)
-    sonarCloudTokenSecret.grantRead(collector)
-    dataBucket.grantReadWrite(collector)
+    githubTokenSecret.grantRead(collectorFn)
+    snykTokenSecret.grantRead(collectorFn)
+    sonarCloudTokenSecret.grantRead(collectorFn)
+    dataBucket.grantReadWrite(collectorFn)
 
     const aggregatorMemoryMB = 300
-    const aggregator = new lambda.Function(this, "Aggregator", {
+    const aggregatorFn = new lambda.Function(this, "Aggregator", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.aggregateHandler",
       runtime: lambda.Runtime.NODEJS_18_X,
@@ -158,10 +158,10 @@ export class RepoMetricsStack extends cdk.Stack {
       ],
     })
 
-    dataBucket.grantReadWrite(aggregator)
-    webappDataBucket.grantReadWrite(aggregator)
+    dataBucket.grantReadWrite(aggregatorFn)
+    webappDataBucket.grantReadWrite(aggregatorFn)
 
-    const reporter = new lambda.Function(this, "Reporter", {
+    const reporterFn = new lambda.Function(this, "Reporter", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.reportHandler",
       runtime: lambda.Runtime.NODEJS_18_X,
@@ -179,23 +179,35 @@ export class RepoMetricsStack extends cdk.Stack {
       },
     })
 
-    dataBucket.grantReadWrite(reporter)
+    dataBucket.grantReadWrite(reporterFn)
+
+    new events.Rule(this, "RepoMetricsReporterSchedule", {
+      // Every day at 8am (9am summer) in Oslo time
+      // The function itself has logic to skip execution on non-working days.
+      schedule: events.Schedule.cron({
+        hour: "7",
+        minute: "0",
+      }),
+      targets: [new eventstargets.LambdaFunction(reporterFn)],
+      enabled: true,
+    })
+
+    this.addAlarmIfNotSuccessWithin("ReporterNotSuccessAlarm", {
+      fn: reporterFn,
+      // Note: Metrics cannot be checked across more than a day
+      duration: cdk.Duration.days(1),
+      alarmAction: corePlatform.slackWarningsAction,
+    })
 
     const collectorJob = new tasks.LambdaInvoke(this, "CollectorJob", {
-      lambdaFunction: collector,
+      lambdaFunction: collectorFn,
     })
 
     const aggregatorJob = new tasks.LambdaInvoke(this, "AggregateJob", {
-      lambdaFunction: aggregator,
+      lambdaFunction: aggregatorFn,
     })
 
-    const reporterJob = new tasks.LambdaInvoke(this, "ReportsJob", {
-      lambdaFunction: reporter,
-    })
-
-    const stateMachineDefinition = collectorJob
-      .next(aggregatorJob)
-      .next(reporterJob)
+    const stateMachineDefinition = collectorJob.next(aggregatorJob)
 
     const stateMachine = new stepfunctions.StateMachine(this, "StateMachine", {
       definition: stateMachineDefinition,
@@ -247,7 +259,34 @@ export class RepoMetricsStack extends cdk.Stack {
     })
 
     new cdk.CfnOutput(this, "ReporterFunctionArnOutput", {
-      value: reporter.functionArn,
+      value: reporterFn.functionArn,
     })
+  }
+  private addAlarmIfNotSuccessWithin(
+    id: string,
+    props: {
+      fn: lambda.Function
+      duration: cdk.Duration
+      alarmAction: cw.IAlarmAction
+    },
+  ) {
+    const alarm = new cw.MathExpression({
+      expression: "invocations - errors",
+      usingMetrics: {
+        invocations: props.fn.metricInvocations(),
+        errors: props.fn.metricErrors(),
+      },
+      period: props.duration,
+    }).createAlarm(this, id, {
+      alarmDescription: `Function ${
+        props.fn.functionName
+      } has not run successful for the last ${props.duration.toHumanString()}`,
+      evaluationPeriods: 1,
+      threshold: 0,
+      treatMissingData: cw.TreatMissingData.BREACHING,
+      comparisonOperator: cw.ComparisonOperator.LESS_THAN_OR_EQUAL_TO_THRESHOLD,
+    })
+    alarm.addAlarmAction(props.alarmAction)
+    alarm.addOkAction(props.alarmAction)
   }
 }
