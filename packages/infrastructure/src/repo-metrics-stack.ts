@@ -189,13 +189,7 @@ export class RepoMetricsStack extends cdk.Stack {
       lambdaFunction: aggregator,
     })
 
-    const reporterJob = new tasks.LambdaInvoke(this, "ReportsJob", {
-      lambdaFunction: reporter,
-    })
-
-    const stateMachineDefinition = collectorJob
-      .next(aggregatorJob)
-      .next(reporterJob)
+    const stateMachineDefinition = collectorJob.next(aggregatorJob)
 
     const stateMachine = new stepfunctions.StateMachine(this, "StateMachine", {
       definition: stateMachineDefinition,

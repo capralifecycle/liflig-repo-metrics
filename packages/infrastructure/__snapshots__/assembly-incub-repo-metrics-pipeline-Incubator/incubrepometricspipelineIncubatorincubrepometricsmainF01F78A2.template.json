@@ -2708,32 +2708,6 @@
                   ]
                 }
               ]
-            },
-            {
-              "Action": "lambda:InvokeFunction",
-              "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
-                    "Reporter08098DAC",
-                    "Arn"
-                  ]
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      {
-                        "Fn::GetAtt": [
-                          "Reporter08098DAC",
-                          "Arn"
-                        ]
-                      },
-                      ":*"
-                    ]
-                  ]
-                }
-              ]
             }
           ],
           "Version": "2012-10-17"
@@ -2767,7 +2741,7 @@
                   "Arn"
                 ]
               },
-              "\",\"Payload.$\":\"$\"}},\"AggregateJob\":{\"Next\":\"ReportsJob\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
+              "\",\"Payload.$\":\"$\"}},\"AggregateJob\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
               {
                 "Ref": "AWS::Partition"
               },
@@ -2775,17 +2749,6 @@
               {
                 "Fn::GetAtt": [
                   "Aggregator84F1B3DF",
-                  "Arn"
-                ]
-              },
-              "\",\"Payload.$\":\"$\"}},\"ReportsJob\":{\"End\":true,\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
-              {
-                "Ref": "AWS::Partition"
-              },
-              ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
-              {
-                "Fn::GetAtt": [
-                  "Reporter08098DAC",
                   "Arn"
                 ]
               },
