@@ -116,7 +116,7 @@ export class RepoMetricsStack extends cdk.Stack {
       "/incub/repo-metrics/sonarcloud-token",
     )
 
-    const collector = new lambda.Function(this, "Collector", {
+    const collectorFn = new lambda.Function(this, "Collector", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.collectHandler",
       runtime: lambda.Runtime.NODEJS_18_X,
@@ -132,13 +132,13 @@ export class RepoMetricsStack extends cdk.Stack {
       },
     })
 
-    githubTokenSecret.grantRead(collector)
-    snykTokenSecret.grantRead(collector)
-    sonarCloudTokenSecret.grantRead(collector)
-    dataBucket.grantReadWrite(collector)
+    githubTokenSecret.grantRead(collectorFn)
+    snykTokenSecret.grantRead(collectorFn)
+    sonarCloudTokenSecret.grantRead(collectorFn)
+    dataBucket.grantReadWrite(collectorFn)
 
     const aggregatorMemoryMB = 300
-    const aggregator = new lambda.Function(this, "Aggregator", {
+    const aggregatorFn = new lambda.Function(this, "Aggregator", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
       handler: "index.aggregateHandler",
       runtime: lambda.Runtime.NODEJS_18_X,
@@ -158,8 +158,8 @@ export class RepoMetricsStack extends cdk.Stack {
       ],
     })
 
-    dataBucket.grantReadWrite(aggregator)
-    webappDataBucket.grantReadWrite(aggregator)
+    dataBucket.grantReadWrite(aggregatorFn)
+    webappDataBucket.grantReadWrite(aggregatorFn)
 
     const reporterFn = new lambda.Function(this, "Reporter", {
       code: lambda.Code.fromAsset("../repo-collector/dist"),
@@ -200,11 +200,11 @@ export class RepoMetricsStack extends cdk.Stack {
     })
 
     const collectorJob = new tasks.LambdaInvoke(this, "CollectorJob", {
-      lambdaFunction: collector,
+      lambdaFunction: collectorFn,
     })
 
     const aggregatorJob = new tasks.LambdaInvoke(this, "AggregateJob", {
-      lambdaFunction: aggregator,
+      lambdaFunction: aggregatorFn,
     })
 
     const stateMachineDefinition = collectorJob.next(aggregatorJob)
