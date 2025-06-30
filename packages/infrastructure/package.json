@@ -9,7 +9,7 @@
     "snapshots": "rm -rf cdk.out __snapshots__ && IS_SNAPSHOT=true cdk synth && cdk-create-snapshots"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.0.5",
+    "@biomejs/biome": "2.0.6",
     "@liflig/load-secrets": "1.0.49",
     "@types/node": "22.15.33",
     "aws-cdk": "2.1019.2",
