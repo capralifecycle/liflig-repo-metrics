@@ -991,6 +991,10 @@
           }
         },
         "Handler": "framework.onEvent",
+        "LoggingConfig": {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON"
+        },
         "Role": {
           "Fn::GetAtt": [
             "lifliginfracloudfrontauthgeneratesecretproviderProviderframeworkonEventServiceRoleCB18E252",
@@ -1354,6 +1358,10 @@
           }
         },
         "Handler": "framework.onEvent",
+        "LoggingConfig": {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON"
+        },
         "Role": {
           "Fn::GetAtt": [
             "lifliginfralambdaconfigproviderProviderframeworkonEventServiceRoleD0656D3D",
@@ -1935,6 +1943,10 @@
           }
         },
         "Handler": "framework.onEvent",
+        "LoggingConfig": {
+          "ApplicationLogLevel": "FATAL",
+          "LogFormat": "JSON"
+        },
         "Role": {
           "Fn::GetAtt": [
             "WebappDeployProviderframeworkonEventServiceRole6401B28E",
