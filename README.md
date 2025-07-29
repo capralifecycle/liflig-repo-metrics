@@ -93,14 +93,19 @@ This approach downloads data from remote sources to the local file system, then 
 
 Requires `cals-cli` to be configured with tokens for SonarCloud, Snyk and GitHub.
 
-1. Collect data: `make collect-locally`
-2. Aggregate data: `make aggregate-locally`
+```shell
+$ make update-local-data
+```
 
 #### Alternative 2: Download existing data from S3
 
 This approach downloads unprocessed (snapshot files) and processed (webapp friendly) data from S3 to the local file system.
 
 Requires: Active shell session using administrative privileges in the liflig-incubator account, e.g. `aws-vault exec liflig-incubator-admin`.
+
+```shell
+$ make download-s3-data
+```
 
 ### 2. Serve data and run webapp
 
@@ -128,12 +133,13 @@ This repo is built and deployed automatically on pushes to master.
 
 ## Manually updating repo-metrics
 
-Two lambdas have to be invoked to run a manual update of the live instance of repo-metrics:
+The lambdas used for updating data are orchestrated by an AWS Step Function state machine. This state machine runs a schedule, but we can trigger it manually to refresh existing data.
 
-Run these using AWS Vault and the `liflig-incubator-admin` role.
+Run the below command using AWS Vault and the `liflig-incubator-admin` role.
 
-- Collector: `make collect-remotely`
-- Aggregator: `make aggregate-remotely`
+```shell
+$ make update-remote-data
+```
 
 ## Architecture Decision Records (ADR)
 
