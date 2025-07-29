@@ -7,6 +7,10 @@ build:
 	npm run lint
 	npm run snapshots
 
+.PHONY: snapshots
+snapshots:
+	npm run snapshots
+
 .PHONY: fail-if-snapshots-changed
 fail-if-snapshots-changed:
 	git status __snapshots__ && git add __snapshots__ --intent-to-add && git diff --exit-code __snapshots__
