@@ -24,24 +24,27 @@ subgraph Repo Metrics
     SonarCloud
   end
 
-  subgraph Collection
-    collector(Lambda: Collector</br>schedule: every 6h)
-    secrets(Secrets Manager)
-    raw_data[(S3 Bucket</br>Raw data)]
-    collector -- Fetch API credentials --> secrets
-    collector -- Write collected data --> raw_data
+  subgraph "Data Processing (state machine, runs every 6h)"
+    subgraph Collection
+      collector(Lambda: Collector)
+      secrets(Secrets Manager)
+      raw_data[(S3 Bucket</br>Raw data)]
+      collector -- Fetch API credentials --> secrets
+      collector -- Fetch data --> Sources
+      collector -- Write raw data --> raw_data
+    end
+
+    subgraph Aggregation
+      aggregator(Lambda: Aggregator)
+      processed_data[(S3 Bucket</br>Repo data)]
+      aggregator -- Write processed data --> processed_data
+    end
   end
 
   subgraph Reporting
     report(Lambda: Reporter</br>schedule: about every 7h)
     chat(Slack)
     report -- Send report --> chat
-  end
-
-  subgraph Aggregation
-    aggregator(Lambda: Aggregator</br>schedule: about every 6h)
-    processed_data[(S3 Bucket</br>Repo data)]
-    aggregator -- Write processed data --> processed_data
   end
 
   subgraph Presentation
@@ -52,10 +55,9 @@ subgraph Repo Metrics
     user -- Browse --> cf
   end
 
-  Collection -- Fetch data --> Sources
-  Aggregation -- Read repo snapshots --> Collection
-  Reporting -- Read repo snapshots --> Collection
-  Presentation -- Read processed data --> Aggregation
+  aggregator -- Read raw data --> Collection
+  report -- Read raw data --> Collection
+  cf -- Read processed data --> Aggregation
 
 end
 ```
