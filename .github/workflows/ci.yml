@@ -49,17 +49,8 @@ jobs:
           # NOTE: We use different roles on default and non-default branches
           aws-iam-role-name: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && steps.config.outputs.roleName || steps.config.outputs.limitedRoleName }}
 
-      - name: build types
-        run: make types
-
-      - name: build lambdas
-        run: make lambdas
-
-      - name: build webapp
-        run: make webapp
-
-      - name: build infrastructure
-        run: make infra
+      - name: build project
+        run: make -j4 build
 
       - name: check infra snapshots
         run: make fail-if-snapshots-changed
