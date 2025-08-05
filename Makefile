@@ -36,6 +36,13 @@ snapshots:
 fail-if-snapshots-changed:
 	@$(MAKE) -C $(infra) fail-if-snapshots-changed
 
+.PHONY: lint
+lint:
+	@$(MAKE) -C $(types) lint
+	@$(MAKE) -C $(lambdas) lint
+	@$(MAKE) -C $(webapp) lint
+	@$(MAKE) -C $(infra) lint
+
 # clean build artifacts
 .PHONY: clean
 clean:
