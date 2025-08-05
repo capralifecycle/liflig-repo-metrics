@@ -10,23 +10,23 @@ infra   = packages/infrastructure
 all: build
 
 .PHONY: build
-build: types lambdas webapp infra
+build: infra
+
+.PHONY: infra
+infra: lambdas webapp
+	@$(MAKE) -C $(infra) build
+
+.PHONY: lambdas
+lambdas: types
+	@$(MAKE) -C $(lambdas) build
+
+.PHONY: webapp
+webapp: types
+	@$(MAKE) -C $(webapp) build
 
 .PHONY: types
 types:
 	@$(MAKE) -C $(types) build
-
-.PHONY: lambdas
-lambdas:
-	@$(MAKE) -C $(lambdas) build
-
-.PHONY: webapp
-webapp:
-	@$(MAKE) -C $(webapp) build
-
-.PHONY: infra
-infra:
-	@$(MAKE) -C $(infra) build
 
 .PHONY: snapshots
 snapshots:
@@ -54,6 +54,7 @@ clean:
 # clean build artifacts and node_modules
 .PHONY: clean-all
 clean-all:
+	rm -rf node_modules
 	@$(MAKE) -C $(types) clean-all
 	@$(MAKE) -C $(lambdas) clean-all
 	@$(MAKE) -C $(webapp) clean-all
