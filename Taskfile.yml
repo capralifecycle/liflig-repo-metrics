@@ -1,0 +1,170 @@
+version: "3"
+
+output: prefixed
+
+vars:
+  infra: "packages/infrastructure"
+  webapp: "packages/webapp"
+  lambdas: "packages/repo-collector"
+  types: "packages/repo-collector-types"
+
+tasks:
+  default:
+    cmds:
+      - task: build
+
+  build:
+    desc: Build project
+    deps: [infra.build]
+
+  snapshots:
+    desc: Update infrastructure snapshots
+    deps: [infra.snapshots]
+
+  check-snapshots:
+    desc: Check if infrastructure snapshots are up-to-date
+    deps: [infra.check-snapshots]
+
+  clean:
+    desc: Clean project
+    deps: [infra.clean, webapp.clean, lambdas.clean, types.clean]
+
+  clean-all:
+    desc: Clean project and dependencies
+    deps:
+      [infra.clean-all, webapp.clean-all, lambdas.clean-all, types.clean-all]
+
+  # test if AWS session exists here?
+  update-local-data:
+    desc: Update local data (local file system)
+    cmds:
+      - task: lambdas.update-local-data
+
+  # test if AWS session exists here?
+  update-remote-data:
+    desc: Update remote data (the running instance of repo-metrics)
+    cmds:
+      - task: lambdas.update-remote-data
+
+  ################################
+  # infra
+  ################################
+  infra.build:
+    dir: "{{.infra}}"
+    deps: [lambdas.build, webapp.build]
+    cmds:
+      - npm install
+      - npm run lint
+      - task: infra.snapshots
+
+  infra.snapshots:
+    dir: "{{.infra}}"
+    cmd: npm run snapshots
+
+  infra.check-snapshots:
+    dir: "{{.infra}}"
+    cmds:
+      - git status __snapshots__
+      - git add __snapshots__ --intent-to-add
+      - git diff --exit-code __snapshots__
+
+  infra.clean:
+    dir: "{{.infra}}"
+    cmd: rm -rf cdk.out
+
+  infra.clean-all:
+    dir: "{{.infra}}"
+    deps: [infra.clean]
+    cmds:
+      - rm -rf node_modules
+
+  ################################
+  # lambdas
+  ################################
+  lambdas.build:
+    dir: "{{.lambdas}}"
+    deps: [types.build]
+    cmds:
+      - npm install
+      - npm run lint
+      - npm run test
+      - npm run build
+
+  lambdas.update-local-data:
+    dir: "{{.lambdas}}"
+    cmds:
+      - npm run collect-locally
+      - npm run aggregate-locally
+
+  lambdas.report-locally:
+    dir: "{{.lambdas}}"
+    cmds:
+      - npm run report-locally
+
+  lambdas.serve-local-data:
+    dir: "{{.lambdas}}"
+    cmds:
+      - npm run serve
+
+  lambdas.update-remote-data:
+    dir: "{{.lambdas}}"
+    cmds:
+      - aws stepfunctions start-execution --state-machine-arn "arn:aws:states:eu-west-1:001112238813:stateMachine:StateMachine2E01A3A5-2QjhssOgQmZm"
+
+  lambdas.clean:
+    dir: "{{.lambdas}}"
+    cmds:
+      - rm -rf dist
+
+  lambdas.clean-all:
+    dir: "{{.lambdas}}"
+    deps: [lambdas.clean]
+    cmds:
+      - rm -rf node_modules
+
+  ################################
+  # webapp
+  ################################
+  webapp.build:
+    dir: "{{.webapp}}"
+    deps: [types.build]
+    cmds:
+      - npm install
+      - npm run lint
+      - npm run build
+      - npm run test
+
+  webapp.clean:
+    dir: "{{.webapp}}"
+    cmds:
+      - rm -rf dist
+      - rm -rf build
+      - rm -rf coverage
+
+  webapp.clean-all:
+    dir: "{{.webapp}}"
+    deps: [webapp.clean]
+    cmds:
+      - rm -rf node_modules
+
+  ################################
+  # types
+  ################################
+  types.build:
+    dir: "{{.types}}"
+    run: once
+    cmds:
+      - npm install
+      - npm run lint
+      - npm run build
+
+  types.clean:
+    dir: "{{.types}}"
+    cmds:
+      - rm -rf lib
+
+  types.clean-all:
+    dir: "{{.types}}"
+    deps: [types.clean]
+    cmds:
+      - rm -rf node_modules
