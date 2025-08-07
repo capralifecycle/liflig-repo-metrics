@@ -3,6 +3,7 @@
   "requireApproval": "never",
   "context": {
     "@aws-cdk/core:bootstrapQualifier": "liflig",
-    "@aws-cdk/customresources:installLatestAwsSdkDefault": false
+    "@aws-cdk/customresources:installLatestAwsSdkDefault": false,
+    "cli-telemetry": false
   }
 }
