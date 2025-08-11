@@ -46,6 +46,14 @@ tasks:
     cmds:
       - task: lambdas.update-remote-data
 
+  migrate-biome-schema:
+    desc: Migrate biome schema
+    deps:
+      - infra.migrate-biome-schema
+      - webapp.migrate-biome-schema
+      - lambdas.migrate-biome-schema
+      - types.migrate-biome-schema
+
   ################################
   # infra
   ################################
@@ -77,6 +85,11 @@ tasks:
     deps: [infra.clean]
     cmds:
       - rm -rf node_modules
+
+  infra.migrate-biome-schema:
+    dir: "{{.infra}}"
+    cmds:
+      - npx biome migrate --write
 
   ################################
   # lambdas
@@ -122,6 +135,11 @@ tasks:
     cmds:
       - rm -rf node_modules
 
+  lambdas.migrate-biome-schema:
+    dir: "{{.lambdas}}"
+    cmds:
+      - npx biome migrate --write
+
   ################################
   # webapp
   ################################
@@ -147,6 +165,11 @@ tasks:
     cmds:
       - rm -rf node_modules
 
+  webapp.migrate-biome-schema:
+    dir: "{{.webapp}}"
+    cmds:
+      - npx biome migrate --write
+
   ################################
   # types
   ################################
@@ -168,3 +191,7 @@ tasks:
     deps: [types.clean]
     cmds:
       - rm -rf node_modules
+  types.migrate-biome-schema:
+    dir: "{{.types}}"
+    cmds:
+      - npx biome migrate --write
