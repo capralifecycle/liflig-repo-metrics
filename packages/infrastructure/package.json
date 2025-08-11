@@ -10,8 +10,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.4",
-    "@liflig/load-secrets": "1.1.10",
-    "@types/node": "24.2.0",
+    "@liflig/load-secrets": "1.1.12",
+    "@types/node": "24.2.1",
     "aws-cdk": "2.1024.0",
     "esbuild": "0.25.8",
     "tsx": "4.20.3",
@@ -19,9 +19,9 @@
   },
   "dependencies": {
     "@capraconsulting/webapp-deploy-lambda": "2.5.0",
-    "@liflig/cdk": "3.15.0",
+    "@liflig/cdk": "3.15.2",
     "@liflig/cdk-cloudfront-auth": "1.7.7",
-    "aws-cdk-lib": "2.208.0",
+    "aws-cdk-lib": "2.210.0",
     "constructs": "10.4.2"
   }
 }
