@@ -40,6 +40,16 @@ tasks:
     cmds:
       - task: lambdas.update-local-data
 
+  download-s3-data:
+    desc: Download data from S3
+    cmds:
+      - task: lambdas.download-s3-data
+
+  serve-local-data:
+    desc: Serve local data
+    cmds:
+      - task: lambdas.serve-local-data
+
   # test if AWS session exists here?
   update-remote-data:
     desc: Update remote data (the running instance of repo-metrics)
@@ -91,18 +101,15 @@ tasks:
   infra.clean-all:
     dir: "{{.infra}}"
     deps: [infra.clean]
-    cmds:
-      - rm -rf node_modules
+    cmd: rm -rf node_modules
 
   infra.upgrade-dependencies:
     dir: "{{.infra}}"
-    cmds:
-      - npx ncu --upgrade
+    cmd: npx ncu --upgrade
 
   infra.migrate-biome-schema:
     dir: "{{.infra}}"
-    cmds:
-      - npx biome migrate --write
+    cmd: npx biome migrate --write
 
   ################################
   # lambdas
@@ -124,39 +131,36 @@ tasks:
 
   lambdas.report-locally:
     dir: "{{.lambdas}}"
-    cmds:
-      - npm run report-locally
+    cmd: npm run report-locally
 
   lambdas.serve-local-data:
     dir: "{{.lambdas}}"
-    cmds:
-      - npm run serve
+    cmd: npm run serve
+
+  lambdas.download-s3-data:
+    dir: "{{.lambdas}}"
+    cmd: ./fetch-s3-data.sh
 
   lambdas.update-remote-data:
     dir: "{{.lambdas}}"
-    cmds:
-      - aws stepfunctions start-execution --state-machine-arn "arn:aws:states:eu-west-1:001112238813:stateMachine:StateMachine2E01A3A5-2QjhssOgQmZm"
+    cmd: aws stepfunctions start-execution --state-machine-arn "arn:aws:states:eu-west-1:001112238813:stateMachine:StateMachine2E01A3A5-2QjhssOgQmZm"
 
   lambdas.clean:
     dir: "{{.lambdas}}"
-    cmds:
-      - rm -rf dist
+    cmd: rm -rf dist
 
   lambdas.clean-all:
     dir: "{{.lambdas}}"
     deps: [lambdas.clean]
-    cmds:
-      - rm -rf node_modules
+    cmd: rm -rf node_modules
 
   lambdas.upgrade-dependencies:
     dir: "{{.lambdas}}"
-    cmds:
-      - npx ncu --upgrade
+    cmd: npx ncu --upgrade
 
   lambdas.migrate-biome-schema:
     dir: "{{.lambdas}}"
-    cmds:
-      - npx biome migrate --write
+    cmd: npx biome migrate --write
 
   ################################
   # webapp
@@ -180,18 +184,19 @@ tasks:
   webapp.clean-all:
     dir: "{{.webapp}}"
     deps: [webapp.clean]
-    cmds:
-      - rm -rf node_modules
+    cmd: rm -rf node_modules
+
+  webapp.start-webserver:
+    dir: "{{.webapp}}"
+    cmd: npm run start
 
   webapp.migrate-biome-schema:
     dir: "{{.webapp}}"
-    cmds:
-      - npx biome migrate --write
+    cmd: npx biome migrate --write
 
   webapp.upgrade-dependencies:
     dir: "{{.webapp}}"
-    cmds:
-      - npx ncu --upgrade
+    cmd: npx ncu --upgrade
 
   ################################
   # types
@@ -206,21 +211,17 @@ tasks:
 
   types.clean:
     dir: "{{.types}}"
-    cmds:
-      - rm -rf lib
+    cmd: rm -rf lib
 
   types.clean-all:
     dir: "{{.types}}"
     deps: [types.clean]
-    cmds:
-      - rm -rf node_modules
+    cmd: rm -rf node_modules
 
   types.upgrade-dependencies:
     dir: "{{.types}}"
-    cmds:
-      - npx ncu --upgrade
+    cmd: npx ncu --upgrade
 
   types.migrate-biome-schema:
     dir: "{{.types}}"
-    cmds:
-      - npx biome migrate --write
+    cmd: npx biome migrate --write

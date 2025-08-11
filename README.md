@@ -67,18 +67,18 @@ end
 Build all packages:
 
 ```bash
-make
+task
 # or
-make build
+task build
 ```
 
 Build specific packages:
 
 ```bash
-make types
-make lambdas
-make webapp
-make infra
+task types.build
+task lambdas.build
+task webapp.build
+task infra.build
 ```
 
 ## Run
@@ -94,7 +94,7 @@ This approach downloads data from remote sources to the local file system, then 
 Requires `cals-cli` to be configured with tokens for SonarCloud, Snyk and GitHub.
 
 ```shell
-$ make update-local-data
+$ task update-local-data
 ```
 
 #### Alternative 2: Download existing data from S3
@@ -104,15 +104,15 @@ This approach downloads unprocessed (snapshot files) and processed (webapp frien
 Requires: Active shell session using administrative privileges in the liflig-incubator account, e.g. `aws-vault exec liflig-incubator-admin`.
 
 ```shell
-$ make download-s3-data
+$ task download-s3-data
 ```
 
 ### 2. Serve data and run webapp
 
 After data has been collected and aggregated into `packages/repo-collector/data/webapp.json`, we serve it to the webapp. Do this in two separate windows/panes, as data must be served while the webserver runs.
 
-1. Serve local data: `make serve-local-data`
-2. Start webserver: `make start-webserver`
+1. Serve local data: `task serve-local-data`
+2. Start webserver: `task start-webserver`
 
 Open local server at: <http://localhost:3000>
 
@@ -138,7 +138,7 @@ The lambdas used for updating data are orchestrated by an AWS Step Function stat
 Run the below command using AWS Vault and the `liflig-incubator-admin` role.
 
 ```shell
-$ make update-remote-data
+$ task update-remote-data
 ```
 
 ## Architecture Decision Records (ADR)
