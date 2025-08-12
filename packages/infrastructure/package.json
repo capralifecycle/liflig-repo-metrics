@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.4",
-    "@liflig/load-secrets": "1.1.12",
+    "@liflig/load-secrets": "1.1.13",
     "@types/node": "24.2.1",
     "aws-cdk": "2.1024.0",
     "esbuild": "0.25.8",
