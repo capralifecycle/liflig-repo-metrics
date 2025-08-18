@@ -11,7 +11,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "@liflig/load-secrets": "1.1.13",
-    "@types/node": "24.2.1",
+    "@types/node": "24.3.0",
     "aws-cdk": "2.1025.0",
     "esbuild": "0.25.8",
     "tsx": "4.20.4",
