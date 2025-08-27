@@ -843,7 +843,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs22.x",
         "Tags": [
           {
             "Key": "Project",
@@ -1208,7 +1208,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs22.x",
         "Tags": [
           {
             "Key": "Project",
@@ -2218,7 +2218,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs22.x",
         "Tags": [
           {
             "Key": "Project",
@@ -2435,7 +2435,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs22.x",
         "Tags": [
           {
             "Key": "Project",
@@ -2602,7 +2602,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs18.x",
+        "Runtime": "nodejs22.x",
         "Tags": [
           {
             "Key": "Project",
