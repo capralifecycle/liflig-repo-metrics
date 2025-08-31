@@ -45,6 +45,6 @@
     "keytar": "7.9.0",
     "lodash-es": "4.17.21",
     "node-fetch": "^3.3.2",
-    "p-limit": "^6.2.0"
+    "p-limit": "^7.0.0"
   }
 }
