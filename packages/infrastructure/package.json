@@ -12,7 +12,7 @@
     "@biomejs/biome": "2.2.2",
     "@liflig/cdk": "3.15.7",
     "@liflig/cdk-cloudfront-auth": "1.7.14",
-    "@liflig/load-secrets": "1.1.16",
+    "@liflig/load-secrets": "1.1.17",
     "@types/node": "24.3.0",
     "aws-cdk": "2.1026.0",
     "esbuild": "0.25.8",
