@@ -14,9 +14,9 @@
     "serve": "http-server --cors -p 8383 data"
   },
   "devDependencies": {
-    "@aws-sdk/client-cloudfront": "3.864.0",
-    "@aws-sdk/client-s3": "3.864.0",
-    "@aws-sdk/client-secrets-manager": "3.864.0",
+    "@aws-sdk/client-cloudfront": "3.879.0",
+    "@aws-sdk/client-s3": "3.879.0",
+    "@aws-sdk/client-secrets-manager": "3.879.0",
     "@biomejs/biome": "2.2.2",
     "@octokit/types": "14.1.0",
     "@types/aws-lambda": "8.10.152",
@@ -25,7 +25,7 @@
     "@types/node": "24.3.0",
     "@types/node-fetch": "2.6.13",
     "@vitest/ui": "3.2.4",
-    "esbuild": "0.25.8",
+    "esbuild": "0.25.9",
     "http-server": "14.1.1",
     "tsx": "4.20.5",
     "typescript": "5.9.2",
@@ -39,12 +39,12 @@
     "ajv": "8.17.1",
     "axios": "1.11.0",
     "cachedir": "^2.4.0",
-    "date-holidays": "3.25.0",
+    "date-holidays": "3.25.2",
     "get-stream": "9.0.1",
     "js-yaml": "4.1.0",
     "keytar": "7.9.0",
     "lodash-es": "4.17.21",
     "node-fetch": "^3.3.2",
-    "p-limit": "^6.2.0"
+    "p-limit": "^7.1.1"
   }
 }
