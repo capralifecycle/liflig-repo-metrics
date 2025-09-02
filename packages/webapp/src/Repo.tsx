@@ -275,12 +275,12 @@ function snykStyle(type: SnykType): React.CSSProperties {
 }
 
 function sonarCloudTestCoverageStyle(coverage: string): React.CSSProperties {
-  if (Number.parseInt(coverage) > 70) {
+  if (Number.parseInt(coverage, 10) > 70) {
     return {
       color: "green",
     }
   }
-  if (Number.parseInt(coverage) > 45) {
+  if (Number.parseInt(coverage, 10) > 45) {
     return {
       color: "darkgoldenrod",
     }
