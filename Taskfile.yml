@@ -17,6 +17,10 @@ tasks:
     desc: Build project
     deps: [infra.build]
 
+  lint:
+    desc: Lint project
+    deps: [infra.lint, lambdas.lint, webapp.lint, types.lint]
+
   snapshots:
     desc: Update infrastructure snapshots
     deps: [infra.snapshots]
@@ -80,8 +84,12 @@ tasks:
     deps: [lambdas.build, webapp.build]
     cmds:
       - npm install
-      - npm run lint
+      - task: infra.lint
       - task: infra.snapshots
+
+  infra.lint:
+    dir: "{{.infra}}"
+    cmd: npm run lint
 
   infra.snapshots:
     dir: "{{.infra}}"
@@ -119,9 +127,13 @@ tasks:
     deps: [types.build]
     cmds:
       - npm install
-      - npm run lint
+      - task: lambdas.lint
       - npm run test
       - npm run build
+
+  lambdas.lint:
+    dir: "{{.lambdas}}"
+    cmd: npm run lint
 
   lambdas.update-local-data:
     dir: "{{.lambdas}}"
@@ -170,9 +182,13 @@ tasks:
     deps: [types.build]
     cmds:
       - npm install
-      - npm run lint
+      - task: webapp.lint
       - npm run build
       - npm run test
+
+  webapp.lint:
+    dir: "{{.webapp}}"
+    cmd: npm run lint
 
   webapp.clean:
     dir: "{{.webapp}}"
@@ -206,8 +222,12 @@ tasks:
     run: once
     cmds:
       - npm install
-      - npm run lint
+      - task: types.lint
       - npm run build
+
+  types.lint:
+    dir: "{{.types}}"
+    cmd: npm run lint
 
   types.clean:
     dir: "{{.types}}"
