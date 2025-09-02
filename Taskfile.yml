@@ -15,7 +15,13 @@ tasks:
 
   build:
     desc: Build project
-    deps: [infra.build]
+    deps: [install-deps]
+    cmds:
+      - task: infra.build
+
+  install-deps:
+    desc: Install project dependencies
+    cmd: npm install
 
   lint:
     desc: Lint project
@@ -76,6 +82,14 @@ tasks:
       - lambdas.migrate-biome-schema
       - types.migrate-biome-schema
 
+  lockfile-maintenance:
+    desc: Refresh NPM lockfiles and update snapshots
+    cmds:
+      - rm package-lock.json
+      - rm -rf node_modules
+      - task: install-deps
+      - task: infra.snapshots
+
   ################################
   # infra
   ################################
@@ -83,7 +97,6 @@ tasks:
     dir: "{{.infra}}"
     deps: [lambdas.build, webapp.build]
     cmds:
-      - npm install
       - task: infra.lint
       - task: infra.snapshots
 
@@ -126,7 +139,6 @@ tasks:
     dir: "{{.lambdas}}"
     deps: [types.build]
     cmds:
-      - npm install
       - task: lambdas.lint
       - npm run test
       - npm run build
@@ -181,7 +193,6 @@ tasks:
     dir: "{{.webapp}}"
     deps: [types.build]
     cmds:
-      - npm install
       - task: webapp.lint
       - npm run build
       - npm run test
@@ -221,7 +232,6 @@ tasks:
     dir: "{{.types}}"
     run: once
     cmds:
-      - npm install
       - task: types.lint
       - npm run build
 
