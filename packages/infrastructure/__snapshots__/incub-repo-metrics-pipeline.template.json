@@ -2358,7 +2358,7 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1-415e0bdc\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1-7f448109\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Tags": [
@@ -2462,7 +2462,7 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1-cccdeb4a\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1-d0204865\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Tags": [
@@ -2514,7 +2514,7 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1-6f114ab9\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1-6113a0fa\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Tags": [
@@ -2566,7 +2566,7 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1-3960b9ef\\\"\",\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1-472adf76\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1-0d74201b\\\"\",\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsmainF01F78A2.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-eu-west-1-971f154b\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Tags": [
@@ -2618,7 +2618,7 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1-ff0b8839\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1-323eb86e\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Tags": [
@@ -2670,7 +2670,7 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1-fe2c5e6c\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1-6f3750b3\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Tags": [
@@ -2722,7 +2722,7 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1-7c914a9f\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1-a81161a9\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Tags": [
@@ -2774,7 +2774,7 @@
           ]
         },
         "Source": {
-          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1-4b7af228\\\"\"\n      ]\n    }\n  }\n}",
+          "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"install\": {\n      \"commands\": [\n        \"npm install -g cdk-assets@latest\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cdk-assets --path \\\"assembly-incub-repo-metrics-pipeline-Incubator/incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.assets.json\\\" --verbose publish \\\"snapshot-value:001112238813-us-east-1-4d12eb9e\\\"\"\n      ]\n    }\n  }\n}",
           "Type": "CODEPIPELINE"
         },
         "Tags": [
