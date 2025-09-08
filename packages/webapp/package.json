@@ -12,7 +12,7 @@
     "lint:fix": "biome check --fix"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.2",
+    "@biomejs/biome": "2.2.3",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.17.20",
     "@types/lodash-es": "4.17.12",
