@@ -17,7 +17,7 @@
     "@aws-sdk/client-cloudfront": "3.899.0",
     "@aws-sdk/client-s3": "3.899.0",
     "@aws-sdk/client-secrets-manager": "3.899.0",
-    "@biomejs/biome": "2.2.4",
+    "@biomejs/biome": "2.2.5",
     "@octokit/types": "15.0.0",
     "@types/aws-lambda": "8.10.153",
     "@types/js-yaml": "4.0.9",
