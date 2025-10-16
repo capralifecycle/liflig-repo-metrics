@@ -2,6 +2,9 @@
   "name": "root",
   "private": true,
   "type": "module",
+  "scripts": {
+    "upgrade-deps": "ncu --workspaces --upgrade --install always --format group"
+  },
   "resolutions": {
     "@types/webpack": "^5.18.0"
   },
@@ -10,5 +13,8 @@
     "packages/repo-collector",
     "packages/webapp",
     "packages/infrastructure"
-  ]
+  ],
+  "devDependencies": {
+    "npm-check-updates": "19.1.1"
+  }
 }
