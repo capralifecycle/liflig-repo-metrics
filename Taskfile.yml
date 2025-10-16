@@ -78,9 +78,10 @@ tasks:
   lockfile-maintenance:
     desc: Refresh NPM lockfiles and update snapshots
     cmds:
-      - rm package-lock.json
+      - rm -rf package-lock.json
       - rm -rf node_modules
-      - task: infra.snapshots
+      - npm install
+      - task: infra.build
 
   ################################
   # infra
