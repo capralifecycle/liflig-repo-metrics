@@ -7,12 +7,9 @@
   "scripts": {
     "clean": "rm -rf lib",
     "build": "npm run build:tsc",
-    "build:tsc": "tsc -b",
-    "lint": "biome check",
-    "lint:fix": "biome check --fix"
+    "build:tsc": "tsc -b"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.6",
     "@types/node": "24.7.2",
     "tsx": "4.20.6",
     "typescript": "5.9.3"

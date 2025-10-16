@@ -4,12 +4,9 @@
   "type": "module",
   "scripts": {
     "cdk": "cdk",
-    "lint": "biome check",
-    "lint:fix": "biome check --fix",
     "snapshots": "rm -rf cdk.out __snapshots__ && IS_SNAPSHOT=true cdk synth && cdk-create-snapshots"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.6",
     "@liflig/cdk": "3.15.13",
     "@liflig/cdk-cloudfront-auth": "1.8.7",
     "@liflig/load-secrets": "1.1.37",

@@ -6,8 +6,6 @@
   "scripts": {
     "build": "tsc -noEmit && rm -rf dist && esbuild src/lambda.ts --bundle --alias:keytar=./keytar-stub.cjs --platform=node --target=\"node18.0\" --outfile=dist/index.js",
     "test": "vitest --run",
-    "lint": "biome check",
-    "lint:fix": "biome check --fix",
     "collect-locally": "tsx src/collect-locally.ts",
     "aggregate-locally": "tsx src/aggregate-locally.ts",
     "report-locally": "tsx src/report-locally.ts",
@@ -17,7 +15,6 @@
     "@aws-sdk/client-cloudfront": "3.911.0",
     "@aws-sdk/client-s3": "3.911.0",
     "@aws-sdk/client-secrets-manager": "3.911.0",
-    "@biomejs/biome": "2.2.6",
     "@octokit/types": "15.0.0",
     "@types/aws-lambda": "8.10.156",
     "@types/js-yaml": "4.0.9",

@@ -7,12 +7,9 @@
     "start": "vite",
     "build": "vite build --mode production",
     "test": "vitest --run --coverage src --passWithNoTests",
-    "test:watch": "vitest src --watch",
-    "lint": "biome check",
-    "lint:fix": "biome check --fix"
+    "test:watch": "vitest src --watch"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.6",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
     "@types/lodash": "4.17.20",
     "@types/lodash-es": "4.17.12",
