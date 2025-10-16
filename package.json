@@ -3,6 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "lint": "biome ci",
+    "lint:fix": "biome check --fix",
+    "fmt": "biome format --write",
     "upgrade-deps": "ncu --workspaces --upgrade --install always --format group"
   },
   "resolutions": {
@@ -15,6 +18,7 @@
     "packages/infrastructure"
   ],
   "devDependencies": {
+    "@biomejs/biome": "2.2.6",
     "npm-check-updates": "19.1.1"
   }
 }
