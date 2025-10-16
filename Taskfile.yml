@@ -17,6 +17,7 @@ tasks:
     desc: Build project
     deps: [install-deps]
     cmds:
+      - task: lint
       - task: infra.build
 
   install-deps:
@@ -25,7 +26,7 @@ tasks:
 
   lint:
     desc: Lint project
-    deps: [infra.lint, lambdas.lint, webapp.lint, types.lint]
+    cmd: npm run lint
 
   snapshots:
     desc: Update infrastructure snapshots
@@ -72,11 +73,7 @@ tasks:
 
   migrate-biome-schema:
     desc: Migrate biome schema
-    deps:
-      - infra.migrate-biome-schema
-      - webapp.migrate-biome-schema
-      - lambdas.migrate-biome-schema
-      - types.migrate-biome-schema
+    cmd: npx biome migrate --write
 
   lockfile-maintenance:
     desc: Refresh NPM lockfiles and update snapshots
@@ -92,12 +89,7 @@ tasks:
     dir: "{{.infra}}"
     deps: [lambdas.build, webapp.build]
     cmds:
-      - task: infra.lint
       - task: infra.snapshots
-
-  infra.lint:
-    dir: "{{.infra}}"
-    cmd: npm run lint
 
   infra.snapshots:
     dir: "{{.infra}}"
@@ -123,10 +115,6 @@ tasks:
     dir: "{{.infra}}"
     cmd: npx ncu --upgrade
 
-  infra.migrate-biome-schema:
-    dir: "{{.infra}}"
-    cmd: npx biome migrate --write
-
   ################################
   # lambdas
   ################################
@@ -134,13 +122,8 @@ tasks:
     dir: "{{.lambdas}}"
     deps: [types.build]
     cmds:
-      - task: lambdas.lint
       - npm run test
       - npm run build
-
-  lambdas.lint:
-    dir: "{{.lambdas}}"
-    cmd: npm run lint
 
   lambdas.update-local-data:
     dir: "{{.lambdas}}"
@@ -173,10 +156,6 @@ tasks:
     deps: [lambdas.clean]
     cmd: rm -rf node_modules
 
-  lambdas.migrate-biome-schema:
-    dir: "{{.lambdas}}"
-    cmd: npx biome migrate --write
-
   ################################
   # webapp
   ################################
@@ -184,13 +163,8 @@ tasks:
     dir: "{{.webapp}}"
     deps: [types.build]
     cmds:
-      - task: webapp.lint
       - npm run build
       - npm run test
-
-  webapp.lint:
-    dir: "{{.webapp}}"
-    cmd: npm run lint
 
   webapp.clean:
     dir: "{{.webapp}}"
@@ -208,10 +182,6 @@ tasks:
     dir: "{{.webapp}}"
     cmd: npm run start
 
-  webapp.migrate-biome-schema:
-    dir: "{{.webapp}}"
-    cmd: npx biome migrate --write
-
   ################################
   # types
   ################################
@@ -219,12 +189,7 @@ tasks:
     dir: "{{.types}}"
     run: once
     cmds:
-      - task: types.lint
       - npm run build
-
-  types.lint:
-    dir: "{{.types}}"
-    cmd: npm run lint
 
   types.clean:
     dir: "{{.types}}"
@@ -234,7 +199,3 @@ tasks:
     dir: "{{.types}}"
     deps: [types.clean]
     cmd: rm -rf node_modules
-
-  types.migrate-biome-schema:
-    dir: "{{.types}}"
-    cmd: npx biome migrate --write
