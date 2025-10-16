@@ -9,19 +9,19 @@
     "snapshots": "rm -rf cdk.out __snapshots__ && IS_SNAPSHOT=true cdk synth && cdk-create-snapshots"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.5",
+    "@biomejs/biome": "2.2.6",
     "@liflig/cdk": "3.15.13",
-    "@liflig/cdk-cloudfront-auth": "1.8.5",
-    "@liflig/load-secrets": "1.1.32",
+    "@liflig/cdk-cloudfront-auth": "1.8.7",
+    "@liflig/load-secrets": "1.1.37",
     "@types/node": "24.7.2",
     "aws-cdk": "2.1030.0",
-    "esbuild": "0.25.10",
+    "esbuild": "0.25.11",
     "tsx": "4.20.6",
     "typescript": "5.9.3"
   },
   "dependencies": {
     "@capraconsulting/webapp-deploy-lambda": "2.5.1",
-    "aws-cdk-lib": "2.219.0",
+    "aws-cdk-lib": "2.220.0",
     "constructs": "10.4.2"
   }
 }
