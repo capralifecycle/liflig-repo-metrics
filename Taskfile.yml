@@ -66,13 +66,9 @@ tasks:
     cmds:
       - task: lambdas.update-remote-data
 
-  upgrade-dependencies:
+  upgrade-deps:
     desc: Update dependencies
-    deps:
-      - types.upgrade-dependencies
-      - lambdas.upgrade-dependencies
-      - webapp.upgrade-dependencies
-      - infra.upgrade-dependencies
+    cmd: npm run upgrade-deps
 
   migrate-biome-schema:
     desc: Migrate biome schema
@@ -87,7 +83,6 @@ tasks:
     cmds:
       - rm package-lock.json
       - rm -rf node_modules
-      - task: install-deps
       - task: infra.snapshots
 
   ################################
@@ -178,10 +173,6 @@ tasks:
     deps: [lambdas.clean]
     cmd: rm -rf node_modules
 
-  lambdas.upgrade-dependencies:
-    dir: "{{.lambdas}}"
-    cmd: npx ncu --upgrade
-
   lambdas.migrate-biome-schema:
     dir: "{{.lambdas}}"
     cmd: npx biome migrate --write
@@ -221,10 +212,6 @@ tasks:
     dir: "{{.webapp}}"
     cmd: npx biome migrate --write
 
-  webapp.upgrade-dependencies:
-    dir: "{{.webapp}}"
-    cmd: npx ncu --upgrade
-
   ################################
   # types
   ################################
@@ -247,10 +234,6 @@ tasks:
     dir: "{{.types}}"
     deps: [types.clean]
     cmd: rm -rf node_modules
-
-  types.upgrade-dependencies:
-    dir: "{{.types}}"
-    cmd: npx ncu --upgrade
 
   types.migrate-biome-schema:
     dir: "{{.types}}"
