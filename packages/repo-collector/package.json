@@ -16,7 +16,7 @@
     "@aws-sdk/client-s3": "3.911.0",
     "@aws-sdk/client-secrets-manager": "3.911.0",
     "@octokit/types": "15.0.1",
-    "@types/aws-lambda": "8.10.156",
+    "@types/aws-lambda": "8.10.157",
     "@types/js-yaml": "4.0.9",
     "@types/lodash-es": "4.17.12",
     "@types/node": "24.9.1",
