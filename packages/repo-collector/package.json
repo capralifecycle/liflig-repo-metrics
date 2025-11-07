@@ -12,36 +12,36 @@
     "serve": "http-server --cors -p 8383 data"
   },
   "devDependencies": {
-    "@aws-sdk/client-cloudfront": "3.911.0",
-    "@aws-sdk/client-s3": "3.911.0",
-    "@aws-sdk/client-secrets-manager": "3.911.0",
-    "@octokit/types": "15.0.2",
+    "@aws-sdk/client-cloudfront": "3.928.0",
+    "@aws-sdk/client-s3": "3.928.0",
+    "@aws-sdk/client-secrets-manager": "3.928.0",
+    "@octokit/types": "16.0.0",
     "@types/aws-lambda": "8.10.157",
     "@types/js-yaml": "4.0.9",
     "@types/lodash-es": "4.17.12",
-    "@types/node": "24.9.1",
+    "@types/node": "24.10.0",
     "@types/node-fetch": "2.6.13",
-    "@vitest/ui": "3.2.4",
-    "esbuild": "0.25.11",
+    "@vitest/ui": "4.0.8",
+    "esbuild": "0.27.0",
     "http-server": "14.1.1",
     "tsx": "4.20.6",
     "typescript": "5.9.3",
-    "vitest": "3.2.4"
+    "vitest": "4.0.8"
   },
   "dependencies": {
     "@js-temporal/polyfill": "0.5.1",
     "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
-    "@octokit/rest": "^22.0.0",
+    "@octokit/rest": "^22.0.1",
     "@types/lodash": "4.17.20",
     "ajv": "8.17.1",
-    "axios": "1.12.2",
+    "axios": "1.13.2",
     "cachedir": "^2.4.0",
-    "date-holidays": "3.26.1",
+    "date-holidays": "3.26.5",
     "get-stream": "9.0.1",
     "js-yaml": "4.1.0",
     "keytar": "7.9.0",
     "lodash-es": "4.17.21",
     "node-fetch": "^3.3.2",
-    "p-limit": "^7.1.1"
+    "p-limit": "^7.2.0"
   }
 }
