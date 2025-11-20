@@ -16,8 +16,8 @@
     "@types/react": "19.2.5",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "5.1.1",
-    "@vitest/coverage-v8": "4.0.9",
-    "@vitest/ui": "4.0.9",
+    "@vitest/coverage-v8": "4.0.10",
+    "@vitest/ui": "4.0.10",
     "autoprefixer": "10.4.22",
     "css-loader": "7.1.2",
     "git-revision-webpack-plugin": "5.0.0",
@@ -27,7 +27,7 @@
     "url-loader": "4.1.1",
     "vite": "7.2.2",
     "vite-plugin-checker": "0.11.0",
-    "vitest": "4.0.9"
+    "vitest": "4.0.10"
   },
   "dependencies": {
     "date-fns": "4.1.0",
