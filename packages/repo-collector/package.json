@@ -38,7 +38,7 @@
     "cachedir": "^2.4.0",
     "date-holidays": "3.26.5",
     "get-stream": "9.0.1",
-    "js-yaml": "4.1.0",
+    "js-yaml": "4.1.1",
     "keytar": "7.9.0",
     "lodash-es": "4.17.21",
     "node-fetch": "^3.3.2",
