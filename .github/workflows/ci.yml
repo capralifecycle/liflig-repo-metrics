@@ -47,7 +47,7 @@ jobs:
           aws-iam-role-name: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && steps.config.outputs.roleName || steps.config.outputs.limitedRoleName }}
 
       - name: "mise - install tools"
-        uses: jdx/mise-action@9dc7d5dd454262207dea3ab5a06a3df6afc8ff26 # v3.4.1
+        uses: jdx/mise-action@d16887ba50704baed7de72bd1e82e04391e4457a # v3.5.0
         with:
           version: 2025.8.7
           install: true # run mise install
