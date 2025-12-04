@@ -18,3 +18,13 @@
   --spacing-large: calc(var(--spacing-normal) * 2);
   --spacing-small: calc(var(--spacing-normal) / 2);
 }
+
+[data-theme="dark"] {
+  --color-primary: #7b7bff;
+  --color-background: #1e1e1e;
+  --color-foreground: #e0e0e0;
+  --color-secondary: #444;
+  --color-mute: #a0a0a0;
+  --color-dark: #999;
+  --color-blue-extra-light: #2a2a4a;
+}

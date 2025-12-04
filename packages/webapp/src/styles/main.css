@@ -13,7 +13,14 @@
 table,
 th,
 td {
-  border: 1px solid #888;
+  border: 1px solid;
+  border-color: #888;
+}
+
+[data-theme="dark"] table,
+[data-theme="dark"] th,
+[data-theme="dark"] td {
+  border-color: #555;
 }
 
 table {
