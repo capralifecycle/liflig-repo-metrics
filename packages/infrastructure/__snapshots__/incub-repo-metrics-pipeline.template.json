@@ -3115,7 +3115,7 @@
             "Arn"
           ]
         },
-        "Runtime": "python3.11",
+        "Runtime": "python3.13",
         "Tags": [
           {
             "Key": "Project",
