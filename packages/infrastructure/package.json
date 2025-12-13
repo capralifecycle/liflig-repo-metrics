@@ -10,7 +10,7 @@
     "@liflig/cdk": "3.18.1",
     "@liflig/cdk-cloudfront-auth": "1.8.15",
     "@liflig/load-secrets": "1.1.60",
-    "@types/node": "24.10.2",
+    "@types/node": "24.10.3",
     "aws-cdk": "2.1033.0",
     "esbuild": "0.27.1",
     "tsx": "4.21.0",
