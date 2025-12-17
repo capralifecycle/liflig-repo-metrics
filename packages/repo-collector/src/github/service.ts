@@ -1,8 +1,8 @@
+import type { Agent } from "node:https"
 import { performance } from "node:perf_hooks"
 import * as process from "node:process"
 import { Octokit } from "@octokit/rest"
 import type { OctokitResponse } from "@octokit/types"
-import fetch from "node-fetch"
 import type { LimitFunction } from "p-limit"
 import pLimit from "p-limit"
 import type { CacheProvider } from "../cache"
@@ -13,6 +13,8 @@ import type {
   RenovateDependencyDashboardIssue,
   VulnerabilityAlert,
 } from "./types"
+
+type FetchOptions = RequestInit & { agent: Agent }
 
 interface SearchedPullRequestListQueryResult {
   search: {
@@ -221,7 +223,7 @@ export class GitHubService {
         headers,
         body: JSON.stringify({ query }),
         agent: this.config.agent,
-      })
+      } as FetchOptions)
       requestDuration = performance.now() - requestStart
       return result
     })
