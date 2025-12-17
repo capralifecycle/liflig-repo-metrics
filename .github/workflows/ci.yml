@@ -35,9 +35,13 @@ jobs:
         with:
           config-file: ".ldp.json"
 
+      - name: Install Task
+        uses: go-task/setup-task@0ab1b2a65bc55236a3bc64cde78f80e20e8885c2 # v1.0.0
+
       - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
-          node-version: 24.12.0
+          node-version-file: ".node-version"
+          cache: "npm"
 
       - uses: capralifecycle/actions-lib/configure-aws-credentials@0ce63296cc44accd75acd8d0c56e73014b937e83 # v1.6.3
         id: aws
@@ -45,13 +49,6 @@ jobs:
           aws-account-id: ${{ steps.config.outputs.accountId }}
           # NOTE: We use different roles on default and non-default branches
           aws-iam-role-name: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && steps.config.outputs.roleName || steps.config.outputs.limitedRoleName }}
-
-      - name: "mise - install tools"
-        uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
-        with:
-          version: 2025.8.7
-          install: true # run mise install
-          cache: true
 
       - name: build project
         run: task build
