@@ -35,6 +35,9 @@ jobs:
         with:
           config-file: ".ldp.json"
 
+      - name: Install Task
+        uses: go-task/setup-task@72e25a25fd4456ab787f45996994f0fa905ac294 # v3.45.0
+
       - uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
         with:
           node-version-file: ".node-version"
@@ -46,13 +49,6 @@ jobs:
           aws-account-id: ${{ steps.config.outputs.accountId }}
           # NOTE: We use different roles on default and non-default branches
           aws-iam-role-name: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) && steps.config.outputs.roleName || steps.config.outputs.limitedRoleName }}
-
-      - name: "mise - install tools"
-        uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
-        with:
-          version: 2025.8.7
-          install: true # run mise install
-          cache: true
 
       - name: build project
         run: task build
