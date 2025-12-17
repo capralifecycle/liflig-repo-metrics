@@ -2,7 +2,6 @@ import { promises as fs } from "node:fs"
 import type { Readable } from "node:stream"
 import { S3 } from "@aws-sdk/client-s3"
 import type { SnapshotData } from "@liflig/repo-metrics-repo-collector-types"
-import getStream from "get-stream"
 
 export interface SnapshotsRepository {
   store(data: SnapshotData): Promise<void>
@@ -69,7 +68,8 @@ export class S3SnapshotsRepository implements SnapshotsRepository {
       Bucket: this.bucketName,
       Key: this.snapshotDataS3Key,
     })
-    const data: string = await getStream(item.Body as Readable)
+    const chunks = await (item.Body as Readable).toArray()
+    const data: string = Buffer.concat(chunks).toString("utf-8")
     return JSON.parse(data) as SnapshotData
   }
 }

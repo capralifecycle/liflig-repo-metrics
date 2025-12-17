@@ -1,7 +1,9 @@
-import fetch from "node-fetch"
+import type { Agent } from "node:https"
 import type { Config } from "../config"
 import type { SonarCloudTokenProvider } from "./token"
 import { SonarCloudTokenCliProvider } from "./token"
+
+type FetchOptions = RequestInit & { agent: Agent }
 
 interface SonarCloudServiceProps {
   config: Config
@@ -41,7 +43,7 @@ export class SonarCloudService {
           ).toString("base64")}`,
         },
         agent: this.config.agent,
-      },
+      } as FetchOptions,
     )
 
     if (response.status === 401) {

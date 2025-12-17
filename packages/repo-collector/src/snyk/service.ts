@@ -1,8 +1,10 @@
-import fetch from "node-fetch"
+import type { Agent } from "node:https"
 import type { Config } from "../config"
 import type { SnykTokenProvider } from "./token"
 import { SnykTokenCliProvider } from "./token"
 import type { ProjectResponse, RestAPIProject, SnykProject } from "./types"
+
+type FetchOptions = RequestInit & { agent: Agent }
 
 interface SnykServiceProps {
   config: Config
@@ -55,7 +57,7 @@ export class SnykService {
           Authorization: `token ${token}`,
         },
         agent: this.config.agent,
-      })
+      } as FetchOptions)
 
       if (response.status === 401) {
         process.stderr.write("Unauthorized - removing token\n")
