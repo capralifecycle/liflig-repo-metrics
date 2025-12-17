@@ -61,6 +61,11 @@ tasks:
     cmds:
       - task: lambdas.serve-local-data
 
+  start-webserver:
+    desc: Start webserver for webapp
+    cmds:
+      - task: webapp.start-webserver
+
   # test if AWS session exists here?
   update-remote-data:
     desc: Update remote data (the running instance of repo-metrics)
