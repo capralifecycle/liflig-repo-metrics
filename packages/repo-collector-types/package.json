@@ -10,8 +10,7 @@
     "build:tsc": "tsc -b"
   },
   "devDependencies": {
-    "@types/node": "24.10.4",
-    "tsx": "4.21.0",
+    "@types/node": "24.10.3",
     "typescript": "5.9.3"
   }
 }

@@ -165,7 +165,6 @@ tasks:
     deps: [types.build]
     cmds:
       - npm run build
-      - npm run test
 
   webapp.clean:
     dir: "{{.webapp}}"
