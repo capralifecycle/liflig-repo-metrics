@@ -24,9 +24,21 @@ tasks:
     desc: Install project dependencies
     cmd: npm install
 
+  fmt:
+    desc: Format project
+    cmd: npm run fmt
+
+  fmt-check:
+    desc: Check code formatting
+    cmd: npm run fmt:check
+
   lint:
     desc: Lint project
     cmd: npm run lint
+
+  lint-fix:
+    desc: Fix linting issues
+    cmd: npm run lint:fix
 
   snapshots:
     desc: Update infrastructure snapshots
