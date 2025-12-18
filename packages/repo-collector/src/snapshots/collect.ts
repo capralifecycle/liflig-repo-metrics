@@ -134,6 +134,8 @@ export async function collect(
   sonarCloudTokenProvider?: SonarCloudTokenProvider,
 ) {
   const config = new Config()
+  console.log(`Working directory: ${config.cwd}`)
+  console.log(`Cache directory: ${config.cacheDir}`)
   const cache = new CacheProvider(config)
   cache.mustValidate = true
   const githubService = await github.createGitHubService({
