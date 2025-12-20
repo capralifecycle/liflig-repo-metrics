@@ -19,7 +19,7 @@
     "packages/infrastructure"
   ],
   "devDependencies": {
-    "@biomejs/biome": "2.3.9",
+    "@biomejs/biome": "2.3.10",
     "npm-check-updates": "19.2.0"
   }
 }
