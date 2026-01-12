@@ -39,7 +39,7 @@ export class SnykService {
 
     let backportedProjects: SnykProject[] = []
 
-    const snykRestApiVersion = "2025-04-08"
+    const snykRestApiVersion = "2025-11-05"
 
     let nextUrl: string | undefined = `/rest/orgs/${encodeURIComponent(
       snykAccountId,
