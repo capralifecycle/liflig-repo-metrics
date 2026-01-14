@@ -10,14 +10,14 @@
     "@liflig/cdk": "3.19.0",
     "@liflig/cdk-cloudfront-auth": "1.8.16",
     "@liflig/load-secrets": "1.1.67",
-    "@types/node": "24.10.6",
+    "@types/node": "24.10.7",
     "aws-cdk": "2.1100.3",
     "esbuild": "0.27.2",
     "tsx": "4.21.0",
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@capraconsulting/webapp-deploy-lambda": "2.5.21",
+    "@capraconsulting/webapp-deploy-lambda": "2.5.22",
     "aws-cdk-lib": "2.232.2",
     "constructs": "10.4.4"
   }
