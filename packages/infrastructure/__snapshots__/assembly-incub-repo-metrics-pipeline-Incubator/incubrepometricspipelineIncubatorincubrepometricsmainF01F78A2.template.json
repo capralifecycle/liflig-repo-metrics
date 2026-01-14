@@ -2218,7 +2218,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs22.x",
+        "Runtime": "nodejs24.x",
         "Tags": [
           {
             "Key": "Project",
@@ -2435,7 +2435,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs22.x",
+        "Runtime": "nodejs24.x",
         "Tags": [
           {
             "Key": "Project",
@@ -2602,7 +2602,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs22.x",
+        "Runtime": "nodejs24.x",
         "Tags": [
           {
             "Key": "Project",
