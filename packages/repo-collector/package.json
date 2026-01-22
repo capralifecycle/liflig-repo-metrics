@@ -35,7 +35,7 @@
     "date-holidays": "3.26.5",
     "js-yaml": "4.1.1",
     "keytar": "7.9.0",
-    "lodash-es": "4.17.22",
+    "lodash-es": "4.17.23",
     "p-limit": "^7.2.0"
   }
 }
