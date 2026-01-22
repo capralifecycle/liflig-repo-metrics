@@ -118,8 +118,7 @@ Open local server at: <http://localhost:3000>
 
 ## API Key setup
 
-[cals-cli](https://github.com/capralifecycle/cals-cli) is used to do the remote calls
-and also controls how keys are set up.
+[cals-cli](https://github.com/capralifecycle/cals-cli) controls api key setup and storage.
 
 API Keys must be set for:
 
