@@ -24,7 +24,7 @@
     "http-server": "14.1.1",
     "tsx": "4.21.0",
     "typescript": "5.9.3",
-    "vitest": "4.0.17"
+    "vitest": "4.0.18"
   },
   "dependencies": {
     "@js-temporal/polyfill": "0.5.1",
