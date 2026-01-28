@@ -1,34 +1,19 @@
-import keytar from "keytar"
-
 export interface GitHubTokenProvider {
-  getToken(): Promise<string | undefined>
+  getToken(): Promise<string>
   markInvalid(): Promise<void>
 }
 
 export class GitHubTokenCliProvider implements GitHubTokenProvider {
-  private keyringService = "cals"
-  private keyringAccount = "github-token"
-
-  async getToken(): Promise<string | undefined> {
-    if (process.env.CALS_GITHUB_TOKEN) {
-      return process.env.CALS_GITHUB_TOKEN
+  async getToken(): Promise<string> {
+    const token = process.env.GITHUB_TOKEN
+    if (!token) {
+      console.error("Missing required environment variable: GITHUB_TOKEN")
+      process.exit(1)
     }
-
-    const result = await keytar.getPassword(
-      this.keyringService,
-      this.keyringAccount,
-    )
-    if (result == null) {
-      process.stderr.write(
-        "No token found. Register using `cals github set-token`\n",
-      )
-      return undefined
-    }
-
-    return result
+    return token
   }
 
   async markInvalid(): Promise<void> {
-    await keytar.deletePassword(this.keyringService, this.keyringAccount)
+    // No-op for env var based tokens
   }
 }

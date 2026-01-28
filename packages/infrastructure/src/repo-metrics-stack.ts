@@ -127,7 +127,7 @@ export class RepoMetricsStack extends cdk.Stack {
         SNYK_TOKEN_SECRET_ID: snykTokenSecret.secretArn,
         SONARCLOUD_TOKEN_SECRET_ID: sonarCloudTokenSecret.secretArn,
         DATA_BUCKET_NAME: dataBucket.bucketName,
-        // Make cals-cli "cache" work.
+        // Lambda only has /tmp as writable, needed for CacheProvider
         XDG_CACHE_HOME: "/tmp",
       },
     })
