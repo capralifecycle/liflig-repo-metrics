@@ -91,7 +91,7 @@ To run repo-metrics locally, we must provide a data file to the webapp. This fil
 
 This approach downloads data from remote sources to the local file system, then processes it into a webapp friendly format.
 
-Requires `cals-cli` to be configured with tokens for SonarCloud, Snyk and GitHub.
+Requires environment variables `GITHUB_TOKEN`, `SNYK_TOKEN`, and `SONARCLOUD_TOKEN` to be set.
 
 ```shell
 $ task update-local-data
@@ -118,13 +118,11 @@ Open local server at: <http://localhost:3000>
 
 ## API Key setup
 
-[cals-cli](https://github.com/capralifecycle/cals-cli) controls api key setup and storage.
+Set the following environment variables (e.g., via `.envrc`):
 
-API Keys must be set for:
-
-- GitHub
-- Snyk
-- SonarCloud
+- `GITHUB_TOKEN`
+- `SNYK_TOKEN`
+- `SONARCLOUD_TOKEN`
 
 ## Deployment
 

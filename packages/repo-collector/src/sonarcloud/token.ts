@@ -1,19 +1,19 @@
 export interface SonarCloudTokenProvider {
-  getToken(): Promise<string | undefined>
+  getToken(): Promise<string>
   markInvalid(): Promise<void>
 }
-export class SonarCloudTokenCliProvider implements SonarCloudTokenProvider {
-  async getToken(): Promise<string | undefined> {
-    if (process.env.CALS_SONARCLOUD_TOKEN) {
-      return Promise.resolve(process.env.CALS_SONARCLOUD_TOKEN)
-    }
 
-    process.stderr.write(
-      "No environmental variable found. Set variable `CALS_SONARCLOUD_TOKEN` to token value\n",
-    )
-    return undefined
+export class SonarCloudTokenCliProvider implements SonarCloudTokenProvider {
+  async getToken(): Promise<string> {
+    const token = process.env.SONARCLOUD_TOKEN
+    if (!token) {
+      console.error("Missing required environment variable: SONARCLOUD_TOKEN")
+      process.exit(1)
+    }
+    return token
   }
+
   async markInvalid(): Promise<void> {
-    await Promise.resolve()
+    // No-op for env var based tokens
   }
 }
