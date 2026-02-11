@@ -7,7 +7,7 @@
     "lint:fix": "biome check --fix",
     "fmt": "biome format --write",
     "fmt:check": "biome format",
-    "upgrade-deps": "ncu --workspaces --upgrade --install always --format group"
+    "upgrade-deps": "ncu --workspaces --upgrade --install always --format group --reject @types/node"
   },
   "resolutions": {
     "@types/webpack": "^5.18.0"
