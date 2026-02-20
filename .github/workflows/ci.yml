@@ -28,9 +28,9 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - uses: capralifecycle/actions-lib/check-runtime-dependencies@0ce63296cc44accd75acd8d0c56e73014b937e83 # v1.6.3
+      - uses: capralifecycle/actions-lib/check-runtime-dependencies@0d1b5c56b39292d6395abf8fd404d68529837c3b # v1.6.4
 
-      - uses: capralifecycle/actions-lib/parse-config@0ce63296cc44accd75acd8d0c56e73014b937e83 # v1.6.3
+      - uses: capralifecycle/actions-lib/parse-config@0d1b5c56b39292d6395abf8fd404d68529837c3b # v1.6.4
         id: config
         with:
           config-file: ".ldp.json"
@@ -43,7 +43,7 @@ jobs:
           node-version-file: ".node-version"
           cache: "npm"
 
-      - uses: capralifecycle/actions-lib/configure-aws-credentials@0ce63296cc44accd75acd8d0c56e73014b937e83 # v1.6.3
+      - uses: capralifecycle/actions-lib/configure-aws-credentials@0d1b5c56b39292d6395abf8fd404d68529837c3b # v1.6.4
         id: aws
         with:
           aws-account-id: ${{ steps.config.outputs.accountId }}
@@ -59,7 +59,7 @@ jobs:
       - name: create and upload cloud assembly archive and metadata
         if: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
         id: upload-cloud-assembly
-        uses: capralifecycle/actions-lib/upload-cloud-assembly@0ce63296cc44accd75acd8d0c56e73014b937e83 # v1.6.3
+        uses: capralifecycle/actions-lib/upload-cloud-assembly@0d1b5c56b39292d6395abf8fd404d68529837c3b # v1.6.4
         with:
           aws-s3-bucket-name: ${{ steps.config.outputs.artifactBucket }}
           cdk-app-dir: "./packages/infrastructure"
@@ -69,7 +69,7 @@ jobs:
           AWS_SESSION_TOKEN: ${{ steps.aws.outputs.aws-session-token }}
 
       - name: trigger production deployment pipelines
-        uses: capralifecycle/actions-lib/trigger-deployment-pipeline@0ce63296cc44accd75acd8d0c56e73014b937e83 # v1.6.3
+        uses: capralifecycle/actions-lib/trigger-deployment-pipeline@0d1b5c56b39292d6395abf8fd404d68529837c3b # v1.6.4
         if: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
         env:
           AWS_ACCESS_KEY_ID: ${{ steps.aws.outputs.aws-access-key-id }}
