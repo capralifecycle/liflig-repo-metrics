@@ -20,6 +20,6 @@
   ],
   "devDependencies": {
     "@biomejs/biome": "2.4.2",
-    "npm-check-updates": "19.3.2"
+    "npm-check-updates": "19.4.0"
   }
 }
