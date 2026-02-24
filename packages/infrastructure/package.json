@@ -8,17 +8,17 @@
   },
   "devDependencies": {
     "@liflig/cdk": "3.20.10",
-    "@liflig/cdk-cloudfront-auth": "1.8.36",
+    "@liflig/cdk-cloudfront-auth": "1.8.37",
     "@liflig/load-secrets": "1.1.103",
     "@types/node": "24.10.13",
-    "aws-cdk": "2.1106.1",
+    "aws-cdk": "2.1107.0",
     "esbuild": "0.27.3",
     "tsx": "4.21.0",
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@capraconsulting/webapp-deploy-lambda": "2.5.49",
-    "aws-cdk-lib": "2.238.0",
+    "@capraconsulting/webapp-deploy-lambda": "2.5.50",
+    "aws-cdk-lib": "2.240.0",
     "constructs": "10.5.1"
   }
 }
