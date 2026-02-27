@@ -210,7 +210,9 @@ export class RepoMetricsStack extends cdk.Stack {
     const stateMachineDefinition = collectorJob.next(aggregatorJob)
 
     const stateMachine = new stepfunctions.StateMachine(this, "StateMachine", {
-      definition: stateMachineDefinition,
+      definitionBody: stepfunctions.DefinitionBody.fromChainable(
+        stateMachineDefinition,
+      ),
       timeout: cdk.Duration.minutes(10),
     })
 
