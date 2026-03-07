@@ -17,7 +17,7 @@
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "@capraconsulting/webapp-deploy-lambda": "2.5.56",
+    "@capraconsulting/webapp-deploy-lambda": "2.5.57",
     "aws-cdk-lib": "2.240.0",
     "constructs": "10.5.1"
   }
