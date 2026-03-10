@@ -55,7 +55,9 @@ tasks:
   clean-all:
     desc: Clean project and dependencies
     deps:
-      [infra.clean-all, webapp.clean-all, lambdas.clean-all, types.clean-all]
+      [infra.clean, webapp.clean, lambdas.clean, types.clean]
+    cmds:
+      - rm -rf node_modules
 
   # test if AWS session exists here?
   update-local-data:
@@ -124,11 +126,6 @@ tasks:
     dir: "{{.infra}}"
     cmd: rm -rf cdk.out
 
-  infra.clean-all:
-    dir: "{{.infra}}"
-    deps: [infra.clean]
-    cmd: rm -rf node_modules
-
   infra.upgrade-dependencies:
     dir: "{{.infra}}"
     cmd: npx ncu --upgrade
@@ -169,11 +166,6 @@ tasks:
     dir: "{{.lambdas}}"
     cmd: rm -rf dist
 
-  lambdas.clean-all:
-    dir: "{{.lambdas}}"
-    deps: [lambdas.clean]
-    cmd: rm -rf node_modules
-
   ################################
   # webapp
   ################################
@@ -189,11 +181,6 @@ tasks:
       - rm -rf dist
       - rm -rf build
       - rm -rf coverage
-
-  webapp.clean-all:
-    dir: "{{.webapp}}"
-    deps: [webapp.clean]
-    cmd: rm -rf node_modules
 
   webapp.start-webserver:
     dir: "{{.webapp}}"
@@ -211,8 +198,3 @@ tasks:
   types.clean:
     dir: "{{.types}}"
     cmd: rm -rf lib
-
-  types.clean-all:
-    dir: "{{.types}}"
-    deps: [types.clean]
-    cmd: rm -rf node_modules
