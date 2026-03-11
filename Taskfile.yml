@@ -22,23 +22,23 @@ tasks:
 
   install-deps:
     desc: Install project dependencies
-    cmd: npm install
+    cmd: bun install
 
   fmt:
     desc: Format project
-    cmd: npm run fmt
+    cmd: bun run fmt
 
   fmt-check:
     desc: Check code formatting
-    cmd: npm run fmt:check
+    cmd: bun run fmt:check
 
   lint:
     desc: Lint project
-    cmd: npm run lint
+    cmd: bun run lint
 
   lint-fix:
     desc: Fix linting issues
-    cmd: npm run lint:fix
+    cmd: bun run lint:fix
 
   snapshots:
     desc: Update infrastructure snapshots
@@ -88,18 +88,18 @@ tasks:
 
   upgrade-deps:
     desc: Update dependencies
-    cmd: npm run upgrade-deps
+    cmd: bun run upgrade-deps
 
   migrate-biome-schema:
     desc: Migrate biome schema
-    cmd: npx biome migrate --write
+    cmd: bunx biome migrate --write
 
   lockfile-maintenance:
-    desc: Refresh NPM lockfiles and update snapshots
+    desc: Refresh lockfiles and update snapshots
     cmds:
-      - rm -rf package-lock.json
+      - rm -rf bun.lock
       - rm -rf node_modules
-      - npm install
+      - bun install
       - task: infra.build
 
   ################################
@@ -113,7 +113,7 @@ tasks:
 
   infra.snapshots:
     dir: "{{.infra}}"
-    cmd: npm run snapshots
+    cmd: bun run snapshots
 
   infra.check-snapshots:
     dir: "{{.infra}}"
@@ -128,7 +128,7 @@ tasks:
 
   infra.upgrade-dependencies:
     dir: "{{.infra}}"
-    cmd: npx ncu --upgrade
+    cmd: bunx ncu --upgrade
 
   ################################
   # lambdas
@@ -137,22 +137,22 @@ tasks:
     dir: "{{.lambdas}}"
     deps: [types.build]
     cmds:
-      - npm run test
-      - npm run build
+      - bun run test
+      - bun run build
 
   lambdas.update-local-data:
     dir: "{{.lambdas}}"
     cmds:
-      - npm run collect-locally
-      - npm run aggregate-locally
+      - bun run collect-locally
+      - bun run aggregate-locally
 
   lambdas.report-locally:
     dir: "{{.lambdas}}"
-    cmd: npm run report-locally
+    cmd: bun run report-locally
 
   lambdas.serve-local-data:
     dir: "{{.lambdas}}"
-    cmd: npm run serve
+    cmd: bun run serve
 
   lambdas.download-s3-data:
     dir: "{{.lambdas}}"
@@ -173,7 +173,7 @@ tasks:
     dir: "{{.webapp}}"
     deps: [types.build]
     cmds:
-      - npm run build
+      - bun run build
 
   webapp.clean:
     dir: "{{.webapp}}"
@@ -184,7 +184,7 @@ tasks:
 
   webapp.start-webserver:
     dir: "{{.webapp}}"
-    cmd: npm run start
+    cmd: bun run start
 
   ################################
   # types
@@ -193,7 +193,7 @@ tasks:
     dir: "{{.types}}"
     run: once
     cmds:
-      - npm run build
+      - bun run build
 
   types.clean:
     dir: "{{.types}}"

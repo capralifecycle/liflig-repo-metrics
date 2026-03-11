@@ -1,0 +1,9 @@
+[install]
+minimumReleaseAge = 259200 # 3 days in seconds
+minimumReleaseAgeExcludes = [
+  "@capraconsulting/webapp-deploy-lambda",
+  "@liflig/cdk",
+  "@liflig/cdk-cloudfront-auth",
+  "@liflig/load-secrets",
+  "@liflig/repo-metrics-repo-collector-types",
+]

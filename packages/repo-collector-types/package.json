@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "npm run build:tsc",
+    "build": "bun run build:tsc",
     "build:tsc": "tsc -b"
   },
   "devDependencies": {
