@@ -126,10 +126,6 @@ tasks:
     dir: "{{.infra}}"
     cmd: rm -rf cdk.out
 
-  infra.upgrade-dependencies:
-    dir: "{{.infra}}"
-    cmd: bun update --latest
-
   ################################
   # lambdas
   ################################

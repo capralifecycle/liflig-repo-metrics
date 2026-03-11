@@ -7,7 +7,7 @@
     "lint:fix": "biome check --fix",
     "fmt": "biome format --write",
     "fmt:check": "biome format",
-    "upgrade-deps": "bun update --latest"
+    "upgrade-deps": "bun update"
   },
   "overrides": {
     "@types/webpack": "^5.18.0"
