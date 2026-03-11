@@ -7,7 +7,7 @@
     "lint:fix": "biome check --fix",
     "fmt": "biome format --write",
     "fmt:check": "biome format",
-    "upgrade-deps": "bunx ncu --workspaces --upgrade --install always --format group --reject @types/node"
+    "upgrade-deps": "bun update --latest"
   },
   "overrides": {
     "@types/webpack": "^5.18.0"

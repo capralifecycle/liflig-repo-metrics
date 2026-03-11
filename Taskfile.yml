@@ -128,7 +128,7 @@ tasks:
 
   infra.upgrade-dependencies:
     dir: "{{.infra}}"
-    cmd: bunx ncu --upgrade
+    cmd: bun update --latest
 
   ################################
   # lambdas
