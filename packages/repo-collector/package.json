@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "tsc -noEmit && rm -rf dist && bun build src/lambda.ts --bundle --target=node --outfile=dist/index.js",
+    "build": "tsc -noEmit && rm -rf dist && bun build src/lambda.ts --bundle --target=node --format=cjs --outfile=dist/index.js",
     "test": "vitest --run",
     "collect-locally": "bun run src/collect-locally.ts",
     "aggregate-locally": "bun run src/aggregate-locally.ts",
