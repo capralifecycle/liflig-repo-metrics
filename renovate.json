@@ -1,3 +1,9 @@
 {
-  "extends": ["github>capralifecycle/renovate-config:aggressive"]
+  "extends": ["github>capralifecycle/renovate-config:aggressive"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["@types/node"],
+      "allowedVersions": "^24"
+    }
+  ]
 }
