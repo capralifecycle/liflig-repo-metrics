@@ -17,7 +17,7 @@
         "constructs": "10.5.1",
       },
       "devDependencies": {
-        "@liflig/cdk": "3.20.22",
+        "@liflig/cdk": "3.20.23",
         "@liflig/cdk-cloudfront-auth": "1.10.0",
         "@liflig/load-secrets": "1.1.114",
         "@types/node": "24.12.0",
@@ -311,7 +311,7 @@
 
     "@js-temporal/polyfill": ["@js-temporal/polyfill@0.5.1", "", { "dependencies": { "jsbi": "^4.3.0" } }, "sha512-hloP58zRVCRSpgDxmqCWJNlizAlUgJFqG2ypq79DCvyv9tHjRYMDOcPFjzfl/A1/YxDvRCZz8wvZvmapQnKwFQ=="],
 
-    "@liflig/cdk": ["@liflig/cdk@3.20.22", "", { "dependencies": { "@capraconsulting/webapp-deploy-lambda": "2.5.63", "aws-jwt-verify": "5.1.1" }, "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" }, "bin": { "cdk-create-snapshots": "lib/bin/cdk-create-snapshots.js", "fetch-pipeline-variables": "lib/bin/fetch-pipeline-variables.js" } }, "sha512-WSzb28IQ5w8zWfalLr6ancdkdUn60ZQR9MkwYWhvtf0DbEnPIuEWYcPd1NNCEUkkQ1vGLAZlEXdEGwgjkBmI/Q=="],
+    "@liflig/cdk": ["@liflig/cdk@3.20.23", "", { "dependencies": { "@capraconsulting/webapp-deploy-lambda": "2.5.64", "aws-jwt-verify": "5.1.1" }, "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" }, "bin": { "cdk-create-snapshots": "lib/bin/cdk-create-snapshots.js", "fetch-pipeline-variables": "lib/bin/fetch-pipeline-variables.js" } }, "sha512-VKxUMmAb9+8Ncx9D+Wh74rixYe2nLH2jnAsAhHQP52CRW1MsIUqVoMakM45thw0ZwNxctc/LCTkjCaTbvh5F0w=="],
 
     "@liflig/cdk-cloudfront-auth": ["@liflig/cdk-cloudfront-auth@1.10.0", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0" } }, "sha512-u8pvA08uF/3orK4NlOiem6pn2/LODRJUcYUtCJmPOnjkMFZqeAN2txUe4v88aOMUwt0LqpR5UC7dFZPPHrifxA=="],
 
@@ -986,8 +986,6 @@
     "@aws-crypto/sha256-browser/@smithy/util-utf8": ["@smithy/util-utf8@2.3.0", "", { "dependencies": { "@smithy/util-buffer-from": "^2.2.0", "tslib": "^2.6.2" } }, "sha512-R8Rdn8Hy72KKcebgLiv8jQcQkXoLMOGGv5uI1/k0l+snqkOzQ1R0ChUBCxWMlBsFMekWjq0wRudIweFs7sKT5A=="],
 
     "@aws-crypto/util/@smithy/util-utf8": ["@smithy/util-utf8@2.3.0", "", { "dependencies": { "@smithy/util-buffer-from": "^2.2.0", "tslib": "^2.6.2" } }, "sha512-R8Rdn8Hy72KKcebgLiv8jQcQkXoLMOGGv5uI1/k0l+snqkOzQ1R0ChUBCxWMlBsFMekWjq0wRudIweFs7sKT5A=="],
-
-    "@liflig/cdk/@capraconsulting/webapp-deploy-lambda": ["@capraconsulting/webapp-deploy-lambda@2.5.63", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" } }, "sha512-scZyofJoQPYaDT71DQaPCwJmio+p4lU1JF16z9hm2wdr8BVbSDo++S0THbHh1Yps4+7UtyY9bAVN+njtdiLq3g=="],
 
     "@vitejs/plugin-react/vite": ["vite@7.3.1", "", { "dependencies": { "esbuild": "^0.27.0", "fdir": "^6.5.0", "picomatch": "^4.0.3", "postcss": "^8.5.6", "rollup": "^4.43.0", "tinyglobby": "^0.2.15" }, "optionalDependencies": { "fsevents": "~2.3.3" }, "peerDependencies": { "@types/node": "^20.19.0 || >=22.12.0", "jiti": ">=1.21.0", "less": "^4.0.0", "lightningcss": "^1.21.0", "sass": "^1.70.0", "sass-embedded": "^1.70.0", "stylus": ">=0.54.8", "sugarss": "^5.0.0", "terser": "^5.16.0", "tsx": "^4.8.1", "yaml": "^2.4.2" }, "optionalPeers": ["jiti", "less", "lightningcss", "sass", "sass-embedded", "stylus", "sugarss", "yaml"], "bin": "bin/vite.js" }, "sha512-w+N7Hifpc3gRjZ63vYBXA56dvvRlNWRczTdmCBBa+CotUzAPf5b7YMdMR/8CQoeYE5LX3W4wj6RYTgonm1b9DA=="],
 
