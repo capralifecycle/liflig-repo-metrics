@@ -17,7 +17,7 @@
         "constructs": "10.5.1",
       },
       "devDependencies": {
-        "@liflig/cdk": "3.21.0",
+        "@liflig/cdk": "3.22.0",
         "@liflig/cdk-cloudfront-auth": "1.10.0",
         "@liflig/load-secrets": "1.1.115",
         "@types/node": "24.12.0",
@@ -279,7 +279,7 @@
 
     "@js-temporal/polyfill": ["@js-temporal/polyfill@0.5.1", "", { "dependencies": { "jsbi": "^4.3.0" } }, "sha512-hloP58zRVCRSpgDxmqCWJNlizAlUgJFqG2ypq79DCvyv9tHjRYMDOcPFjzfl/A1/YxDvRCZz8wvZvmapQnKwFQ=="],
 
-    "@liflig/cdk": ["@liflig/cdk@3.21.0", "", { "dependencies": { "@capraconsulting/webapp-deploy-lambda": "2.5.65", "aws-jwt-verify": "5.1.1" }, "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" }, "bin": { "cdk-create-snapshots": "lib/bin/cdk-create-snapshots.js", "fetch-pipeline-variables": "lib/bin/fetch-pipeline-variables.js" } }, "sha512-im4ows/8EK/R8+pM0H92KvZY+Ec4cvjjWZ/oIkVCDaTcYYPzb2Xy56w78dYbKwhe//Elot6+/ZEe5dY0tJKBPg=="],
+    "@liflig/cdk": ["@liflig/cdk@3.22.0", "", { "dependencies": { "@capraconsulting/webapp-deploy-lambda": "2.5.65", "aws-jwt-verify": "5.1.1" }, "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" }, "bin": { "cdk-create-snapshots": "lib/bin/cdk-create-snapshots.js", "fetch-pipeline-variables": "lib/bin/fetch-pipeline-variables.js" } }, "sha512-Azb0snomGOE/QNeydP0mEuJ4AWFW+iTgXQn6i5cMKw/M/W5pOQsSMDX/cy8WdFDA8bp3iawDn2t84Cnquca3LA=="],
 
     "@liflig/cdk-cloudfront-auth": ["@liflig/cdk-cloudfront-auth@1.10.0", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0" } }, "sha512-u8pvA08uF/3orK4NlOiem6pn2/LODRJUcYUtCJmPOnjkMFZqeAN2txUe4v88aOMUwt0LqpR5UC7dFZPPHrifxA=="],
 
