@@ -1,0 +1,51 @@
+{
+  "/cross-region-stack-001112238813:us-east-1": [
+    {
+      "type": "aws:cdk:stack-tags",
+      "data": [
+        {
+          "key": "Project",
+          "value": "repo-metrics"
+        },
+        {
+          "key": "SourceRepo",
+          "value": "github/capralifecycle/liflig-repo-metrics"
+        },
+        {
+          "key": "StackName",
+          "value": "incub-repo-metrics-pipeline-support-us-east-1"
+        }
+      ]
+    }
+  ],
+  "/cross-region-stack-001112238813:us-east-1/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    }
+  ],
+  "/cross-region-stack-001112238813:us-east-1/Default/CrossRegionCodePipelineReplicationBucketEncryptionKey/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CrossRegionCodePipelineReplicationBucketEncryptionKey70216490"
+    }
+  ],
+  "/cross-region-stack-001112238813:us-east-1/Default/CrossRegionCodePipelineReplicationBucketEncryptionAlias/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CrossRegionCodePipelineReplicationBucketEncryptionAliasF1A0F37D"
+    }
+  ],
+  "/cross-region-stack-001112238813:us-east-1/Default/CrossRegionCodePipelineReplicationBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CrossRegionCodePipelineReplicationBucketFC3227F2"
+    }
+  ],
+  "/cross-region-stack-001112238813:us-east-1/Default/CrossRegionCodePipelineReplicationBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CrossRegionCodePipelineReplicationBucketPolicyB7BA2BCA"
+    }
+  ]
+}
