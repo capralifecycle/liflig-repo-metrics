@@ -12,7 +12,7 @@
       "name": "@liflig/repo-metrics-infrastructure",
       "version": "0.0.0-development",
       "dependencies": {
-        "@capraconsulting/webapp-deploy-lambda": "2.5.66",
+        "@capraconsulting/webapp-deploy-lambda": "2.5.68",
         "aws-cdk-lib": "2.243.0",
         "constructs": "10.5.1",
       },
@@ -207,7 +207,7 @@
 
     "@biomejs/cli-win32-x64": ["@biomejs/cli-win32-x64@2.4.8", "", { "os": "win32", "cpu": "x64" }, "sha512-vAn7iXDoUbqFXqVocuq1sMYAd33p8+mmurqJkWl6CtIhobd/O6moe4rY5AJvzbunn/qZCdiDVcveqtkFh1e7Hg=="],
 
-    "@capraconsulting/webapp-deploy-lambda": ["@capraconsulting/webapp-deploy-lambda@2.5.66", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" } }, "sha512-uExKu2sHcv54GiH049DOVSu/TggSyepFKXGq1I+O0FnZVQkpOLs13/tK3PsULW4SgC3bMgZ+j5sK8RmcIXVwuQ=="],
+    "@capraconsulting/webapp-deploy-lambda": ["@capraconsulting/webapp-deploy-lambda@2.5.68", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" } }, "sha512-22rXKAv7aQynY79RV8/Jq/KMMzkEPzkvZZRmOkf+xBMH1pkhBqu684vBek5lC0ddeG3Feubbms9cc59s9ppwqA=="],
 
     "@emnapi/core": ["@emnapi/core@1.9.0", "", { "dependencies": { "@emnapi/wasi-threads": "1.2.0", "tslib": "^2.4.0" } }, "sha512-0DQ98G9ZQZOxfUcQn1waV2yS8aWdZ6kJMbYCJB3oUBecjWYO1fqJ+a1DRfPF3O5JEkwqwP1A9QEN/9mYm2Yd0w=="],
 
