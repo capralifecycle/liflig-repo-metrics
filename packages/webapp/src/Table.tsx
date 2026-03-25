@@ -2,7 +2,10 @@ import * as React from "react"
 
 export interface Column<T> {
   header: string
-  render: (value: T) => React.ReactNode
+  headerIcon?: React.ReactNode
+  subheader?: string
+  subheaderTitle?: string
+  render: (value: T, isExpanded: boolean) => React.ReactNode
   sortOn?: (value: T) => string | number | undefined
 }
 
@@ -14,6 +17,7 @@ interface SortState {
 interface Props<T extends object> {
   columns: Column<T>[]
   data: T[]
+  rowKey?: (item: T) => string
 }
 
 function compareValues<T>(
@@ -39,8 +43,17 @@ function compareValues<T>(
   }
 }
 
-function Table<T extends object>({ columns, data }: Props<T>) {
+function columnKey<T>(column: Column<T>): string {
+  return column.subheader
+    ? `${column.header}-${column.subheader}`
+    : column.header
+}
+
+function Table<T extends object>({ columns, data, rowKey }: Props<T>) {
   const [sortState, setSortstate] = React.useState<SortState>()
+  const [expandedRows, setExpandedRows] = React.useState<Set<string>>(
+    new Set(),
+  )
 
   const toggleSortState = (header: string) => {
     setSortstate((prev) => {
@@ -54,8 +67,20 @@ function Table<T extends object>({ columns, data }: Props<T>) {
     })
   }
 
+  const toggleRow = (key: string) => {
+    setExpandedRows((prev) => {
+      const next = new Set(prev)
+      if (next.has(key)) {
+        next.delete(key)
+      } else {
+        next.add(key)
+      }
+      return next
+    })
+  }
+
   const valueMapperForSorting = columns.find(
-    (it) => it.header === sortState?.column,
+    (it) => columnKey(it) === sortState?.column,
   )?.sortOn
 
   const sortedData =
@@ -64,32 +89,61 @@ function Table<T extends object>({ columns, data }: Props<T>) {
       : [...data].sort(compareValues(valueMapperForSorting, sortState.sortAsc))
 
   return (
-    <table style={{ width: "min(100%, 1500px)" }}>
+    <table style={{ width: "100%" }}>
       <thead>
         <tr>
+          {rowKey && <th className="expand-col" />}
           {columns.map((it) => (
             <th
-              key={it.header}
+              key={columnKey(it)}
               onClick={() =>
-                it.sortOn ? toggleSortState(it.header) : undefined
+                it.sortOn ? toggleSortState(columnKey(it)) : undefined
               }
               className={it.sortOn ? "clickeableHeader" : undefined}
             >
-              {it.header}
-              {sortState?.column === it.header &&
-                (sortState.sortAsc ? "👆🏼" : "👇🏼")}
+              <div className="column-header-row">
+                {it.headerIcon}
+                {it.header}
+                {sortState?.column === columnKey(it) &&
+                  (sortState.sortAsc ? " ▲" : " ▼")}
+              </div>
+              {it.subheader && (
+                <div className="column-subheader" title={it.subheaderTitle}>
+                  {it.subheader}
+                </div>
+              )}
             </th>
           ))}
         </tr>
       </thead>
       <tbody>
-        {sortedData.map((item, idx) => (
-          <tr key={idx}>
-            {columns.map((column) => (
-              <td key={column.header}>{column.render(item)}</td>
-            ))}
-          </tr>
-        ))}
+        {sortedData.map((item, idx) => {
+          const key = rowKey ? rowKey(item) : String(idx)
+          const isExpanded = expandedRows.has(key)
+          return (
+            <tr
+              key={key}
+              className={rowKey ? "expandable-row" : undefined}
+              onClick={rowKey ? (e) => {
+                if ((e.target as HTMLElement).closest("a, button, input")) return
+                toggleRow(key)
+              } : undefined}
+            >
+              {rowKey && (
+                <td className="expand-toggle">
+                  <span className={`expand-chevron ${isExpanded ? "expanded" : ""}`}>
+                    ›
+                  </span>
+                </td>
+              )}
+              {columns.map((column) => (
+                <td key={columnKey(column)}>
+                  {column.render(item, isExpanded)}
+                </td>
+              ))}
+            </tr>
+          )
+        })}
       </tbody>
     </table>
   )

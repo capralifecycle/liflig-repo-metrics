@@ -2,9 +2,11 @@ import type { Filter } from "./filter"
 
 export enum FilterActionType {
   TOGGLE_BOOLEAN = "toggle_boolean",
-  TOGGLE_COLLAPSE_RESPONSIBLE = "toggle_collapse_responsible",
+  TOGGLE_TEAM = "toggle_team",
+  SET_TEAMS = "set_teams",
   CHANGE_SEARCH_FILTER = "change_search_filter",
   CHANGE_NUMBER_OF_DAYS = "change_number_of_days",
+  SET_BOOLEANS = "set_booleans",
 }
 
 interface FilterAction<T = keyof Filter> {
@@ -26,16 +28,27 @@ export function filterReducer(state: Filter, action: FilterAction): Filter {
       return state
     }
 
-    case FilterActionType.TOGGLE_COLLAPSE_RESPONSIBLE: {
-      const responsible = action.payload
-      if (!responsible) return state
-      const prev = state.collapseResponsible
-      const collapseResponsible = prev.includes(responsible)
-        ? prev.filter((it) => it !== responsible)
-        : [...prev, responsible]
-
-      return { ...state, collapseResponsible }
+    case FilterActionType.TOGGLE_TEAM: {
+      const team = action.payload
+      if (!team) return state
+      const prev = state.selectedTeams
+      const selectedTeams = prev.includes(team)
+        ? prev.filter((it) => it !== team)
+        : [...prev, team]
+      return { ...state, selectedTeams }
     }
+    case FilterActionType.SET_TEAMS: {
+      const teams = action.payload ? action.payload.split(",") : []
+      return { ...state, selectedTeams: teams }
+    }
+
+    case FilterActionType.SET_BOOLEANS: {
+      const props = (action.payload ?? "").split(",")
+      const value = action.prop === "true"
+      const updates = Object.fromEntries(props.map((p) => [p, value]))
+      return { ...state, ...updates }
+    }
+
     case FilterActionType.CHANGE_SEARCH_FILTER: {
       // Null check
       if (action.payload === null || action.payload === undefined) return state

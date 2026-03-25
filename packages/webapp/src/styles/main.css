@@ -2,7 +2,7 @@
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 450;
   line-height: 1.5;
 
@@ -10,21 +10,110 @@
   background-color: var(--color-background);
 }
 
-table,
-th,
-td {
-  border: 1px solid;
-  border-color: #888;
+/* ── Layout ── */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--color-secondary);
+  background: var(--color-background);
 }
 
-[data-theme="dark"] table,
-[data-theme="dark"] th,
-[data-theme="dark"] td {
-  border-color: #555;
+.topbar-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-foreground);
 }
+
+.topbar-title:hover {
+  text-decoration: none;
+  color: var(--color-primary);
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.app-layout {
+  display: flex;
+  height: calc(100vh - 52px);
+}
+
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  overflow-y: auto;
+  border-right: 1px solid var(--color-secondary);
+  background: var(--color-background);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-secondary);
+}
+
+.sidebar-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 10px;
+  border: 1px solid var(--color-secondary);
+  border-radius: 6px;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-size: 13px;
+}
+
+.sidebar-search:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+  border-color: transparent;
+}
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 24px 32px;
+  overflow-x: auto;
+}
+
+/* ── Tables ── */
 
 table {
   border-collapse: collapse;
+  border: none;
+  font-size: 14px;
+}
+
+th {
+  border-bottom: 2px solid var(--color-secondary);
+  text-align: left;
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+td {
+  border-bottom: 1px solid var(--color-secondary);
+  vertical-align: top;
 }
 
 table tr:hover td {
@@ -35,9 +124,65 @@ table tr:hover td {
   cursor: pointer;
 }
 
+.expand-col {
+  width: 24px;
+  padding: 0;
+}
+
+.expand-toggle {
+  cursor: pointer;
+  text-align: center;
+  width: 24px;
+  padding: 6px 4px;
+  user-select: none;
+}
+
+.expand-chevron {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--color-mute);
+  transition: transform 0.15s ease;
+}
+
+.expand-chevron.expanded {
+  transform: rotate(90deg);
+}
+
+.expandable-row {
+  cursor: pointer;
+}
+
+.column-header-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.column-icon {
+  flex-shrink: 0;
+}
+
+.column-subheader {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-mute);
+}
+
 th,
 td {
-  padding: 3px;
+  padding: 6px 12px;
+}
+
+mark {
+  background-color: #fff3b0;
+  color: inherit;
+  border-radius: 2px;
+  padding: 0;
+}
+
+[data-theme="dark"] mark {
+  background-color: #665d20;
 }
 
 a {
@@ -56,9 +201,22 @@ h2 {
   margin: 0;
 }
 
+/* ── Repo name ── */
+
+.repo-org {
+  color: var(--color-mute);
+  font-weight: 400;
+}
+
+.repo-name {
+  font-weight: 600;
+}
+
+/* ── Renovate ── */
+
 .renovate-ok,
 .renovate-ok a.renovate-dashboard-link {
-  color: var(--color-success);
+  color: var(--color-ok);
 }
 
 .renovate-old,
@@ -80,34 +238,368 @@ td:hover .renovate-logs-link {
   margin-inline-start: 1rem;
 }
 
-.dependabot-alerts-link {
+/* ── Snyk counts ── */
+
+.snyk-counts {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.snyk-sep {
+  color: var(--color-secondary);
+}
+
+/* ── Empty / missing states ── */
+
+.state-ok {
+  color: var(--color-ok);
+}
+
+.state-missing {
   color: var(--color-danger);
 }
 
-.responsible-heading {
+/* ── Detail panels (expanded lists for PRs, updates, vulnerabilities) ── */
+
+.detail-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.detail-item {
+  font-size: 13px;
+  line-height: 1.3;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.detail-item:nth-child(odd) {
+  background: var(--color-detail-bg);
+}
+
+.detail-index {
+  color: var(--color-mute);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  min-width: 18px;
+  text-align: right;
+  flex-shrink: 0;
+  padding-right: 6px;
+  border-right: 1px solid var(--color-secondary);
+  margin-right: 2px;
+}
+
+.detail-item a {
+  font-weight: 500;
+}
+
+.detail-item-muted {
+  color: var(--color-mute);
+}
+
+.detail-meta {
+  color: var(--color-mute);
+  font-size: 11px;
+}
+
+.detail-severity {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 1px 5px;
+  border-radius: 3px;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.severity-critical { background: var(--color-badge-vuln-bg); color: var(--color-snyk-critical); }
+.severity-high { background: var(--color-badge-vuln-bg); color: var(--color-snyk-high); }
+.severity-moderate,
+.severity-medium { background: var(--color-badge-pr-bg); color: var(--color-warning); }
+.severity-low { background: var(--color-secondary); color: var(--color-mute); }
+
+/* Snyk project links in detail mode */
+.snyk-project-list {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.snyk-project-item {
+  font-size: 13px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.snyk-project-item:nth-child(odd) {
+  background: var(--color-detail-bg);
+}
+
+/* ── Buttons ── */
+
+button {
+  padding: 4px 12px;
+  border: 1px solid var(--color-secondary);
+  border-radius: 6px;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--color-blue-extra-light);
+}
+
+/* ── Section headers ── */
+
+.section-header {
+  margin-top: 2.5rem;
+  margin-bottom: 0.75rem;
+  border-left: 3px solid var(--color-primary);
+  padding-left: 12px;
+}
+
+.section-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.section-title-row {
   display: flex;
   align-items: center;
-  margin-top: 1rem;
+  gap: 12px;
 }
 
-.all-repos-heading {
-  margin-top: 1rem;
+.section-stats {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
 }
 
-.filters {
+.section-badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--color-secondary);
+  color: var(--color-foreground);
+}
+
+.badge-ok {
+  opacity: 0.5;
+}
+
+.badge-renovate {
+  background: var(--color-badge-renovate-bg);
+  color: var(--color-badge-renovate-fg);
+}
+
+.badge-pr {
+  background: var(--color-badge-pr-bg);
+  color: var(--color-badge-pr-fg);
+}
+
+.badge-vuln {
+  background: var(--color-badge-vuln-bg);
+  color: var(--color-badge-vuln-fg);
+}
+
+.copy-summary-btn {
+  font-size: 12px;
+  padding: 3px 10px;
+}
+
+/* ── TODO toggle ── */
+
+.todo-btn {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: var(--color-detail-bg);
+  border: 2px solid transparent;
+  color: var(--color-mute);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.todo-btn:hover {
+  color: var(--color-foreground);
+}
+
+.todo-btn-active {
+  border-color: var(--color-primary);
+  color: var(--color-foreground);
+}
+
+/* ── Sidebar filter groups ── */
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.filter-group-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-mute);
+  margin-bottom: 4px;
+}
+
+/* ── Sidebar checkboxes ── */
+
+.sidebar-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 0;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sidebar-checkbox input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+/* ── Summary table ── */
+
+.summary-table {
+  font-size: 12px;
+  border: none;
+}
+
+.summary-table th,
+.summary-table td {
+  padding: 2px 6px;
+  border: none;
+}
+
+.summary-table th {
+  border-bottom: 1px solid var(--color-secondary);
+  font-weight: 600;
+  color: var(--color-mute);
+  font-size: 11px;
+}
+
+.summary-table td:nth-child(n+2) {
+  text-align: right;
+}
+
+.summary-table tbody tr:nth-child(even) td {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] .summary-table tbody tr:nth-child(even) td {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.team-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
 }
 
-.filters > * {
-  padding-right: 20px;
+.team-btn {
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--color-detail-bg);
+  border: 1px solid transparent;
+  color: var(--color-mute);
+  font-size: 12px;
+  font-weight: 400;
+  cursor: pointer;
+  text-align: center;
 }
 
-.filters input {
-  max-width: 15rem;
+.team-btn:hover {
+  background: var(--color-blue-extra-light);
 }
 
-.filters .num-days-input {
-  width: 20px;
+.team-btn-active {
+  background: var(--color-detail-bg);
+  border-color: var(--color-mute);
+  color: var(--color-foreground);
+  font-weight: 500;
 }
+
+.global-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.global-stat {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: var(--color-detail-bg);
+}
+
+.global-stat-value {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-foreground);
+}
+
+.global-stat-label {
+  font-size: 11px;
+  color: var(--color-mute);
+}
+
+.stat-danger .global-stat-value {
+  color: var(--color-danger);
+}
+
+.timestamps {
+  font-size: 12px;
+  color: var(--color-mute);
+  margin: 0;
+}
+
+/* ── Table wrapper ── */
+
+.repo-metrics-table-wrap {
+  overflow-x: auto;
+}
+
+/* ── Renovate days warning ── */
+
+.renovate-days {
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+/* ── Test coverage ── */
+
+.test-coverage {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.coverage-good { color: var(--color-coverage-good); }
+.coverage-mid { color: var(--color-coverage-mid); }
+.coverage-low { color: var(--color-coverage-low); }

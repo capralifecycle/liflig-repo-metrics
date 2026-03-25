@@ -1,32 +1,43 @@
 import { isEqual } from "lodash-es"
 
+export const ENABLE_SORT_BY_RENOVATE_DAYS = false
+export const ENABLE_GLOBAL_STATS = false
+
 export interface Filter
   extends Record<string, boolean | string | string[] | number> {
   showPrList: boolean
+  showBotPrList: boolean
   showDepList: boolean
-  showVulList: boolean
+  showVulGithubList: boolean
+  showVulSnykList: boolean
   showOrgName: boolean
-  groupByResponsible: boolean
-  showOnlyActionable: boolean
-  showOnlyVulnerable: boolean
+  showOnlyWithPrs: boolean
+  showOnlyWithBotPrs: boolean
+  showOnlyWithGithubVul: boolean
+  showOnlyWithSnykVul: boolean
   sortByRenovateDays: boolean
-  collapseResponsible: string[]
+  selectedTeams: string[]
   filterRepoName: string
   filterUpdateName: string
+  filterVulName: string
 }
 
 export const defaultValues: Filter = {
   showPrList: false,
+  showBotPrList: false,
   showDepList: false,
-  showVulList: false,
+  showVulGithubList: false,
+  showVulSnykList: false,
   showOrgName: false,
-  groupByResponsible: true,
-  showOnlyActionable: false,
-  showOnlyVulnerable: false,
+  showOnlyWithPrs: false,
+  showOnlyWithBotPrs: false,
+  showOnlyWithGithubVul: false,
+  showOnlyWithSnykVul: false,
   sortByRenovateDays: false,
-  collapseResponsible: [],
+  selectedTeams: [],
   filterRepoName: "",
   filterUpdateName: "",
+  filterVulName: "",
 }
 
 // Parse URL parameters and turn into a filter object.
@@ -41,19 +52,15 @@ export const getFilterFromUrl = (): Filter => {
       Object.assign({}, defaultValues),
     )
 
-  console.log(newFilter)
-
   return newFilter
 }
 
 const parseUrlFilterField = (key: string, value: string) => {
-  const keyValueFields = ["filterRepoName", "filterUpdateName"]
+  const keyValueFields = ["filterRepoName", "filterUpdateName", "filterVulName"]
 
-  // The collapseResponsible attribute can contain multiple comma separated values,
-  // and needs special handling during parsing
-  if (key === "collapseResponsible") {
+  if (key === "selectedTeams") {
     return {
-      [key]: value.split(","),
+      [key]: value.split(",").filter(Boolean),
     }
   }
 
