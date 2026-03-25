@@ -1,39 +1,57 @@
 import type { Metrics, Repo } from "@liflig/repo-metrics-repo-collector-types"
 import type * as React from "react"
+import { Highlight } from "./Highlight"
+import { GitHubIcon, PrIcon, RenovateIcon, SecurityIcon, SnykIcon, SonarCloudIcon } from "./Icons"
 import { PrColumnDetails } from "./PrColumnDetails"
+import { isBotPr } from "./prUtils"
 import type { Column } from "./Table"
 
 export const repoColumns = (props: {
   showPrList: boolean
+  showBotPrList: boolean
   showDepList: boolean
-  showVulList: boolean
+  showVulGithubList: boolean
+  showVulSnykList: boolean
   showOrgName: boolean
   showRenovateDays: boolean
+  filterRepoName: string
+  filterUpdateName: string
+  filterVulName: string
 }): Column<Repo>[] => {
   const {
     showPrList,
+    showBotPrList,
     showDepList,
-    showVulList,
+    showVulGithubList,
+    showVulSnykList,
     showOrgName,
     showRenovateDays,
+    filterRepoName,
+    filterUpdateName,
+    filterVulName,
   } = props
   return [
     {
       header: "Repo",
+      headerIcon: <GitHubIcon />,
       sortOn: (repo) => {
         return repo.name.toLowerCase()
       },
-      render: (repo) => {
+      render: (repo, _isExpanded) => {
         return (
           <a href={repoBaseUrl(repo)}>
-            {showOrgName && <span className="repo-org">{repo.org}/</span>}
-            <span className="repo-name">{repo.name}</span>
+            {showOrgName && (
+              <span className="repo-org"><Highlight text={repo.org} search={filterRepoName} />/</span>
+            )}
+            <span className="repo-name"><Highlight text={repo.name} search={filterRepoName} /></span>
           </a>
         )
       },
     },
     {
-      header: "Oppdateringer til behandling",
+      header: "Avhengigheter",
+      subheader: "Renovate",
+      headerIcon: <RenovateIcon />,
       sortOn: (repo) =>
         repo.metrics.github.availableUpdates
           ?.flatMap((category) =>
@@ -45,7 +63,7 @@ export const repoColumns = (props: {
             })),
           )
           .filter((it) => it.isActionable).length,
-      render: (repo) => {
+      render: (repo, isExpanded) => {
         const renovateDashboad = repo.metrics.github.renovateDependencyDashboard
 
         const renovateEnabled = repo.metrics.github.availableUpdates != null
@@ -69,18 +87,33 @@ export const repoColumns = (props: {
               (showRenovateDays ||
                 renovateDashboad.daysSinceLastUpdate >= 20) && (
                 <div
-                  className={
+                  className={`renovate-days ${
                     renovateDashboad.daysSinceLastUpdate >= 20
                       ? "renovate-old"
-                      : undefined
-                  }
+                      : ""
+                  }`}
                 >
                   Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
                   siden
                 </div>
               )}
             {!renovateEnabled ? (
-              <span className="renovate-missing">Mangler Renovate</span>
+              <span className="state-missing">Mangler Renovate</span>
+            ) : (showDepList || isExpanded) && availableUpdates.length > 0 ? (
+              <ul className="detail-list">
+                {availableUpdates.map((available, i) => (
+                  <li
+                    key={i}
+                    className={`detail-item ${!available.isActionable ? "detail-item-muted" : ""}`}
+                  >
+                    <span className="detail-index">{i + 1}</span>
+                    {available.name}
+                    <span className="detail-meta">
+                      {" "}{available.toVersion} · {available.categoryName}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             ) : (
               <>
                 {actionableUpdates === 0 ? (
@@ -96,19 +129,6 @@ export const repoColumns = (props: {
                     <RenovateLogsLink repoId={repo.id} />
                   </>
                 )}
-                {showDepList && (
-                  <ul>
-                    {availableUpdates.map((available, i) => (
-                      <li
-                        key={i}
-                        style={available.isActionable ? {} : { color: "#AAA" }}
-                      >
-                        {available.name} ({available.toVersion}) (
-                        {available.categoryName})
-                      </li>
-                    ))}
-                  </ul>
-                )}
               </>
             )}
           </>
@@ -116,121 +136,181 @@ export const repoColumns = (props: {
       },
     },
     {
-      header: "Åpne PRs (bots)",
-      sortOn: (repo) =>
-        repo.metrics.github.prs.filter((it) => isBotPr(it)).length,
-      render: (repo) => {
-        return (
-          <PrColumnDetails
-            prs={repo.metrics.github.prs.filter((it) => isBotPr(it))}
-            repoBaseUrl={repoBaseUrl(repo)}
-            showPrList={showPrList}
-          />
-        )
-      },
-    },
-    {
-      header: "Åpne PRs (ikke bots)",
+      header: "PRs",
+      headerIcon: <PrIcon />,
       sortOn: (repo) =>
         repo.metrics.github.prs.filter((it) => !isBotPr(it)).length,
-      render: (repo) => {
+      render: (repo, isExpanded) => {
         return (
           <PrColumnDetails
             prs={repo.metrics.github.prs.filter((it) => !isBotPr(it))}
             repoBaseUrl={repoBaseUrl(repo)}
-            showPrList={showPrList}
+            showPrList={showPrList || isExpanded}
+            filterUpdateName={filterUpdateName}
           />
         )
       },
     },
     {
-      header: "Sårbarheter (GitHub)",
-      sortOn: (repo) => repo.metrics.github.vulnerabilityAlerts.length,
-      render: (repo) => {
-        const githubVulAlerts = repo.metrics.github.vulnerabilityAlerts
-        return githubVulAlerts.length === 0 ? (
-          <span style={{ color: "var(--color-success)" }}>Ingen</span>
-        ) : (
-          <>
-            <a
-              href={`${repoBaseUrl(repo)}/security/dependabot`}
-              className="dependabot-alerts-link"
-            >
-              <b>{githubVulAlerts.length}</b>
-            </a>
-            {showVulList && (
-              <ul>
-                {githubVulAlerts.map((vul, idx) => (
-                  <li key={idx}>
-                    {vul.packageName} ({vul.severity})
-                  </li>
-                ))}
-              </ul>
-            )}
-          </>
+      header: "Bot PR",
+      headerIcon: <PrIcon />,
+      sortOn: (repo) =>
+        repo.metrics.github.prs.filter((it) => isBotPr(it)).length,
+      render: (repo, isExpanded) => {
+        return (
+          <PrColumnDetails
+            prs={repo.metrics.github.prs.filter((it) => isBotPr(it))}
+            repoBaseUrl={repoBaseUrl(repo)}
+            showPrList={showBotPrList || isExpanded}
+            filterUpdateName={filterUpdateName}
+          />
         )
       },
     },
     {
-      header: "Sårbarheter (Snyk)",
+      header: "Sårbarheter",
+      subheader: "GitHub",
+      headerIcon: <SecurityIcon />,
+      sortOn: (repo) => repo.metrics.github.vulnerabilityAlerts.length,
+      render: (repo, isExpanded) => {
+        const githubVulAlerts = repo.metrics.github.vulnerabilityAlerts
+        const dependabotUrl = `${repoBaseUrl(repo)}/security/dependabot`
+        if (githubVulAlerts.length === 0) {
+          return <a href={dependabotUrl} className="state-ok">Ingen</a>
+        }
+        const hasVulSearch = filterVulName !== ""
+        const matchingAlerts = hasVulSearch
+          ? githubVulAlerts.filter((a) =>
+              a.packageName.toLowerCase().includes(filterVulName.toLowerCase()),
+            )
+          : []
+        const showDetails = showVulGithubList || isExpanded || matchingAlerts.length > 0
+        if (!showDetails) {
+          return (
+            <a href={dependabotUrl}>
+              <b>{githubVulAlerts.length}</b>
+            </a>
+          )
+        }
+        const alertsToGroup = showVulGithubList || isExpanded ? githubVulAlerts : matchingAlerts
+        const grouped = groupVulnsByPackage(alertsToGroup)
+        return (
+          <ul className="detail-list">
+            {grouped.map((group, idx) => (
+              <li key={idx} className="detail-item">
+                <span className="detail-index">{idx + 1}</span>
+                <a href={dependabotUrl}><Highlight text={group.packageName} search={filterVulName} /></a>
+                {group.count > 1 && (
+                  <span className="detail-meta">&times;{group.count}</span>
+                )}
+                {group.highestSeverity && (
+                  <span className={`detail-severity severity-${group.highestSeverity.toLowerCase()}`}>
+                    {group.highestSeverity}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        )
+      },
+    },
+    {
+      header: "Sårbarheter",
+      subheader: "Snyk (C/H/M/L)",
+      subheaderTitle: "Critical / High / Medium / Low",
+      headerIcon: <SnykIcon />,
       sortOn: (repo) => repo.metrics.snyk?.totalIssues,
-      render: (repo) => {
+      render: (repo, isExpanded) => {
         const snyk = repo.metrics.snyk
-        return snyk == null ? (
-          "Mangler Snyk"
-        ) : snyk.totalIssues === 0 ? (
-          <span style={{ color: "var(--color-success)" }}>Ingen</span>
+        if (snyk == null) return <span className="state-missing">Mangler Snyk</span>
+        if (snyk.totalIssues === 0) return <span className="state-ok">Ingen</span>
+
+        const hasVulSearch = filterVulName !== ""
+        const matchingProjects = hasVulSearch
+          ? snyk.vulnerableProjects.filter((p) =>
+              p.path.toLowerCase().includes(filterVulName.toLowerCase()),
+            )
+          : []
+        const showDetails = showVulSnykList || isExpanded || matchingProjects.length > 0
+        const projectsToShow = showVulSnykList || isExpanded
+          ? snyk.vulnerableProjects
+          : matchingProjects
+
+        return showDetails && projectsToShow.length > 0 ? (
+          <ul className="snyk-project-list">
+            {projectsToShow.map((it, idx) => (
+              <li key={it.path} className="snyk-project-item">
+                <span className="detail-index">{idx + 1}</span>
+                <a href={it.browseUrl}><Highlight text={it.path} search={filterVulName} /></a>
+              </li>
+            ))}
+          </ul>
         ) : (
-          <>
+          <span className="snyk-counts">
             <SnykItem
               value={snyk.countsBySeverity.critical ?? 0}
               type="critical"
             />
-            <span style={{ color: "#AAA" }}> / </span>
+            <span className="snyk-sep">/</span>
             <SnykItem value={snyk.countsBySeverity.high} type="high" />
-            <span style={{ color: "#AAA" }}> / </span>
+            <span className="snyk-sep">/</span>
             <SnykItem value={snyk.countsBySeverity.medium} type="medium" />
-            <span style={{ color: "#AAA" }}> / </span>
+            <span className="snyk-sep">/</span>
             <SnykItem value={snyk.countsBySeverity.low} type="low" />
-            {showVulList &&
-              snyk.vulnerableProjects.map((it) => (
-                <div key={it.path}>
-                  <a href={it.browseUrl}>{it.path}</a>
-                </div>
-              ))}
-          </>
+          </span>
         )
       },
     },
     {
-      header: "Testdekning (%) (SonarCloud)",
+      header: "Testdekning",
+      subheader: "SonarCloud",
+      headerIcon: <SonarCloudIcon />,
       sortOn: (repo) =>
         repo.metrics.sonarCloud.testCoverage
           ? Number(repo.metrics.sonarCloud.testCoverage)
           : undefined,
-      render: (repo) => {
+      render: (repo, _isExpanded) => {
         return repo.metrics.sonarCloud.testCoverage ? (
           <span
-            className="test-coverage"
-            style={sonarCloudTestCoverageStyle(
-              repo.metrics.sonarCloud.testCoverage,
-            )}
+            className={`test-coverage ${coverageClass(repo.metrics.sonarCloud.testCoverage)}`}
           >
             {repo.metrics.sonarCloud.testCoverage}
           </span>
         ) : (
-          "Mangler testdekning"
+          <span className="state-missing">Mangler testdekning</span>
         )
       },
     },
   ]
 }
 
-function isBotPr(pr: Metrics["github"]["prs"][0]) {
-  return (
-    ["dependabot", "renovate"].includes(pr.author) ||
-    pr.title.startsWith("[Snyk]")
-  )
+const SEVERITY_ORDER = ["CRITICAL", "HIGH", "MODERATE", "LOW"] as const
+
+type Severity = "CRITICAL" | "HIGH" | "LOW" | "MODERATE"
+
+function groupVulnsByPackage(
+  alerts: { packageName: string; severity?: Severity }[],
+) {
+  const map = new Map<string, { count: number; highestSeverity?: Severity }>()
+  for (const alert of alerts) {
+    const existing = map.get(alert.packageName)
+    if (existing) {
+      existing.count++
+      if (alert.severity && (!existing.highestSeverity ||
+        SEVERITY_ORDER.indexOf(alert.severity) < SEVERITY_ORDER.indexOf(existing.highestSeverity))) {
+        existing.highestSeverity = alert.severity
+      }
+    } else {
+      map.set(alert.packageName, { count: 1, highestSeverity: alert.severity })
+    }
+  }
+  return [...map.entries()]
+    .map(([packageName, { count, highestSeverity }]) => ({ packageName, count, highestSeverity }))
+    .sort((a, b) => {
+      const ai = a.highestSeverity ? SEVERITY_ORDER.indexOf(a.highestSeverity) : 999
+      const bi = b.highestSeverity ? SEVERITY_ORDER.indexOf(b.highestSeverity) : 999
+      return ai - bi || a.packageName.localeCompare(b.packageName)
+    })
 }
 
 export function isActionableRepo(repo: Metrics): boolean {
@@ -254,40 +334,21 @@ type SnykType = "critical" | "high" | "medium" | "low"
 function snykStyle(type: SnykType): React.CSSProperties {
   switch (type) {
     case "low":
-      return {
-        color: "orange",
-      }
+      return { color: "var(--color-snyk-low)" }
     case "medium":
-      return {
-        color: "red",
-      }
+      return { color: "var(--color-snyk-medium)" }
     case "high":
-      return {
-        color: "red",
-        fontWeight: "bold",
-      }
+      return { color: "var(--color-snyk-high)", fontWeight: "bold" }
     case "critical":
-      return {
-        color: "red",
-        fontWeight: "bold",
-      }
+      return { color: "var(--color-snyk-critical)", fontWeight: "bold" }
   }
 }
 
-function sonarCloudTestCoverageStyle(coverage: string): React.CSSProperties {
-  if (Number.parseInt(coverage, 10) > 70) {
-    return {
-      color: "green",
-    }
-  }
-  if (Number.parseInt(coverage, 10) > 45) {
-    return {
-      color: "darkgoldenrod",
-    }
-  }
-  return {
-    color: "red",
-  }
+function coverageClass(coverage: string): string {
+  const val = Number.parseInt(coverage, 10)
+  if (val > 70) return "coverage-good"
+  if (val > 45) return "coverage-mid"
+  return "coverage-low"
 }
 
 const SnykItem: React.FC<{
@@ -296,7 +357,7 @@ const SnykItem: React.FC<{
 }> = ({ value, type }) => (
   <span title={type}>
     {value === 0 ? (
-      <span style={{ color: "#AAA" }}>{value}</span>
+      <span style={{ color: "var(--color-snyk-zero)" }}>{value}</span>
     ) : (
       <span style={snykStyle(type)}>{value}</span>
     )}

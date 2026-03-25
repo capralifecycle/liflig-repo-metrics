@@ -1,18 +1,39 @@
 :root {
   --color-primary: #2d2de2;
   --color-secondary: lightgrey;
-  --color-warning: orange;
-  --color-danger: red;
-  --color-success: var(--color-mute);
-
   --color-background: #f8f8f8;
   --color-foreground: #333333;
-
   --color-mute: #8f8f8f;
-
   --color-dark: #888;
-
   --color-blue-extra-light: #ebeffa;
+
+  /* Semantic status colors — softer, accessible */
+  --color-ok: #6b7280;
+  --color-success: #1a7f37;
+  --color-warning: #b45309;
+  --color-danger: #c4320a;
+
+  /* Snyk severity scale */
+  --color-snyk-critical: #9b1d20;
+  --color-snyk-high: #c4320a;
+  --color-snyk-medium: #b45309;
+  --color-snyk-low: #6b7280;
+  --color-snyk-zero: #b0b0b0;
+
+  /* Coverage scale */
+  --color-coverage-good: #1a7f37;
+  --color-coverage-mid: #b45309;
+  --color-coverage-low: #c4320a;
+
+  /* Badge backgrounds */
+  --color-badge-renovate-bg: #ddeaf6;
+  --color-badge-renovate-fg: #1a56db;
+  --color-badge-pr-bg: #dcf5e3;
+  --color-badge-pr-fg: #1a7f37;
+  --color-badge-vuln-bg: #fde8e0;
+  --color-badge-vuln-fg: #c4320a;
+
+  --color-detail-bg: rgba(0, 0, 0, 0.03);
 
   --spacing-normal: 12px;
   --spacing-large: calc(var(--spacing-normal) * 2);
@@ -27,4 +48,28 @@
   --color-mute: #a0a0a0;
   --color-dark: #999;
   --color-blue-extra-light: #2a2a4a;
+
+  --color-ok: #8b95a5;
+  --color-success: #6fdd8b;
+  --color-warning: #f0a050;
+  --color-danger: #f08060;
+
+  --color-snyk-critical: #f08080;
+  --color-snyk-high: #f08060;
+  --color-snyk-medium: #f0a050;
+  --color-snyk-low: #8b95a5;
+  --color-snyk-zero: #666;
+
+  --color-coverage-good: #6fdd8b;
+  --color-coverage-mid: #f0a050;
+  --color-coverage-low: #f08060;
+
+  --color-badge-renovate-bg: #1a2a4a;
+  --color-badge-renovate-fg: #7baaff;
+  --color-badge-pr-bg: #1a3a25;
+  --color-badge-pr-fg: #6fdd8b;
+  --color-badge-vuln-bg: #3d2020;
+  --color-badge-vuln-fg: #f08060;
+
+  --color-detail-bg: rgba(255, 255, 255, 0.04);
 }

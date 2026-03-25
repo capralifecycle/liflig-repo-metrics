@@ -1,5 +1,4 @@
 import type { Repo } from "@liflig/repo-metrics-repo-collector-types"
-import { sumBy } from "lodash-es"
 import type * as React from "react"
 import { repoColumns } from "./Repo"
 import Table from "./Table"
@@ -7,56 +6,33 @@ import Table from "./Table"
 interface Props {
   repos: Repo[]
   showPrList: boolean
+  showBotPrList: boolean
   showDepList: boolean
-  showVulList: boolean
+  showVulGithubList: boolean
+  showVulSnykList: boolean
   showOrgName: boolean
   sortByRenovateDays: boolean
+  filterRepoName: string
+  filterUpdateName: string
+  filterVulName: string
 }
 
 export const DataGroup: React.FC<Props> = ({
   repos,
   showPrList,
+  showBotPrList,
   showDepList,
-  showVulList,
+  showVulGithubList,
+  showVulSnykList,
   showOrgName,
   sortByRenovateDays,
+  filterRepoName,
+  filterUpdateName,
+  filterVulName,
 }) => {
-  const updatesAvailable = sumBy(
-    repos,
-    (it) =>
-      (it.metrics.github.availableUpdates ?? []).flatMap((it) =>
-        it.isActionable ? it.updates : [],
-      ).length,
-  )
-
-  const githubAlerts = sumBy(
-    repos,
-    (it) => it.metrics.github.vulnerabilityAlerts.length,
-  )
-
-  const snykAlerts = sumBy(repos, (it) => it.metrics.snyk?.totalIssues ?? 0)
-
   return (
     <>
-      <p>
-        Status: {repos.length} repoer.{" "}
-        <span style={{ color: "#28a745" }}>
-          {updatesAvailable} oppdateringer
-        </span>{" "}
-        til behandling.{" "}
-        <span style={{ color: "#cb2431" }}>
-          {snykAlerts} sårbarheter (Snyk)
-        </span>
-        .{" "}
-        <span style={{ color: "#663399" }}>
-          {githubAlerts} sårbarheter (GitHub)
-        </span>
-        .
-      </p>
-      <div
-        className="repo-metrics-table-wrap"
-        style={{ display: "flex", justifyContent: "center" }}
-      >
+      <div className="repo-metrics-table-wrap">
         <Table
           data={[...repos].sort((a, b) => {
             function compareByName() {
@@ -83,12 +59,18 @@ export const DataGroup: React.FC<Props> = ({
             }
             return compareByName()
           })}
+          rowKey={(repo) => repo.id}
           columns={repoColumns({
             showPrList,
+            showBotPrList,
             showDepList,
-            showVulList,
+            showVulGithubList,
+            showVulSnykList,
             showOrgName,
             showRenovateDays: sortByRenovateDays,
+            filterRepoName,
+            filterUpdateName,
+            filterVulName,
           })}
         />
       </div>
