@@ -16,8 +16,7 @@ export function getRepoId(orgName: string, repoName: string): string {
 interface RawDefinition {
   snyk?: { accountId: string }
   github: Definition["github"]
-  projects?: Project[]
-  customers?: { name: string; systems: Project[] }[]
+  customers: { name: string; systems: Project[] }[]
 }
 
 function checkAgainstSchema(
@@ -31,32 +30,16 @@ function checkAgainstSchema(
     : { error: ajv.errorsText() ?? "Unknown error" }
 }
 
-/**
- * Normalize a raw definition into the internal format.
- * Supports both old (projects) and new (customers -> systems) formats.
- */
 function normalizeDefinition(raw: RawDefinition): Definition {
-  let projects: Project[]
-
-  if (raw.customers) {
-    projects = raw.customers.flatMap((customer) =>
+  return {
+    snyk: raw.snyk,
+    github: raw.github,
+    projects: raw.customers.flatMap((customer) =>
       customer.systems.map((system) => ({
         ...system,
         customer: customer.name,
       })),
-    )
-  } else if (raw.projects) {
-    projects = raw.projects
-  } else {
-    throw new Error(
-      "Definition must have either 'projects' or 'customers' field",
-    )
-  }
-
-  return {
-    snyk: raw.snyk,
-    github: raw.github,
-    projects,
+    ),
   }
 }
 
