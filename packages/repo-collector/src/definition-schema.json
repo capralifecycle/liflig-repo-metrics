@@ -48,12 +48,6 @@
         "users"
       ]
     },
-    "projects": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Project"
-      }
-    },
     "customers": {
       "type": "array",
       "items": {
@@ -62,7 +56,8 @@
     }
   },
   "required": [
-    "github"
+    "github",
+    "customers"
   ],
   "definitions": {
     "User": {
