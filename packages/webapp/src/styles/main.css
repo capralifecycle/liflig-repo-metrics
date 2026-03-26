@@ -544,6 +544,25 @@ button:hover {
   font-weight: 500;
 }
 
+.system-toggle-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.system-toggle-column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.system-toggle-group-btn {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
 .global-stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
