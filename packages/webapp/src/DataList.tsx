@@ -78,8 +78,15 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
     (it) => it.responsible ?? "Ukjent",
   )
 
+  const bySystem = groupBy(filteredRepos, (it) => it.system ?? "Ukjent")
+
   const allByResponsible = React.useMemo(
     () => groupBy(data.repos, (it) => it.responsible ?? "Ukjent"),
+    [data.repos],
+  )
+
+  const allBySystem = React.useMemo(
+    () => groupBy(data.repos, (it) => it.system ?? "Ukjent"),
     [data.repos],
   )
 
@@ -99,7 +106,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
     const grouped = groupBy(data.repos, (it) => it.responsible ?? "Ukjent")
     return Object.entries(grouped)
       .map(([responsible, repos]) => ({
-        responsible,
+        groupKey: responsible,
         repos: repos.length,
         prs: sumBy(repos, (it) => it.metrics.github.prs.length),
         vulnerabilities:
@@ -108,17 +115,40 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             (it) => it.metrics.github.vulnerabilityAlerts.length,
           ) + sumBy(repos, (it) => it.metrics.snyk?.totalIssues ?? 0),
       }))
-      .sort((a, b) => a.responsible.localeCompare(b.responsible))
+      .sort((a, b) => a.groupKey.localeCompare(b.groupKey))
   }, [data.repos])
+
+  const statsBySystem = React.useMemo(() => {
+    const grouped = groupBy(data.repos, (it) => it.system ?? "Ukjent")
+    return Object.entries(grouped)
+      .map(([system, repos]) => ({
+        groupKey: system,
+        repos: repos.length,
+        prs: sumBy(repos, (it) => it.metrics.github.prs.length),
+        vulnerabilities:
+          sumBy(
+            repos,
+            (it) => it.metrics.github.vulnerabilityAlerts.length,
+          ) + sumBy(repos, (it) => it.metrics.snyk?.totalIssues ?? 0),
+      }))
+      .sort((a, b) => a.groupKey.localeCompare(b.groupKey))
+  }, [data.repos])
+
+  const activeStats =
+    state.groupBy === "system" ? statsBySystem : statsByResponsible
+  const activeGrouped =
+    state.groupBy === "system" ? bySystem : byResponsible
+  const activeAllGrouped =
+    state.groupBy === "system" ? allBySystem : allByResponsible
 
   const allTeamsSelected =
     state.selectedTeams.length === 0 ||
-    state.selectedTeams.length === statsByResponsible.length
+    state.selectedTeams.length === activeStats.length
 
   const visibleTeams = allTeamsSelected
-    ? Object.keys(byResponsible).sort()
+    ? Object.keys(activeGrouped).sort()
     : state.selectedTeams
-        .filter((t) => t in byResponsible)
+        .filter((t) => t in activeGrouped)
         .sort()
 
   const toggleTeam = (team: string) =>
@@ -128,18 +158,18 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       payload: team,
     })
 
-  type SummarySort = "responsible" | "repos" | "prs" | "vulnerabilities"
+  type SummarySort = "groupKey" | "repos" | "prs" | "vulnerabilities"
   const [summarySort, setSummarySort] = React.useState<{
     key: SummarySort
     asc: boolean
-  }>({ key: "responsible", asc: true })
+  }>({ key: "groupKey", asc: true })
 
   const toggleSummarySort = (key: SummarySort) =>
     setSummarySort((prev) =>
       prev.key === key ? { key, asc: !prev.asc } : { key, asc: true },
     )
 
-  const sortedStats = [...statsByResponsible].sort((a, b) => {
+  const sortedStats = [...activeStats].sort((a, b) => {
     const va = a[summarySort.key]
     const vb = b[summarySort.key]
     const cmp =
@@ -158,7 +188,40 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       {sidebarEl && createPortal(
         <>
           <div className="filter-group">
-            <span className="filter-group-label">Team</span>
+            <span className="filter-group-label">Gruppering</span>
+            <div className="team-grid">
+              <button
+                type="button"
+                className={`team-btn${state.groupBy === "responsible" ? " team-btn-active" : ""}`}
+                onClick={() =>
+                  dispatch({
+                    type: FilterActionType.SET_GROUP_BY,
+                    prop: "groupBy",
+                    payload: "responsible",
+                  })
+                }
+              >
+                Ansvarlig
+              </button>
+              <button
+                type="button"
+                className={`team-btn${state.groupBy === "system" ? " team-btn-active" : ""}`}
+                onClick={() =>
+                  dispatch({
+                    type: FilterActionType.SET_GROUP_BY,
+                    prop: "groupBy",
+                    payload: "system",
+                  })
+                }
+              >
+                System
+              </button>
+            </div>
+          </div>
+          <div className="filter-group">
+            <span className="filter-group-label">
+              {state.groupBy === "system" ? "System" : "Team"}
+            </span>
             <div className="team-grid">
               <button
                 type="button"
@@ -173,28 +236,28 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               >
                 Alle
               </button>
-              {statsByResponsible.map((s) => {
-                const isSelected = state.selectedTeams.includes(s.responsible)
+              {activeStats.map((s) => {
+                const isSelected = state.selectedTeams.includes(s.groupKey)
                 const showAll = allTeamsSelected
                 const isNone = state.selectedTeams.includes(NONE_SENTINEL)
                 return (
                   <button
                     type="button"
-                    key={s.responsible}
+                    key={s.groupKey}
                     className={`team-btn${showAll || isSelected ? " team-btn-active" : ""}`}
                     onClick={() => {
                       if (showAll || isNone) {
                         dispatch({
                           type: FilterActionType.SET_TEAMS,
                           prop: "selectedTeams",
-                          payload: s.responsible,
+                          payload: s.groupKey,
                         })
                       } else {
-                        toggleTeam(s.responsible)
+                        toggleTeam(s.groupKey)
                       }
                     }}
                   >
-                    {s.responsible}
+                    {s.groupKey}
                   </button>
                 )
               })}
@@ -331,12 +394,14 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             )}
           </div>
           <div className="filter-group">
-            <span className="filter-group-label">Team Stats</span>
+            <span className="filter-group-label">
+              {state.groupBy === "system" ? "System Stats" : "Team Stats"}
+            </span>
             <table className="summary-table">
               <thead>
                 <tr>
-                  <th className="clickeableHeader" onClick={() => toggleSummarySort("responsible")}>
-                    Team{sortIndicator("responsible")}
+                  <th className="clickeableHeader" onClick={() => toggleSummarySort("groupKey")}>
+                    {state.groupBy === "system" ? "System" : "Team"}{sortIndicator("groupKey")}
                   </th>
                   <th className="clickeableHeader" onClick={() => toggleSummarySort("repos")}>
                     Repo{sortIndicator("repos")}
@@ -351,8 +416,8 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               </thead>
               <tbody>
                 {sortedStats.map((s) => (
-                  <tr key={s.responsible}>
-                    <td>{s.responsible}</td>
+                  <tr key={s.groupKey}>
+                    <td>{s.groupKey}</td>
                     <td>{s.repos}</td>
                     <td>{s.prs > 0 ? s.prs : "–"}</td>
                     <td>{s.vulnerabilities > 0 ? s.vulnerabilities : "–"}</td>
@@ -376,15 +441,15 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         </>,
         footerEl,
       )}
-      {visibleTeams.map((responsible) => {
-        const repos = byResponsible[responsible]
+      {visibleTeams.map((groupKey) => {
+        const repos = activeGrouped[groupKey]
         if (!repos) return null
         return (
-          <React.Fragment key={responsible}>
+          <React.Fragment key={groupKey}>
             <SectionHeader
-              responsible={responsible}
+              responsible={groupKey}
               repos={repos}
-              allRepos={allByResponsible[responsible] ?? repos}
+              allRepos={activeAllGrouped[groupKey] ?? repos}
               aggregatedAt={data.aggregatedAt}
             />
             <DataGroup

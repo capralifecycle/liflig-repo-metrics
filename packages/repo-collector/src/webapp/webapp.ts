@@ -166,6 +166,8 @@ export function createWebappFriendlyFormat(
     org: metrics.github.orgName,
     name: metrics.github.repoName,
     responsible: metrics.responsible,
+    customer: metrics.customer,
+    system: metrics.system,
     metrics: mapSnapshotMetricToWebappMetrics(now, metrics),
   }))
 

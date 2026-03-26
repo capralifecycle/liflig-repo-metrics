@@ -7,6 +7,7 @@ export enum FilterActionType {
   CHANGE_SEARCH_FILTER = "change_search_filter",
   CHANGE_NUMBER_OF_DAYS = "change_number_of_days",
   SET_BOOLEANS = "set_booleans",
+  SET_GROUP_BY = "set_group_by",
 }
 
 interface FilterAction<T = keyof Filter> {
@@ -60,6 +61,11 @@ export function filterReducer(state: Filter, action: FilterAction): Filter {
         [action.prop]: newFilterValue,
       }
       return newFilterState
+    }
+
+    case FilterActionType.SET_GROUP_BY: {
+      const value = action.payload as "responsible" | "system"
+      return { ...state, groupBy: value }
     }
 
     default:
