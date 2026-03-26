@@ -96,10 +96,10 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       prop,
     })
 
-  const removeMillisecondsFromTimestamp = (timestamp: string) => {
-    const [yearMonthDay, restOfTimestamp] = timestamp.split("T")
-    const hourMinuteSecond = restOfTimestamp.split(".")[0]
-    return `${yearMonthDay} ${hourMinuteSecond}`
+  const formatLocalTimestamp = (timestamp: string) => {
+    const d = new Date(timestamp)
+    const pad = (n: number) => String(n).padStart(2, "0")
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
   }
 
   const statsByResponsible = React.useMemo(() => {
@@ -460,7 +460,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       {footerEl && createPortal(
         <>
           <p className="timestamps">
-            Sist oppdatert: {removeMillisecondsFromTimestamp(data.aggregatedAt)}
+            Sist oppdatert: {formatLocalTimestamp(data.aggregatedAt)}
           </p>
           <p className="timestamps">
             Build: <a href={`https://github.com/capralifecycle/liflig-repo-metrics/commit/${__BUILD_INFO__.commitHash}`}>{__BUILD_INFO__.commitHash}</a>
