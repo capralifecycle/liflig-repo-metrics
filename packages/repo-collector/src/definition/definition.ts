@@ -1,7 +1,7 @@
 import AJV from "ajv"
 import yaml from "js-yaml"
 import schema from "../definition-schema.json"
-import type { Definition, GetReposResponse } from "./types"
+import type { Definition, GetReposResponse, Project } from "./types"
 
 export { schema }
 
@@ -13,15 +13,51 @@ export function getRepoId(orgName: string, repoName: string): string {
   return `${orgName}/${repoName}`
 }
 
+interface RawDefinition {
+  snyk?: { accountId: string }
+  github: Definition["github"]
+  projects?: Project[]
+  customers?: { name: string; systems: Project[] }[]
+}
+
 function checkAgainstSchema(
   value: unknown,
-): { error: string } | { definition: Definition } {
+): { error: string } | { definition: RawDefinition } {
   const ajv = new AJV({ allErrors: true })
   const valid = ajv.validate(schema, value)
 
   return valid
-    ? { definition: value as Definition }
+    ? { definition: value as RawDefinition }
     : { error: ajv.errorsText() ?? "Unknown error" }
+}
+
+/**
+ * Normalize a raw definition into the internal format.
+ * Supports both old (projects) and new (customers -> systems) formats.
+ */
+function normalizeDefinition(raw: RawDefinition): Definition {
+  let projects: Project[]
+
+  if (raw.customers) {
+    projects = raw.customers.flatMap((customer) =>
+      customer.systems.map((system) => ({
+        ...system,
+        customer: customer.name,
+      })),
+    )
+  } else if (raw.projects) {
+    projects = raw.projects
+  } else {
+    throw new Error(
+      "Definition must have either 'projects' or 'customers' field",
+    )
+  }
+
+  return {
+    snyk: raw.snyk,
+    github: raw.github,
+    projects,
+  }
 }
 
 function requireValidDefinition(definition: Definition) {
@@ -114,8 +150,9 @@ export function parseDefinition(value: string): Definition {
     throw new Error(`Definition content invalid: ${result.error}`)
   }
 
-  requireValidDefinition(result.definition)
-  return result.definition
+  const definition = normalizeDefinition(result.definition)
+  requireValidDefinition(definition)
+  return definition
 }
 
 export function getRepos(definition: Definition): GetReposResponse[] {

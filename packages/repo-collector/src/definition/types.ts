@@ -26,6 +26,10 @@ export interface Project {
    * Some external-defined entity being responsible for the project.
    */
   responsible?: string
+  /**
+   * Customer name, populated when parsed from the new customer/system format.
+   */
+  customer?: string
 }
 
 export type User = UserBot | UserEmployee | UserExternal

@@ -1,11 +1,11 @@
-import yaml from "js-yaml"
 import * as definition from "../definition/definition"
-import type {
-  RepoSystemMapping,
-  SystemsDefinition,
-} from "../definition/systems-types"
 import type { Definition, GetReposResponse } from "../definition/types"
 import type { GitHubService } from "../github/service"
+
+export interface RepoSystemMapping {
+  customer: string
+  system: string
+}
 
 export interface DefinitionProvider {
   getRepos(): Promise<GetReposResponse[]>
@@ -46,11 +46,34 @@ function getSnykAccountId(definitions: DefinitionData[]): string | undefined {
   return undefined
 }
 
+/**
+ * Build a repo name -> { customer, system } mapping from the definition.
+ * Works with both old format (no customer info) and new format (customer field on projects).
+ */
+function buildSystemsMapping(
+  definitions: DefinitionData[],
+): Map<string, RepoSystemMapping> {
+  const mapping = new Map<string, RepoSystemMapping>()
+  for (const def of definitions) {
+    for (const project of def.data.projects) {
+      const customer = project.customer ?? project.name
+      for (const org of project.github) {
+        for (const repo of org.repos ?? []) {
+          mapping.set(repo.name, {
+            customer,
+            system: project.name,
+          })
+        }
+      }
+    }
+  }
+  return mapping
+}
+
 export class GithubDefinitionProvider implements DefinitionProvider {
   private githubService: GitHubService
 
   private definitionDataList: DefinitionData[] | undefined
-  private systemsMappingCache: Map<string, RepoSystemMapping> | undefined
 
   constructor(githubService: GitHubService) {
     this.githubService = githubService
@@ -101,33 +124,6 @@ export class GithubDefinitionProvider implements DefinitionProvider {
   }
 
   async getSystemsMapping(): Promise<Map<string, RepoSystemMapping>> {
-    if (this.systemsMappingCache) {
-      return this.systemsMappingCache
-    }
-
-    const result = await this.githubService.octokit.repos.getContent({
-      owner: "capralifecycle",
-      repo: "resources-definition",
-      path: "systems.yaml",
-    })
-
-    if (!("content" in result.data)) {
-      throw new Error("Unexpected response from getContent - content not found")
-    }
-
-    const content = Buffer.from(result.data.content, "base64").toString("utf-8")
-    const parsed = yaml.load(content) as SystemsDefinition
-
-    const mapping = new Map<string, RepoSystemMapping>()
-    for (const customer of parsed.customers) {
-      for (const system of customer.systems) {
-        for (const repo of system.repos) {
-          mapping.set(repo, { customer: customer.name, system: system.name })
-        }
-      }
-    }
-
-    this.systemsMappingCache = mapping
-    return mapping
+    return buildSystemsMapping(await this.getDefinitions())
   }
 }
