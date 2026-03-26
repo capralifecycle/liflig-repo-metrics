@@ -83,13 +83,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
     [data.repos],
   )
 
-  const visibleTeams =
-    state.selectedTeams.length === 0
-      ? Object.keys(byResponsible).sort()
-      : state.selectedTeams
-          .filter((t) => t in byResponsible)
-          .sort()
-
   const createOnCheckHandler = (prop: keyof Filter) => () =>
     dispatch({
       type: FilterActionType.TOGGLE_BOOLEAN,
@@ -117,6 +110,16 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       }))
       .sort((a, b) => a.responsible.localeCompare(b.responsible))
   }, [data.repos])
+
+  const allTeamsSelected =
+    state.selectedTeams.length === 0 ||
+    state.selectedTeams.length === statsByResponsible.length
+
+  const visibleTeams = allTeamsSelected
+    ? Object.keys(byResponsible).sort()
+    : state.selectedTeams
+        .filter((t) => t in byResponsible)
+        .sort()
 
   const toggleTeam = (team: string) =>
     dispatch({
@@ -159,15 +162,12 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             <div className="team-grid">
               <button
                 type="button"
-                className={`team-btn${state.selectedTeams.length === 0 ? " team-btn-active" : ""}`}
+                className={`team-btn${allTeamsSelected ? " team-btn-active" : ""}`}
                 onClick={() =>
                   dispatch({
                     type: FilterActionType.SET_TEAMS,
                     prop: "selectedTeams",
-                    payload:
-                      state.selectedTeams.length === 0
-                        ? NONE_SENTINEL
-                        : "",
+                    payload: allTeamsSelected ? NONE_SENTINEL : "",
                   })
                 }
               >
@@ -175,7 +175,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               </button>
               {statsByResponsible.map((s) => {
                 const isSelected = state.selectedTeams.includes(s.responsible)
-                const showAll = state.selectedTeams.length === 0
+                const showAll = allTeamsSelected
                 const isNone = state.selectedTeams.includes(NONE_SENTINEL)
                 return (
                   <button
@@ -183,16 +183,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
                     key={s.responsible}
                     className={`team-btn${showAll || isSelected ? " team-btn-active" : ""}`}
                     onClick={() => {
-                      if (showAll) {
-                        const allExcept = statsByResponsible
-                          .map((t) => t.responsible)
-                          .filter((t) => t !== s.responsible)
-                        dispatch({
-                          type: FilterActionType.SET_TEAMS,
-                          prop: "selectedTeams",
-                          payload: allExcept.join(","),
-                        })
-                      } else if (isNone) {
+                      if (showAll || isNone) {
                         dispatch({
                           type: FilterActionType.SET_TEAMS,
                           prop: "selectedTeams",
