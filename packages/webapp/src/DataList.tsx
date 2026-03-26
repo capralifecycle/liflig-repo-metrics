@@ -222,46 +222,73 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             <span className="filter-group-label">
               {state.groupBy === "system" ? "System" : "Team"}
             </span>
-            <div className="team-grid">
-              <button
-                type="button"
-                className={`team-btn${allTeamsSelected ? " team-btn-active" : ""}`}
-                onClick={() =>
+            {state.groupBy === "system" ? (
+              <SystemToggleGrid
+                stats={activeStats}
+                allTeamsSelected={allTeamsSelected}
+                selectedTeams={state.selectedTeams}
+                onToggle={(key) => {
+                  const isNone = state.selectedTeams.includes(NONE_SENTINEL)
+                  if (allTeamsSelected || isNone) {
+                    dispatch({
+                      type: FilterActionType.SET_TEAMS,
+                      prop: "selectedTeams",
+                      payload: key,
+                    })
+                  } else {
+                    toggleTeam(key)
+                  }
+                }}
+                onSetTeams={(keys) =>
                   dispatch({
                     type: FilterActionType.SET_TEAMS,
                     prop: "selectedTeams",
-                    payload: allTeamsSelected ? NONE_SENTINEL : "",
+                    payload: keys.length > 0 ? keys.join(",") : "",
                   })
                 }
-              >
-                Alle
-              </button>
-              {activeStats.map((s) => {
-                const isSelected = state.selectedTeams.includes(s.groupKey)
-                const showAll = allTeamsSelected
-                const isNone = state.selectedTeams.includes(NONE_SENTINEL)
-                return (
-                  <button
-                    type="button"
-                    key={s.groupKey}
-                    className={`team-btn${showAll || isSelected ? " team-btn-active" : ""}`}
-                    onClick={() => {
-                      if (showAll || isNone) {
-                        dispatch({
-                          type: FilterActionType.SET_TEAMS,
-                          prop: "selectedTeams",
-                          payload: s.groupKey,
-                        })
-                      } else {
-                        toggleTeam(s.groupKey)
-                      }
-                    }}
-                  >
-                    {s.groupKey}
-                  </button>
-                )
-              })}
-            </div>
+              />
+            ) : (
+              <div className="team-grid">
+                <button
+                  type="button"
+                  className={`team-btn${allTeamsSelected ? " team-btn-active" : ""}`}
+                  onClick={() =>
+                    dispatch({
+                      type: FilterActionType.SET_TEAMS,
+                      prop: "selectedTeams",
+                      payload: allTeamsSelected ? NONE_SENTINEL : "",
+                    })
+                  }
+                >
+                  Alle
+                </button>
+                {activeStats.map((s) => {
+                  const isSelected = state.selectedTeams.includes(s.groupKey)
+                  const showAll = allTeamsSelected
+                  const isNone = state.selectedTeams.includes(NONE_SENTINEL)
+                  return (
+                    <button
+                      type="button"
+                      key={s.groupKey}
+                      className={`team-btn${showAll || isSelected ? " team-btn-active" : ""}`}
+                      onClick={() => {
+                        if (showAll || isNone) {
+                          dispatch({
+                            type: FilterActionType.SET_TEAMS,
+                            prop: "selectedTeams",
+                            payload: s.groupKey,
+                          })
+                        } else {
+                          toggleTeam(s.groupKey)
+                        }
+                      }}
+                    >
+                      {s.groupKey}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
           </div>
           <div className="filter-group">
             <span className="filter-group-label">Søk</span>
@@ -469,6 +496,84 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         )
       })}
     </>
+  )
+}
+
+const LIFLIG_PREFIX = "liflig-"
+
+const SystemToggleGrid: React.FC<{
+  stats: { groupKey: string }[]
+  allTeamsSelected: boolean
+  selectedTeams: string[]
+  onToggle: (key: string) => void
+  onSetTeams: (keys: string[]) => void
+}> = ({ stats, allTeamsSelected, selectedTeams, onToggle, onSetTeams }) => {
+  const lifligSystems = stats
+    .filter((s) => s.groupKey.startsWith(LIFLIG_PREFIX))
+    .sort((a, b) => a.groupKey.localeCompare(b.groupKey))
+  const customerSystems = stats
+    .filter((s) => !s.groupKey.startsWith(LIFLIG_PREFIX))
+    .sort((a, b) => a.groupKey.localeCompare(b.groupKey))
+
+  const lifligKeys = lifligSystems.map((s) => s.groupKey)
+  const customerKeys = customerSystems.map((s) => s.groupKey)
+
+  const allLifligSelected =
+    allTeamsSelected || lifligKeys.every((k) => selectedTeams.includes(k))
+  const allCustomerSelected =
+    allTeamsSelected || customerKeys.every((k) => selectedTeams.includes(k))
+
+  const toggleGroup = (groupKeys: string[], allSelected: boolean) => {
+    if (allTeamsSelected) {
+      // From "all", narrow down to just this group
+      onSetTeams(groupKeys)
+    } else if (allSelected) {
+      // Deselect this group
+      onSetTeams(selectedTeams.filter((k) => !groupKeys.includes(k)))
+    } else {
+      // Add this group
+      onSetTeams([...new Set([...selectedTeams, ...groupKeys])])
+    }
+  }
+
+  const renderBtn = (s: { groupKey: string }) => {
+    const isSelected = selectedTeams.includes(s.groupKey)
+    const showAll = allTeamsSelected
+    return (
+      <button
+        type="button"
+        key={s.groupKey}
+        className={`team-btn${showAll || isSelected ? " team-btn-active" : ""}`}
+        onClick={() => onToggle(s.groupKey)}
+      >
+        {s.groupKey}
+      </button>
+    )
+  }
+
+  return (
+    <div className="system-toggle-columns">
+      <div className="system-toggle-column">
+        <button
+          type="button"
+          className={`team-btn system-toggle-group-btn${allLifligSelected ? " team-btn-active" : ""}`}
+          onClick={() => toggleGroup(lifligKeys, allLifligSelected)}
+        >
+          Liflig
+        </button>
+        {lifligSystems.map(renderBtn)}
+      </div>
+      <div className="system-toggle-column">
+        <button
+          type="button"
+          className={`team-btn system-toggle-group-btn${allCustomerSelected ? " team-btn-active" : ""}`}
+          onClick={() => toggleGroup(customerKeys, allCustomerSelected)}
+        >
+          Kunde
+        </button>
+        {customerSystems.map(renderBtn)}
+      </div>
+    </div>
   )
 }
 
