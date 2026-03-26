@@ -36,6 +36,7 @@ async function createSnapshotData(
   githubService: github.GitHubService,
   sonarCloudService: sonarCloud.SonarCloudService,
   repos: GetReposResponse[],
+  systemsMapping: Map<string, { customer: string; system: string }>,
   snykAccountId?: string,
 ): Promise<SnapshotData> {
   const snykData = groupBy(
@@ -93,10 +94,14 @@ async function createSnapshotData(
       updatedAt: pr.updatedAt,
     }))
 
+    const systemInfo = systemsMapping.get(repo.repo.repo.name)
+
     result.push({
       version: "1.2",
       repoId,
       responsible: repo.repo.repo.responsible ?? repo.repo.project.responsible,
+      customer: systemInfo?.customer,
+      system: systemInfo?.system,
       github: {
         orgName: repo.repo.orgName,
         repoName: repo.repo.repo.name,
@@ -160,6 +165,7 @@ export async function collect(
     githubService,
     sonarCloudService,
     await definitionProvider.getRepos(),
+    await definitionProvider.getSystemsMapping(),
     await definitionProvider.getSnykAccountId(),
   )
 

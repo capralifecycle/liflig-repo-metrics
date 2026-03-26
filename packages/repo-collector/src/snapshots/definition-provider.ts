@@ -1,10 +1,16 @@
+import yaml from "js-yaml"
 import * as definition from "../definition/definition"
+import type {
+  RepoSystemMapping,
+  SystemsDefinition,
+} from "../definition/systems-types"
 import type { Definition, GetReposResponse } from "../definition/types"
 import type { GitHubService } from "../github/service"
 
 export interface DefinitionProvider {
   getRepos(): Promise<GetReposResponse[]>
   getSnykAccountId(): Promise<string | undefined>
+  getSystemsMapping(): Promise<Map<string, RepoSystemMapping>>
 }
 
 interface DefinitionData {
@@ -44,6 +50,7 @@ export class GithubDefinitionProvider implements DefinitionProvider {
   private githubService: GitHubService
 
   private definitionDataList: DefinitionData[] | undefined
+  private systemsMappingCache: Map<string, RepoSystemMapping> | undefined
 
   constructor(githubService: GitHubService) {
     this.githubService = githubService
@@ -88,7 +95,39 @@ export class GithubDefinitionProvider implements DefinitionProvider {
   async getRepos(): Promise<GetReposResponse[]> {
     return getRepos(await this.getDefinitions())
   }
+
   async getSnykAccountId(): Promise<string | undefined> {
     return getSnykAccountId(await this.getDefinitions())
+  }
+
+  async getSystemsMapping(): Promise<Map<string, RepoSystemMapping>> {
+    if (this.systemsMappingCache) {
+      return this.systemsMappingCache
+    }
+
+    const result = await this.githubService.octokit.repos.getContent({
+      owner: "capralifecycle",
+      repo: "resources-definition",
+      path: "systems.yaml",
+    })
+
+    if (!("content" in result.data)) {
+      throw new Error("Unexpected response from getContent - content not found")
+    }
+
+    const content = Buffer.from(result.data.content, "base64").toString("utf-8")
+    const parsed = yaml.load(content) as SystemsDefinition
+
+    const mapping = new Map<string, RepoSystemMapping>()
+    for (const customer of parsed.customers) {
+      for (const system of customer.systems) {
+        for (const repo of system.repos) {
+          mapping.set(repo, { customer: customer.name, system: system.name })
+        }
+      }
+    }
+
+    this.systemsMappingCache = mapping
+    return mapping
   }
 }

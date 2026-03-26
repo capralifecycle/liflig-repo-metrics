@@ -20,6 +20,7 @@ export interface Filter
   filterRepoName: string
   filterUpdateName: string
   filterVulName: string
+  groupBy: "responsible" | "system"
 }
 
 export const defaultValues: Filter = {
@@ -38,6 +39,7 @@ export const defaultValues: Filter = {
   filterRepoName: "",
   filterUpdateName: "",
   filterVulName: "",
+  groupBy: "responsible",
 }
 
 // Parse URL parameters and turn into a filter object.
@@ -56,7 +58,12 @@ export const getFilterFromUrl = (): Filter => {
 }
 
 const parseUrlFilterField = (key: string, value: string) => {
-  const keyValueFields = ["filterRepoName", "filterUpdateName", "filterVulName"]
+  const keyValueFields = [
+    "filterRepoName",
+    "filterUpdateName",
+    "filterVulName",
+    "groupBy",
+  ]
 
   if (key === "selectedTeams") {
     return {

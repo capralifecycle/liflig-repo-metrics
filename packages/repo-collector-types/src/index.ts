@@ -20,6 +20,8 @@ export interface SnapshotMetrics {
   version: "1.2"
   repoId: string
   responsible?: string
+  customer?: string
+  system?: string
   github: {
     orgName: string
     repoName: string
@@ -143,6 +145,8 @@ export interface Repo {
   org: string
   name: string
   responsible?: string
+  customer?: string
+  system?: string
   metrics: Metrics
 }
 
