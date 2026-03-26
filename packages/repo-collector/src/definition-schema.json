@@ -53,11 +53,16 @@
       "items": {
         "$ref": "#/definitions/Project"
       }
+    },
+    "customers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Customer"
+      }
     }
   },
   "required": [
-    "github",
-    "projects"
+    "github"
   ],
   "definitions": {
     "User": {
@@ -153,6 +158,24 @@
       "required": [
         "members",
         "name"
+      ]
+    },
+    "Customer": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "systems": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Project"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "systems"
       ]
     },
     "Project": {
