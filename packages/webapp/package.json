@@ -16,7 +16,7 @@
     "autoprefixer": "10.4.27",
     "git-revision-webpack-plugin": "5.0.0",
     "lodash-es": "4.17.23",
-    "typescript": "5.9.3",
+    "typescript": "6.0.2",
     "vite": "8.0.3",
     "vite-plugin-checker": "0.12.0"
   },
