@@ -23,7 +23,7 @@
         "@types/node": "24.12.0",
         "aws-cdk": "2.1113.0",
         "esbuild": "0.27.4",
-        "typescript": "5.9.3",
+        "typescript": "6.0.2",
       },
     },
     "packages/repo-collector": {
@@ -50,7 +50,7 @@
         "@types/js-yaml": "4.0.9",
         "@types/lodash-es": "4.17.12",
         "@types/node": "24.12.0",
-        "typescript": "5.9.3",
+        "typescript": "6.0.2",
         "vitest": "4.1.2",
       },
     },
@@ -59,7 +59,7 @@
       "version": "0.0.0-development",
       "devDependencies": {
         "@types/node": "24.12.0",
-        "typescript": "5.9.3",
+        "typescript": "6.0.2",
       },
     },
     "packages/webapp": {
@@ -79,7 +79,7 @@
         "autoprefixer": "10.4.27",
         "git-revision-webpack-plugin": "5.0.0",
         "lodash-es": "4.17.23",
-        "typescript": "5.9.3",
+        "typescript": "6.0.2",
         "vite": "8.0.3",
         "vite-plugin-checker": "0.12.0",
       },
@@ -877,7 +877,7 @@
 
     "tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
 
-    "typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
+    "typescript": ["typescript@6.0.2", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-bGdAIrZ0wiGDo5l8c++HWtbaNCWTS4UTv7RaTH/ThVIgjkveJt83m74bBHMJkuCbslY8ixgLBVZJIOiQlQTjfQ=="],
 
     "undici-types": ["undici-types@7.16.0", "", {}, "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="],
 
