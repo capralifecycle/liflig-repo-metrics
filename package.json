@@ -19,6 +19,6 @@
     "packages/infrastructure"
   ],
   "devDependencies": {
-    "@biomejs/biome": "2.4.9"
+    "@biomejs/biome": "2.4.10"
   }
 }
