@@ -37,7 +37,7 @@
         "axios": "1.14.0",
         "date-holidays": "3.26.12",
         "js-yaml": "4.1.1",
-        "lodash-es": "4.17.23",
+        "lodash-es": "4.18.1",
         "p-limit": "^7.3.0",
       },
       "devDependencies": {
@@ -78,7 +78,7 @@
         "@vitejs/plugin-react": "6.0.1",
         "autoprefixer": "10.4.27",
         "git-revision-webpack-plugin": "5.0.0",
-        "lodash-es": "4.17.23",
+        "lodash-es": "4.18.1",
         "typescript": "5.9.3",
         "vite": "8.0.3",
         "vite-plugin-checker": "0.12.0",
@@ -761,7 +761,7 @@
 
     "lodash": ["lodash@4.17.23", "", {}, "sha512-LgVTMpQtIopCi79SJeDiP0TfWi5CNEc/L/aRdTh3yIvmZXTnheWpKjSZhnvMl8iXbC1tFg9gdHHDMLoV7CnG+w=="],
 
-    "lodash-es": ["lodash-es@4.17.23", "", {}, "sha512-kVI48u3PZr38HdYz98UmfPnXl2DXrpdctLrFLCd3kOx1xUkOmpFPx7gCWWM5MPkL/fD8zb+Ph0QzjGFs4+hHWg=="],
+    "lodash-es": ["lodash-es@4.18.1", "", {}, "sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A=="],
 
     "lodash.truncate": ["lodash.truncate@4.4.2", "", {}, "sha512-jttmRe7bRse52OsWIMDLaXxWqRAmtIUccAQ3garviCqJjafXOfNMO0yMfNpdD6zbGaTU0P5Nz7e7gAT6cKmJRw=="],
 
