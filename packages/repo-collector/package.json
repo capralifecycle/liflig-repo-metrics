@@ -30,7 +30,7 @@
     "@octokit/rest": "^22.0.1",
     "ajv": "8.18.0",
     "axios": "1.15.0",
-    "date-holidays": "3.26.12",
+    "date-holidays": "3.26.13",
     "js-yaml": "4.1.1",
     "lodash-es": "4.18.1",
     "p-limit": "^7.3.0"
