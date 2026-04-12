@@ -18,7 +18,7 @@
       },
       "devDependencies": {
         "@liflig/cdk": "3.22.17",
-        "@liflig/cdk-cloudfront-auth": "1.10.1",
+        "@liflig/cdk-cloudfront-auth": "1.10.2",
         "@liflig/load-secrets": "1.1.132",
         "@types/node": "24.12.2",
         "aws-cdk": "2.1117.0",
@@ -281,7 +281,7 @@
 
     "@liflig/cdk": ["@liflig/cdk@3.22.17", "", { "dependencies": { "@capraconsulting/webapp-deploy-lambda": "2.5.82", "aws-jwt-verify": "5.1.1" }, "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" }, "bin": { "cdk-create-snapshots": "lib/bin/cdk-create-snapshots.js", "fetch-pipeline-variables": "lib/bin/fetch-pipeline-variables.js" } }, "sha512-hhJRG8AoVXpZo7Y8dLghreyX8dJoFZS5LBz/pwcdwuFmG2XdFE8G95WejfNC6eo+u/ljHVUnjM6NklaNPAyDjw=="],
 
-    "@liflig/cdk-cloudfront-auth": ["@liflig/cdk-cloudfront-auth@1.10.1", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0" } }, "sha512-umBCcIkOjLsqWhdeOFu+wMJ58Gibc/KvoWYP0qAY2lsw4/ov0YlpONsXp255sX4ESjPORmdeBHgrz8d1a331WQ=="],
+    "@liflig/cdk-cloudfront-auth": ["@liflig/cdk-cloudfront-auth@1.10.2", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0" } }, "sha512-uIQcIRi+ySSQWHIk3dU34Whw0qiAeDLWjpYBW4gPQyWxXWmWqAxUb2L6+Ka7P2XRo7cxkAMKoXVQa+fJn9mK+g=="],
 
     "@liflig/load-secrets": ["@liflig/load-secrets@1.1.132", "", { "dependencies": { "@aws-sdk/client-secrets-manager": "3.1026.0", "@aws-sdk/client-sts": "3.1026.0", "read": "5.0.1" } }, "sha512-kGKeBT5OB/FgP5F2QddLBQbVACDz4j87+4UqFx/hX3PXTupMiCTZCMq4N086MS+penvwdeP+8jONuSXkjRJ1wA=="],
 
