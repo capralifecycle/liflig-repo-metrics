@@ -8,7 +8,7 @@
     "build": "vite build --mode production"
   },
   "devDependencies": {
-    "@liflig/repo-metrics-repo-collector-types": "0.0.0-development",
+    "@liflig/repo-metrics-repo-collector-types": "workspace:*",
     "@types/lodash-es": "4.17.12",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
