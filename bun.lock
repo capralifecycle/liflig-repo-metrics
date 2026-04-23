@@ -21,7 +21,7 @@
         "@liflig/cdk-cloudfront-auth": "1.10.3",
         "@liflig/load-secrets": "1.1.139",
         "@types/node": "24.12.2",
-        "aws-cdk": "2.1118.2",
+        "aws-cdk": "2.1118.4",
         "esbuild": "0.28.0",
         "typescript": "5.9.3",
       },
@@ -561,7 +561,7 @@
 
     "autoprefixer": ["autoprefixer@10.5.0", "", { "dependencies": { "browserslist": "^4.28.2", "caniuse-lite": "^1.0.30001787", "fraction.js": "^5.3.4", "picocolors": "^1.1.1", "postcss-value-parser": "^4.2.0" }, "peerDependencies": { "postcss": "^8.1.0" }, "bin": { "autoprefixer": "bin/autoprefixer" } }, "sha512-FMhOoZV4+qR6aTUALKX2rEqGG+oyATvwBt9IIzVR5rMa2HRWPkxf+P+PAJLD1I/H5/II+HuZcBJYEFBpq39ong=="],
 
-    "aws-cdk": ["aws-cdk@2.1118.2", "", { "bin": { "cdk": "bin/cdk" } }, "sha512-jHuShSx0JI14enDz2Hk2Qe0LYTDPzLyF2nBhWCvoXyRCpz31sI3XsCh4KO5ZXKfw9ET0bHvDTVnMZQPBpswg8A=="],
+    "aws-cdk": ["aws-cdk@2.1118.4", "", { "bin": { "cdk": "bin/cdk" } }, "sha512-wJfRQdvb+FJ2cni059mYdmjhfwhMskP+PAB59BL9jhon+jYtjy8X3pbj3uzHgAOJwNhh6jGkP8xq36Cffccbbw=="],
 
     "aws-cdk-lib": ["aws-cdk-lib@2.250.0", "", { "dependencies": { "@aws-cdk/asset-awscli-v1": "2.2.273", "@aws-cdk/asset-node-proxy-agent-v6": "^2.1.1", "@aws-cdk/cloud-assembly-api": "^2.2.0", "@aws-cdk/cloud-assembly-schema": "^53.0.0", "@balena/dockerignore": "^1.0.2", "case": "1.6.3", "fs-extra": "^11.3.3", "ignore": "^5.3.2", "jsonschema": "^1.5.0", "mime-types": "^2.1.35", "minimatch": "^10.2.3", "punycode": "^2.3.1", "semver": "^7.7.4", "table": "^6.9.0", "yaml": "1.10.3" }, "peerDependencies": { "constructs": "^10.5.0" } }, "sha512-8U8/S9VcmKSc3MHZWiB7P0IecgXoohI8Ya3dgtZMgbzC4mB+MEQmsYBeNgm4vzGQdRos8HjQLnFX1IBlZh7jQA=="],
 
