@@ -7,7 +7,7 @@
     "snapshots": "rm -rf cdk.out __snapshots__ && IS_SNAPSHOT=true cdk synth && cdk-create-snapshots"
   },
   "devDependencies": {
-    "@liflig/cdk": "3.25.2",
+    "@liflig/cdk": "3.26.0",
     "@liflig/cdk-cloudfront-auth": "1.10.3",
     "@liflig/load-secrets": "1.1.139",
     "@types/node": "24.12.2",
