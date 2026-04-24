@@ -27,6 +27,7 @@
   "dependencies": {
     "@js-temporal/polyfill": "0.5.1",
     "@liflig/repo-metrics-repo-collector-types": "workspace:*",
+    "@octokit/auth-app": "^8.2.0",
     "@octokit/rest": "^22.0.1",
     "ajv": "8.18.0",
     "axios": "1.15.1",

@@ -8,15 +8,25 @@ const slackPipelineNotificationWebhookUrl: loadSecrets.Secret = {
   type: "string",
 }
 
-const githubTokenSecret: loadSecrets.Secret = {
-  name: "github-token",
-  description: "GitHub token",
+const githubAppSecret: loadSecrets.Secret = {
+  name: "github-app",
+  description:
+    "GitHub App identity shared across all installations (appId, privateKey PEM)",
   type: "json",
   fields: [
     {
-      key: "token",
+      key: "appId",
+    },
+    {
+      key: "privateKey",
     },
   ],
+}
+
+const githubAppInstallCapralifecycleSecret: loadSecrets.Secret = {
+  name: "github-app-install-capralifecycle",
+  description: "GitHub App installation ID for the capralifecycle org",
+  type: "string",
 }
 
 const snykTokenSecret: loadSecrets.Secret = {
@@ -60,7 +70,8 @@ loadSecrets.loadSecretsCli({
       description: "incub",
       namePrefix: "/incub/repo-metrics/",
       secrets: [
-        githubTokenSecret,
+        githubAppSecret,
+        githubAppInstallCapralifecycleSecret,
         snykTokenSecret,
         reporterSlackWebhookUrlSecret,
         slackPipelineNotificationWebhookUrl,

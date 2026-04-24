@@ -2065,7 +2065,26 @@
                     {
                       "Ref": "AWS::Partition"
                     },
-                    ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/github-token-??????"
+                    ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/github-app-??????"
+                  ]
+                ]
+              }
+            },
+            {
+              "Action": [
+                "secretsmanager:GetSecretValue",
+                "secretsmanager:DescribeSecret"
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/github-app-install-capralifecycle-??????"
                   ]
                 ]
               }
@@ -2168,7 +2187,7 @@
         },
         "Environment": {
           "Variables": {
-            "GITHUB_TOKEN_SECRET_ID": {
+            "GITHUB_APP_SECRET_ID": {
               "Fn::Join": [
                 "",
                 [
@@ -2176,7 +2195,19 @@
                   {
                     "Ref": "AWS::Partition"
                   },
-                  ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/github-token"
+                  ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/github-app"
+                ]
+              ]
+            },
+            "GITHUB_APP_INSTALL_SECRET_ID": {
+              "Fn::Join": [
+                "",
+                [
+                  "arn:",
+                  {
+                    "Ref": "AWS::Partition"
+                  },
+                  ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/github-app-install-capralifecycle"
                 ]
               ]
             },

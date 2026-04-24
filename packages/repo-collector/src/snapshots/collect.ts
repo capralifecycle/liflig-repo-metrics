@@ -9,7 +9,7 @@ import { Config } from "../config"
 import * as definition from "../definition/definition"
 import type { GetReposResponse } from "../definition/types"
 import * as github from "../github/service"
-import type { GitHubTokenProvider } from "../github/token"
+import type { GitHubAuthProvider } from "../github/token"
 import * as snyk from "../snyk/service"
 import type { SnykTokenProvider } from "../snyk/token"
 import type { SnykProject } from "../snyk/types"
@@ -134,7 +134,7 @@ async function createSnapshotData(
  */
 export async function collect(
   snapshotsRepository: SnapshotsRepository,
-  githubTokenProvider?: GitHubTokenProvider,
+  githubTokenProvider?: GitHubAuthProvider,
   snykTokenProvider?: SnykTokenProvider,
   sonarCloudTokenProvider?: SonarCloudTokenProvider,
 ) {
