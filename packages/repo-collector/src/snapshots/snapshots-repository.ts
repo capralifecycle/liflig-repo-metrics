@@ -1,4 +1,5 @@
 import { promises as fs } from "node:fs"
+import * as path from "node:path"
 import type { Readable } from "node:stream"
 import { S3 } from "@aws-sdk/client-s3"
 import type { SnapshotData } from "@liflig/repo-metrics-repo-collector-types"
@@ -16,6 +17,7 @@ export class LocalSnapshotsRepository implements SnapshotsRepository {
   private readonly snapshotDataPath = "data/snapshot.json"
 
   async store(snapshotData: SnapshotData): Promise<void> {
+    await fs.mkdir(path.dirname(this.snapshotDataPath), { recursive: true })
     await fs.writeFile(
       this.snapshotDataPath,
       JSON.stringify(snapshotData, undefined, "  "),
