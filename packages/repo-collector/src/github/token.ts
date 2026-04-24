@@ -1,6 +1,7 @@
 import * as process from "node:process"
 import { SecretsManager } from "@aws-sdk/client-secrets-manager"
 import { createAppAuth } from "@octokit/auth-app"
+import { Octokit } from "@octokit/rest"
 
 type OctokitAuthOptions = {
   authStrategy: typeof createAppAuth
@@ -21,6 +22,7 @@ interface AppCredentials {
   appId: string
   privateKey: string
   installationId: number
+  orgName: string
 }
 
 export class GitHubAppProvider implements GitHubAuthProvider {
@@ -33,7 +35,7 @@ export class GitHubAppProvider implements GitHubAuthProvider {
       installationId: creds.installationId,
     })
     console.log(
-      `[github-auth] using GitHub App installation (appId=${creds.appId}, installationId=${creds.installationId})`,
+      `[github-auth] using GitHub App installation (appId=${creds.appId}, org=${creds.orgName}, installationId=${creds.installationId})`,
     )
   }
 
@@ -59,29 +61,21 @@ export class GitHubAppProvider implements GitHubAuthProvider {
 }
 
 const DEFAULT_APP_SECRET_ID = "/incub/repo-metrics/github-app"
-const DEFAULT_INSTALL_SECRET_ID =
-  "/incub/repo-metrics/github-app-install-capralifecycle"
+const DEFAULT_ORG_NAME = "capralifecycle"
 
 export async function loadGitHubAppProviderFromSecrets(opts?: {
   appSecretId?: string
-  installSecretId?: string
+  orgName?: string
 }): Promise<GitHubAppProvider> {
   const appSecretId =
     opts?.appSecretId ??
     process.env.GITHUB_APP_SECRET_ID ??
     DEFAULT_APP_SECRET_ID
-  const installSecretId =
-    opts?.installSecretId ??
-    process.env.GITHUB_APP_INSTALL_SECRET_ID ??
-    DEFAULT_INSTALL_SECRET_ID
+  const orgName =
+    opts?.orgName ?? process.env.GITHUB_APP_ORG ?? DEFAULT_ORG_NAME
 
   const client = new SecretsManager({})
-
-  const [appSecret, installationIdRaw] = await Promise.all([
-    readJsonSecret(client, appSecretId),
-    readStringSecret(client, installSecretId),
-  ])
-
+  const appSecret = await readJsonSecret(client, appSecretId)
   const { appId, privateKey } = appSecret
 
   if (!appId) {
@@ -90,33 +84,52 @@ export async function loadGitHubAppProviderFromSecrets(opts?: {
   if (!privateKey) {
     throw new Error(`Missing "privateKey" field in secret ${appSecretId}`)
   }
-  const installationId = Number(installationIdRaw)
-  if (!Number.isFinite(installationId)) {
-    throw new Error(
-      `Secret ${installSecretId} is not a number: ${installationIdRaw}`,
-    )
-  }
 
-  return new GitHubAppProvider({ appId, privateKey, installationId })
+  const installationId = await discoverInstallationId({
+    appId,
+    privateKey,
+    orgName,
+  })
+
+  return new GitHubAppProvider({ appId, privateKey, installationId, orgName })
 }
 
-async function readStringSecret(
-  client: SecretsManager,
-  secretId: string,
-): Promise<string> {
-  const result = await client.getSecretValue({ SecretId: secretId })
-  if (result.SecretString == null) {
-    throw new Error(`Secret ${secretId} has no SecretString`)
+async function discoverInstallationId(args: {
+  appId: string
+  privateKey: string
+  orgName: string
+}): Promise<number> {
+  const appOctokit = new Octokit({
+    authStrategy: createAppAuth,
+    auth: {
+      appId: args.appId,
+      privateKey: args.privateKey,
+    },
+  })
+
+  try {
+    const { data } = await appOctokit.request("GET /orgs/{org}/installation", {
+      org: args.orgName,
+    })
+    return data.id
+  } catch (err) {
+    const status = (err as { status?: number }).status
+    if (status === 404) {
+      throw new Error(
+        `GitHub App is not installed on org "${args.orgName}". Install the App on the org and retry.`,
+      )
+    }
+    throw err
   }
-  return result.SecretString
 }
 
 async function readJsonSecret(
   client: SecretsManager,
   secretId: string,
 ): Promise<Record<string, string>> {
-  return JSON.parse(await readStringSecret(client, secretId)) as Record<
-    string,
-    string
-  >
+  const result = await client.getSecretValue({ SecretId: secretId })
+  if (result.SecretString == null) {
+    throw new Error(`Secret ${secretId} has no SecretString`)
+  }
+  return JSON.parse(result.SecretString) as Record<string, string>
 }

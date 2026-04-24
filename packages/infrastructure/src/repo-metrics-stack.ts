@@ -104,13 +104,6 @@ export class RepoMetricsStack extends cdk.Stack {
       "/incub/repo-metrics/github-app",
     )
 
-    const githubAppInstallCapralifecycleSecret =
-      secretsmanager.Secret.fromSecretNameV2(
-        this,
-        "GithubAppInstallCapralifecycleSecret",
-        "/incub/repo-metrics/github-app-install-capralifecycle",
-      )
-
     const snykTokenSecret = secretsmanager.Secret.fromSecretNameV2(
       this,
       "SnykTokenSecret",
@@ -131,8 +124,7 @@ export class RepoMetricsStack extends cdk.Stack {
       memorySize: 256,
       environment: {
         GITHUB_APP_SECRET_ID: githubAppSecret.secretArn,
-        GITHUB_APP_INSTALL_SECRET_ID:
-          githubAppInstallCapralifecycleSecret.secretArn,
+        GITHUB_APP_ORG: "capralifecycle",
         SNYK_TOKEN_SECRET_ID: snykTokenSecret.secretArn,
         SONARCLOUD_TOKEN_SECRET_ID: sonarCloudTokenSecret.secretArn,
         DATA_BUCKET_NAME: dataBucket.bucketName,
@@ -142,7 +134,6 @@ export class RepoMetricsStack extends cdk.Stack {
     })
 
     githubAppSecret.grantRead(collectorFn)
-    githubAppInstallCapralifecycleSecret.grantRead(collectorFn)
     snykTokenSecret.grantRead(collectorFn)
     sonarCloudTokenSecret.grantRead(collectorFn)
     dataBucket.grantReadWrite(collectorFn)

@@ -23,12 +23,6 @@ const githubAppSecret: loadSecrets.Secret = {
   ],
 }
 
-const githubAppInstallCapralifecycleSecret: loadSecrets.Secret = {
-  name: "github-app-install-capralifecycle",
-  description: "GitHub App installation ID for the capralifecycle org",
-  type: "string",
-}
-
 const snykTokenSecret: loadSecrets.Secret = {
   name: "snyk-token",
   description: "Snyk token",
@@ -71,7 +65,6 @@ loadSecrets.loadSecretsCli({
       namePrefix: "/incub/repo-metrics/",
       secrets: [
         githubAppSecret,
-        githubAppInstallCapralifecycleSecret,
         snykTokenSecret,
         reporterSlackWebhookUrlSecret,
         slackPipelineNotificationWebhookUrl,

@@ -125,14 +125,15 @@ Open local server at: <http://localhost:3000>
 
 GitHub authentication uses a GitHub App (server-to-server auth with installation tokens), not a personal access token. The App is registered in the `capralifecycle` org and installed on the repos it should read.
 
-Credentials live in two AWS Secrets Manager secrets (region `eu-west-1`, account `liflig-incubator`):
+Credentials live in a single AWS Secrets Manager secret (region `eu-west-1`, account `liflig-incubator`):
 
 - `/incub/repo-metrics/github-app` — JSON `{ appId, privateKey }` — the App identity, shared across all installations.
-- `/incub/repo-metrics/github-app-install-capralifecycle` — plain string containing the installation ID for the `capralifecycle` org.
 
-The Lambda reads these at runtime via its IAM role. Locally, the collector reads them via your AWS profile — no PAT or env var is involved for GitHub.
+The target organisation is provided via the `GITHUB_APP_ORG` environment variable (Lambda: set by the CDK stack; CLI: defaults to `capralifecycle`). At startup the collector looks up the installation for that org via `GET /orgs/{org}/installation` using an App JWT signed with the private key, and uses the returned installation ID for all subsequent API calls. Adding or reinstalling the App on the org does not require any secret change — the next run discovers the new installation ID automatically.
 
-To populate the two secrets for the first time (or to update any non-PEM field), run:
+The Lambda reads the secret at runtime via its IAM role. Locally, the collector reads it via your AWS profile — no PAT or env var is involved for GitHub auth itself.
+
+To populate `appId` (for first-time setup or after re-registering the App), run:
 
 ```shell
 cd packages/infrastructure
@@ -161,7 +162,7 @@ The App's private key is a long-lived credential that can mint tokens for every 
    ```
    This reads the existing secret JSON, replaces only the `privateKey` field, and writes it back to Secrets Manager
 3. **Verify.**
-   Redeploy (or wait for the next scheduled collector run) and check CloudWatch logs for the `[github-auth] using GitHub App installation (appId=…, installationId=…)` line and a successful snapshot write.
+   Redeploy (or wait for the next scheduled collector run) and check CloudWatch logs for the `[github-auth] using GitHub App installation (appId=…, org=…, installationId=…)` line and a successful snapshot write.
 4. **Revoke the old key.**
    Back in the App's "Private keys" settings, delete the old key.
 5. **Delete the local PEM.**
