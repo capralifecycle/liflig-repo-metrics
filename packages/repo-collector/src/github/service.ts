@@ -7,8 +7,8 @@ import type { LimitFunction } from "p-limit"
 import pLimit from "p-limit"
 import type { CacheProvider } from "../cache"
 import type { Config } from "../config"
-import type { GitHubTokenProvider } from "./token"
-import { GitHubTokenCliProvider } from "./token"
+import type { GitHubAuthProvider } from "./token"
+import { loadGitHubAppProviderFromSecrets } from "./token"
 import type {
   RenovateDependencyDashboardIssue,
   VulnerabilityAlert,
@@ -109,14 +109,14 @@ interface GitHubServiceProps {
   config: Config
   octokit: Octokit
   cache: CacheProvider
-  tokenProvider: GitHubTokenProvider
+  tokenProvider: GitHubAuthProvider
 }
 
 export class GitHubService {
   private config: Config
   public octokit: Octokit
   private cache: CacheProvider
-  private tokenProvider: GitHubTokenProvider
+  private tokenProvider: GitHubAuthProvider
   private readonly semaphore: LimitFunction
 
   public constructor(props: GitHubServiceProps) {
@@ -502,10 +502,10 @@ export class GitHubService {
 
 async function createOctokit(
   config: Config,
-  tokenProvider: GitHubTokenProvider,
+  tokenProvider: GitHubAuthProvider,
 ) {
   return new Octokit({
-    auth: await tokenProvider.getToken(),
+    ...(await tokenProvider.getOctokitAuthOptions()),
     request: {
       agent: config.agent,
     },
@@ -515,13 +515,14 @@ async function createOctokit(
 interface CreateGitHubServiceProps {
   config: Config
   cache: CacheProvider
-  tokenProvider?: GitHubTokenProvider
+  tokenProvider?: GitHubAuthProvider
 }
 
 export async function createGitHubService(
   props: CreateGitHubServiceProps,
 ): Promise<GitHubService> {
-  const tokenProvider = props.tokenProvider ?? new GitHubTokenCliProvider()
+  const tokenProvider =
+    props.tokenProvider ?? (await loadGitHubAppProviderFromSecrets())
 
   return new GitHubService({
     config: props.config,

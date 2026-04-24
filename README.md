@@ -91,7 +91,10 @@ To run repo-metrics locally, we must provide a data file to the webapp. This fil
 
 This approach downloads data from remote sources to the local file system, then processes it into a webapp friendly format.
 
-Requires environment variables `GITHUB_TOKEN`, `SNYK_TOKEN`, and `SONARCLOUD_TOKEN` to be set.
+Requires:
+
+- Active AWS credentials for `liflig-incubator` (used to fetch the GitHub App credentials from Secrets Manager — see [API Key setup](#api-key-setup)).
+- Environment variables `SNYK_TOKEN` and `SONARCLOUD_TOKEN`.
 
 ```shell
 $ task update-local-data
@@ -118,11 +121,53 @@ Open local server at: <http://localhost:3000>
 
 ## API Key setup
 
-Set the following environment variables (e.g., via `.envrc`):
+### GitHub — GitHub App installation
 
-- `GITHUB_TOKEN`
+GitHub authentication uses a GitHub App (server-to-server auth with installation tokens), not a personal access token. The App is registered in the `capralifecycle` org and installed on the repos it should read.
+
+Credentials live in two AWS Secrets Manager secrets (region `eu-west-1`, account `liflig-incubator`):
+
+- `/incub/repo-metrics/github-app` — JSON `{ appId, privateKey }` — the App identity, shared across all installations.
+- `/incub/repo-metrics/github-app-install-capralifecycle` — plain string containing the installation ID for the `capralifecycle` org.
+
+The Lambda reads these at runtime via its IAM role. Locally, the collector reads them via your AWS profile — no PAT or env var is involved for GitHub.
+
+To populate the two secrets for the first time (or to update any non-PEM field), run:
+
+```shell
+cd packages/infrastructure
+bun load-secrets.ts
+```
+
+The PEM is handled separately — see [Rotating the GitHub App private key](#rotating-the-github-app-private-key) below.
+
+### Snyk & SonarCloud — environment variables
+
+Set the following in `.envrc`:
+
 - `SNYK_TOKEN`
 - `SONARCLOUD_TOKEN`
+
+## Rotating the GitHub App private key
+
+The App's private key is a long-lived credential that can mint tokens for every installation of the App. GitHub supports up to two active private keys per App, so rotation is zero-downtime. To rotate the private key on suspected compromise:
+
+1. **Generate a new key on GitHub.**
+   GitHub → `capralifecycle` org → Settings → Developer Settings → `Liflig Repo Metrics` → "Private keys" → "Generate a private key" (downloads a `.pem`).
+2. **Upload it to Secrets Manager.**
+   From the repo root, with AWS credentials for `liflig-incubator`:
+   ```shell
+   task rotate-github-app-pem PEM=./downloaded-key.pem
+   ```
+   This reads the existing secret JSON, replaces only the `privateKey` field, and writes it back to Secrets Manager
+3. **Verify.**
+   Redeploy (or wait for the next scheduled collector run) and check CloudWatch logs for the `[github-auth] using GitHub App installation (appId=…, installationId=…)` line and a successful snapshot write.
+4. **Revoke the old key.**
+   Back in the App's "Private keys" settings, delete the old key.
+5. **Delete the local PEM.**
+   `rm downloaded-key.pem`
+
+The App ID and installation IDs do **not** need to be rotated — they only change if you re-register the App or if an org uninstalls and reinstalls it.
 
 ## Deployment
 

@@ -2,7 +2,7 @@ import { SecretsManager } from "@aws-sdk/client-secrets-manager"
 import { Temporal } from "@js-temporal/polyfill"
 import type { Handler } from "aws-lambda"
 import { isWorkingDay } from "./dates"
-import type { GitHubTokenProvider } from "./github/token"
+import { loadGitHubAppProviderFromSecrets } from "./github/token"
 import {
   formatReportData,
   generateMessage,
@@ -41,16 +41,6 @@ function requireEnv(name: string): string {
   return result
 }
 
-async function getGithubTokenProvider(): Promise<GitHubTokenProvider> {
-  const githubTokenSecretId = requireEnv("GITHUB_TOKEN_SECRET_ID")
-  const githubToken = (await getSecretValue(githubTokenSecretId)).token
-
-  return {
-    getToken: () => Promise.resolve(githubToken),
-    markInvalid: () => Promise.resolve(),
-  }
-}
-
 async function getSnykTokenProvider(): Promise<SnykTokenProvider> {
   const snykTokenSecretId = requireEnv("SNYK_TOKEN_SECRET_ID")
   const snykToken = (await getSecretValue(snykTokenSecretId)).token
@@ -84,7 +74,7 @@ export const collectHandler: Handler = async () => {
   console.log("Collecting data")
   await collect(
     snapshotsRepository,
-    await getGithubTokenProvider(),
+    await loadGitHubAppProviderFromSecrets(),
     await getSnykTokenProvider(),
     await getSonarCloudTokenProvider(),
   )

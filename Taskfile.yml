@@ -54,8 +54,7 @@ tasks:
 
   clean-all:
     desc: Clean project and dependencies
-    deps:
-      [infra.clean, webapp.clean, lambdas.clean, types.clean]
+    deps: [infra.clean, webapp.clean, lambdas.clean, types.clean]
     cmds:
       - rm -rf node_modules
 
@@ -125,6 +124,22 @@ tasks:
   infra.clean:
     dir: "{{.infra}}"
     cmd: rm -rf cdk.out
+
+  rotate-github-app-pem:
+    desc: "Rotates the GitHub App private key from a PEM file"
+    cmds:
+      - |
+        test -f "{{.PEM}}" || (echo "PEM=<path> required" && exit 1)
+        # Read current secret, merge in the new privateKey, write back
+        aws secretsmanager get-secret-value \
+          --region eu-west-1 \
+          --secret-id /incub/repo-metrics/github-app \
+          --query SecretString --output text \
+        | jq --rawfile pk "{{.PEM}}" '. + {privateKey: $pk}' \
+        | aws secretsmanager put-secret-value \
+            --region eu-west-1 \
+            --secret-id /incub/repo-metrics/github-app \
+            --secret-string file:///dev/stdin
 
   ################################
   # lambdas
