@@ -5,6 +5,7 @@ export interface Column<T> {
   headerIcon?: React.ReactNode
   subheader?: string
   subheaderTitle?: string
+  width?: string
   render: (value: T, isExpanded: boolean) => React.ReactNode
   sortOn?: (value: T) => string | number | undefined
 }
@@ -89,13 +90,14 @@ function Table<T extends object>({ columns, data, rowKey }: Props<T>) {
       : [...data].sort(compareValues(valueMapperForSorting, sortState.sortAsc))
 
   return (
-    <table style={{ width: "100%" }}>
+    <table style={{ width: "100%", tableLayout: "fixed" }}>
       <thead>
         <tr>
           {rowKey && <th className="expand-col" />}
           {columns.map((it) => (
             <th
               key={columnKey(it)}
+              style={it.width ? { width: it.width } : undefined}
               onClick={() =>
                 it.sortOn ? toggleSortState(columnKey(it)) : undefined
               }
