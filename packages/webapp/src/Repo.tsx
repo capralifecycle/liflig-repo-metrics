@@ -34,6 +34,7 @@ export const repoColumns = (props: {
     {
       header: "Repo",
       headerIcon: <GitHubIcon />,
+      width: "18%",
       sortOn: (repo) => {
         return repo.name.toLowerCase()
       },
@@ -52,6 +53,7 @@ export const repoColumns = (props: {
       header: "Avhengigheter",
       subheader: "Renovate",
       headerIcon: <RenovateIcon />,
+      width: "22%",
       sortOn: (repo) =>
         repo.metrics.github.availableUpdates
           ?.flatMap((category) =>
@@ -138,6 +140,7 @@ export const repoColumns = (props: {
     {
       header: "PRs",
       headerIcon: <PrIcon />,
+      width: "22%",
       sortOn: (repo) =>
         repo.metrics.github.prs.filter((it) => !isBotPr(it)).length,
       render: (repo, isExpanded) => {
@@ -154,6 +157,7 @@ export const repoColumns = (props: {
     {
       header: "Bot PR",
       headerIcon: <PrIcon />,
+      width: "18%",
       sortOn: (repo) =>
         repo.metrics.github.prs.filter((it) => isBotPr(it)).length,
       render: (repo, isExpanded) => {
@@ -171,6 +175,7 @@ export const repoColumns = (props: {
       header: "Sårbarheter",
       subheader: "GitHub",
       headerIcon: <SecurityIcon />,
+      width: "9%",
       sortOn: (repo) => repo.metrics.github.vulnerabilityAlerts.length,
       render: (repo, isExpanded) => {
         const githubVulAlerts = repo.metrics.github.vulnerabilityAlerts
@@ -219,6 +224,7 @@ export const repoColumns = (props: {
       subheader: "Snyk (C/H/M/L)",
       subheaderTitle: "Critical / High / Medium / Low",
       headerIcon: <SnykIcon />,
+      width: "7%",
       sortOn: (repo) => repo.metrics.snyk?.totalIssues,
       render: (repo, isExpanded) => {
         const snyk = repo.metrics.snyk
@@ -265,6 +271,7 @@ export const repoColumns = (props: {
       header: "Testdekning",
       subheader: "SonarCloud",
       headerIcon: <SonarCloudIcon />,
+      width: "4%",
       sortOn: (repo) =>
         repo.metrics.sonarCloud.testCoverage
           ? Number(repo.metrics.sonarCloud.testCoverage)
