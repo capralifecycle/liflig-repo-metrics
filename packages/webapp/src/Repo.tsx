@@ -100,7 +100,7 @@ export const repoColumns = (props: {
                 </div>
               )}
             {!renovateEnabled ? (
-              <span className="state-missing">Mangler Renovate</span>
+              <span className="state-missing" title="Ingen data">—</span>
             ) : (showDepList || isExpanded) && availableUpdates.length > 0 ? (
               <ul className="detail-list">
                 {availableUpdates.map((available, i) => (
@@ -228,7 +228,7 @@ export const repoColumns = (props: {
       sortOn: (repo) => repo.metrics.snyk?.totalIssues,
       render: (repo, isExpanded) => {
         const snyk = repo.metrics.snyk
-        if (snyk == null) return <span className="state-missing">Mangler Snyk</span>
+        if (snyk == null) return <span className="state-missing" title="Ingen data">—</span>
         if (snyk.totalIssues === 0) return <span className="state-ok">Ingen</span>
 
         const hasVulSearch = filterVulName !== ""
@@ -284,7 +284,7 @@ export const repoColumns = (props: {
             {repo.metrics.sonarCloud.testCoverage}
           </span>
         ) : (
-          <span className="state-missing">Mangler testdekning</span>
+          <span className="state-missing" title="Ingen data">—</span>
         )
       },
     },
