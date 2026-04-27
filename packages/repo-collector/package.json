@@ -29,7 +29,7 @@
     "@liflig/repo-metrics-repo-collector-types": "workspace:*",
     "@octokit/auth-app": "^8.2.0",
     "@octokit/rest": "^22.0.1",
-    "ajv": "8.18.0",
+    "ajv": "8.20.0",
     "axios": "1.15.2",
     "date-holidays": "3.27.0",
     "js-yaml": "4.1.1",
