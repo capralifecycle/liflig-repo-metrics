@@ -7,7 +7,7 @@
     "snapshots": "rm -rf cdk.out __snapshots__ && IS_SNAPSHOT=true cdk synth && cdk-create-snapshots"
   },
   "devDependencies": {
-    "@liflig/cdk": "3.26.4",
+    "@liflig/cdk": "3.26.6",
     "@liflig/cdk-cloudfront-auth": "1.10.5",
     "@liflig/load-secrets": "1.1.144",
     "@types/node": "24.12.2",
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@capraconsulting/webapp-deploy-lambda": "2.5.93",
-    "aws-cdk-lib": "2.250.0",
+    "aws-cdk-lib": "2.251.0",
     "constructs": "10.6.0"
   }
 }
