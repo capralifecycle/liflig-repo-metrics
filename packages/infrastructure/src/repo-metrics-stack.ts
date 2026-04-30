@@ -217,19 +217,19 @@ export class RepoMetricsStack extends cdk.Stack {
       timeout: cdk.Duration.minutes(10),
     })
 
-    const executionSuccessesLast12Hours = stateMachine.metricSucceeded({
+    const executionSuccessesLast6Hours = stateMachine.metricSucceeded({
       statistic: cw.Stats.SUM,
-      period: Duration.hours(12),
-      label: "Repo metrics state machine successes last 12 hours",
+      period: Duration.hours(6),
+      label: "Repo metrics state machine successes last 6 hours",
     })
 
     const alarm = new cw.Alarm(this, "StateMachineExecutionFailureAlarm", {
       alarmDescription:
-        "Enter alarm state when state machine has not succeeded in the last 12 hours.",
+        "Enter alarm state when state machine has not succeeded in the last 6 hours.",
       comparisonOperator: cw.ComparisonOperator.LESS_THAN_THRESHOLD,
       threshold: 1,
       evaluationPeriods: 1,
-      metric: executionSuccessesLast12Hours,
+      metric: executionSuccessesLast6Hours,
     })
 
     alarm.addAlarmAction(corePlatform.slackWarningsAction)
@@ -238,7 +238,6 @@ export class RepoMetricsStack extends cdk.Stack {
     // State machine schedule
     new events.Rule(this, "RepoMetricsSchedule", {
       schedule: events.Schedule.cron({
-        hour: "0/6",
         minute: "0",
       }),
       targets: [new eventstargets.SfnStateMachine(stateMachine)],

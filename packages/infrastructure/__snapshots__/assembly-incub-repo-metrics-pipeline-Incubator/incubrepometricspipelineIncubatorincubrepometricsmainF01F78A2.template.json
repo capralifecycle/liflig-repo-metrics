@@ -2992,13 +2992,13 @@
             "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackwarningstopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
-        "AlarmDescription": "Enter alarm state when state machine has not succeeded in the last 12 hours.",
+        "AlarmDescription": "Enter alarm state when state machine has not succeeded in the last 6 hours.",
         "ComparisonOperator": "LessThanThreshold",
         "EvaluationPeriods": 1,
         "Metrics": [
           {
             "Id": "m1",
-            "Label": "Repo metrics state machine successes last 12 hours",
+            "Label": "Repo metrics state machine successes last 6 hours",
             "MetricStat": {
               "Metric": {
                 "Dimensions": [
@@ -3012,7 +3012,7 @@
                 "MetricName": "ExecutionsSucceeded",
                 "Namespace": "AWS/States"
               },
-              "Period": 43200,
+              "Period": 21600,
               "Stat": "Sum"
             },
             "ReturnData": true
@@ -3032,7 +3032,7 @@
     "RepoMetricsSchedule10A365C7": {
       "Type": "AWS::Events::Rule",
       "Properties": {
-        "ScheduleExpression": "cron(0 0/6 * * ? *)",
+        "ScheduleExpression": "cron(0 * * * ? *)",
         "State": "ENABLED",
         "Targets": [
           {
