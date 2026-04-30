@@ -24,7 +24,7 @@ subgraph Repo Metrics
     SonarCloud
   end
 
-  subgraph "Data Processing (state machine, runs every 6h)"
+  subgraph "Data Processing (state machine, runs hourly)"
     subgraph Collection
       collector(Lambda: Collector)
       secrets(Secrets Manager)
