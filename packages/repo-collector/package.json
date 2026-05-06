@@ -30,7 +30,7 @@
     "@octokit/auth-app": "^8.2.0",
     "@octokit/rest": "^22.0.1",
     "ajv": "8.20.0",
-    "axios": "1.15.2",
+    "axios": "1.16.0",
     "date-holidays": "3.27.0",
     "js-yaml": "4.1.1",
     "lodash-es": "4.18.1",
