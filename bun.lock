@@ -17,7 +17,7 @@
         "constructs": "10.6.0",
       },
       "devDependencies": {
-        "@liflig/cdk": "3.26.16",
+        "@liflig/cdk": "3.26.17",
         "@liflig/cdk-cloudfront-auth": "1.10.7",
         "@liflig/load-secrets": "1.1.153",
         "@types/node": "24.12.4",
@@ -280,7 +280,7 @@
 
     "@js-temporal/polyfill": ["@js-temporal/polyfill@0.5.1", "", { "dependencies": { "jsbi": "^4.3.0" } }, "sha512-hloP58zRVCRSpgDxmqCWJNlizAlUgJFqG2ypq79DCvyv9tHjRYMDOcPFjzfl/A1/YxDvRCZz8wvZvmapQnKwFQ=="],
 
-    "@liflig/cdk": ["@liflig/cdk@3.26.16", "", { "dependencies": { "@capraconsulting/webapp-deploy-lambda": "2.5.101", "aws-jwt-verify": "5.1.1" }, "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" }, "bin": { "cdk-create-snapshots": "lib/bin/cdk-create-snapshots.js", "fetch-pipeline-variables": "lib/bin/fetch-pipeline-variables.js" } }, "sha512-txPxoghdQ4K4jAXwbPbk3XrzgeXCxTJJCa1NfZDCXsK3sAw4uBebfIf977mXuH01VVlVEki5VUMNJncIIm6VHA=="],
+    "@liflig/cdk": ["@liflig/cdk@3.26.17", "", { "dependencies": { "@capraconsulting/webapp-deploy-lambda": "2.5.102", "aws-jwt-verify": "5.1.1" }, "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" }, "bin": { "cdk-create-snapshots": "lib/bin/cdk-create-snapshots.js", "fetch-pipeline-variables": "lib/bin/fetch-pipeline-variables.js" } }, "sha512-ZGE8JJo9GpnSkdjZ0cyskRNHCtJ7Adtu/emZoe2Dannyb7ckAPDZtBTSZfS9IOuWSjywnA95K1wtEkpuTG0yYA=="],
 
     "@liflig/cdk-cloudfront-auth": ["@liflig/cdk-cloudfront-auth@1.10.7", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0" } }, "sha512-WonbrRfzJBRFfkzKiLYG91YXTM4oT38zk3TLTwK4KyaezXEZE31PSXsOLgNiASgj4h9JXVqtioZgy5UH+s1vbg=="],
 
@@ -975,8 +975,6 @@
     "@aws-sdk/client-sts/@smithy/fetch-http-handler": ["@smithy/fetch-http-handler@5.4.2", "", { "dependencies": { "@smithy/core": "^3.24.2", "@smithy/types": "^4.14.1", "tslib": "^2.6.2" } }, "sha512-3wF40g8OOCA5BnwQUvwtzZqYBbWWftDjpAlWIUo6Yld3ZzJaMAKqg7MWQBPjE8oLaqvZQUE7tVGlZPsae6A4bQ=="],
 
     "@aws-sdk/client-sts/@smithy/node-http-handler": ["@smithy/node-http-handler@4.7.2", "", { "dependencies": { "@smithy/core": "^3.24.2", "@smithy/types": "^4.14.1", "tslib": "^2.6.2" } }, "sha512-EdksTZ8UXYxGUgQ4mpIKrHoaj9WVGsp66TpZuixLAz1Jex8YDLnS4RH9ktGED5aOpN0OJlEtrsC9IGt76go1eA=="],
-
-    "@liflig/cdk/@capraconsulting/webapp-deploy-lambda": ["@capraconsulting/webapp-deploy-lambda@2.5.101", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" } }, "sha512-vL0EkI5cQiQlyHjZn0EY6bVkJMh3ccCMyYivHXc1ndAY6zi5+oqCqsrA3BQSrD2Qej43YTDD5kMgWTegKoQ2jg=="],
 
     "@liflig/load-secrets/@aws-sdk/client-secrets-manager": ["@aws-sdk/client-secrets-manager@3.1046.0", "", { "dependencies": { "@aws-crypto/sha256-browser": "5.2.0", "@aws-crypto/sha256-js": "5.2.0", "@aws-sdk/core": "^3.974.9", "@aws-sdk/credential-provider-node": "^3.972.40", "@aws-sdk/middleware-host-header": "^3.972.11", "@aws-sdk/middleware-logger": "^3.972.10", "@aws-sdk/middleware-recursion-detection": "^3.972.12", "@aws-sdk/middleware-user-agent": "^3.972.39", "@aws-sdk/region-config-resolver": "^3.972.14", "@aws-sdk/types": "^3.973.8", "@aws-sdk/util-endpoints": "^3.996.9", "@aws-sdk/util-user-agent-browser": "^3.972.11", "@aws-sdk/util-user-agent-node": "^3.973.25", "@smithy/core": "^3.24.1", "@smithy/fetch-http-handler": "^5.4.1", "@smithy/node-http-handler": "^4.7.1", "@smithy/types": "^4.14.1", "tslib": "^2.6.2" } }, "sha512-VrF+bQQYCg9HaBZ9N1zRGCze8LDBMgcxqvOGPrNUGbFFht8s2F06ZGa/r7JqjmfYjG1DAU7tIvsjeRBGfqoYEA=="],
 
