@@ -4,9 +4,9 @@ import type { Handler } from "aws-lambda"
 import { isWorkingDay } from "./dates"
 import { loadGitHubAppProviderFromSecrets } from "./github/token"
 import {
-  formatReportData,
-  generateMessage,
-  sendSlackMessage,
+  buildPerTeamMessages,
+  buildReportData,
+  sendSlackMessages,
 } from "./reporter/reporter"
 import { collect } from "./snapshots/collect"
 import { S3SnapshotsRepository } from "./snapshots/snapshots-repository"
@@ -127,17 +127,12 @@ export const reportHandler: Handler = async () => {
 
   const dataBucketName = requireEnv("DATA_BUCKET_NAME")
   const slackWebhookUrl = requireEnv("SLACK_WEBHOOK_URL")
+  const webappUrl = requireEnv("WEBAPP_URL")
 
   const snapshotsRepository = new S3SnapshotsRepository(dataBucketName)
 
   const snapshotData = await snapshotsRepository.get()
-  const details = await formatReportData(snapshotData)
-
-  if (details == null) {
-    console.log("No data found to generate details")
-    return
-  }
-
-  const message = generateMessage(details)
-  await sendSlackMessage(slackWebhookUrl, message)
+  const reportData = buildReportData(snapshotData, Temporal.Now.instant())
+  const messages = buildPerTeamMessages(reportData, webappUrl)
+  await sendSlackMessages(slackWebhookUrl, messages)
 }

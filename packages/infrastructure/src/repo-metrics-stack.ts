@@ -174,6 +174,7 @@ export class RepoMetricsStack extends cdk.Stack {
         SLACK_WEBHOOK_URL: reporterSlackWebhookUrlSecret
           .secretValueFromJson("url")
           .toString(),
+        WEBAPP_URL: `https://${distribution.distributionDomainName}`,
         // Used to update the lambda configuration when the secret value is updated
         // in Secrets Manager
         SERIAL: "0",
