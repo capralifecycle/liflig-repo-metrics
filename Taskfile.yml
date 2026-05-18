@@ -159,6 +159,7 @@ tasks:
 
   lambdas.report-locally:
     dir: "{{.lambdas}}"
+    interactive: true
     cmd: bun run report-locally
 
   lambdas.serve-local-data:
