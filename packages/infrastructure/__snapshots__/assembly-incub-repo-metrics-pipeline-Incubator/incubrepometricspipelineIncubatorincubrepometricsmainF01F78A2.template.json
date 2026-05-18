@@ -2592,6 +2592,20 @@
                 ]
               ]
             },
+            "WEBAPP_URL": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Fn::GetAtt": [
+                      "Distribution830FAC52",
+                      "DomainName"
+                    ]
+                  }
+                ]
+              ]
+            },
             "SERIAL": "0"
           }
         },
