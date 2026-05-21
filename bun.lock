@@ -68,7 +68,7 @@
       "name": "@liflig/repo-metrics-webapp",
       "version": "0.0.0-development",
       "dependencies": {
-        "date-fns": "4.1.0",
+        "date-fns": "4.2.1",
         "react": "19.2.6",
         "react-dom": "19.2.6",
       },
@@ -555,7 +555,7 @@
 
     "date-easter": ["date-easter@1.0.3", "", {}, "sha512-aOViyIgpM4W0OWUiLqivznwTtuMlD/rdUWhc5IatYnplhPiWrLv75cnifaKYhmQwUBLAMWLNG4/9mlLIbXoGBQ=="],
 
-    "date-fns": ["date-fns@4.1.0", "", {}, "sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg=="],
+    "date-fns": ["date-fns@4.2.1", "", {}, "sha512-37RhSdxaG1suen6VDCza6rNrQfooyQh57HFVPwQGEq2QWliVLzPQZ8Oa017weOu+HZCnzI7N3Pf/wyoBKfEqrA=="],
 
     "date-holidays": ["date-holidays@3.29.0", "", { "dependencies": { "date-holidays-parser": "^3.4.7", "js-yaml": "^4.1.1", "lodash": "^4.18.1", "prepin": "^1.0.3" }, "bin": { "holidays2json": "scripts/holidays2json.cjs" } }, "sha512-js8GcyMj9m82CNpgy4FddMqCrxSNj13mOr9GzCPg3Yj06B+QtmDuxYXk32FPTpR2hfH4khVPw58yWrF8ltOoGQ=="],
 
