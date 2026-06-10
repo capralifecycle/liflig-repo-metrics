@@ -2,7 +2,7 @@
 
 This package produces 3 lambdas:
 
-1. A collector that dumps github and snyk info to a s3 data bucket as new files
+1. A collector that dumps github info to a s3 data bucket as new files
 2. An aggregator that appends the collected data onto a large json file in a webapp data bucket.  
    It also invalidates the CloudFront distribution for the data read by the frontend.
 3. A reporter that notifies slack with Repo-Metrics data
@@ -37,10 +37,6 @@ The collector and aggregator run sequentially in a Step Functions state machine 
 | Administration                           | ?      |
 | Members                                  | ?      |
 | Organization dependabot secrets          | ?      |
-
-## Snyk
-
-?
 
 ## SonarCloud
 

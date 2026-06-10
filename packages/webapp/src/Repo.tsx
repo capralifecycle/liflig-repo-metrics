@@ -1,7 +1,7 @@
 import type { Metrics, Repo } from "@liflig/repo-metrics-repo-collector-types"
 import type * as React from "react"
 import { Highlight } from "./Highlight"
-import { GitHubIcon, PrIcon, RenovateIcon, SecurityIcon, SnykIcon, SonarCloudIcon } from "./Icons"
+import { GitHubIcon, PrIcon, RenovateIcon, SecurityIcon, SonarCloudIcon } from "./Icons"
 import { PrColumnDetails } from "./PrColumnDetails"
 import { isBotPr } from "./prUtils"
 import type { Column } from "./Table"
@@ -11,7 +11,6 @@ export const repoColumns = (props: {
   showBotPrList: boolean
   showDepList: boolean
   showVulGithubList: boolean
-  showVulSnykList: boolean
   showOrgName: boolean
   showRenovateDays: boolean
   filterRepoName: string
@@ -23,7 +22,6 @@ export const repoColumns = (props: {
     showBotPrList,
     showDepList,
     showVulGithubList,
-    showVulSnykList,
     showOrgName,
     showRenovateDays,
     filterRepoName,
@@ -221,51 +219,11 @@ export const repoColumns = (props: {
     },
     {
       header: "Sårbarheter",
-      subheader: "Snyk (C/H/M/L)",
-      subheaderTitle: "Critical / High / Medium / Low",
-      headerIcon: <SnykIcon />,
+      subheader: "Aikido",
       width: "7%",
-      sortOn: (repo) => repo.metrics.snyk?.totalIssues,
-      render: (repo, isExpanded) => {
-        const snyk = repo.metrics.snyk
-        if (snyk == null) return <span className="state-missing" title="Ingen data">—</span>
-        if (snyk.totalIssues === 0) return <span className="state-ok">Ingen</span>
-
-        const hasVulSearch = filterVulName !== ""
-        const matchingProjects = hasVulSearch
-          ? snyk.vulnerableProjects.filter((p) =>
-              p.path.toLowerCase().includes(filterVulName.toLowerCase()),
-            )
-          : []
-        const showDetails = showVulSnykList || isExpanded || matchingProjects.length > 0
-        const projectsToShow = showVulSnykList || isExpanded
-          ? snyk.vulnerableProjects
-          : matchingProjects
-
-        return showDetails && projectsToShow.length > 0 ? (
-          <ul className="snyk-project-list">
-            {projectsToShow.map((it, idx) => (
-              <li key={it.path} className="snyk-project-item">
-                <span className="detail-index">{idx + 1}</span>
-                <a href={it.browseUrl}><Highlight text={it.path} search={filterVulName} /></a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <span className="snyk-counts">
-            <SnykItem
-              value={snyk.countsBySeverity.critical ?? 0}
-              type="critical"
-            />
-            <span className="snyk-sep">/</span>
-            <SnykItem value={snyk.countsBySeverity.high} type="high" />
-            <span className="snyk-sep">/</span>
-            <SnykItem value={snyk.countsBySeverity.medium} type="medium" />
-            <span className="snyk-sep">/</span>
-            <SnykItem value={snyk.countsBySeverity.low} type="low" />
-          </span>
-        )
-      },
+      render: (_repo, _isExpanded) => (
+        <span className="state-missing" title="Ingen data">—</span>
+      ),
     },
     {
       header: "Testdekning",
@@ -330,25 +288,7 @@ export function isActionableRepo(repo: Metrics): boolean {
 }
 
 export function isVulnerableRepo(repo: Metrics): boolean {
-  return (
-    repo.github.vulnerabilityAlerts.length > 0 ||
-    (repo.snyk?.totalIssues ?? 0) > 0
-  )
-}
-
-type SnykType = "critical" | "high" | "medium" | "low"
-
-function snykStyle(type: SnykType): React.CSSProperties {
-  switch (type) {
-    case "low":
-      return { color: "var(--color-snyk-low)" }
-    case "medium":
-      return { color: "var(--color-snyk-medium)" }
-    case "high":
-      return { color: "var(--color-snyk-high)", fontWeight: "bold" }
-    case "critical":
-      return { color: "var(--color-snyk-critical)", fontWeight: "bold" }
-  }
+  return repo.github.vulnerabilityAlerts.length > 0
 }
 
 function coverageClass(coverage: string): string {
@@ -357,19 +297,6 @@ function coverageClass(coverage: string): string {
   if (val > 45) return "coverage-mid"
   return "coverage-low"
 }
-
-const SnykItem: React.FC<{
-  value: number
-  type: SnykType
-}> = ({ value, type }) => (
-  <span title={type}>
-    {value === 0 ? (
-      <span style={{ color: "var(--color-snyk-zero)" }}>{value}</span>
-    ) : (
-      <span style={snykStyle(type)}>{value}</span>
-    )}
-  </span>
-)
 
 const repoBaseUrl = (repo: Repo) =>
   `https://github.com/${repo.org}/${repo.name}`

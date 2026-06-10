@@ -23,17 +23,6 @@ const githubAppSecret: loadSecrets.Secret = {
   ],
 }
 
-const snykTokenSecret: loadSecrets.Secret = {
-  name: "snyk-token",
-  description: "Snyk token",
-  type: "json",
-  fields: [
-    {
-      key: "token",
-    },
-  ],
-}
-
 const sonarCloudTokenSecret: loadSecrets.Secret = {
   name: "sonarcloud-token",
   description: "SonarCloud token",
@@ -65,7 +54,6 @@ loadSecrets.loadSecretsCli({
       namePrefix: "/incub/repo-metrics/",
       secrets: [
         githubAppSecret,
-        snykTokenSecret,
         reporterSlackWebhookUrlSecret,
         slackPipelineNotificationWebhookUrl,
         sonarCloudTokenSecret,

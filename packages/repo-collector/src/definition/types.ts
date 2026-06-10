@@ -1,9 +1,6 @@
 import type { Permission } from "../github/types"
 
 export interface Definition {
-  snyk?: {
-    accountId: string
-  }
   github: {
     users: User[]
     teams: {
@@ -60,7 +57,6 @@ export interface DefinitionRepo {
   issues?: boolean
   wiki?: boolean
   teams?: RepoTeam[]
-  snyk?: boolean
   public?: boolean
   /**
    * Some external-defined entity being responsible for the repository.

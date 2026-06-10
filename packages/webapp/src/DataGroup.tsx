@@ -9,7 +9,6 @@ interface Props {
   showBotPrList: boolean
   showDepList: boolean
   showVulGithubList: boolean
-  showVulSnykList: boolean
   showOrgName: boolean
   sortByRenovateDays: boolean
   filterRepoName: string
@@ -23,7 +22,6 @@ export const DataGroup: React.FC<Props> = ({
   showBotPrList,
   showDepList,
   showVulGithubList,
-  showVulSnykList,
   showOrgName,
   sortByRenovateDays,
   filterRepoName,
@@ -65,7 +63,6 @@ export const DataGroup: React.FC<Props> = ({
             showBotPrList,
             showDepList,
             showVulGithubList,
-            showVulSnykList,
             showOrgName,
             showRenovateDays: sortByRenovateDays,
             filterRepoName,

@@ -2,7 +2,7 @@
 
 Repo Metrics collects, processes and presents various metrics related to GitHub repositories.
 
-- Collection: The collector lambda collects metrics from GitHub and supplementary services like SonarCloud and Snyk, and stores them in a file, `snapshot.json`.
+- Collection: The collector lambda collects metrics from GitHub and supplementary services like SonarCloud, and stores them in a file, `snapshot.json`.
 - Aggregation: `snapshot.json` is read by the aggregation lambda, its data processed into a format suitable for presentation, and stored in another file, `webapp.json`.
 - Reporting: `snapshot.json` is read by the reporter lambda, and the sum of current vulnerabilities is sent to Slack channel `#cals-dev-info`.
 - Presentation: `webapp.json` read by the webapp and presented at <https://d2799m9v6pw1zy.cloudfront.net/>.
@@ -20,7 +20,6 @@ subgraph Repo Metrics
 
   subgraph Sources
     GitHub
-    Snyk
     SonarCloud
   end
 
@@ -94,7 +93,7 @@ This approach downloads data from remote sources to the local file system, then 
 Requires:
 
 - Active AWS credentials for `liflig-incubator` (used to fetch the GitHub App credentials from Secrets Manager — see [API Key setup](#api-key-setup)).
-- Environment variables `SNYK_TOKEN` and `SONARCLOUD_TOKEN`.
+- Environment variable `SONARCLOUD_TOKEN`.
 
 ```shell
 $ task update-local-data
@@ -142,11 +141,10 @@ bun load-secrets.ts
 
 The PEM is handled separately — see [Rotating the GitHub App private key](#rotating-the-github-app-private-key) below.
 
-### Snyk & SonarCloud — environment variables
+### SonarCloud — environment variables
 
 Set the following in `.envrc`:
 
-- `SNYK_TOKEN`
 - `SONARCLOUD_TOKEN`
 
 ## Rotating the GitHub App private key

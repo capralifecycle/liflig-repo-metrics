@@ -1,17 +1,6 @@
 {
   "type": "object",
   "properties": {
-    "snyk": {
-      "type": "object",
-      "properties": {
-        "accountId": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "accountId"
-      ]
-    },
     "github": {
       "type": "object",
       "properties": {
@@ -247,9 +236,6 @@
           "items": {
             "$ref": "#/definitions/RepoTeam"
           }
-        },
-        "snyk": {
-          "type": "boolean"
         },
         "public": {
           "type": "boolean"

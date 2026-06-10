@@ -13,12 +13,12 @@
   --color-warning: #b45309;
   --color-danger: #c4320a;
 
-  /* Snyk severity scale */
-  --color-snyk-critical: #9b1d20;
-  --color-snyk-high: #c4320a;
-  --color-snyk-medium: #b45309;
-  --color-snyk-low: #6b7280;
-  --color-snyk-zero: #b0b0b0;
+  /* Aikido severity scale */
+  --color-aikido-critical: #9b1d20;
+  --color-aikido-high: #c4320a;
+  --color-aikido-medium: #b45309;
+  --color-aikido-low: #6b7280;
+  --color-aikido-zero: #b0b0b0;
 
   /* Coverage scale */
   --color-coverage-good: #1a7f37;
@@ -54,11 +54,11 @@
   --color-warning: #f0a050;
   --color-danger: #f08060;
 
-  --color-snyk-critical: #f08080;
-  --color-snyk-high: #f08060;
-  --color-snyk-medium: #f0a050;
-  --color-snyk-low: #8b95a5;
-  --color-snyk-zero: #666;
+  --color-aikido-critical: #f08080;
+  --color-aikido-high: #f08060;
+  --color-aikido-medium: #f0a050;
+  --color-aikido-low: #8b95a5;
+  --color-aikido-zero: #666;
 
   --color-coverage-good: #6fdd8b;
   --color-coverage-mid: #f0a050;

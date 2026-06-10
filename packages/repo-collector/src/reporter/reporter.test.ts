@@ -1,5 +1,6 @@
 import { Temporal } from "@js-temporal/polyfill"
 import type {
+  GitHubVulnerabilityAlert,
   SnapshotData,
   SnapshotMetrics,
 } from "@liflig/repo-metrics-repo-collector-types"
@@ -25,54 +26,74 @@ function repo(overrides: Partial<SnapshotMetrics> = {}): SnapshotMetrics {
       vulnerabilityAlerts: [],
       renovateDependencyDashboardIssue: null,
     },
-    snyk: { projects: [] },
     ...overrides,
   }
 }
 
-type SeverityInput = {
-  critical?: number
-  high: number
-  medium: number
-  low: number
-}
-
-function snykProject(
-  issueCountsBySeverity: SeverityInput,
-): SnapshotMetrics["snyk"]["projects"][number] {
+function ghAlert(
+  severity: GitHubVulnerabilityAlert["securityAdvisory"] extends null
+    ? never
+    : NonNullable<GitHubVulnerabilityAlert["securityAdvisory"]>["severity"],
+): GitHubVulnerabilityAlert {
   return {
-    name: "p",
-    id: "1",
-    created: "",
-    origin: "",
-    type: "",
-    testFrequency: "",
-    totalDependencies: 0,
-    browseUrl: "",
-    issueCountsBySeverity,
+    state: "OPEN",
+    dismissReason: null,
+    vulnerableManifestFilename: "",
+    vulnerableManifestPath: "",
+    vulnerableRequirements: null,
+    securityAdvisory: {
+      description: "",
+      identifiers: [],
+      references: [],
+      severity,
+    },
+    securityVulnerability: null,
   }
 }
 
-function repoWithSnyk(
-  overrides: Partial<SnapshotMetrics> & { severities: SeverityInput },
+function repoWithGhVulns(
+  overrides: Partial<SnapshotMetrics> & {
+    severities: ("CRITICAL" | "HIGH" | "MODERATE" | "LOW")[]
+  },
 ): SnapshotMetrics {
   const { severities, ...rest } = overrides
-  return repo({ ...rest, snyk: { projects: [snykProject(severities)] } })
+  return repo({
+    ...rest,
+    github: {
+      orgName: "org",
+      repoName: "repo",
+      prs: [],
+      vulnerabilityAlerts: severities.map(ghAlert),
+      renovateDependencyDashboardIssue: null,
+    },
+  })
 }
 
 describe("countSeveritiesForRepo", () => {
-  test("sums Snyk severities", () => {
+  test("sums GitHub severities", () => {
     const result = countSeveritiesForRepo(
       repo({
-        snyk: {
-          projects: [
-            snykProject({ critical: 1, high: 2, medium: 3, low: 4 }),
-            snykProject({ high: 1, medium: 0, low: 0 }),
+        github: {
+          orgName: "org",
+          repoName: "repo",
+          prs: [],
+          renovateDependencyDashboardIssue: null,
+          vulnerabilityAlerts: [
+            ghAlert("CRITICAL"),
+            ghAlert("HIGH"),
+            ghAlert("HIGH"),
+            ghAlert("MODERATE"),
+            ghAlert("MODERATE"),
+            ghAlert("MODERATE"),
+            ghAlert("LOW"),
+            ghAlert("LOW"),
+            ghAlert("LOW"),
+            ghAlert("LOW"),
           ],
         },
       }),
     )
-    expect(result).toStrictEqual({ critical: 1, high: 3, medium: 3, low: 4 })
+    expect(result).toStrictEqual({ critical: 1, high: 2, medium: 3, low: 4 })
   })
 
   test("maps GitHub MODERATE to medium and ignores dismissed alerts", () => {
@@ -214,15 +235,15 @@ describe("buildReportData", () => {
     const snapshot: SnapshotData = {
       timestamp: now.toString(),
       metrics: [
-        repoWithSnyk({
+        repoWithGhVulns({
           repoId: "org/zeta",
           responsible: "team-b",
-          severities: { critical: 1, high: 0, medium: 0, low: 0 },
+          severities: ["CRITICAL"],
         }),
-        repoWithSnyk({
+        repoWithGhVulns({
           repoId: "org/alpha",
           responsible: "team-a",
-          severities: { high: 2, medium: 0, low: 0 },
+          severities: ["HIGH", "HIGH"],
         }),
         repo({ repoId: "org/clean", responsible: "team-c" }),
       ],
@@ -248,15 +269,26 @@ describe("buildPerTeamMessages", () => {
     const snapshot: SnapshotData = {
       timestamp: now.toString(),
       metrics: [
-        repoWithSnyk({
+        repoWithGhVulns({
           repoId: "org/a",
           responsible: "team-a",
-          severities: { critical: 1, high: 2, medium: 3, low: 4 },
+          severities: [
+            "CRITICAL",
+            "HIGH",
+            "HIGH",
+            "MODERATE",
+            "MODERATE",
+            "MODERATE",
+            "LOW",
+            "LOW",
+            "LOW",
+            "LOW",
+          ],
         }),
-        repoWithSnyk({
+        repoWithGhVulns({
           repoId: "org/b",
           responsible: "team-b",
-          severities: { high: 1, medium: 0, low: 0 },
+          severities: ["HIGH"],
         }),
       ],
     }
@@ -270,8 +302,6 @@ describe("buildPerTeamMessages", () => {
       "team-a — 🟥 1 · 🟧 2 · 🟨 3 · 🟦 4 · Sum 10",
     )
     expect(teamAMessage.blocks[0]).toMatchObject({ type: "header" })
-    // The snapshot section follows the header and includes the date+time
-    // and the team-filtered dashboard URL.
     const snapshotSection = teamAMessage.blocks[1]
     expect(snapshotSection).toMatchObject({ type: "section" })
     if (snapshotSection.type !== "section" || !snapshotSection.text)
@@ -286,15 +316,15 @@ describe("buildPerTeamMessages", () => {
     const snapshot: SnapshotData = {
       timestamp: now.toString(),
       metrics: [
-        repoWithSnyk({
+        repoWithGhVulns({
           repoId: "org/alpha",
           responsible: "team-a",
-          severities: { high: 2, medium: 3, low: 0 },
+          severities: ["HIGH", "HIGH", "MODERATE", "MODERATE", "MODERATE"],
         }),
-        repoWithSnyk({
+        repoWithGhVulns({
           repoId: "org/beta",
           responsible: "team-a",
-          severities: { critical: 1, high: 0, medium: 0, low: 0 },
+          severities: ["CRITICAL"],
         }),
       ],
     }
@@ -306,9 +336,6 @@ describe("buildPerTeamMessages", () => {
       .filter((b) => b.type === "section")
       .map((b) => b.text?.text ?? "")
 
-    // Test data: alpha has high=2, med=3 (no crit, no low); beta has crit=1.
-    // Expect three section bodies after the snapshot section: Critical, High, Medium.
-    // Low is omitted because no repo contributes to it.
     const critical = sectionTexts.find((t) => t.startsWith("🟥"))
     const high = sectionTexts.find((t) => t.startsWith("🟧"))
     const medium = sectionTexts.find((t) => t.startsWith("🟨"))
@@ -333,11 +360,10 @@ describe("buildPerTeamMessages", () => {
             orgName: "liflig",
             repoName: "liflig-logging",
             prs: [],
-            vulnerabilityAlerts: [],
+            vulnerabilityAlerts: [ghAlert("HIGH")],
             renovateDependencyDashboardIssue: null,
           },
           responsible: "team-a",
-          snyk: { projects: [snykProject({ high: 1, medium: 0, low: 0 })] },
         }),
       ],
     }
@@ -346,11 +372,9 @@ describe("buildPerTeamMessages", () => {
       "https://example/",
     )
     const json = JSON.stringify(message)
-    // Deep link filters to the repo AND opens the GitHub/Snyk vuln details
     expect(json).toContain(
-      "https://example/?filterRepoName=liflig-logging&showVulGithubList=true&showVulSnykList=true",
+      "https://example/?filterRepoName=liflig-logging&showVulGithubList=true",
     )
-    // Display label is just the repo name — no "liflig/" prefix in the bullet
     expect(json).toContain("|liflig-logging>")
     expect(json).not.toContain("|liflig/liflig-logging>")
   })

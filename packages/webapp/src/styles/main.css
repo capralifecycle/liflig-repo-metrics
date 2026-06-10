@@ -238,15 +238,15 @@ td:hover .renovate-logs-link {
   margin-inline-start: 1rem;
 }
 
-/* ── Snyk counts ── */
+/* ── Aikido counts ── */
 
-.snyk-counts {
+.aikido-counts {
   display: inline-flex;
   align-items: baseline;
   gap: 4px;
 }
 
-.snyk-sep {
+.aikido-sep {
   color: var(--color-secondary);
 }
 
@@ -319,14 +319,14 @@ td:hover .renovate-logs-link {
   white-space: nowrap;
 }
 
-.severity-critical { background: var(--color-badge-vuln-bg); color: var(--color-snyk-critical); }
-.severity-high { background: var(--color-badge-vuln-bg); color: var(--color-snyk-high); }
+.severity-critical { background: var(--color-badge-vuln-bg); color: var(--color-aikido-critical); }
+.severity-high { background: var(--color-badge-vuln-bg); color: var(--color-aikido-high); }
 .severity-moderate,
 .severity-medium { background: var(--color-badge-pr-bg); color: var(--color-warning); }
 .severity-low { background: var(--color-secondary); color: var(--color-mute); }
 
-/* Snyk project links in detail mode */
-.snyk-project-list {
+/* Aikido project links in detail mode */
+.aikido-project-list {
   list-style: none;
   margin: 8px 0 0;
   padding: 0;
@@ -335,7 +335,7 @@ td:hover .renovate-logs-link {
   gap: 1px;
 }
 
-.snyk-project-item {
+.aikido-project-item {
   font-size: 13px;
   padding: 3px 8px;
   border-radius: 4px;
@@ -344,7 +344,7 @@ td:hover .renovate-logs-link {
   gap: 6px;
 }
 
-.snyk-project-item:nth-child(odd) {
+.aikido-project-item:nth-child(odd) {
   background: var(--color-detail-bg);
 }
 

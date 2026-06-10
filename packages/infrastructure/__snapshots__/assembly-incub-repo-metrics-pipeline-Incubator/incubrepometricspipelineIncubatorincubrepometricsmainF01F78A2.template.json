@@ -2084,25 +2084,6 @@
                     {
                       "Ref": "AWS::Partition"
                     },
-                    ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/snyk-token-??????"
-                  ]
-                ]
-              }
-            },
-            {
-              "Action": [
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:DescribeSecret"
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition"
-                    },
                     ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/sonarcloud-token-??????"
                   ]
                 ]
@@ -2181,18 +2162,6 @@
               ]
             },
             "GITHUB_APP_ORG": "capralifecycle",
-            "SNYK_TOKEN_SECRET_ID": {
-              "Fn::Join": [
-                "",
-                [
-                  "arn:",
-                  {
-                    "Ref": "AWS::Partition"
-                  },
-                  ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/snyk-token"
-                ]
-              ]
-            },
             "SONARCLOUD_TOKEN_SECRET_ID": {
               "Fn::Join": [
                 "",
