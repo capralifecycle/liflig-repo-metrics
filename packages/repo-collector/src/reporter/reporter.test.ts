@@ -181,13 +181,6 @@ describe("findOldPrs", () => {
               updatedAt: old,
             },
             {
-              number: 3,
-              author: { login: "alice" },
-              title: "[Snyk] fix",
-              createdAt: old,
-              updatedAt: old,
-            },
-            {
               number: 4,
               author: { login: "alice" },
               title: "real work",
