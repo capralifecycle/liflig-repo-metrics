@@ -92,11 +92,8 @@ function daysBetween(from: Temporal.Instant, to: Temporal.Instant): number {
   return Math.floor(diffMs / (1000 * 60 * 60 * 24))
 }
 
-function isBotPr(pr: { author: string; title: string }): boolean {
-  return (
-    ["dependabot", "renovate"].includes(pr.author) ||
-    pr.title.startsWith("[Snyk]")
-  )
+function isBotPr(pr: { author: string }): boolean {
+  return ["dependabot", "renovate"].includes(pr.author)
 }
 
 export function findOldPrs(
@@ -110,7 +107,7 @@ export function findOldPrs(
 }[] {
   return metrics.github.prs.flatMap((pr) => {
     const author = pr.author.login
-    if (isBotPr({ author, title: pr.title })) return []
+    if (isBotPr({ author })) return []
     const ageDays = daysBetween(Temporal.Instant.from(pr.createdAt), now)
     if (ageDays < OLD_PR_DAYS_THRESHOLD) return []
     return [{ prNumber: pr.number, title: pr.title, author, ageDays }]
