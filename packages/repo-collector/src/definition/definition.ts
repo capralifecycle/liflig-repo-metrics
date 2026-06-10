@@ -14,7 +14,6 @@ export function getRepoId(orgName: string, repoName: string): string {
 }
 
 interface RawDefinition {
-  snyk?: { accountId: string }
   github: Definition["github"]
   customers: { name: string; systems: Project[] }[]
 }
@@ -32,7 +31,6 @@ function checkAgainstSchema(
 
 function normalizeDefinition(raw: RawDefinition): Definition {
   return {
-    snyk: raw.snyk,
     github: raw.github,
     projects: raw.customers.flatMap((customer) =>
       customer.systems.map((system) => ({

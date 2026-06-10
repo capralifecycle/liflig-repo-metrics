@@ -65,20 +65,6 @@ function totalOf(s: SeverityCounts): number {
   return s.critical + s.high + s.medium + s.low
 }
 
-function snykSeverities(
-  projects: SnapshotMetrics["snyk"]["projects"],
-): SeverityCounts {
-  return projects.reduce<SeverityCounts>(
-    (acc, p) => ({
-      critical: acc.critical + (p.issueCountsBySeverity.critical ?? 0),
-      high: acc.high + p.issueCountsBySeverity.high,
-      medium: acc.medium + p.issueCountsBySeverity.medium,
-      low: acc.low + p.issueCountsBySeverity.low,
-    }),
-    zeroSeverities(),
-  )
-}
-
 function githubSeverities(alerts: GitHubVulnerabilityAlert[]): SeverityCounts {
   const counts = zeroSeverities()
   for (const alert of alerts) {
@@ -95,13 +81,10 @@ function githubSeverities(alerts: GitHubVulnerabilityAlert[]): SeverityCounts {
   return counts
 }
 
-export function countSeveritiesForRepo(
-  metrics: SnapshotMetrics,
-): SeverityCounts {
-  return addSeverities(
-    snykSeverities(metrics.snyk.projects),
-    githubSeverities(metrics.github.vulnerabilityAlerts),
-  )
+export function countSeveritiesForRepo(metrics: {
+  github: { vulnerabilityAlerts: GitHubVulnerabilityAlert[] }
+}): SeverityCounts {
+  return githubSeverities(metrics.github.vulnerabilityAlerts)
 }
 
 function daysBetween(from: Temporal.Instant, to: Temporal.Instant): number {
@@ -296,7 +279,6 @@ function buildSeveritySections(
       const url = webappUrl(webappBaseUrl, {
         filterRepoName: e.repoName,
         showVulGithubList: "true",
-        showVulSnykList: "true",
       })
       const link = `<${url}|${e.repoName}>`
       return `• ${link} ${e.severities[sev.key]}`

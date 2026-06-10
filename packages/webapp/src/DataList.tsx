@@ -37,13 +37,12 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       return false
     const anyFilterActive =
       state.showOnlyWithPrs || state.showOnlyWithBotPrs ||
-      state.showOnlyWithGithubVul || state.showOnlyWithSnykVul
+      state.showOnlyWithGithubVul
     if (anyFilterActive) {
       const matchesPrs = state.showOnlyWithPrs && repo.metrics.github.prs.some((p) => !isBotPr(p))
       const matchesBotPrs = state.showOnlyWithBotPrs && repo.metrics.github.prs.some((p) => isBotPr(p))
       const matchesGithubVul = state.showOnlyWithGithubVul && repo.metrics.github.vulnerabilityAlerts.length > 0
-      const matchesSnykVul = state.showOnlyWithSnykVul && (repo.metrics.snyk?.totalIssues ?? 0) > 0
-      if (!matchesPrs && !matchesBotPrs && !matchesGithubVul && !matchesSnykVul) return false
+      if (!matchesPrs && !matchesBotPrs && !matchesGithubVul) return false
     }
     return true
   }
@@ -58,14 +57,9 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   }
 
   function filterByVulnerability(repo: Repo): boolean {
-    const ghMatch = repo.metrics.github.vulnerabilityAlerts.some((a) =>
+    return repo.metrics.github.vulnerabilityAlerts.some((a) =>
       a.packageName.toLowerCase().includes(vulSearch),
     )
-    const snykMatch =
-      repo.metrics.snyk?.vulnerableProjects.some((p) =>
-        p.path.toLowerCase().includes(vulSearch),
-      ) ?? false
-    return ghMatch || snykMatch
   }
 
   const filteredRepos = data.repos
@@ -109,11 +103,10 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         groupKey: responsible,
         repos: repos.length,
         prs: sumBy(repos, (it) => it.metrics.github.prs.length),
-        vulnerabilities:
-          sumBy(
-            repos,
-            (it) => it.metrics.github.vulnerabilityAlerts.length,
-          ) + sumBy(repos, (it) => it.metrics.snyk?.totalIssues ?? 0),
+        vulnerabilities: sumBy(
+          repos,
+          (it) => it.metrics.github.vulnerabilityAlerts.length,
+        ),
       }))
       .sort((a, b) => a.groupKey.localeCompare(b.groupKey))
   }, [data.repos])
@@ -125,11 +118,10 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         groupKey: system,
         repos: repos.length,
         prs: sumBy(repos, (it) => it.metrics.github.prs.length),
-        vulnerabilities:
-          sumBy(
-            repos,
-            (it) => it.metrics.github.vulnerabilityAlerts.length,
-          ) + sumBy(repos, (it) => it.metrics.snyk?.totalIssues ?? 0),
+        vulnerabilities: sumBy(
+          repos,
+          (it) => it.metrics.github.vulnerabilityAlerts.length,
+        ),
       }))
       .sort((a, b) => a.groupKey.localeCompare(b.groupKey))
   }, [data.repos])
@@ -334,13 +326,13 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
           </div>
           <button
             type="button"
-            className={`todo-btn${state.showOnlyWithPrs && state.showOnlyWithBotPrs && state.showOnlyWithGithubVul && state.showOnlyWithSnykVul ? " todo-btn-active" : ""}`}
+            className={`todo-btn${state.showOnlyWithPrs && state.showOnlyWithBotPrs && state.showOnlyWithGithubVul ? " todo-btn-active" : ""}`}
             onClick={() => {
-              const allOn = state.showOnlyWithPrs && state.showOnlyWithBotPrs && state.showOnlyWithGithubVul && state.showOnlyWithSnykVul
+              const allOn = state.showOnlyWithPrs && state.showOnlyWithBotPrs && state.showOnlyWithGithubVul
               dispatch({
                 type: FilterActionType.SET_BOOLEANS,
                 prop: String(!allOn),
-                payload: "showOnlyWithPrs,showOnlyWithBotPrs,showOnlyWithGithubVul,showOnlyWithSnykVul",
+                payload: "showOnlyWithPrs,showOnlyWithBotPrs,showOnlyWithGithubVul",
               })
             }}
           >
@@ -365,12 +357,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               onCheck={createOnCheckHandler("showOnlyWithGithubVul")}
             >
               Har GitHub-sårbarheter
-            </Checkbox>
-            <Checkbox
-              checked={state.showOnlyWithSnykVul}
-              onCheck={createOnCheckHandler("showOnlyWithSnykVul")}
-            >
-              Har Snyk-sårbarheter
             </Checkbox>
           </div>
           <div className="filter-group">
@@ -398,12 +384,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               onCheck={createOnCheckHandler("showVulGithubList")}
             >
               Sårbarheter (GitHub)
-            </Checkbox>
-            <Checkbox
-              checked={state.showVulSnykList}
-              onCheck={createOnCheckHandler("showVulSnykList")}
-            >
-              Sårbarheter (Snyk)
             </Checkbox>
             <Checkbox
               checked={state.showOrgName}
@@ -485,7 +465,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               showBotPrList={state.showBotPrList}
               showDepList={state.showDepList}
               showVulGithubList={state.showVulGithubList}
-              showVulSnykList={state.showVulSnykList}
               showOrgName={state.showOrgName}
               sortByRenovateDays={state.sortByRenovateDays}
               filterRepoName={state.filterRepoName}
@@ -594,7 +573,6 @@ const SectionHeader: React.FC<{
     repos,
     (it) => it.metrics.github.vulnerabilityAlerts.length,
   )
-  const snykVul = sumBy(repos, (it) => it.metrics.snyk?.totalIssues ?? 0)
 
   const prs = sumBy(repos, (it) => it.metrics.github.prs.filter((p) => !isBotPr(p)).length)
   const botPrs = sumBy(repos, (it) => it.metrics.github.prs.filter((p) => isBotPr(p)).length)
@@ -615,9 +593,6 @@ const SectionHeader: React.FC<{
         </span>
         <span className={`section-badge ${botPrs > 0 ? "badge-pr" : "badge-ok"}`}>
           {botPrs} bot PR
-        </span>
-        <span className={`section-badge ${snykVul > 0 ? "badge-vuln" : "badge-ok"}`}>
-          {snykVul} snyk
         </span>
         <span className={`section-badge ${githubVul > 0 ? "badge-vuln" : "badge-ok"}`}>
           {githubVul} github
@@ -641,7 +616,6 @@ const GlobalStats: React.FC<{ repos: Repo[] }> = ({ repos }) => {
     repos,
     (r) => r.metrics.github.vulnerabilityAlerts.length,
   )
-  const snykVul = sumBy(repos, (r) => r.metrics.snyk?.totalIssues ?? 0)
   const actionable = repos.filter((r) => isActionableRepo(r.metrics)).length
   const vulnerable = repos.filter((r) => isVulnerableRepo(r.metrics)).length
 
@@ -670,7 +644,7 @@ const GlobalStats: React.FC<{ repos: Repo[] }> = ({ repos }) => {
           <span className="global-stat-label">sårbare repoer</span>
         </div>
         <div className="global-stat stat-danger">
-          <span className="global-stat-value">{githubVul + snykVul}</span>
+          <span className="global-stat-value">{githubVul}</span>
           <span className="global-stat-label">sårbarheter</span>
         </div>
       </div>

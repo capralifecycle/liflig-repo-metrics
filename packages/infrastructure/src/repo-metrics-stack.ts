@@ -104,12 +104,6 @@ export class RepoMetricsStack extends cdk.Stack {
       "/incub/repo-metrics/github-app",
     )
 
-    const snykTokenSecret = secretsmanager.Secret.fromSecretNameV2(
-      this,
-      "SnykTokenSecret",
-      "/incub/repo-metrics/snyk-token",
-    )
-
     const sonarCloudTokenSecret = secretsmanager.Secret.fromSecretNameV2(
       this,
       "SonarCloudTokenSecret",
@@ -125,7 +119,6 @@ export class RepoMetricsStack extends cdk.Stack {
       environment: {
         GITHUB_APP_SECRET_ID: githubAppSecret.secretArn,
         GITHUB_APP_ORG: "capralifecycle",
-        SNYK_TOKEN_SECRET_ID: snykTokenSecret.secretArn,
         SONARCLOUD_TOKEN_SECRET_ID: sonarCloudTokenSecret.secretArn,
         DATA_BUCKET_NAME: dataBucket.bucketName,
         // Lambda only has /tmp as writable, needed for CacheProvider
@@ -134,7 +127,6 @@ export class RepoMetricsStack extends cdk.Stack {
     })
 
     githubAppSecret.grantRead(collectorFn)
-    snykTokenSecret.grantRead(collectorFn)
     sonarCloudTokenSecret.grantRead(collectorFn)
     dataBucket.grantReadWrite(collectorFn)
 

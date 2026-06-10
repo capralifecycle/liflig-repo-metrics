@@ -9,12 +9,10 @@ export interface Filter
   showBotPrList: boolean
   showDepList: boolean
   showVulGithubList: boolean
-  showVulSnykList: boolean
   showOrgName: boolean
   showOnlyWithPrs: boolean
   showOnlyWithBotPrs: boolean
   showOnlyWithGithubVul: boolean
-  showOnlyWithSnykVul: boolean
   sortByRenovateDays: boolean
   selectedTeams: string[]
   filterRepoName: string
@@ -28,12 +26,10 @@ export const defaultValues: Filter = {
   showBotPrList: false,
   showDepList: false,
   showVulGithubList: false,
-  showVulSnykList: false,
   showOrgName: false,
   showOnlyWithPrs: false,
   showOnlyWithBotPrs: false,
   showOnlyWithGithubVul: false,
-  showOnlyWithSnykVul: false,
   sortByRenovateDays: false,
   selectedTeams: [],
   filterRepoName: "",

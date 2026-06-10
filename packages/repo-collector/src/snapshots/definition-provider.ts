@@ -9,7 +9,6 @@ export interface RepoSystemMapping {
 
 export interface DefinitionProvider {
   getRepos(): Promise<GetReposResponse[]>
-  getSnykAccountId(): Promise<string | undefined>
   getSystemsMapping(): Promise<Map<string, RepoSystemMapping>>
 }
 
@@ -34,16 +33,6 @@ function getRepos(definitions: DefinitionData[]): GetReposResponse[] {
   }
 
   return result
-}
-
-function getSnykAccountId(definitions: DefinitionData[]): string | undefined {
-  for (const def of definitions) {
-    const snykAccountId = def.data.snyk?.accountId
-    if (snykAccountId != null) {
-      return snykAccountId
-    }
-  }
-  return undefined
 }
 
 /**
@@ -117,10 +106,6 @@ export class GithubDefinitionProvider implements DefinitionProvider {
 
   async getRepos(): Promise<GetReposResponse[]> {
     return getRepos(await this.getDefinitions())
-  }
-
-  async getSnykAccountId(): Promise<string | undefined> {
-    return getSnykAccountId(await this.getDefinitions())
   }
 
   async getSystemsMapping(): Promise<Map<string, RepoSystemMapping>> {

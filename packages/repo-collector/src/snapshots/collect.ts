@@ -10,45 +10,17 @@ import * as definition from "../definition/definition"
 import type { GetReposResponse } from "../definition/types"
 import * as github from "../github/service"
 import type { GitHubAuthProvider } from "../github/token"
-import * as snyk from "../snyk/service"
-import type { SnykTokenProvider } from "../snyk/token"
-import type { SnykProject } from "../snyk/types"
-import * as snykUtil from "../snyk/util"
 import * as sonarCloud from "../sonarcloud/service"
 import type { SonarCloudTokenProvider } from "../sonarcloud/token"
 import { GithubDefinitionProvider } from "./definition-provider"
 import type { SnapshotsRepository } from "./snapshots-repository"
 
-/**
- * Queries the various services for the current state of the repositories.
- *
- * @returns A list of repos with supplementary data, sufficient for
- * snapshot storage.
- *
- * @param snykService
- * @param githubService
- * @param sonarCloudService
- * @param repos
- * @param snykAccountId
- */
 async function createSnapshotData(
-  snykService: snyk.SnykService,
   githubService: github.GitHubService,
   sonarCloudService: sonarCloud.SonarCloudService,
   repos: GetReposResponse[],
   systemsMapping: Map<string, { customer: string; system: string }>,
-  snykAccountId?: string,
 ): Promise<SnapshotData> {
-  const snykData = groupBy(
-    snykAccountId != null
-      ? await snykService.getProjectsByAccountId(snykAccountId)
-      : [],
-    (it) => {
-      const repo = snykUtil.getGitHubRepo(it)
-      return repo ? snykUtil.getGitHubRepoId(repo) : undefined
-    },
-  )
-
   const reposWithData = repos
     .filter((it) => it.repo.archived !== true)
     .map((it) => ({
@@ -62,9 +34,6 @@ async function createSnapshotData(
           it.orgName,
           it.repo.name,
         ),
-      snykProjects: (
-        snykData[definition.getRepoId(it.orgName, it.repo.name)] ?? []
-      ).filter((it) => it.isMonitored),
       sonarCloudMetrics: sonarCloudService.getMetricsByProjectKey(
         `${it.orgName}_${it.repo.name}`,
       ),
@@ -110,16 +79,12 @@ async function createSnapshotData(
           (await repo.renovateDependencyDashboardIssue) ?? null,
         vulnerabilityAlerts: await repo.githubVulnerabilityAlerts,
       },
-      snyk: {
-        projects: repo.snykProjects as unknown as SnykProject[],
-      },
       sonarCloud: await repo.sonarCloudMetrics,
     })
   }
 
   const now = Temporal.Now.instant()
 
-  // noinspection UnnecessaryLocalVariableJS
   const snapshotData: SnapshotData = {
     timestamp: now.toString(),
     metrics: result,
@@ -135,7 +100,6 @@ async function createSnapshotData(
 export async function collect(
   snapshotsRepository: SnapshotsRepository,
   githubTokenProvider?: GitHubAuthProvider,
-  snykTokenProvider?: SnykTokenProvider,
   sonarCloudTokenProvider?: SonarCloudTokenProvider,
 ) {
   const config = new Config()
@@ -150,10 +114,6 @@ export async function collect(
   })
 
   const definitionProvider = new GithubDefinitionProvider(githubService)
-  const snykService = snyk.createSnykService({
-    config,
-    tokenProvider: snykTokenProvider,
-  })
 
   const sonarCloudService = sonarCloud.createSonarCloudService({
     config,
@@ -161,12 +121,10 @@ export async function collect(
   })
 
   const snapshotData = await createSnapshotData(
-    snykService,
     githubService,
     sonarCloudService,
     await definitionProvider.getRepos(),
     await definitionProvider.getSystemsMapping(),
-    await definitionProvider.getSnykAccountId(),
   )
 
   await snapshotsRepository.store(snapshotData)

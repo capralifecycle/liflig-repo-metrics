@@ -42,24 +42,6 @@ export interface SnapshotMetrics {
       lastUpdatedByRenovate?: string | null
     } | null
   }
-  snyk: {
-    projects: {
-      name: string
-      id: string
-      created: string
-      origin: string
-      type: string
-      testFrequency: string
-      totalDependencies: number
-      issueCountsBySeverity: {
-        critical?: number
-        high: number
-        medium: number
-        low: number
-      }
-      browseUrl: string
-    }[]
-  }
   sonarCloud?: {
     component: {
       id: string
@@ -72,23 +54,6 @@ export interface SnapshotMetrics {
       }[]
     }
   }
-}
-
-export interface SnykProject {
-  name: string
-  id: string
-  created: string
-  origin: string
-  type: string
-  testFrequency: string
-  totalDependencies: number
-  issueCountsBySeverity: {
-    critical?: number
-    high: number
-    medium: number
-    low: number
-  }
-  browseUrl: string
 }
 
 export interface GitHubVulnerabilityAlert {
@@ -174,19 +139,6 @@ export interface Metrics {
         name: string
         toVersion: string
       }[]
-    }[]
-  }
-  snyk?: {
-    totalIssues: number
-    countsBySeverity: {
-      critical?: number
-      high: number
-      medium: number
-      low: number
-    }
-    vulnerableProjects: {
-      path: string
-      browseUrl: string
     }[]
   }
   sonarCloud: {

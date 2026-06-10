@@ -10,7 +10,6 @@ import {
 } from "./reporter/reporter"
 import { collect } from "./snapshots/collect"
 import { S3SnapshotsRepository } from "./snapshots/snapshots-repository"
-import type { SnykTokenProvider } from "./snyk/token"
 import type { SonarCloudTokenProvider } from "./sonarcloud/token"
 import {
   createWebappFriendlyFormat,
@@ -41,16 +40,6 @@ function requireEnv(name: string): string {
   return result
 }
 
-async function getSnykTokenProvider(): Promise<SnykTokenProvider> {
-  const snykTokenSecretId = requireEnv("SNYK_TOKEN_SECRET_ID")
-  const snykToken = (await getSecretValue(snykTokenSecretId)).token
-
-  return {
-    getToken: () => Promise.resolve(snykToken),
-    markInvalid: () => Promise.resolve(),
-  }
-}
-
 async function getSonarCloudTokenProvider(): Promise<SonarCloudTokenProvider> {
   const sonarCloudTokenSecretId = requireEnv("SONARCLOUD_TOKEN_SECRET_ID")
   const sonarCloudToken = (await getSecretValue(sonarCloudTokenSecretId)).token
@@ -75,7 +64,6 @@ export const collectHandler: Handler = async () => {
   await collect(
     snapshotsRepository,
     await loadGitHubAppProviderFromSecrets(),
-    await getSnykTokenProvider(),
     await getSonarCloudTokenProvider(),
   )
   console.log("Done.")
