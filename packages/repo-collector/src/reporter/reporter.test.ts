@@ -156,7 +156,7 @@ describe("countSeveritiesForRepo", () => {
 })
 
 describe("findOldPrs", () => {
-  test("filters bot authors and Snyk titles", () => {
+  test("filters bot authors", () => {
     const old = now.subtract({ hours: 24 * 40 }).toString()
     const prs = findOldPrs(
       repo({
