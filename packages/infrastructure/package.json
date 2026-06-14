@@ -12,7 +12,7 @@
     "@liflig/load-secrets": "1.1.174",
     "@types/node": "24.13.2",
     "aws-cdk": "2.1126.0",
-    "esbuild": "0.28.0",
+    "esbuild": "0.28.1",
     "typescript": "6.0.3"
   },
   "dependencies": {
