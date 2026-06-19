@@ -4,11 +4,17 @@ import type {
   SnapshotData,
   SnapshotMetrics,
 } from "@liflig/repo-metrics-repo-collector-types"
-import type { HeaderBlock, SectionBlock } from "@slack/types"
+import type {
+  HeaderBlock,
+  RawTextElement,
+  RichTextBlock,
+  SectionBlock,
+  TableBlock,
+} from "@slack/types"
 import axios from "axios"
 import { groupBy, sortBy } from "lodash-es"
 
-type SlackBlock = HeaderBlock | SectionBlock
+type SlackBlock = HeaderBlock | SectionBlock | TableBlock
 
 export const OLD_PR_DAYS_THRESHOLD = 30
 
@@ -262,29 +268,67 @@ const SEVERITY_DEFS = [
   { key: "low", emoji: SEV_LOW, label: "Low" },
 ] as const
 
-// One section per non-empty severity, header "<emoji> *Label (total)*" plus
-// a bullet line per repo: "• <link|repo-name> N".
-function buildSeveritySections(
+function rawCell(text: string): RawTextElement {
+  return { type: "raw_text", text }
+}
+
+// 0 renders as blank. raw_text requires >= 1 char, so use a single space.
+function numCell(n: number): RawTextElement {
+  return rawCell(n === 0 ? " " : String(n))
+}
+
+function repoLinkCell(repoName: string, url: string): RichTextBlock {
+  return {
+    type: "rich_text",
+    elements: [
+      {
+        type: "rich_text_section",
+        elements: [{ type: "link", url, text: repoName }],
+      },
+    ],
+  }
+}
+
+// One row per repo (severity as columns), with a header row and a totals row.
+// Repo names link to the dashboard with the repo's vuln details expanded.
+function buildVulnTable(
   items: VulnRepoEntry[],
+  totals: SeverityCounts,
   webappBaseUrl: string,
-): SectionBlock[] {
-  return SEVERITY_DEFS.flatMap((sev) => {
-    const repos = items.filter((e) => e.severities[sev.key] > 0)
-    if (repos.length === 0) return []
-    const total = repos.reduce((acc, e) => acc + e.severities[sev.key], 0)
-    const bullets = repos.map((e) => {
-      const url = webappUrl(webappBaseUrl, {
-        filterRepoName: e.repoName,
-        showVulGithubList: "true",
-      })
-      const link = `<${url}|${e.repoName}>`
-      return `• ${link} ${e.severities[sev.key]}`
+): TableBlock {
+  const headerRow = [
+    rawCell("Repo"),
+    ...SEVERITY_DEFS.map((sev) => rawCell(`${sev.emoji} ${sev.label}`)),
+    rawCell("Σ"),
+  ]
+
+  const bodyRows = items.map((e) => {
+    const url = webappUrl(webappBaseUrl, {
+      filterRepoName: e.repoName,
+      showVulGithubList: "true",
     })
-    return chunkLines(bullets, {
-      head: `${sev.emoji} *${sev.label} (${total})*`,
-      cont: `${sev.emoji} *${sev.label} (forts.)*`,
-    })
+    return [
+      repoLinkCell(e.repoName, url),
+      ...SEVERITY_DEFS.map((sev) => numCell(e.severities[sev.key])),
+      numCell(e.total),
+    ]
   })
+
+  const totalsRow = [
+    rawCell("Sum"),
+    ...SEVERITY_DEFS.map((sev) => numCell(totals[sev.key])),
+    numCell(totalOf(totals)),
+  ]
+
+  return {
+    type: "table",
+    rows: [headerRow, ...bodyRows, totalsRow],
+    column_settings: [
+      { align: "left" },
+      ...SEVERITY_DEFS.map(() => ({ align: "right" as const })),
+      { align: "right" },
+    ],
+  }
 }
 
 export interface SlackMessage {
@@ -310,9 +354,9 @@ export function buildPerTeamMessages(
     const dashboardUrl = webappUrl(webappBaseUrl, { selectedTeams: team })
 
     const blocks: SlackBlock[] = [
-      header(teamTitle(team, totals)),
+      header(`Sårbarheter — ${team}`),
       section(`Snapshot: ${snapshotAt} · <${dashboardUrl}|Åpne dashboard>`),
-      ...buildSeveritySections(items, webappBaseUrl),
+      buildVulnTable(items, totals, webappBaseUrl),
     ]
 
     const teamOldPrs = reportData.oldPrsByTeam[team] ?? []

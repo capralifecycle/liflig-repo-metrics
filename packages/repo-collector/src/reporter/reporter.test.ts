@@ -291,10 +291,15 @@ describe("buildPerTeamMessages", () => {
     )
     expect(messages.length).toBe(2)
     const teamAMessage = messages[0]
+    // Notification fallback text still carries the severity breakdown.
     expect(teamAMessage.text).toBe(
       "team-a — 🟥 1 · 🟧 2 · 🟨 3 · 🟦 4 · Sum 10",
     )
-    expect(teamAMessage.blocks[0]).toMatchObject({ type: "header" })
+    // Header above the table is just the data set + team, no counts.
+    expect(teamAMessage.blocks[0]).toMatchObject({
+      type: "header",
+      text: { text: "Sårbarheter — team-a" },
+    })
     const snapshotSection = teamAMessage.blocks[1]
     expect(snapshotSection).toMatchObject({ type: "section" })
     if (snapshotSection.type !== "section" || !snapshotSection.text)
@@ -305,7 +310,7 @@ describe("buildPerTeamMessages", () => {
     )
   })
 
-  test("severity sections only include severities with non-zero totals", () => {
+  test("renders severities as table columns with a totals row", () => {
     const snapshot: SnapshotData = {
       timestamp: now.toString(),
       metrics: [
@@ -319,31 +324,52 @@ describe("buildPerTeamMessages", () => {
           responsible: "team-a",
           severities: ["CRITICAL"],
         }),
+        // No vulns — must not appear as a table row.
+        repo({ repoId: "org/clean", responsible: "team-a" }),
       ],
     }
     const [message] = buildPerTeamMessages(
       buildReportData(snapshot, now),
       "https://example/",
     )
-    const sectionTexts = message.blocks
-      .filter((b) => b.type === "section")
-      .map((b) => b.text?.text ?? "")
 
-    const critical = sectionTexts.find((t) => t.startsWith("🟥"))
-    const high = sectionTexts.find((t) => t.startsWith("🟧"))
-    const medium = sectionTexts.find((t) => t.startsWith("🟨"))
-    const low = sectionTexts.find((t) => t.startsWith("🟦"))
+    const table = message.blocks.find((b) => b.type === "table")
+    if (!table || table.type !== "table")
+      throw new Error("expected a table block")
 
-    expect(critical).toContain("*Critical (1)*")
-    expect(critical).toContain(" 1")
-    expect(high).toContain("*High (2)*")
-    expect(high).toContain(" 2")
-    expect(medium).toContain("*Medium (3)*")
-    expect(medium).toContain(" 3")
-    expect(low).toBeUndefined()
+    const rawText = (cell: unknown): string | undefined =>
+      typeof cell === "object" &&
+      cell !== null &&
+      (cell as any).type === "raw_text"
+        ? (cell as any).text
+        : undefined
+
+    const [headerRow, ...rest] = table.rows
+    const totalsRow = rest[rest.length - 1]
+    const bodyRows = rest.slice(0, -1)
+
+    expect(headerRow.map(rawText)).toStrictEqual([
+      "Repo",
+      "🟥 Critical",
+      "🟧 High",
+      "🟨 Medium",
+      "🟦 Low",
+      "Σ",
+    ])
+    // Clean repo dropped; only the two vulnerable repos remain.
+    expect(bodyRows.length).toBe(2)
+    // Grand totals; the empty Low column renders blank, not "0".
+    expect(totalsRow.map(rawText)).toStrictEqual([
+      "Sum",
+      "1",
+      "2",
+      "3",
+      " ",
+      "6",
+    ])
   })
 
-  test("severity-section links use repo name only (no org prefix)", () => {
+  test("table repo cells link by repo name only (no org prefix)", () => {
     const snapshot: SnapshotData = {
       timestamp: now.toString(),
       metrics: [
@@ -368,7 +394,7 @@ describe("buildPerTeamMessages", () => {
     expect(json).toContain(
       "https://example/?filterRepoName=liflig-logging&showVulGithubList=true",
     )
-    expect(json).toContain("|liflig-logging>")
-    expect(json).not.toContain("|liflig/liflig-logging>")
+    expect(json).toContain('"text":"liflig-logging"')
+    expect(json).not.toContain('"text":"liflig/liflig-logging"')
   })
 })
