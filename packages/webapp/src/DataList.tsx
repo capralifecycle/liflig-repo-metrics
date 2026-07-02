@@ -11,6 +11,7 @@ import { ENABLE_GLOBAL_STATS, ENABLE_SORT_BY_RENOVATE_DAYS, type Filter } from "
 import { toQueryString } from "./filter"
 import { FilterActionType, filterReducer } from "./filterReducer"
 import { isActionableRepo } from "./Repo"
+import { RepoSidebar } from "./RepoSidebar"
 import { isBotPr } from "./prUtils"
 import { buildMarkdownSummary } from "./copyUtils"
 
@@ -23,6 +24,20 @@ interface Props {
 
 export const DataList: React.FC<Props> = ({ data, filter }) => {
   const [state, dispatch] = React.useReducer(filterReducer, filter)
+  const [selectedRepoId, setSelectedRepoId] = React.useState<string | null>(
+    null,
+  )
+
+  const selectedRepo = React.useMemo(
+    () => data.repos.find((r) => r.id === selectedRepoId) ?? null,
+    [data.repos, selectedRepoId],
+  )
+
+  const handleSelectRepo = React.useCallback(
+    (repo: Repo) =>
+      setSelectedRepoId((prev) => (prev === repo.id ? null : repo.id)),
+    [],
+  )
 
   React.useEffect(() => {
     const queryString = toQueryString(state)
@@ -36,11 +51,16 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
     )
       return false
     const anyFilterActive =
-      state.showOnlyWithPrs || state.showOnlyWithBotPrs
+      state.showOnlyWithPrs ||
+      state.showOnlyWithBotPrs ||
+      state.showOnlyWithVulns ||
+      state.showOnlyMissingCoverage
     if (anyFilterActive) {
       const matchesPrs = state.showOnlyWithPrs && repo.metrics.github.prs.some((p) => !isBotPr(p))
       const matchesBotPrs = state.showOnlyWithBotPrs && repo.metrics.github.prs.some((p) => isBotPr(p))
-      if (!matchesPrs && !matchesBotPrs) return false
+      const matchesVulns = state.showOnlyWithVulns && repo.metrics.aikido.issues.length > 0
+      const matchesMissingCoverage = state.showOnlyMissingCoverage && !repo.metrics.sonarCloud.testCoverage
+      if (!matchesPrs && !matchesBotPrs && !matchesVulns && !matchesMissingCoverage) return false
     }
     return true
   }
@@ -67,18 +87,18 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
 
   const byResponsible = groupBy(
     filteredRepos,
-    (it) => it.responsible ?? "Ukjent",
+    (it) => it.responsible ?? "Unknown",
   )
 
-  const bySystem = groupBy(filteredRepos, (it) => it.system ?? "Ukjent")
+  const bySystem = groupBy(filteredRepos, (it) => it.system ?? "Unknown")
 
   const allByResponsible = React.useMemo(
-    () => groupBy(data.repos, (it) => it.responsible ?? "Ukjent"),
+    () => groupBy(data.repos, (it) => it.responsible ?? "Unknown"),
     [data.repos],
   )
 
   const allBySystem = React.useMemo(
-    () => groupBy(data.repos, (it) => it.system ?? "Ukjent"),
+    () => groupBy(data.repos, (it) => it.system ?? "Unknown"),
     [data.repos],
   )
 
@@ -95,7 +115,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   }
 
   const statsByResponsible = React.useMemo(() => {
-    const grouped = groupBy(data.repos, (it) => it.responsible ?? "Ukjent")
+    const grouped = groupBy(data.repos, (it) => it.responsible ?? "Unknown")
     return Object.entries(grouped)
       .map(([responsible, repos]) => ({
         groupKey: responsible,
@@ -110,7 +130,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   }, [data.repos])
 
   const statsBySystem = React.useMemo(() => {
-    const grouped = groupBy(data.repos, (it) => it.system ?? "Ukjent")
+    const grouped = groupBy(data.repos, (it) => it.system ?? "Unknown")
     return Object.entries(grouped)
       .map(([system, repos]) => ({
         groupKey: system,
@@ -178,7 +198,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       {sidebarEl && createPortal(
         <>
           <div className="filter-group">
-            <span className="filter-group-label">Gruppering</span>
+            <span className="filter-group-label">Grouping</span>
             <div className="team-grid">
               <button
                 type="button"
@@ -191,7 +211,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
                   })
                 }
               >
-                Ansvarlig
+                Responsible
               </button>
               <button
                 type="button"
@@ -250,7 +270,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
                     })
                   }
                 >
-                  Alle
+                  All
                 </button>
                 {activeStats.map((s) => {
                   const isSelected = state.selectedTeams.includes(s.groupKey)
@@ -281,7 +301,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             )}
           </div>
           <div className="filter-group">
-            <span className="filter-group-label">Søk</span>
+            <span className="filter-group-label">Search</span>
             <input
               type="text"
               className="sidebar-search"
@@ -319,7 +339,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
                   payload: e.target.value,
                 })
               }}
-              placeholder="Sårbarhet..."
+              placeholder="Vulnerability..."
             />
           </div>
           <button
@@ -342,23 +362,29 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               checked={state.showOnlyWithPrs}
               onCheck={createOnCheckHandler("showOnlyWithPrs")}
             >
-              Har PRs
+              Has PRs
             </Checkbox>
             <Checkbox
               checked={state.showOnlyWithBotPrs}
               onCheck={createOnCheckHandler("showOnlyWithBotPrs")}
             >
-              Har bot-PRs
+              Has bot PRs
+            </Checkbox>
+            <Checkbox
+              checked={state.showOnlyWithVulns}
+              onCheck={createOnCheckHandler("showOnlyWithVulns")}
+            >
+              Has vulns
+            </Checkbox>
+            <Checkbox
+              checked={state.showOnlyMissingCoverage}
+              onCheck={createOnCheckHandler("showOnlyMissingCoverage")}
+            >
+              Missing coverage
             </Checkbox>
           </div>
           <div className="filter-group">
-            <span className="filter-group-label">Vis detaljer</span>
-            <Checkbox
-              checked={state.showDepList}
-              onCheck={createOnCheckHandler("showDepList")}
-            >
-              Avhengigheter
-            </Checkbox>
+            <span className="filter-group-label">Show details</span>
             <Checkbox
               checked={state.showPrList}
               onCheck={createOnCheckHandler("showPrList")}
@@ -375,20 +401,20 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               checked={state.showVulAikidoList}
               onCheck={createOnCheckHandler("showVulAikidoList")}
             >
-              Sårbarheter (Aikido)
+              Vulnerabilities (Aikido)
             </Checkbox>
             <Checkbox
               checked={state.showOrgName}
               onCheck={createOnCheckHandler("showOrgName")}
             >
-              GitHub-organisasjon
+              GitHub organization
             </Checkbox>
             {ENABLE_SORT_BY_RENOVATE_DAYS && (
               <Checkbox
                 checked={state.sortByRenovateDays}
                 onCheck={createOnCheckHandler("sortByRenovateDays")}
               >
-                Sorter etter Renovate-dager
+                Sort by Renovate days
               </Checkbox>
             )}
           </div>
@@ -409,7 +435,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
                     PRs{sortIndicator("prs")}
                   </th>
                   <th className="clickeableHeader" onClick={() => toggleSummarySort("vulnerabilities")}>
-                    Sårb.{sortIndicator("vulnerabilities")}
+                    Vuln.{sortIndicator("vulnerabilities")}
                   </th>
                 </tr>
               </thead>
@@ -432,7 +458,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       {footerEl && createPortal(
         <>
           <p className="timestamps">
-            Sist oppdatert: {formatLocalTimestamp(data.aggregatedAt)}
+            Last updated: {formatLocalTimestamp(data.aggregatedAt)}
           </p>
           <p className="timestamps">
             Build: <a href={`https://github.com/capralifecycle/liflig-repo-metrics/commit/${__BUILD_INFO__.commitHash}`}>{__BUILD_INFO__.commitHash}</a>
@@ -455,17 +481,20 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               repos={repos}
               showPrList={state.showPrList}
               showBotPrList={state.showBotPrList}
-              showDepList={state.showDepList}
               showVulAikidoList={state.showVulAikidoList}
               showOrgName={state.showOrgName}
               sortByRenovateDays={state.sortByRenovateDays}
               filterRepoName={state.filterRepoName}
               filterUpdateName={state.filterUpdateName}
               filterVulName={state.filterVulName}
+              selectedRepoId={selectedRepoId ?? undefined}
+              onSelectRepo={handleSelectRepo}
+              compact
             />
           </React.Fragment>
         )
       })}
+      <RepoSidebar repo={selectedRepo} onClose={() => setSelectedRepoId(null)} />
     </>
   )
 }
@@ -540,7 +569,7 @@ const SystemToggleGrid: React.FC<{
           className={`team-btn system-toggle-group-btn${allCustomerSelected ? " team-btn-active" : ""}`}
           onClick={() => toggleGroup(customerKeys, allCustomerSelected)}
         >
-          Kunde
+          Customer
         </button>
         {customerSystems.map(renderBtn)}
       </div>
@@ -571,9 +600,9 @@ const SectionHeader: React.FC<{
         <CopySummaryButton repos={allRepos} team={responsible} aggregatedAt={aggregatedAt} />
       </div>
       <div className="section-stats">
-        <span className="section-badge">{repos.length} repoer</span>
+        <span className="section-badge">{repos.length} repos</span>
         <span className={`section-badge ${updates > 0 ? "badge-renovate" : "badge-ok"}`}>
-          {updates} avh.
+          {updates} updates
         </span>
         <span className={`section-badge ${prs > 0 ? "badge-pr" : "badge-ok"}`}>
           {prs} PRs
@@ -608,11 +637,11 @@ const GlobalStats: React.FC<{ repos: Repo[] }> = ({ repos }) => {
       <div className="global-stats">
         <div className="global-stat">
           <span className="global-stat-value">{totalRepos}</span>
-          <span className="global-stat-label">repoer</span>
+          <span className="global-stat-label">repos</span>
         </div>
         <div className="global-stat">
           <span className="global-stat-value">{actionable}</span>
-          <span className="global-stat-label">med oppdateringer/bot-PRs</span>
+          <span className="global-stat-label">with updates/bot PRs</span>
         </div>
         <div className="global-stat">
           <span className="global-stat-value">{totalPrs}</span>
@@ -620,15 +649,15 @@ const GlobalStats: React.FC<{ repos: Repo[] }> = ({ repos }) => {
         </div>
         <div className="global-stat">
           <span className="global-stat-value">{totalUpdates}</span>
-          <span className="global-stat-label">oppdateringer</span>
+          <span className="global-stat-label">updates</span>
         </div>
         <div className="global-stat stat-danger">
           <span className="global-stat-value">{vulnerable}</span>
-          <span className="global-stat-label">sårbare repoer</span>
+          <span className="global-stat-label">vulnerable repos</span>
         </div>
         <div className="global-stat stat-danger">
           <span className="global-stat-value">{aikidoVul}</span>
-          <span className="global-stat-label">sårbarheter</span>
+          <span className="global-stat-label">vulnerabilities</span>
         </div>
       </div>
     </div>
@@ -652,7 +681,7 @@ const CopySummaryButton: React.FC<{
 
   return (
     <button type="button" className="copy-summary-btn" onClick={handleCopy}>
-      {copied ? "Kopiert!" : "Kopier sammendrag"}
+      {copied ? "Copied!" : "Copy summary"}
     </button>
   )
 }

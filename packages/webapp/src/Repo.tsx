@@ -3,9 +3,8 @@ import type {
   Metrics,
   Repo,
 } from "@liflig/repo-metrics-repo-collector-types"
-import type * as React from "react"
 import { Highlight } from "./Highlight"
-import { GitHubIcon, PrIcon, RenovateIcon, SecurityIcon, SonarCloudIcon } from "./Icons"
+import { AikidoIcon, GitHubIcon, PrIcon, SonarCloudIcon } from "./Icons"
 import { PrColumnDetails } from "./PrColumnDetails"
 import { isBotPr } from "./prUtils"
 import type { Column } from "./Table"
@@ -13,136 +12,52 @@ import type { Column } from "./Table"
 export const repoColumns = (props: {
   showPrList: boolean
   showBotPrList: boolean
-  showDepList: boolean
   showVulAikidoList: boolean
   showOrgName: boolean
-  showRenovateDays: boolean
   filterRepoName: string
   filterUpdateName: string
   filterVulName: string
+  /**
+   * Compact layout used while the detail sidebar is open and the table is
+   * squeezed to ~60% width: wider columns, no header icons, and a shorter
+   * coverage header.
+   */
+  compact?: boolean
 }): Column<Repo>[] => {
   const {
     showPrList,
     showBotPrList,
-    showDepList,
     showVulAikidoList,
     showOrgName,
-    showRenovateDays,
     filterRepoName,
     filterUpdateName,
     filterVulName,
+    compact = false,
   } = props
-  return [
+  const columns: Column<Repo>[] = [
     {
       header: "Repo",
       headerIcon: <GitHubIcon />,
-      width: "18%",
+      width: compact ? "36%" : "18%",
       sortOn: (repo) => {
         return repo.name.toLowerCase()
       },
       render: (repo, _isExpanded) => {
         return (
-          <a href={repoBaseUrl(repo)}>
+          <span className="repo-link" title={repo.name}>
             {showOrgName && (
               <span className="repo-org"><Highlight text={repo.org} search={filterRepoName} />/</span>
             )}
             <span className="repo-name"><Highlight text={repo.name} search={filterRepoName} /></span>
-          </a>
-        )
-      },
-    },
-    {
-      header: "Avhengigheter",
-      subheader: "Renovate",
-      headerIcon: <RenovateIcon />,
-      width: "22%",
-      sortOn: (repo) =>
-        repo.metrics.github.availableUpdates
-          ?.flatMap((category) =>
-            category.updates.map((it) => ({
-              name: it.name,
-              isActionable: category.isActionable,
-              categoryName: category.categoryName,
-              toVersion: it.toVersion,
-            })),
-          )
-          .filter((it) => it.isActionable).length,
-      render: (repo, isExpanded) => {
-        const renovateDashboad = repo.metrics.github.renovateDependencyDashboard
-
-        const renovateEnabled = repo.metrics.github.availableUpdates != null
-        const availableUpdates = (
-          repo.metrics.github.availableUpdates ?? []
-        ).flatMap((category) =>
-          category.updates.map((it) => ({
-            name: it.name,
-            isActionable: category.isActionable,
-            categoryName: category.categoryName,
-            toVersion: it.toVersion,
-          })),
-        )
-        const actionableUpdates = availableUpdates.filter(
-          (it) => it.isActionable,
-        ).length
-
-        return (
-          <>
-            {renovateDashboad?.daysSinceLastUpdate != null &&
-              (showRenovateDays ||
-                renovateDashboad.daysSinceLastUpdate >= 20) && (
-                <div
-                  className={`renovate-days ${
-                    renovateDashboad.daysSinceLastUpdate >= 20
-                      ? "renovate-old"
-                      : ""
-                  }`}
-                >
-                  Sist oppdatert {renovateDashboad.daysSinceLastUpdate} dager
-                  siden
-                </div>
-              )}
-            {!renovateEnabled ? (
-              <span className="state-missing" title="Ingen data">—</span>
-            ) : (showDepList || isExpanded) && availableUpdates.length > 0 ? (
-              <ul className="detail-list">
-                {availableUpdates.map((available, i) => (
-                  <li
-                    key={i}
-                    className={`detail-item ${!available.isActionable ? "detail-item-muted" : ""}`}
-                  >
-                    <span className="detail-index">{i + 1}</span>
-                    {available.name}
-                    <span className="detail-meta">
-                      {" "}{available.toVersion} · {available.categoryName}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <>
-                {actionableUpdates === 0 ? (
-                  <span className="renovate-ok">
-                    <MaybeRenovateLink repo={repo}>Ingen</MaybeRenovateLink>
-                    <RenovateLogsLink repoId={repo.id} />
-                  </span>
-                ) : (
-                  <>
-                    <MaybeRenovateLink repo={repo}>
-                      <b>{actionableUpdates}</b>
-                    </MaybeRenovateLink>
-                    <RenovateLogsLink repoId={repo.id} />
-                  </>
-                )}
-              </>
-            )}
-          </>
+          </span>
         )
       },
     },
     {
       header: "PRs",
       headerIcon: <PrIcon />,
-      width: "22%",
+      width: compact ? "13%" : "22%",
+      align: "right",
       sortOn: (repo) =>
         repo.metrics.github.prs.filter((it) => !isBotPr(it)).length,
       render: (repo, isExpanded) => {
@@ -159,7 +74,8 @@ export const repoColumns = (props: {
     {
       header: "Bot PR",
       headerIcon: <PrIcon />,
-      width: "18%",
+      width: compact ? "15%" : "18%",
+      align: "right",
       sortOn: (repo) =>
         repo.metrics.github.prs.filter((it) => isBotPr(it)).length,
       render: (repo, isExpanded) => {
@@ -174,18 +90,19 @@ export const repoColumns = (props: {
       },
     },
     {
-      header: "Sårbarheter",
+      header: "Vulns",
       subheader: "Aikido",
-      headerIcon: <SecurityIcon />,
-      width: "9%",
+      headerIcon: <AikidoIcon />,
+      width: compact ? "17%" : "9%",
+      align: "right",
       sortOn: (repo) => aikidoSortValue(repo.metrics.aikido.issues),
       render: (repo, isExpanded) => {
         const aikido = repo.metrics.aikido
         if (!aikido.enabled) {
-          return <span className="state-missing" title="Ingen data">—</span>
+          return <span className="state-missing" title="No data">—</span>
         }
         if (aikido.issues.length === 0 && aikido.ignoredCount === 0) {
-          return <span className="state-ok">Ingen</span>
+          return null
         }
 
         const summary = (
@@ -242,10 +159,11 @@ export const repoColumns = (props: {
       },
     },
     {
-      header: "Testdekning",
+      header: "Coverage",
       subheader: "SonarCloud",
       headerIcon: <SonarCloudIcon />,
-      width: "4%",
+      width: compact ? "19%" : "4%",
+      align: "right",
       sortOn: (repo) =>
         repo.metrics.sonarCloud.testCoverage
           ? Number(repo.metrics.sonarCloud.testCoverage)
@@ -258,11 +176,13 @@ export const repoColumns = (props: {
             {repo.metrics.sonarCloud.testCoverage}
           </span>
         ) : (
-          <span className="state-missing" title="Ingen data">—</span>
+          <span className="coverage-missing">missing</span>
         )
       },
     },
   ]
+
+  return columns
 }
 
 const AIKIDO_SEVERITY_ORDER: AikidoSeverity[] = [
@@ -304,10 +224,10 @@ const AIKIDO_COUNT_META: {
   cls: string
   label: string
 }[] = [
-  { key: "critical", cls: "sev-c", label: "Kritisk" },
-  { key: "high", cls: "sev-h", label: "Høy" },
+  { key: "critical", cls: "sev-c", label: "Critical" },
+  { key: "high", cls: "sev-h", label: "High" },
   { key: "medium", cls: "sev-m", label: "Medium" },
-  { key: "low", cls: "sev-l", label: "Lav" },
+  { key: "low", cls: "sev-l", label: "Low" },
 ]
 
 // Colorized per-severity counts (critical/high/medium/low) plus a muted count
@@ -355,34 +275,3 @@ function coverageClass(coverage: string): string {
 
 const repoBaseUrl = (repo: Repo) =>
   `https://github.com/${repo.org}/${repo.name}`
-
-const RenovateLogsLink: React.FC<{ repoId: string }> = ({ repoId }) => (
-  <a
-    href={`https://app.renovatebot.com/dashboard#github/${encodeURI(repoId)}`}
-    className="renovate-logs-link"
-  >
-    logs
-  </a>
-)
-
-const MaybeRenovateLink: React.FC<
-  React.PropsWithChildren & {
-    repo: Repo
-  }
-> = ({ children, repo }) => {
-  const renovateDashboad = repo.metrics.github.renovateDependencyDashboard
-  return renovateDashboad != null ? (
-    <a
-      href={issueUrl(repo, renovateDashboad.issueNumber)}
-      className="renovate-dashboard-link"
-    >
-      {children}
-    </a>
-  ) : (
-    children
-  )
-}
-
-function issueUrl(repo: Repo, issueNumber: number) {
-  return `${repoBaseUrl(repo)}/issues/${issueNumber}`
-}

@@ -7,30 +7,34 @@ interface Props {
   repos: Repo[]
   showPrList: boolean
   showBotPrList: boolean
-  showDepList: boolean
   showVulAikidoList: boolean
   showOrgName: boolean
   sortByRenovateDays: boolean
   filterRepoName: string
   filterUpdateName: string
   filterVulName: string
+  selectedRepoId?: string
+  onSelectRepo: (repo: Repo) => void
+  compact?: boolean
 }
 
 export const DataGroup: React.FC<Props> = ({
   repos,
   showPrList,
   showBotPrList,
-  showDepList,
   showVulAikidoList,
   showOrgName,
   sortByRenovateDays,
   filterRepoName,
   filterUpdateName,
   filterVulName,
+  selectedRepoId,
+  onSelectRepo,
+  compact,
 }) => {
   return (
     <>
-      <div className="repo-metrics-table-wrap">
+      <div className={`repo-metrics-table-wrap${compact ? " compact" : ""}`}>
         <Table
           data={[...repos].sort((a, b) => {
             function compareByName() {
@@ -58,16 +62,17 @@ export const DataGroup: React.FC<Props> = ({
             return compareByName()
           })}
           rowKey={(repo) => repo.id}
+          onRowClick={onSelectRepo}
+          selectedKey={selectedRepoId}
           columns={repoColumns({
             showPrList,
             showBotPrList,
-            showDepList,
             showVulAikidoList,
             showOrgName,
-            showRenovateDays: sortByRenovateDays,
             filterRepoName,
             filterUpdateName,
             filterVulName,
+            compact,
           })}
         />
       </div>

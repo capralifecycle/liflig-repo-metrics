@@ -111,6 +111,30 @@ th {
   vertical-align: top;
 }
 
+/* Safety net for the compact (detail-panel-open) layout: if a header is still
+   wider than its squeezed column on a narrow viewport, clip it at the cell
+   edge instead of letting it overlap the next column. */
+.repo-metrics-table-wrap th {
+  overflow: hidden;
+}
+
+/* Tighten cell padding in the squeezed layout to give the columns room. */
+.repo-metrics-table-wrap.compact th,
+.repo-metrics-table-wrap.compact td {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+/* Keep the repo name on one line (ellipsis) so a row never grows to two lines
+   from a long name wrapping — including during the panel's open/close
+   animation, when the table is briefly narrow but not yet in compact mode. */
+.repo-metrics-table-wrap .repo-link {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 td {
   border-bottom: 1px solid var(--color-secondary);
   vertical-align: top;
@@ -151,6 +175,15 @@ table tr:hover td {
 
 .expandable-row {
   cursor: pointer;
+}
+
+.expandable-row.selected-row td {
+  background-color: var(--color-blue-extra-light);
+}
+
+/* Accent bar only at the far left of the whole row, not per cell. */
+.expandable-row.selected-row td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-primary);
 }
 
 .column-header-row {
@@ -312,17 +345,16 @@ td:hover .renovate-logs-link {
 
 .detail-severity {
   font-size: 11px;
-  font-weight: 500;
-  padding: 1px 5px;
-  border-radius: 3px;
+  font-weight: 600;
   margin-left: auto;
   white-space: nowrap;
 }
 
-.severity-critical { background: var(--color-badge-vuln-bg); color: var(--color-aikido-critical); }
-.severity-high { background: var(--color-badge-vuln-bg); color: var(--color-aikido-high); }
-.severity-medium { background: var(--color-badge-pr-bg); color: var(--color-warning); }
-.severity-low { background: var(--color-secondary); color: var(--color-mute); }
+/* Severity colours match the main-table Vulns counts (--color-sev-*). */
+.severity-critical { color: var(--color-sev-critical); }
+.severity-high { color: var(--color-sev-high); }
+.severity-medium { color: var(--color-sev-medium); }
+.severity-low { color: var(--color-sev-low); }
 
 /* Aikido per-severity count breakdown */
 .aikido-counts {
@@ -634,3 +666,310 @@ button:hover {
 .coverage-good { color: var(--color-coverage-good); }
 .coverage-mid { color: var(--color-coverage-mid); }
 .coverage-low { color: var(--color-coverage-low); }
+
+.coverage-missing {
+  color: var(--color-mute);
+  font-size: 12px;
+}
+
+/* ── Repo detail sidebar ── */
+
+/* Flex slot that pushes and shrinks the table rather than overlaying it.
+   Collapses to zero width when no repo is selected (panel is empty). */
+.detail-panel {
+  flex: 0 0 40%;
+  max-width: 40%;
+  overflow: hidden;
+  transition: flex-basis 0.18s ease, max-width 0.18s ease;
+}
+
+.detail-panel:empty {
+  flex-basis: 0;
+  max-width: 0;
+}
+
+.repo-sidebar {
+  /* Keep content at its target width so the reveal wipes in without
+     reflowing text as the slot animates open. */
+  width: 40vw;
+  min-width: 340px;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  background: var(--color-background);
+  border-left: 1px solid var(--color-secondary);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.06);
+  padding: 16px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Empty-state prompt shown when no repo is selected. */
+.repo-sidebar--placeholder {
+  align-items: center;
+  justify-content: center;
+}
+
+.repo-sidebar-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-mute);
+  text-align: center;
+  opacity: 0.8;
+}
+
+.repo-sidebar-placeholder img,
+.repo-sidebar-placeholder svg {
+  width: 32px;
+  height: 32px;
+  opacity: 0.5;
+}
+
+.repo-sidebar-placeholder p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.repo-sidebar-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  position: sticky;
+  top: -16px;
+  margin: -16px -24px 0;
+  padding: 16px 24px 12px;
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-secondary);
+  z-index: 1;
+}
+
+.repo-sidebar-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  word-break: break-word;
+}
+
+.repo-sidebar-close {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-mute);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.repo-sidebar-close:hover {
+  color: var(--color-foreground);
+}
+
+.repo-sidebar-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+.repo-sidebar-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.repo-sidebar-meta-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-mute);
+}
+
+.repo-sidebar-meta-value {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.repo-sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.repo-sidebar-section-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-foreground);
+  border-bottom: 1px solid var(--color-secondary);
+  padding-bottom: 4px;
+}
+
+.repo-sidebar-section-count {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-mute);
+  font-variant-numeric: tabular-nums;
+}
+
+.repo-sidebar-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.repo-sidebar-list-item {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  font-size: 13px;
+  line-height: 1.35;
+  padding: 5px 8px 5px 10px;
+  /* Renovate blue accent line, appropriate to the dependency-update data. */
+  box-shadow: inset 3px 0 0 var(--color-badge-renovate-fg);
+}
+
+.repo-sidebar-list-item:nth-child(odd) {
+  background: var(--color-detail-bg);
+}
+
+.repo-sidebar-list-item-muted {
+  color: var(--color-mute);
+  box-shadow: inset 3px 0 0 var(--color-secondary);
+}
+
+.repo-sidebar-list-main {
+  flex: 1;
+  min-width: 0;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.repo-sidebar-note {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-mute);
+}
+
+.repo-sidebar-empty {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-ok);
+}
+
+/* Tables inside the detail panel (PRs, vulnerabilities) */
+.repo-sidebar-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  table-layout: auto;
+}
+
+.repo-sidebar-table thead th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-mute);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--color-secondary);
+  padding: 0 10px 5px 0;
+}
+
+.repo-sidebar-table tbody td {
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-secondary);
+  padding: 6px 10px 6px 0;
+}
+
+.repo-sidebar-table th:last-child,
+.repo-sidebar-table td:last-child {
+  padding-right: 0;
+}
+
+.repo-sidebar-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.repo-sidebar-table a {
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.repo-sidebar-cell-meta {
+  display: block;
+  color: var(--color-mute);
+  font-size: 11px;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.repo-sidebar-author {
+  white-space: nowrap;
+}
+
+/* Each row carries a thin left accent whose colour reflects the data. */
+.repo-sidebar-table tbody tr td:first-child {
+  padding-left: 10px;
+}
+
+/* PRs: human = green (active), bot = muted grey. Humans are sorted on top. */
+.repo-sidebar-table--pr tbody tr td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-badge-pr-fg);
+}
+
+.repo-sidebar-row-bot td {
+  background: var(--color-detail-bg);
+}
+
+.repo-sidebar-table--pr tbody tr.repo-sidebar-row-bot td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-mute);
+}
+
+/* Vulnerabilities: accent by severity, matching the main-table Vulns counts. */
+.repo-sidebar-table--vuln tr.sev-row-critical td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-sev-critical);
+}
+.repo-sidebar-table--vuln tr.sev-row-high td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-sev-high);
+}
+.repo-sidebar-table--vuln tr.sev-row-medium td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-sev-medium);
+}
+.repo-sidebar-table--vuln tr.sev-row-low td:first-child {
+  box-shadow: inset 3px 0 0 var(--color-sev-low);
+}
+
+.repo-sidebar-row-bot a,
+.repo-sidebar-row-bot .repo-sidebar-author {
+  color: var(--color-mute);
+}
+
+.repo-sidebar-bot-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-mute);
+  background: var(--color-secondary);
+  border-radius: 3px;
+  padding: 1px 5px;
+  margin-right: 6px;
+  vertical-align: 1px;
+}

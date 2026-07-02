@@ -6,6 +6,7 @@ export interface Column<T> {
   subheader?: string
   subheaderTitle?: string
   width?: string
+  align?: "left" | "right"
   render: (value: T, isExpanded: boolean) => React.ReactNode
   sortOn?: (value: T) => string | number | undefined
 }
@@ -19,6 +20,12 @@ interface Props<T extends object> {
   columns: Column<T>[]
   data: T[]
   rowKey?: (item: T) => string
+  /**
+   * When provided, clicking a row selects it (e.g. to open a detail sidebar)
+   * instead of expanding it inline. `selectedKey` marks the active row.
+   */
+  onRowClick?: (item: T) => void
+  selectedKey?: string
 }
 
 function compareValues<T>(
@@ -50,7 +57,14 @@ function columnKey<T>(column: Column<T>): string {
     : column.header
 }
 
-function Table<T extends object>({ columns, data, rowKey }: Props<T>) {
+function Table<T extends object>({
+  columns,
+  data,
+  rowKey,
+  onRowClick,
+  selectedKey,
+}: Props<T>) {
+  const selectable = onRowClick != null
   const [sortState, setSortstate] = React.useState<SortState>()
   const [expandedRows, setExpandedRows] = React.useState<Set<string>>(
     new Set(),
@@ -93,17 +107,27 @@ function Table<T extends object>({ columns, data, rowKey }: Props<T>) {
     <table style={{ width: "100%", tableLayout: "fixed" }}>
       <thead>
         <tr>
-          {rowKey && <th className="expand-col" />}
+          {rowKey && !selectable && <th className="expand-col" />}
           {columns.map((it) => (
             <th
               key={columnKey(it)}
-              style={it.width ? { width: it.width } : undefined}
+              style={{
+                width: it.width,
+                textAlign: it.align,
+              }}
               onClick={() =>
                 it.sortOn ? toggleSortState(columnKey(it)) : undefined
               }
               className={it.sortOn ? "clickeableHeader" : undefined}
             >
-              <div className="column-header-row">
+              <div
+                className="column-header-row"
+                style={
+                  it.align === "right"
+                    ? { justifyContent: "flex-end" }
+                    : undefined
+                }
+              >
                 {it.headerIcon}
                 {it.header}
                 {sortState?.column === columnKey(it) &&
@@ -121,25 +145,47 @@ function Table<T extends object>({ columns, data, rowKey }: Props<T>) {
       <tbody>
         {sortedData.map((item, idx) => {
           const key = rowKey ? rowKey(item) : String(idx)
-          const isExpanded = expandedRows.has(key)
+          const isSelected = selectable && key === selectedKey
+          const isExpanded = selectable ? false : expandedRows.has(key)
+          const isInteractive = Boolean(rowKey) || selectable
           return (
             <tr
               key={key}
-              className={rowKey ? "expandable-row" : undefined}
-              onClick={rowKey ? (e) => {
-                if ((e.target as HTMLElement).closest("a, button, input")) return
-                toggleRow(key)
-              } : undefined}
+              className={
+                isInteractive
+                  ? `expandable-row${isSelected ? " selected-row" : ""}`
+                  : undefined
+              }
+              onClick={
+                isInteractive
+                  ? (e) => {
+                      if (
+                        (e.target as HTMLElement).closest("a, button, input")
+                      )
+                        return
+                      if (selectable) {
+                        onRowClick(item)
+                      } else {
+                        toggleRow(key)
+                      }
+                    }
+                  : undefined
+              }
             >
-              {rowKey && (
+              {rowKey && !selectable && (
                 <td className="expand-toggle">
-                  <span className={`expand-chevron ${isExpanded ? "expanded" : ""}`}>
+                  <span
+                    className={`expand-chevron ${isExpanded ? "expanded" : ""}`}
+                  >
                     ›
                   </span>
                 </td>
               )}
               {columns.map((column) => (
-                <td key={columnKey(column)}>
+                <td
+                  key={columnKey(column)}
+                  style={column.align ? { textAlign: column.align } : undefined}
+                >
                   {column.render(item, isExpanded)}
                 </td>
               ))}
