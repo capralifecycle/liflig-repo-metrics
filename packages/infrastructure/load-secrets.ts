@@ -35,7 +35,7 @@ const sonarCloudTokenSecret: loadSecrets.Secret = {
 }
 
 const aikidoClientSecret: loadSecrets.Secret = {
-  name: "aikido-client",
+  name: "aikido-api",
   description: "Aikido REST API client credentials (client id + secret)",
   type: "json",
   fields: [
