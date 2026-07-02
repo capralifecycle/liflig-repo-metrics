@@ -34,6 +34,20 @@ const sonarCloudTokenSecret: loadSecrets.Secret = {
   ],
 }
 
+const aikidoApiSecret: loadSecrets.Secret = {
+  name: "aikido-api",
+  description: "Aikido REST API client credentials (client id + secret)",
+  type: "json",
+  fields: [
+    {
+      key: "clientId",
+    },
+    {
+      key: "clientSecret",
+    },
+  ],
+}
+
 const reporterSlackWebhookUrlSecret: loadSecrets.Secret = {
   name: "reporter-slack-webhook-url",
   description: "Slack Webhook URL for data reporting",
@@ -53,6 +67,7 @@ loadSecrets.loadSecretsCli({
       description: "incub",
       namePrefix: "/incub/repo-metrics/",
       secrets: [
+        aikidoApiSecret,
         githubAppSecret,
         reporterSlackWebhookUrlSecret,
         slackPipelineNotificationWebhookUrl,

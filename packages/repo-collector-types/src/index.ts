@@ -54,6 +54,34 @@ export interface SnapshotMetrics {
       }[]
     }
   }
+  // Added 2026-07: Aikido security. Absent on snapshots collected before the
+  // integration; consumers must treat it as optional.
+  aikido?: AikidoMetrics
+}
+
+export type AikidoSeverity = "critical" | "high" | "medium" | "low"
+
+/**
+ * Aikido issue groups for a single repo, embedded in a snapshot.
+ *
+ * Issues are deduplicated to their issue group (Aikido's own grouping of the
+ * same underlying finding across files), keeping the highest severity seen for
+ * the group. Only security-relevant issue types are included (see
+ * `ISSUE_TYPES` in `aikido/service.ts`).
+ */
+export interface AikidoMetrics {
+  /** Whether the repo is onboarded in Aikido (present in its code repo list). */
+  enabled: boolean
+  issueGroups: AikidoIssueGroup[]
+}
+
+export interface AikidoIssueGroup {
+  groupId: number
+  severity: AikidoSeverity
+  /** e.g. open_source, sast, leaked_secret, iac, cloud, malware, eol. */
+  type: string
+  /** Display label: cve id, else affected package, else the issue type. */
+  name: string
 }
 
 export interface GitHubVulnerabilityAlert {
@@ -150,5 +178,15 @@ export interface Metrics {
      * Undefined means that no test coverage has been set up
      */
     testCoverage?: string
+  }
+  aikido: {
+    /** Whether the repo is onboarded in Aikido. `false` renders as "no data". */
+    enabled: boolean
+    /** Deduplicated issue groups; the displayed count is `issues.length`. */
+    issues: {
+      severity: AikidoSeverity
+      type: string
+      name: string
+    }[]
   }
 }

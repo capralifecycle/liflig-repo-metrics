@@ -1,4 +1,8 @@
-import type { Metrics, Repo } from "@liflig/repo-metrics-repo-collector-types"
+import type {
+  AikidoSeverity,
+  Metrics,
+  Repo,
+} from "@liflig/repo-metrics-repo-collector-types"
 import type * as React from "react"
 import { Highlight } from "./Highlight"
 import { GitHubIcon, PrIcon, RenovateIcon, SecurityIcon, SonarCloudIcon } from "./Icons"
@@ -11,6 +15,7 @@ export const repoColumns = (props: {
   showBotPrList: boolean
   showDepList: boolean
   showVulGithubList: boolean
+  showVulAikidoList: boolean
   showOrgName: boolean
   showRenovateDays: boolean
   filterRepoName: string
@@ -22,6 +27,7 @@ export const repoColumns = (props: {
     showBotPrList,
     showDepList,
     showVulGithubList,
+    showVulAikidoList,
     showOrgName,
     showRenovateDays,
     filterRepoName,
@@ -220,10 +226,47 @@ export const repoColumns = (props: {
     {
       header: "Sårbarheter",
       subheader: "Aikido",
-      width: "7%",
-      render: (_repo, _isExpanded) => (
-        <span className="state-missing" title="Ingen data">—</span>
-      ),
+      headerIcon: <SecurityIcon />,
+      width: "9%",
+      sortOn: (repo) => repo.metrics.aikido.issues.length,
+      render: (repo, isExpanded) => {
+        const aikido = repo.metrics.aikido
+        if (!aikido.enabled) {
+          return <span className="state-missing" title="Ingen data">—</span>
+        }
+        if (aikido.issues.length === 0) {
+          return <span className="state-ok">Ingen</span>
+        }
+        const hasVulSearch = filterVulName !== ""
+        const matchingIssues = hasVulSearch
+          ? aikido.issues.filter((i) =>
+              i.name.toLowerCase().includes(filterVulName.toLowerCase()),
+            )
+          : []
+        const showDetails = showVulAikidoList || isExpanded || matchingIssues.length > 0
+        if (!showDetails) {
+          return <b>{aikido.issues.length}</b>
+        }
+        const issuesToGroup = showVulAikidoList || isExpanded ? aikido.issues : matchingIssues
+        const grouped = groupAikidoByName(issuesToGroup)
+        return (
+          <ul className="detail-list">
+            {grouped.map((group, idx) => (
+              <li key={idx} className="detail-item">
+                <span className="detail-index">{idx + 1}</span>
+                <Highlight text={group.name} search={filterVulName} />
+                {group.count > 1 && (
+                  <span className="detail-meta">&times;{group.count}</span>
+                )}
+                <span className="detail-meta"> {group.type}</span>
+                <span className={`detail-severity severity-${group.highestSeverity}`}>
+                  {group.highestSeverity}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )
+      },
     },
     {
       header: "Testdekning",
@@ -276,6 +319,53 @@ function groupVulnsByPackage(
       const bi = b.highestSeverity ? SEVERITY_ORDER.indexOf(b.highestSeverity) : 999
       return ai - bi || a.packageName.localeCompare(b.packageName)
     })
+}
+
+const AIKIDO_SEVERITY_ORDER: AikidoSeverity[] = [
+  "critical",
+  "high",
+  "medium",
+  "low",
+]
+
+function groupAikidoByName(
+  issues: { name: string; type: string; severity: AikidoSeverity }[],
+) {
+  const map = new Map<
+    string,
+    { count: number; type: string; highestSeverity: AikidoSeverity }
+  >()
+  for (const issue of issues) {
+    const existing = map.get(issue.name)
+    if (existing) {
+      existing.count++
+      if (
+        AIKIDO_SEVERITY_ORDER.indexOf(issue.severity) <
+        AIKIDO_SEVERITY_ORDER.indexOf(existing.highestSeverity)
+      ) {
+        existing.highestSeverity = issue.severity
+      }
+    } else {
+      map.set(issue.name, {
+        count: 1,
+        type: issue.type,
+        highestSeverity: issue.severity,
+      })
+    }
+  }
+  return [...map.entries()]
+    .map(([name, { count, type, highestSeverity }]) => ({
+      name,
+      count,
+      type,
+      highestSeverity,
+    }))
+    .sort(
+      (a, b) =>
+        AIKIDO_SEVERITY_ORDER.indexOf(a.highestSeverity) -
+          AIKIDO_SEVERITY_ORDER.indexOf(b.highestSeverity) ||
+        a.name.localeCompare(b.name),
+    )
 }
 
 export function isActionableRepo(repo: Metrics): boolean {

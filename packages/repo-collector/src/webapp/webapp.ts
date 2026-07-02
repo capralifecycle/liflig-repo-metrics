@@ -75,6 +75,14 @@ function mapSnapshotMetricToWebappMetrics(
         (el) => el.metric === "coverage",
       )?.value,
     },
+    aikido: {
+      enabled: snapshotMetrics.aikido?.enabled ?? false,
+      issues: (snapshotMetrics.aikido?.issueGroups ?? []).map((group) => ({
+        severity: group.severity,
+        type: group.type,
+        name: group.name,
+      })),
+    },
   }
 }
 

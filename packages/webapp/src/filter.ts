@@ -9,6 +9,7 @@ export interface Filter
   showBotPrList: boolean
   showDepList: boolean
   showVulGithubList: boolean
+  showVulAikidoList: boolean
   showOrgName: boolean
   showOnlyWithPrs: boolean
   showOnlyWithBotPrs: boolean
@@ -26,6 +27,7 @@ export const defaultValues: Filter = {
   showBotPrList: false,
   showDepList: false,
   showVulGithubList: false,
+  showVulAikidoList: false,
   showOrgName: false,
   showOnlyWithPrs: false,
   showOnlyWithBotPrs: false,

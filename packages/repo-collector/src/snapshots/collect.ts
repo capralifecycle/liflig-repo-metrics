@@ -1,9 +1,12 @@
 import { Temporal } from "@js-temporal/polyfill"
 import type {
+  AikidoMetrics,
   SnapshotData,
   SnapshotMetrics,
 } from "@liflig/repo-metrics-repo-collector-types"
 import { groupBy } from "lodash-es"
+import * as aikido from "../aikido/service"
+import type { AikidoCredentialsProvider } from "../aikido/token"
 import { CacheProvider } from "../cache"
 import { Config } from "../config"
 import * as definition from "../definition/definition"
@@ -15,9 +18,12 @@ import type { SonarCloudTokenProvider } from "../sonarcloud/token"
 import { GithubDefinitionProvider } from "./definition-provider"
 import type { SnapshotsRepository } from "./snapshots-repository"
 
+const AIKIDO_DISABLED: AikidoMetrics = { enabled: false, issueGroups: [] }
+
 async function createSnapshotData(
   githubService: github.GitHubService,
   sonarCloudService: sonarCloud.SonarCloudService,
+  aikidoByRepo: Map<string, AikidoMetrics>,
   repos: GetReposResponse[],
   systemsMapping: Map<string, { customer: string; system: string }>,
 ): Promise<SnapshotData> {
@@ -80,6 +86,8 @@ async function createSnapshotData(
         vulnerabilityAlerts: await repo.githubVulnerabilityAlerts,
       },
       sonarCloud: await repo.sonarCloudMetrics,
+      aikido:
+        aikidoByRepo.get(repo.repo.repo.name.toLowerCase()) ?? AIKIDO_DISABLED,
     })
   }
 
@@ -101,6 +109,7 @@ export async function collect(
   snapshotsRepository: SnapshotsRepository,
   githubTokenProvider?: GitHubAuthProvider,
   sonarCloudTokenProvider?: SonarCloudTokenProvider,
+  aikidoCredentialsProvider?: AikidoCredentialsProvider,
 ) {
   const config = new Config()
   console.log(`Working directory: ${config.cwd}`)
@@ -120,12 +129,34 @@ export async function collect(
     tokenProvider: sonarCloudTokenProvider,
   })
 
+  const aikidoService = aikido.createAikidoService({
+    config,
+    credentialsProvider: aikidoCredentialsProvider,
+  })
+
   const snapshotData = await createSnapshotData(
     githubService,
     sonarCloudService,
+    await fetchAikidoByRepo(aikidoService),
     await definitionProvider.getRepos(),
     await definitionProvider.getSystemsMapping(),
   )
 
   await snapshotsRepository.store(snapshotData)
+}
+
+/**
+ * Aikido data is fetched once for the whole workspace (few API calls, tight
+ * rate limit). A total failure degrades to empty rather than failing the whole
+ * snapshot, since Aikido is one of several sources.
+ */
+async function fetchAikidoByRepo(
+  aikidoService: aikido.AikidoService,
+): Promise<Map<string, AikidoMetrics>> {
+  try {
+    return await aikidoService.getIssueGroupsByRepo()
+  } catch (e) {
+    console.error("Failed to fetch Aikido data, continuing without it:", e)
+    return new Map()
+  }
 }
