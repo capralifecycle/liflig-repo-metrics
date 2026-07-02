@@ -1,6 +1,7 @@
 import { SecretsManager } from "@aws-sdk/client-secrets-manager"
 import { Temporal } from "@js-temporal/polyfill"
 import type { Handler } from "aws-lambda"
+import type { AikidoCredentialsProvider } from "./aikido/token"
 import { isWorkingDay } from "./dates"
 import { loadGitHubAppProviderFromSecrets } from "./github/token"
 import {
@@ -50,6 +51,15 @@ async function getSonarCloudTokenProvider(): Promise<SonarCloudTokenProvider> {
   }
 }
 
+async function getAikidoCredentialsProvider(): Promise<AikidoCredentialsProvider> {
+  const aikidoApiSecretId = requireEnv("AIKIDO_API_SECRET_ID")
+  const { clientId, clientSecret } = await getSecretValue(aikidoApiSecretId)
+
+  return {
+    getCredentials: () => Promise.resolve({ clientId, clientSecret }),
+  }
+}
+
 // noinspection JSUnusedGlobalSymbols
 export const collectHandler: Handler = async () => {
   console.log("Collecting data for aggregation")
@@ -65,6 +75,7 @@ export const collectHandler: Handler = async () => {
     snapshotsRepository,
     await loadGitHubAppProviderFromSecrets(),
     await getSonarCloudTokenProvider(),
+    await getAikidoCredentialsProvider(),
   )
   console.log("Done.")
 }

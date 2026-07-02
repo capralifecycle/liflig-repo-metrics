@@ -386,6 +386,12 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               Sårbarheter (GitHub)
             </Checkbox>
             <Checkbox
+              checked={state.showVulAikidoList}
+              onCheck={createOnCheckHandler("showVulAikidoList")}
+            >
+              Sårbarheter (Aikido)
+            </Checkbox>
+            <Checkbox
               checked={state.showOrgName}
               onCheck={createOnCheckHandler("showOrgName")}
             >
@@ -465,6 +471,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               showBotPrList={state.showBotPrList}
               showDepList={state.showDepList}
               showVulGithubList={state.showVulGithubList}
+              showVulAikidoList={state.showVulAikidoList}
               showOrgName={state.showOrgName}
               sortByRenovateDays={state.sortByRenovateDays}
               filterRepoName={state.filterRepoName}

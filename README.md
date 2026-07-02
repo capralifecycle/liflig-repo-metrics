@@ -94,6 +94,7 @@ Requires:
 
 - Active AWS credentials for `liflig-incubator` (used to fetch the GitHub App credentials from Secrets Manager — see [API Key setup](#api-key-setup)).
 - Environment variable `SONARCLOUD_TOKEN`.
+- Environment variables `AIKIDO_CLIENT_ID` and `AIKIDO_CLIENT_SECRET`.
 
 ```shell
 $ task update-local-data
@@ -146,6 +147,28 @@ The PEM is handled separately — see [Rotating the GitHub App private key](#rot
 Set the following in `.envrc`:
 
 - `SONARCLOUD_TOKEN`
+
+### Aikido — REST API client credentials
+
+Aikido has no long-lived tokens. A workspace admin creates a REST API client under
+[Settings → Integrations → API](https://app.aikido.dev/settings/integrations/api/aikido/rest),
+which yields a client id + secret. The collector exchanges these for a short-lived
+access token (OAuth2 client-credentials grant) on each run.
+
+Credentials live in AWS Secrets Manager (region `eu-west-1`, account `liflig-incubator`):
+
+- `/incub/repo-metrics/aikido-client` — JSON `{ clientId, clientSecret }`.
+
+To populate the secret, add the values in `packages/infrastructure/load-secrets.ts`'s
+flow and run:
+
+```shell
+cd packages/infrastructure
+bun load-secrets.ts
+```
+
+The Lambda reads the secret at runtime via its IAM role. For local CLI runs, set
+`AIKIDO_CLIENT_ID` and `AIKIDO_CLIENT_SECRET` in `.envrc` instead.
 
 ## Rotating the GitHub App private key
 

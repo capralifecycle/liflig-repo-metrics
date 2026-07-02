@@ -1,4 +1,8 @@
-import type { Metrics, Repo } from "@liflig/repo-metrics-repo-collector-types"
+import type {
+  AikidoSeverity,
+  Metrics,
+  Repo,
+} from "@liflig/repo-metrics-repo-collector-types"
 import type * as React from "react"
 import { Highlight } from "./Highlight"
 import { GitHubIcon, PrIcon, RenovateIcon, SecurityIcon, SonarCloudIcon } from "./Icons"
@@ -11,6 +15,7 @@ export const repoColumns = (props: {
   showBotPrList: boolean
   showDepList: boolean
   showVulGithubList: boolean
+  showVulAikidoList: boolean
   showOrgName: boolean
   showRenovateDays: boolean
   filterRepoName: string
@@ -22,6 +27,7 @@ export const repoColumns = (props: {
     showBotPrList,
     showDepList,
     showVulGithubList,
+    showVulAikidoList,
     showOrgName,
     showRenovateDays,
     filterRepoName,
@@ -220,10 +226,70 @@ export const repoColumns = (props: {
     {
       header: "Sårbarheter",
       subheader: "Aikido",
-      width: "7%",
-      render: (_repo, _isExpanded) => (
-        <span className="state-missing" title="Ingen data">—</span>
-      ),
+      headerIcon: <SecurityIcon />,
+      width: "9%",
+      sortOn: (repo) => aikidoSortValue(repo.metrics.aikido.issues),
+      render: (repo, isExpanded) => {
+        const aikido = repo.metrics.aikido
+        if (!aikido.enabled) {
+          return <span className="state-missing" title="Ingen data">—</span>
+        }
+        if (aikido.issues.length === 0 && aikido.ignoredCount === 0) {
+          return <span className="state-ok">Ingen</span>
+        }
+
+        const summary = (
+          <AikidoSeverityCounts
+            issues={aikido.issues}
+            ignoredCount={aikido.ignoredCount}
+          />
+        )
+
+        const hasVulSearch = filterVulName !== ""
+        const matchingIssues = hasVulSearch
+          ? aikido.issues.filter((i) =>
+              i.title.toLowerCase().includes(filterVulName.toLowerCase()),
+            )
+          : []
+        const showDetails =
+          showVulAikidoList || isExpanded || matchingIssues.length > 0
+        if (!showDetails) {
+          return summary
+        }
+
+        const listed =
+          showVulAikidoList || isExpanded ? aikido.issues : matchingIssues
+        const sorted = [...listed].sort(
+          (a, b) =>
+            AIKIDO_SEVERITY_ORDER.indexOf(a.severity) -
+              AIKIDO_SEVERITY_ORDER.indexOf(b.severity) ||
+            a.title.localeCompare(b.title),
+        )
+        return (
+          <>
+            {summary}
+            <ul className="detail-list">
+              {sorted.map((issue, idx) => (
+                <li key={idx} className="detail-item">
+                  <span className="detail-index">{idx + 1}</span>
+                  <a
+                    href={aikidoIssueUrl(aikido.repoId, issue.groupId)}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Highlight text={issue.title} search={filterVulName} />
+                  </a>
+                  <span
+                    className={`detail-severity severity-${issue.severity}`}
+                  >
+                    {issue.severity}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </>
+        )
+      },
     },
     {
       header: "Testdekning",
@@ -276,6 +342,79 @@ function groupVulnsByPackage(
       const bi = b.highestSeverity ? SEVERITY_ORDER.indexOf(b.highestSeverity) : 999
       return ai - bi || a.packageName.localeCompare(b.packageName)
     })
+}
+
+const AIKIDO_SEVERITY_ORDER: AikidoSeverity[] = [
+  "critical",
+  "high",
+  "medium",
+  "low",
+]
+
+// Deep link to an issue group in the Aikido dashboard. Prefer the repo-scoped
+// view (opens the issue in the repo's detail page); fall back to the queue.
+function aikidoIssueUrl(repoId: number | null, groupId: number): string {
+  return repoId != null
+    ? `https://app.aikido.dev/repositories/${repoId}?sidebarIssue=${groupId}`
+    : `https://app.aikido.dev/queue?sidebarIssue=${groupId}`
+}
+
+type AikidoIssue = Metrics["aikido"]["issues"][number]
+
+function aikidoSeverityBuckets(issues: AikidoIssue[]): Record<AikidoSeverity, number> {
+  const counts: Record<AikidoSeverity, number> = {
+    critical: 0,
+    high: 0,
+    medium: 0,
+    low: 0,
+  }
+  for (const issue of issues) counts[issue.severity]++
+  return counts
+}
+
+// Severity-weighted sort key so critical-heavy repos rank above low-severity ones.
+function aikidoSortValue(issues: AikidoIssue[]): number {
+  const c = aikidoSeverityBuckets(issues)
+  return c.critical * 1000 + c.high * 100 + c.medium * 10 + c.low
+}
+
+const AIKIDO_COUNT_META: {
+  key: AikidoSeverity
+  cls: string
+  label: string
+}[] = [
+  { key: "critical", cls: "sev-c", label: "Kritisk" },
+  { key: "high", cls: "sev-h", label: "Høy" },
+  { key: "medium", cls: "sev-m", label: "Medium" },
+  { key: "low", cls: "sev-l", label: "Lav" },
+]
+
+// Colorized per-severity counts (critical/high/medium/low) plus a muted count
+// of ignored issues, mirroring how Aikido presents a repo's issues.
+function AikidoSeverityCounts({
+  issues,
+  ignoredCount,
+}: {
+  issues: AikidoIssue[]
+  ignoredCount: number
+}) {
+  const counts = aikidoSeverityBuckets(issues)
+  return (
+    <span className="aikido-counts">
+      {AIKIDO_COUNT_META.map((meta) =>
+        counts[meta.key] > 0 ? (
+          <span key={meta.key} className={meta.cls} title={meta.label}>
+            {counts[meta.key]}
+          </span>
+        ) : null,
+      )}
+      {ignoredCount > 0 && (
+        <span className="sev-i" title="Ignorert">
+          {ignoredCount}
+        </span>
+      )}
+    </span>
+  )
 }
 
 export function isActionableRepo(repo: Metrics): boolean {

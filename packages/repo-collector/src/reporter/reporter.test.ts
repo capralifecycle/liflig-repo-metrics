@@ -1,6 +1,6 @@
 import { Temporal } from "@js-temporal/polyfill"
 import type {
-  GitHubVulnerabilityAlert,
+  AikidoSeverity,
   SnapshotData,
   SnapshotMetrics,
 } from "@liflig/repo-metrics-repo-collector-types"
@@ -30,128 +30,55 @@ function repo(overrides: Partial<SnapshotMetrics> = {}): SnapshotMetrics {
   }
 }
 
-function ghAlert(
-  severity: GitHubVulnerabilityAlert["securityAdvisory"] extends null
-    ? never
-    : NonNullable<GitHubVulnerabilityAlert["securityAdvisory"]>["severity"],
-): GitHubVulnerabilityAlert {
+function aikidoGroups(severities: AikidoSeverity[]): SnapshotMetrics["aikido"] {
   return {
-    state: "OPEN",
-    dismissReason: null,
-    vulnerableManifestFilename: "",
-    vulnerableManifestPath: "",
-    vulnerableRequirements: null,
-    securityAdvisory: {
-      description: "",
-      identifiers: [],
-      references: [],
+    enabled: true,
+    repoId: 1,
+    ignoredCount: 0,
+    issueGroups: severities.map((severity, i) => ({
+      groupId: i + 1,
       severity,
-    },
-    securityVulnerability: null,
+      type: "open_source",
+      title: `pkg-${i}`,
+    })),
   }
 }
 
-function repoWithGhVulns(
-  overrides: Partial<SnapshotMetrics> & {
-    severities: ("CRITICAL" | "HIGH" | "MODERATE" | "LOW")[]
-  },
+function repoWithAikidoVulns(
+  overrides: Partial<SnapshotMetrics> & { severities: AikidoSeverity[] },
 ): SnapshotMetrics {
   const { severities, ...rest } = overrides
-  return repo({
-    ...rest,
-    github: {
-      orgName: "org",
-      repoName: "repo",
-      prs: [],
-      vulnerabilityAlerts: severities.map(ghAlert),
-      renovateDependencyDashboardIssue: null,
-    },
-  })
+  return repo({ ...rest, aikido: aikidoGroups(severities) })
 }
 
 describe("countSeveritiesForRepo", () => {
-  test("sums GitHub severities", () => {
+  test("sums Aikido severities", () => {
     const result = countSeveritiesForRepo(
-      repo({
-        github: {
-          orgName: "org",
-          repoName: "repo",
-          prs: [],
-          renovateDependencyDashboardIssue: null,
-          vulnerabilityAlerts: [
-            ghAlert("CRITICAL"),
-            ghAlert("HIGH"),
-            ghAlert("HIGH"),
-            ghAlert("MODERATE"),
-            ghAlert("MODERATE"),
-            ghAlert("MODERATE"),
-            ghAlert("LOW"),
-            ghAlert("LOW"),
-            ghAlert("LOW"),
-            ghAlert("LOW"),
-          ],
-        },
+      repoWithAikidoVulns({
+        severities: [
+          "critical",
+          "high",
+          "high",
+          "medium",
+          "medium",
+          "medium",
+          "low",
+          "low",
+          "low",
+          "low",
+        ],
       }),
     )
     expect(result).toStrictEqual({ critical: 1, high: 2, medium: 3, low: 4 })
   })
 
-  test("maps GitHub MODERATE to medium and ignores dismissed alerts", () => {
-    const result = countSeveritiesForRepo(
-      repo({
-        github: {
-          orgName: "org",
-          repoName: "repo",
-          prs: [],
-          renovateDependencyDashboardIssue: null,
-          vulnerabilityAlerts: [
-            {
-              state: "OPEN",
-              dismissReason: null,
-              vulnerableManifestFilename: "",
-              vulnerableManifestPath: "",
-              vulnerableRequirements: null,
-              securityAdvisory: {
-                description: "",
-                identifiers: [],
-                references: [],
-                severity: "CRITICAL",
-              },
-              securityVulnerability: null,
-            },
-            {
-              state: "OPEN",
-              dismissReason: null,
-              vulnerableManifestFilename: "",
-              vulnerableManifestPath: "",
-              vulnerableRequirements: null,
-              securityAdvisory: {
-                description: "",
-                identifiers: [],
-                references: [],
-                severity: "MODERATE",
-              },
-              securityVulnerability: null,
-            },
-            {
-              state: "DISMISSED",
-              dismissReason: "fix_started",
-              vulnerableManifestFilename: "",
-              vulnerableManifestPath: "",
-              vulnerableRequirements: null,
-              securityAdvisory: {
-                description: "",
-                identifiers: [],
-                references: [],
-                severity: "HIGH",
-              },
-              securityVulnerability: null,
-            },
-          ],
-        },
-      }),
-    )
-    expect(result).toStrictEqual({ critical: 1, high: 0, medium: 1, low: 0 })
+  test("treats missing Aikido data as no vulns", () => {
+    expect(countSeveritiesForRepo(repo())).toStrictEqual({
+      critical: 0,
+      high: 0,
+      medium: 0,
+      low: 0,
+    })
   })
 })
 
@@ -228,15 +155,15 @@ describe("buildReportData", () => {
     const snapshot: SnapshotData = {
       timestamp: now.toString(),
       metrics: [
-        repoWithGhVulns({
+        repoWithAikidoVulns({
           repoId: "org/zeta",
           responsible: "team-b",
-          severities: ["CRITICAL"],
+          severities: ["critical"],
         }),
-        repoWithGhVulns({
+        repoWithAikidoVulns({
           repoId: "org/alpha",
           responsible: "team-a",
-          severities: ["HIGH", "HIGH"],
+          severities: ["high", "high"],
         }),
         repo({ repoId: "org/clean", responsible: "team-c" }),
       ],
@@ -262,26 +189,26 @@ describe("buildPerTeamMessages", () => {
     const snapshot: SnapshotData = {
       timestamp: now.toString(),
       metrics: [
-        repoWithGhVulns({
+        repoWithAikidoVulns({
           repoId: "org/a",
           responsible: "team-a",
           severities: [
-            "CRITICAL",
-            "HIGH",
-            "HIGH",
-            "MODERATE",
-            "MODERATE",
-            "MODERATE",
-            "LOW",
-            "LOW",
-            "LOW",
-            "LOW",
+            "critical",
+            "high",
+            "high",
+            "medium",
+            "medium",
+            "medium",
+            "low",
+            "low",
+            "low",
+            "low",
           ],
         }),
-        repoWithGhVulns({
+        repoWithAikidoVulns({
           repoId: "org/b",
           responsible: "team-b",
-          severities: ["HIGH"],
+          severities: ["high"],
         }),
       ],
     }
@@ -314,15 +241,15 @@ describe("buildPerTeamMessages", () => {
     const snapshot: SnapshotData = {
       timestamp: now.toString(),
       metrics: [
-        repoWithGhVulns({
+        repoWithAikidoVulns({
           repoId: "org/alpha",
           responsible: "team-a",
-          severities: ["HIGH", "HIGH", "MODERATE", "MODERATE", "MODERATE"],
+          severities: ["high", "high", "medium", "medium", "medium"],
         }),
-        repoWithGhVulns({
+        repoWithAikidoVulns({
           repoId: "org/beta",
           responsible: "team-a",
-          severities: ["CRITICAL"],
+          severities: ["critical"],
         }),
         // No vulns — must not appear as a table row.
         repo({ repoId: "org/clean", responsible: "team-a" }),
@@ -334,8 +261,7 @@ describe("buildPerTeamMessages", () => {
     )
 
     const table = message.blocks.find((b) => b.type === "table")
-    if (!table || table.type !== "table")
-      throw new Error("expected a table block")
+    if (table?.type !== "table") throw new Error("expected a table block")
 
     const rawText = (cell: unknown): string | undefined =>
       typeof cell === "object" &&
@@ -373,16 +299,17 @@ describe("buildPerTeamMessages", () => {
     const snapshot: SnapshotData = {
       timestamp: now.toString(),
       metrics: [
-        repo({
+        repoWithAikidoVulns({
           repoId: "liflig/liflig-logging",
           github: {
             orgName: "liflig",
             repoName: "liflig-logging",
             prs: [],
-            vulnerabilityAlerts: [ghAlert("HIGH")],
+            vulnerabilityAlerts: [],
             renovateDependencyDashboardIssue: null,
           },
           responsible: "team-a",
+          severities: ["high"],
         }),
       ],
     }
@@ -392,7 +319,7 @@ describe("buildPerTeamMessages", () => {
     )
     const json = JSON.stringify(message)
     expect(json).toContain(
-      "https://example/?filterRepoName=liflig-logging&showVulGithubList=true",
+      "https://example/?filterRepoName=liflig-logging&showVulAikidoList=true",
     )
     expect(json).toContain('"text":"liflig-logging"')
     expect(json).not.toContain('"text":"liflig/liflig-logging"')

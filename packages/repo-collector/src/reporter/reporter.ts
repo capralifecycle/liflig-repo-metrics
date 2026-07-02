@@ -1,6 +1,6 @@
 import { Temporal } from "@js-temporal/polyfill"
 import type {
-  GitHubVulnerabilityAlert,
+  AikidoIssueGroup,
   SnapshotData,
   SnapshotMetrics,
 } from "@liflig/repo-metrics-repo-collector-types"
@@ -71,26 +71,16 @@ function totalOf(s: SeverityCounts): number {
   return s.critical + s.high + s.medium + s.low
 }
 
-function githubSeverities(alerts: GitHubVulnerabilityAlert[]): SeverityCounts {
+// Aikido is the vulnerability source for the report. Its severities map 1:1 to
+// our SeverityCounts keys.
+export function countSeveritiesForRepo(metrics: {
+  aikido?: { issueGroups: AikidoIssueGroup[] }
+}): SeverityCounts {
   const counts = zeroSeverities()
-  for (const alert of alerts) {
-    const open =
-      alert.state == null ? alert.dismissReason == null : alert.state === "OPEN"
-    if (!open) continue
-    const sev = alert.securityAdvisory?.severity
-    if (sev === "CRITICAL") counts.critical += 1
-    else if (sev === "HIGH") counts.high += 1
-    else if (sev === "MODERATE") counts.medium += 1
-    else if (sev === "LOW") counts.low += 1
-    else counts.medium += 1
+  for (const group of metrics.aikido?.issueGroups ?? []) {
+    counts[group.severity] += 1
   }
   return counts
-}
-
-export function countSeveritiesForRepo(metrics: {
-  github: { vulnerabilityAlerts: GitHubVulnerabilityAlert[] }
-}): SeverityCounts {
-  return githubSeverities(metrics.github.vulnerabilityAlerts)
 }
 
 function daysBetween(from: Temporal.Instant, to: Temporal.Instant): number {
@@ -305,7 +295,7 @@ function buildVulnTable(
   const bodyRows = items.map((e) => {
     const url = webappUrl(webappBaseUrl, {
       filterRepoName: e.repoName,
-      showVulGithubList: "true",
+      showVulAikidoList: "true",
     })
     return [
       repoLinkCell(e.repoName, url),

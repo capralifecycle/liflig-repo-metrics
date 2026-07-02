@@ -20,6 +20,13 @@
   --color-aikido-low: #6b7280;
   --color-aikido-zero: #b0b0b0;
 
+  /* Aikido per-severity count breakdown: red/yellow/blue/green + muted ignored */
+  --color-sev-critical: #b3261e;
+  --color-sev-high: #b7791f;
+  --color-sev-medium: #1d4ed8;
+  --color-sev-low: #15803d;
+  --color-sev-ignored: #8f8f8f;
+
   /* Coverage scale */
   --color-coverage-good: #1a7f37;
   --color-coverage-mid: #b45309;
@@ -59,6 +66,12 @@
   --color-aikido-medium: #f0a050;
   --color-aikido-low: #8b95a5;
   --color-aikido-zero: #666;
+
+  --color-sev-critical: #f08080;
+  --color-sev-high: #e0b050;
+  --color-sev-medium: #7ba0ff;
+  --color-sev-low: #6fdd8b;
+  --color-sev-ignored: #a0a0a0;
 
   --color-coverage-good: #6fdd8b;
   --color-coverage-mid: #f0a050;

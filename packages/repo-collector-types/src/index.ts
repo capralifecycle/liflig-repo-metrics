@@ -54,6 +54,39 @@ export interface SnapshotMetrics {
       }[]
     }
   }
+  // Added 2026-07: Aikido security. Absent on snapshots collected before the
+  // integration; consumers must treat it as optional.
+  aikido?: AikidoMetrics
+}
+
+export type AikidoSeverity = "critical" | "high" | "medium" | "low"
+
+/**
+ * Aikido issue groups for a single repo, embedded in a snapshot.
+ *
+ * Issues are deduplicated to their issue group (Aikido's own grouping of the
+ * same underlying finding across files), keeping the highest severity seen for
+ * the group. Only security-relevant issue types are included (see
+ * `ISSUE_TYPES` in `aikido/service.ts`).
+ */
+export interface AikidoMetrics {
+  /** Whether the repo is onboarded in Aikido (present in its code repo list). */
+  enabled: boolean
+  /** The repo's Aikido id, used to deep-link into its issues. Null when disabled. */
+  repoId: number | null
+  issueGroups: AikidoIssueGroup[]
+  /** Number of ignored (open but muted) issue groups for the repo. */
+  ignoredCount: number
+}
+
+export interface AikidoIssueGroup {
+  /** The issue group id — Aikido's queue/sidebar deep-links key on this. */
+  groupId: number
+  severity: AikidoSeverity
+  /** e.g. open_source, sast, leaked_secret, iac, cloud, malware, eol. */
+  type: string
+  /** Human-readable title as shown in Aikido, e.g. "fast-uri", "3 exposed secrets". */
+  title: string
 }
 
 export interface GitHubVulnerabilityAlert {
@@ -150,5 +183,20 @@ export interface Metrics {
      * Undefined means that no test coverage has been set up
      */
     testCoverage?: string
+  }
+  aikido: {
+    /** Whether the repo is onboarded in Aikido. `false` renders as "no data". */
+    enabled: boolean
+    /** The repo's Aikido id, for deep-linking issues. Null when disabled. */
+    repoId: number | null
+    /** Ignored (muted) issue groups, shown separately from the open counts. */
+    ignoredCount: number
+    /** Deduplicated open issue groups. */
+    issues: {
+      groupId: number
+      severity: AikidoSeverity
+      type: string
+      title: string
+    }[]
   }
 }
