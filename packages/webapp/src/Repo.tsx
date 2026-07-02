@@ -228,43 +228,66 @@ export const repoColumns = (props: {
       subheader: "Aikido",
       headerIcon: <SecurityIcon />,
       width: "9%",
-      sortOn: (repo) => repo.metrics.aikido.issues.length,
+      sortOn: (repo) => aikidoSortValue(repo.metrics.aikido.issues),
       render: (repo, isExpanded) => {
         const aikido = repo.metrics.aikido
         if (!aikido.enabled) {
           return <span className="state-missing" title="Ingen data">—</span>
         }
-        if (aikido.issues.length === 0) {
+        if (aikido.issues.length === 0 && aikido.ignoredCount === 0) {
           return <span className="state-ok">Ingen</span>
         }
+
+        const summary = (
+          <AikidoSeverityCounts
+            issues={aikido.issues}
+            ignoredCount={aikido.ignoredCount}
+          />
+        )
+
         const hasVulSearch = filterVulName !== ""
         const matchingIssues = hasVulSearch
           ? aikido.issues.filter((i) =>
-              i.name.toLowerCase().includes(filterVulName.toLowerCase()),
+              i.title.toLowerCase().includes(filterVulName.toLowerCase()),
             )
           : []
-        const showDetails = showVulAikidoList || isExpanded || matchingIssues.length > 0
+        const showDetails =
+          showVulAikidoList || isExpanded || matchingIssues.length > 0
         if (!showDetails) {
-          return <b>{aikido.issues.length}</b>
+          return summary
         }
-        const issuesToGroup = showVulAikidoList || isExpanded ? aikido.issues : matchingIssues
-        const grouped = groupAikidoByName(issuesToGroup)
+
+        const listed =
+          showVulAikidoList || isExpanded ? aikido.issues : matchingIssues
+        const sorted = [...listed].sort(
+          (a, b) =>
+            AIKIDO_SEVERITY_ORDER.indexOf(a.severity) -
+              AIKIDO_SEVERITY_ORDER.indexOf(b.severity) ||
+            a.title.localeCompare(b.title),
+        )
         return (
-          <ul className="detail-list">
-            {grouped.map((group, idx) => (
-              <li key={idx} className="detail-item">
-                <span className="detail-index">{idx + 1}</span>
-                <Highlight text={group.name} search={filterVulName} />
-                {group.count > 1 && (
-                  <span className="detail-meta">&times;{group.count}</span>
-                )}
-                <span className="detail-meta"> {group.type}</span>
-                <span className={`detail-severity severity-${group.highestSeverity}`}>
-                  {group.highestSeverity}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <>
+            {summary}
+            <ul className="detail-list">
+              {sorted.map((issue, idx) => (
+                <li key={idx} className="detail-item">
+                  <span className="detail-index">{idx + 1}</span>
+                  <a
+                    href={`${AIKIDO_ISSUE_URL}${issue.issueId}`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Highlight text={issue.title} search={filterVulName} />
+                  </a>
+                  <span
+                    className={`detail-severity severity-${issue.severity}`}
+                  >
+                    {issue.severity}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </>
         )
       },
     },
@@ -328,44 +351,65 @@ const AIKIDO_SEVERITY_ORDER: AikidoSeverity[] = [
   "low",
 ]
 
-function groupAikidoByName(
-  issues: { name: string; type: string; severity: AikidoSeverity }[],
-) {
-  const map = new Map<
-    string,
-    { count: number; type: string; highestSeverity: AikidoSeverity }
-  >()
-  for (const issue of issues) {
-    const existing = map.get(issue.name)
-    if (existing) {
-      existing.count++
-      if (
-        AIKIDO_SEVERITY_ORDER.indexOf(issue.severity) <
-        AIKIDO_SEVERITY_ORDER.indexOf(existing.highestSeverity)
-      ) {
-        existing.highestSeverity = issue.severity
-      }
-    } else {
-      map.set(issue.name, {
-        count: 1,
-        type: issue.type,
-        highestSeverity: issue.severity,
-      })
-    }
+// Deep link to a single issue in the Aikido dashboard (queue sidebar).
+const AIKIDO_ISSUE_URL = "https://app.aikido.dev/queue?sidebarIssue="
+
+type AikidoIssue = Metrics["aikido"]["issues"][number]
+
+function aikidoSeverityBuckets(issues: AikidoIssue[]): Record<AikidoSeverity, number> {
+  const counts: Record<AikidoSeverity, number> = {
+    critical: 0,
+    high: 0,
+    medium: 0,
+    low: 0,
   }
-  return [...map.entries()]
-    .map(([name, { count, type, highestSeverity }]) => ({
-      name,
-      count,
-      type,
-      highestSeverity,
-    }))
-    .sort(
-      (a, b) =>
-        AIKIDO_SEVERITY_ORDER.indexOf(a.highestSeverity) -
-          AIKIDO_SEVERITY_ORDER.indexOf(b.highestSeverity) ||
-        a.name.localeCompare(b.name),
-    )
+  for (const issue of issues) counts[issue.severity]++
+  return counts
+}
+
+// Severity-weighted sort key so critical-heavy repos rank above low-severity ones.
+function aikidoSortValue(issues: AikidoIssue[]): number {
+  const c = aikidoSeverityBuckets(issues)
+  return c.critical * 1000 + c.high * 100 + c.medium * 10 + c.low
+}
+
+const AIKIDO_COUNT_META: {
+  key: AikidoSeverity
+  cls: string
+  label: string
+}[] = [
+  { key: "critical", cls: "sev-c", label: "Kritisk" },
+  { key: "high", cls: "sev-h", label: "Høy" },
+  { key: "medium", cls: "sev-m", label: "Medium" },
+  { key: "low", cls: "sev-l", label: "Lav" },
+]
+
+// Colorized per-severity counts (critical/high/medium/low) plus a muted count
+// of ignored issues, mirroring how Aikido presents a repo's issues.
+function AikidoSeverityCounts({
+  issues,
+  ignoredCount,
+}: {
+  issues: AikidoIssue[]
+  ignoredCount: number
+}) {
+  const counts = aikidoSeverityBuckets(issues)
+  return (
+    <span className="aikido-counts">
+      {AIKIDO_COUNT_META.map((meta) =>
+        counts[meta.key] > 0 ? (
+          <span key={meta.key} className={meta.cls} title={meta.label}>
+            {counts[meta.key]}
+          </span>
+        ) : null,
+      )}
+      {ignoredCount > 0 && (
+        <span className="sev-i" title="Ignorert">
+          {ignoredCount}
+        </span>
+      )}
+    </span>
+  )
 }
 
 export function isActionableRepo(repo: Metrics): boolean {

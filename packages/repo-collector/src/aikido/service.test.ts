@@ -60,30 +60,98 @@ const REPOS = [
 ]
 
 const ISSUES = [
-  // repo-a group 10 appears twice with different severities -> dedupe, keep critical.
-  issue({ group_id: 10, severity: "high", type: "open_source", repo: 1 }),
-  issue({ group_id: 10, severity: "critical", type: "open_source", repo: 1 }),
-  issue({ group_id: 11, severity: "high", type: "sast", repo: 1 }),
+  // repo-a group 10 appears twice with different severities -> dedupe, keep critical;
+  // title comes from the affected package.
+  issue({
+    id: 100,
+    group_id: 10,
+    severity: "high",
+    type: "open_source",
+    repo: 1,
+    affected_package: "fast-uri",
+  }),
+  issue({
+    id: 101,
+    group_id: 10,
+    severity: "critical",
+    type: "open_source",
+    repo: 1,
+    affected_package: "fast-uri",
+  }),
+  // sast title comes from the rule name.
+  issue({
+    id: 110,
+    group_id: 11,
+    severity: "high",
+    type: "sast",
+    repo: 1,
+    rule: "SQL injection",
+  }),
   // license is excluded from ISSUE_TYPES.
-  issue({ group_id: 12, severity: "low", type: "license", repo: 1 }),
-  issue({ group_id: 20, severity: "medium", type: "leaked_secret", repo: 2 }),
+  issue({ id: 120, group_id: 12, severity: "low", type: "license", repo: 1 }),
+  // repo-b group 20: three leaked secrets -> aggregated title.
+  issue({
+    id: 200,
+    group_id: 20,
+    severity: "medium",
+    type: "leaked_secret",
+    repo: 2,
+  }),
+  issue({
+    id: 201,
+    group_id: 20,
+    severity: "medium",
+    type: "leaked_secret",
+    repo: 2,
+  }),
+  issue({
+    id: 202,
+    group_id: 20,
+    severity: "medium",
+    type: "leaked_secret",
+    repo: 2,
+  }),
+]
+
+// Ignored issues are fetched separately; one ignored group for repo-a.
+const IGNORED = [
+  issue({
+    id: 900,
+    group_id: 90,
+    severity: "high",
+    type: "open_source",
+    repo: 1,
+    affected_package: "left-pad",
+  }),
 ]
 
 function issue(opts: {
+  id: number
   group_id: number
   severity: string
   type: string
   repo: number
+  affected_package?: string | null
+  rule?: string | null
 }) {
   return {
+    id: opts.id,
     group_id: opts.group_id,
     severity: opts.severity,
     type: opts.type,
     code_repo_id: opts.repo,
     code_repo_name: `repo-${opts.repo}`,
     cve_id: `CVE-${opts.group_id}`,
-    affected_package: null,
+    affected_package: opts.affected_package ?? null,
+    rule: opts.rule ?? null,
   }
+}
+
+// Routes an /issues/export request to open vs ignored fixtures by filter_status.
+function exportResponse(url: string, open: unknown, ignored: unknown) {
+  return url.includes("filter_status=ignored")
+    ? jsonResponse(ignored)
+    : jsonResponse(open)
 }
 
 afterEach(() => {
@@ -91,7 +159,7 @@ afterEach(() => {
 })
 
 describe("getIssueGroupsByRepo", () => {
-  test("filters types, dedupes by group id, groups per repo", async () => {
+  test("filters types, dedupes by group id, derives titles, counts ignored", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn(async (url: string) => {
@@ -99,7 +167,9 @@ describe("getIssueGroupsByRepo", () => {
           return jsonResponse({ access_token: "tok", token_type: "bearer" })
         }
         if (url.includes("/repositories/code")) return jsonResponse(REPOS)
-        if (url.includes("/issues/export")) return jsonResponse(ISSUES)
+        if (url.includes("/issues/export")) {
+          return exportResponse(url, ISSUES, IGNORED)
+        }
         throw new Error(`unexpected url ${url}`)
       }),
     )
@@ -112,20 +182,30 @@ describe("getIssueGroupsByRepo", () => {
     expect(repoA?.issueGroups).toHaveLength(2)
     const group10 = repoA?.issueGroups.find((g) => g.groupId === 10)
     expect(group10?.severity).toBe("critical") // highest severity wins
-    expect(group10?.name).toBe("CVE-10")
+    expect(group10?.issueId).toBe(101) // representative issue = highest severity
+    expect(group10?.title).toBe("fast-uri") // title from affected package
+    const group11 = repoA?.issueGroups.find((g) => g.groupId === 11)
+    expect(group11?.title).toBe("SQL injection") // title from rule name
+    // Ignored issues are counted separately.
+    expect(repoA?.ignoredCount).toBe(1)
 
     const repoB = byRepo.get("repo-b")
     expect(repoB?.issueGroups).toEqual([
       {
         groupId: 20,
+        issueId: 200,
         severity: "medium",
         type: "leaked_secret",
-        name: "CVE-20",
+        title: "3 exposed secrets", // aggregated secret title
       },
     ])
 
-    // Onboarded repo with no issues is enabled with an empty list.
-    expect(byRepo.get("repo-c")).toEqual({ enabled: true, issueGroups: [] })
+    // Onboarded repo with no issues is enabled with empty counts.
+    expect(byRepo.get("repo-c")).toEqual({
+      enabled: true,
+      issueGroups: [],
+      ignoredCount: 0,
+    })
   })
 
   test("repos are also keyed by their URL repo slug", async () => {

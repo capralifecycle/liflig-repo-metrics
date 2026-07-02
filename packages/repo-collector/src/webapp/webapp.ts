@@ -77,10 +77,12 @@ function mapSnapshotMetricToWebappMetrics(
     },
     aikido: {
       enabled: snapshotMetrics.aikido?.enabled ?? false,
+      ignoredCount: snapshotMetrics.aikido?.ignoredCount ?? 0,
       issues: (snapshotMetrics.aikido?.issueGroups ?? []).map((group) => ({
+        issueId: group.issueId,
         severity: group.severity,
         type: group.type,
-        name: group.name,
+        title: group.title,
       })),
     },
   }

@@ -18,7 +18,11 @@ import type { SonarCloudTokenProvider } from "../sonarcloud/token"
 import { GithubDefinitionProvider } from "./definition-provider"
 import type { SnapshotsRepository } from "./snapshots-repository"
 
-const AIKIDO_DISABLED: AikidoMetrics = { enabled: false, issueGroups: [] }
+const AIKIDO_DISABLED: AikidoMetrics = {
+  enabled: false,
+  issueGroups: [],
+  ignoredCount: 0,
+}
 
 async function createSnapshotData(
   githubService: github.GitHubService,

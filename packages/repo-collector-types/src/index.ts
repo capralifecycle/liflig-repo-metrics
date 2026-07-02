@@ -73,15 +73,19 @@ export interface AikidoMetrics {
   /** Whether the repo is onboarded in Aikido (present in its code repo list). */
   enabled: boolean
   issueGroups: AikidoIssueGroup[]
+  /** Number of ignored (open but muted) issue groups for the repo. */
+  ignoredCount: number
 }
 
 export interface AikidoIssueGroup {
   groupId: number
+  /** A representative issue id in the group, used to deep-link into Aikido. */
+  issueId: number
   severity: AikidoSeverity
   /** e.g. open_source, sast, leaked_secret, iac, cloud, malware, eol. */
   type: string
-  /** Display label: cve id, else affected package, else the issue type. */
-  name: string
+  /** Human-readable title as shown in Aikido, e.g. "fast-uri", "3 exposed secrets". */
+  title: string
 }
 
 export interface GitHubVulnerabilityAlert {
@@ -182,11 +186,14 @@ export interface Metrics {
   aikido: {
     /** Whether the repo is onboarded in Aikido. `false` renders as "no data". */
     enabled: boolean
-    /** Deduplicated issue groups; the displayed count is `issues.length`. */
+    /** Ignored (muted) issue groups, shown separately from the open counts. */
+    ignoredCount: number
+    /** Deduplicated open issue groups. */
     issues: {
+      issueId: number
       severity: AikidoSeverity
       type: string
-      name: string
+      title: string
     }[]
   }
 }

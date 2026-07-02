@@ -325,6 +325,19 @@ td:hover .renovate-logs-link {
 .severity-medium { background: var(--color-badge-pr-bg); color: var(--color-warning); }
 .severity-low { background: var(--color-secondary); color: var(--color-mute); }
 
+/* Aikido per-severity count breakdown */
+.aikido-counts {
+  display: inline-flex;
+  gap: 6px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.aikido-counts .sev-c { color: var(--color-sev-critical); }
+.aikido-counts .sev-h { color: var(--color-sev-high); }
+.aikido-counts .sev-m { color: var(--color-sev-medium); }
+.aikido-counts .sev-l { color: var(--color-sev-low); }
+.aikido-counts .sev-i { color: var(--color-sev-ignored); }
+
 /* Aikido project links in detail mode */
 .aikido-project-list {
   list-style: none;
