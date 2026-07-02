@@ -36,10 +36,6 @@ async function createSnapshotData(
     .filter((it) => it.repo.archived !== true)
     .map((it) => ({
       repo: it,
-      githubVulnerabilityAlerts: githubService.getVulnerabilityAlerts(
-        it.orgName,
-        it.repo.name,
-      ),
       renovateDependencyDashboardIssue:
         githubService.getRenovateDependencyDashboardIssue(
           it.orgName,
@@ -88,7 +84,6 @@ async function createSnapshotData(
         prs,
         renovateDependencyDashboardIssue:
           (await repo.renovateDependencyDashboardIssue) ?? null,
-        vulnerabilityAlerts: await repo.githubVulnerabilityAlerts,
       },
       sonarCloud: await repo.sonarCloudMetrics,
       aikido:

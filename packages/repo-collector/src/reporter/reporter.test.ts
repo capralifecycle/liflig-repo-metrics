@@ -23,7 +23,6 @@ function repo(overrides: Partial<SnapshotMetrics> = {}): SnapshotMetrics {
       orgName: "org",
       repoName: "repo",
       prs: [],
-      vulnerabilityAlerts: [],
       renovateDependencyDashboardIssue: null,
     },
     ...overrides,
@@ -90,7 +89,6 @@ describe("findOldPrs", () => {
         github: {
           orgName: "org",
           repoName: "repo",
-          vulnerabilityAlerts: [],
           renovateDependencyDashboardIssue: null,
           prs: [
             {
@@ -131,7 +129,6 @@ describe("findOldPrs", () => {
         github: {
           orgName: "org",
           repoName: "repo",
-          vulnerabilityAlerts: [],
           renovateDependencyDashboardIssue: null,
           prs: [
             {
@@ -305,7 +302,6 @@ describe("buildPerTeamMessages", () => {
             orgName: "liflig",
             repoName: "liflig-logging",
             prs: [],
-            vulnerabilityAlerts: [],
             renovateDependencyDashboardIssue: null,
           },
           responsible: "team-a",

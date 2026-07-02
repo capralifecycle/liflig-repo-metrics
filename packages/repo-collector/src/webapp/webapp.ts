@@ -58,16 +58,6 @@ function mapSnapshotMetricToWebappMetrics(
         title: pr.title,
         createdAt: pr.createdAt,
       })),
-      vulnerabilityAlerts: snapshotMetrics.github.vulnerabilityAlerts
-        .filter((it) =>
-          it.state == null ? it.dismissReason == null : it.state === "OPEN",
-        )
-        .map((va) => ({
-          vulnerableManifestPath: va.vulnerableManifestPath,
-          severity: va.securityAdvisory?.severity,
-          packageName:
-            va.securityVulnerability?.package.name ?? "unknown-package",
-        })),
     },
     sonarCloud: {
       enabled: !!snapshotMetrics.sonarCloud,

@@ -14,7 +14,6 @@ export const repoColumns = (props: {
   showPrList: boolean
   showBotPrList: boolean
   showDepList: boolean
-  showVulGithubList: boolean
   showVulAikidoList: boolean
   showOrgName: boolean
   showRenovateDays: boolean
@@ -26,7 +25,6 @@ export const repoColumns = (props: {
     showPrList,
     showBotPrList,
     showDepList,
-    showVulGithubList,
     showVulAikidoList,
     showOrgName,
     showRenovateDays,
@@ -177,54 +175,6 @@ export const repoColumns = (props: {
     },
     {
       header: "Sårbarheter",
-      subheader: "GitHub",
-      headerIcon: <SecurityIcon />,
-      width: "9%",
-      sortOn: (repo) => repo.metrics.github.vulnerabilityAlerts.length,
-      render: (repo, isExpanded) => {
-        const githubVulAlerts = repo.metrics.github.vulnerabilityAlerts
-        const dependabotUrl = `${repoBaseUrl(repo)}/security/dependabot`
-        if (githubVulAlerts.length === 0) {
-          return <a href={dependabotUrl} className="state-ok">Ingen</a>
-        }
-        const hasVulSearch = filterVulName !== ""
-        const matchingAlerts = hasVulSearch
-          ? githubVulAlerts.filter((a) =>
-              a.packageName.toLowerCase().includes(filterVulName.toLowerCase()),
-            )
-          : []
-        const showDetails = showVulGithubList || isExpanded || matchingAlerts.length > 0
-        if (!showDetails) {
-          return (
-            <a href={dependabotUrl}>
-              <b>{githubVulAlerts.length}</b>
-            </a>
-          )
-        }
-        const alertsToGroup = showVulGithubList || isExpanded ? githubVulAlerts : matchingAlerts
-        const grouped = groupVulnsByPackage(alertsToGroup)
-        return (
-          <ul className="detail-list">
-            {grouped.map((group, idx) => (
-              <li key={idx} className="detail-item">
-                <span className="detail-index">{idx + 1}</span>
-                <a href={dependabotUrl}><Highlight text={group.packageName} search={filterVulName} /></a>
-                {group.count > 1 && (
-                  <span className="detail-meta">&times;{group.count}</span>
-                )}
-                {group.highestSeverity && (
-                  <span className={`detail-severity severity-${group.highestSeverity.toLowerCase()}`}>
-                    {group.highestSeverity}
-                  </span>
-                )}
-              </li>
-            ))}
-          </ul>
-        )
-      },
-    },
-    {
-      header: "Sårbarheter",
       subheader: "Aikido",
       headerIcon: <SecurityIcon />,
       width: "9%",
@@ -315,35 +265,6 @@ export const repoColumns = (props: {
   ]
 }
 
-const SEVERITY_ORDER = ["CRITICAL", "HIGH", "MODERATE", "LOW"] as const
-
-type Severity = "CRITICAL" | "HIGH" | "LOW" | "MODERATE"
-
-function groupVulnsByPackage(
-  alerts: { packageName: string; severity?: Severity }[],
-) {
-  const map = new Map<string, { count: number; highestSeverity?: Severity }>()
-  for (const alert of alerts) {
-    const existing = map.get(alert.packageName)
-    if (existing) {
-      existing.count++
-      if (alert.severity && (!existing.highestSeverity ||
-        SEVERITY_ORDER.indexOf(alert.severity) < SEVERITY_ORDER.indexOf(existing.highestSeverity))) {
-        existing.highestSeverity = alert.severity
-      }
-    } else {
-      map.set(alert.packageName, { count: 1, highestSeverity: alert.severity })
-    }
-  }
-  return [...map.entries()]
-    .map(([packageName, { count, highestSeverity }]) => ({ packageName, count, highestSeverity }))
-    .sort((a, b) => {
-      const ai = a.highestSeverity ? SEVERITY_ORDER.indexOf(a.highestSeverity) : 999
-      const bi = b.highestSeverity ? SEVERITY_ORDER.indexOf(b.highestSeverity) : 999
-      return ai - bi || a.packageName.localeCompare(b.packageName)
-    })
-}
-
 const AIKIDO_SEVERITY_ORDER: AikidoSeverity[] = [
   "critical",
   "high",
@@ -421,13 +342,8 @@ export function isActionableRepo(repo: Metrics): boolean {
   return (
     (repo.github.availableUpdates ?? []).filter((it) => it.isActionable)
       .length > 0 ||
-    repo.github.prs.filter((it) => isBotPr(it)).length > 0 ||
-    isVulnerableRepo(repo)
+    repo.github.prs.filter((it) => isBotPr(it)).length > 0
   )
-}
-
-export function isVulnerableRepo(repo: Metrics): boolean {
-  return repo.github.vulnerabilityAlerts.length > 0
 }
 
 function coverageClass(coverage: string): string {
