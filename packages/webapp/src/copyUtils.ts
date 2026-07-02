@@ -21,7 +21,7 @@ export function buildMarkdownSummary({
   const lines: string[] = []
 
   lines.push(`## ${team}`)
-  lines.push(`_Sist oppdatert: ${formatTimestamp(aggregatedAt)}_`)
+  lines.push(`_Last updated: ${formatTimestamp(aggregatedAt)}_`)
   lines.push("")
 
   const rows = repos
@@ -33,7 +33,7 @@ export function buildMarkdownSummary({
     .filter((r) => r.prs > 0 || r.botPrs > 0)
 
   if (rows.length === 0) {
-    lines.push("Ingen aktive saker.")
+    lines.push("No active items.")
     return lines.join("\n")
   }
 

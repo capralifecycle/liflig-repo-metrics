@@ -17,7 +17,7 @@ export const PrColumnDetails: React.FC<Props> = ({
   filterUpdateName,
 }) => {
   if (prs.length === 0) {
-    return <a href={`${repoBaseUrl}/pulls`} className="state-ok">Ingen</a>
+    return null
   }
 
   const now = new Date()
@@ -50,7 +50,5 @@ export const PrColumnDetails: React.FC<Props> = ({
     )
   }
 
-  return (
-    <a href={`${repoBaseUrl}/pulls`}><b>{prs.length}</b></a>
-  )
+  return <b>{prs.length}</b>
 }

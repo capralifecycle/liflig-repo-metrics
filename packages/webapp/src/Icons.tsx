@@ -1,10 +1,15 @@
 import type * as React from "react"
+import aikidoLogo from "./assets/aikido.png"
 
 const iconProps = {
   width: 18,
   height: 18,
   className: "column-icon",
 } as const
+
+export const AikidoIcon: React.FC = () => (
+  <img {...iconProps} src={aikidoLogo} alt="" aria-hidden="true" />
+)
 
 export const GitHubIcon: React.FC = () => (
   <svg {...iconProps} viewBox="0 0 24 24" fill="#8b949e">

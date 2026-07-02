@@ -7,11 +7,12 @@ export interface Filter
   extends Record<string, boolean | string | string[] | number> {
   showPrList: boolean
   showBotPrList: boolean
-  showDepList: boolean
   showVulAikidoList: boolean
   showOrgName: boolean
   showOnlyWithPrs: boolean
   showOnlyWithBotPrs: boolean
+  showOnlyWithVulns: boolean
+  showOnlyMissingCoverage: boolean
   sortByRenovateDays: boolean
   selectedTeams: string[]
   filterRepoName: string
@@ -23,11 +24,12 @@ export interface Filter
 export const defaultValues: Filter = {
   showPrList: false,
   showBotPrList: false,
-  showDepList: false,
   showVulAikidoList: false,
   showOrgName: false,
   showOnlyWithPrs: false,
   showOnlyWithBotPrs: false,
+  showOnlyWithVulns: false,
+  showOnlyMissingCoverage: false,
   sortByRenovateDays: false,
   selectedTeams: [],
   filterRepoName: "",

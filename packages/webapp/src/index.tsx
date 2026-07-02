@@ -38,6 +38,7 @@ const Root = () => (
       <main className="main-content">
         <App />
       </main>
+      <div id="detail-panel" className="detail-panel" />
     </div>
   </ThemeProvider>
 )
