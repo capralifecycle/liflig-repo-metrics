@@ -321,7 +321,6 @@ td:hover .renovate-logs-link {
 
 .severity-critical { background: var(--color-badge-vuln-bg); color: var(--color-aikido-critical); }
 .severity-high { background: var(--color-badge-vuln-bg); color: var(--color-aikido-high); }
-.severity-moderate,
 .severity-medium { background: var(--color-badge-pr-bg); color: var(--color-warning); }
 .severity-low { background: var(--color-secondary); color: var(--color-mute); }
 

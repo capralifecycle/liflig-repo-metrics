@@ -9,10 +9,7 @@ import type { CacheProvider } from "../cache"
 import type { Config } from "../config"
 import type { GitHubAuthProvider } from "./token"
 import { loadGitHubAppProviderFromSecrets } from "./token"
-import type {
-  RenovateDependencyDashboardIssue,
-  VulnerabilityAlert,
-} from "./types"
+import type { RenovateDependencyDashboardIssue } from "./types"
 
 type FetchOptions = RequestInit & { agent: Agent }
 
@@ -84,20 +81,6 @@ interface RenovateDependencyDashboardIssueQueryResult {
       }[]
     }
   }
-}
-
-interface VulnerabilityAlertsQueryResult {
-  repository: {
-    vulnerabilityAlerts: {
-      pageInfo: {
-        hasNextPage: boolean
-        endCursor: string | null
-      }
-      edges: Array<{
-        node: VulnerabilityAlert
-      }> | null
-    }
-  } | null
 }
 
 interface EtagCacheItem<T> {
@@ -341,76 +324,6 @@ export class GitHubService {
     }
 
     return pulls.sort((a, b) => a.createdAt.localeCompare(b.createdAt))
-  }
-
-  /**
-   * Get the vulnerability alerts for a repository.
-   */
-  public async getVulnerabilityAlerts(
-    owner: string,
-    repo: string,
-  ): Promise<VulnerabilityAlert[]> {
-    // NOTE: Changes to this must be synced with VulnerabilityAlertsQueryResult.
-    const getQuery = (after: string | null) => `{
-  repository(owner: "${owner}", name: "${repo}") {
-    vulnerabilityAlerts(first: 100${
-      after === null ? "" : `, after: "${after}"`
-    }) {
-      pageInfo {
-        hasNextPage
-        endCursor
-      }
-      edges {
-        node {
-          state
-          dismissReason
-          vulnerableManifestFilename
-          vulnerableManifestPath
-          vulnerableRequirements
-          securityAdvisory {
-            description
-            identifiers { type value }
-            references { url }
-            severity
-          }
-          securityVulnerability {
-            package { name ecosystem }
-            firstPatchedVersion { identifier }
-            vulnerableVersionRange
-          }
-        }
-      }
-    }
-  }
-}`
-
-    return this.cache.json(
-      `vulnerability-alerts-${owner}-${repo}`,
-      async () => {
-        const result: VulnerabilityAlert[] = []
-        let after = null
-
-        while (true) {
-          const query = getQuery(after)
-          const res =
-            await this.runGraphqlQuery<VulnerabilityAlertsQueryResult>(query)
-
-          result.push(
-            ...(res.repository?.vulnerabilityAlerts.edges?.map(
-              (it) => it.node,
-            ) ?? []),
-          )
-
-          if (!res.repository?.vulnerabilityAlerts.pageInfo.hasNextPage) {
-            break
-          }
-
-          after = res.repository?.vulnerabilityAlerts.pageInfo.endCursor
-        }
-
-        return result
-      },
-    )
   }
 
   /**

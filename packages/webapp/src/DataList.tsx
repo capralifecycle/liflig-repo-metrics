@@ -10,7 +10,7 @@ import { DataGroup } from "./DataGroup"
 import { ENABLE_GLOBAL_STATS, ENABLE_SORT_BY_RENOVATE_DAYS, type Filter } from "./filter"
 import { toQueryString } from "./filter"
 import { FilterActionType, filterReducer } from "./filterReducer"
-import { isActionableRepo, isVulnerableRepo } from "./Repo"
+import { isActionableRepo } from "./Repo"
 import { isBotPr } from "./prUtils"
 import { buildMarkdownSummary } from "./copyUtils"
 
@@ -36,13 +36,11 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
     )
       return false
     const anyFilterActive =
-      state.showOnlyWithPrs || state.showOnlyWithBotPrs ||
-      state.showOnlyWithGithubVul
+      state.showOnlyWithPrs || state.showOnlyWithBotPrs
     if (anyFilterActive) {
       const matchesPrs = state.showOnlyWithPrs && repo.metrics.github.prs.some((p) => !isBotPr(p))
       const matchesBotPrs = state.showOnlyWithBotPrs && repo.metrics.github.prs.some((p) => isBotPr(p))
-      const matchesGithubVul = state.showOnlyWithGithubVul && repo.metrics.github.vulnerabilityAlerts.length > 0
-      if (!matchesPrs && !matchesBotPrs && !matchesGithubVul) return false
+      if (!matchesPrs && !matchesBotPrs) return false
     }
     return true
   }
@@ -57,8 +55,8 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   }
 
   function filterByVulnerability(repo: Repo): boolean {
-    return repo.metrics.github.vulnerabilityAlerts.some((a) =>
-      a.packageName.toLowerCase().includes(vulSearch),
+    return repo.metrics.aikido.issues.some((i) =>
+      i.title.toLowerCase().includes(vulSearch),
     )
   }
 
@@ -105,7 +103,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         prs: sumBy(repos, (it) => it.metrics.github.prs.length),
         vulnerabilities: sumBy(
           repos,
-          (it) => it.metrics.github.vulnerabilityAlerts.length,
+          (it) => it.metrics.aikido.issues.length,
         ),
       }))
       .sort((a, b) => a.groupKey.localeCompare(b.groupKey))
@@ -120,7 +118,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
         prs: sumBy(repos, (it) => it.metrics.github.prs.length),
         vulnerabilities: sumBy(
           repos,
-          (it) => it.metrics.github.vulnerabilityAlerts.length,
+          (it) => it.metrics.aikido.issues.length,
         ),
       }))
       .sort((a, b) => a.groupKey.localeCompare(b.groupKey))
@@ -326,13 +324,13 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
           </div>
           <button
             type="button"
-            className={`todo-btn${state.showOnlyWithPrs && state.showOnlyWithBotPrs && state.showOnlyWithGithubVul ? " todo-btn-active" : ""}`}
+            className={`todo-btn${state.showOnlyWithPrs && state.showOnlyWithBotPrs ? " todo-btn-active" : ""}`}
             onClick={() => {
-              const allOn = state.showOnlyWithPrs && state.showOnlyWithBotPrs && state.showOnlyWithGithubVul
+              const allOn = state.showOnlyWithPrs && state.showOnlyWithBotPrs
               dispatch({
                 type: FilterActionType.SET_BOOLEANS,
                 prop: String(!allOn),
-                payload: "showOnlyWithPrs,showOnlyWithBotPrs,showOnlyWithGithubVul",
+                payload: "showOnlyWithPrs,showOnlyWithBotPrs",
               })
             }}
           >
@@ -351,12 +349,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               onCheck={createOnCheckHandler("showOnlyWithBotPrs")}
             >
               Har bot-PRs
-            </Checkbox>
-            <Checkbox
-              checked={state.showOnlyWithGithubVul}
-              onCheck={createOnCheckHandler("showOnlyWithGithubVul")}
-            >
-              Har GitHub-sårbarheter
             </Checkbox>
           </div>
           <div className="filter-group">
@@ -378,12 +370,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               onCheck={createOnCheckHandler("showBotPrList")}
             >
               Bot PR
-            </Checkbox>
-            <Checkbox
-              checked={state.showVulGithubList}
-              onCheck={createOnCheckHandler("showVulGithubList")}
-            >
-              Sårbarheter (GitHub)
             </Checkbox>
             <Checkbox
               checked={state.showVulAikidoList}
@@ -470,7 +456,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               showPrList={state.showPrList}
               showBotPrList={state.showBotPrList}
               showDepList={state.showDepList}
-              showVulGithubList={state.showVulGithubList}
               showVulAikidoList={state.showVulAikidoList}
               showOrgName={state.showOrgName}
               sortByRenovateDays={state.sortByRenovateDays}
@@ -576,11 +561,6 @@ const SectionHeader: React.FC<{
         c.isActionable ? c.updates : [],
       ).length,
   )
-  const githubVul = sumBy(
-    repos,
-    (it) => it.metrics.github.vulnerabilityAlerts.length,
-  )
-
   const prs = sumBy(repos, (it) => it.metrics.github.prs.filter((p) => !isBotPr(p)).length)
   const botPrs = sumBy(repos, (it) => it.metrics.github.prs.filter((p) => isBotPr(p)).length)
 
@@ -601,9 +581,6 @@ const SectionHeader: React.FC<{
         <span className={`section-badge ${botPrs > 0 ? "badge-pr" : "badge-ok"}`}>
           {botPrs} bot PR
         </span>
-        <span className={`section-badge ${githubVul > 0 ? "badge-vuln" : "badge-ok"}`}>
-          {githubVul} github
-        </span>
       </div>
     </div>
   )
@@ -619,12 +596,11 @@ const GlobalStats: React.FC<{ repos: Repo[] }> = ({ repos }) => {
         c.isActionable ? c.updates : [],
       ).length,
   )
-  const githubVul = sumBy(
-    repos,
-    (r) => r.metrics.github.vulnerabilityAlerts.length,
-  )
+  const aikidoVul = sumBy(repos, (r) => r.metrics.aikido.issues.length)
   const actionable = repos.filter((r) => isActionableRepo(r.metrics)).length
-  const vulnerable = repos.filter((r) => isVulnerableRepo(r.metrics)).length
+  const vulnerable = repos.filter(
+    (r) => r.metrics.aikido.issues.length > 0,
+  ).length
 
   return (
     <div className="filter-group">
@@ -636,7 +612,7 @@ const GlobalStats: React.FC<{ repos: Repo[] }> = ({ repos }) => {
         </div>
         <div className="global-stat">
           <span className="global-stat-value">{actionable}</span>
-          <span className="global-stat-label">med oppdateringer/bot-PRs/sårbarheter</span>
+          <span className="global-stat-label">med oppdateringer/bot-PRs</span>
         </div>
         <div className="global-stat">
           <span className="global-stat-value">{totalPrs}</span>
@@ -651,7 +627,7 @@ const GlobalStats: React.FC<{ repos: Repo[] }> = ({ repos }) => {
           <span className="global-stat-label">sårbare repoer</span>
         </div>
         <div className="global-stat stat-danger">
-          <span className="global-stat-value">{githubVul}</span>
+          <span className="global-stat-value">{aikidoVul}</span>
           <span className="global-stat-label">sårbarheter</span>
         </div>
       </div>

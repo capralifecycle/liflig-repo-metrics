@@ -28,23 +28,20 @@ export function buildMarkdownSummary({
     .map((repo) => {
       const prs = repo.metrics.github.prs.filter((p) => !isBotPr(p)).length
       const botPrs = repo.metrics.github.prs.filter((p) => isBotPr(p)).length
-      const ghVul = repo.metrics.github.vulnerabilityAlerts.length
-      return { name: repo.name, prs, botPrs, ghVul }
+      return { name: repo.name, prs, botPrs }
     })
-    .filter((r) => r.prs > 0 || r.botPrs > 0 || r.ghVul > 0)
+    .filter((r) => r.prs > 0 || r.botPrs > 0)
 
   if (rows.length === 0) {
     lines.push("Ingen aktive saker.")
     return lines.join("\n")
   }
 
-  lines.push("| Repo | PRs | Bot PRs | GitHub Vul |")
-  lines.push("| --- | --- | --- | --- |")
+  lines.push("| Repo | PRs | Bot PRs |")
+  lines.push("| --- | --- | --- |")
   for (const r of rows) {
     const cell = (n: number) => (n > 0 ? String(n) : "")
-    lines.push(
-      `| ${r.name} | ${cell(r.prs)} | ${cell(r.botPrs)} | ${cell(r.ghVul)} |`,
-    )
+    lines.push(`| ${r.name} | ${cell(r.prs)} | ${cell(r.botPrs)} |`)
   }
   lines.push("")
 

@@ -1,7 +1,3 @@
-// This is based on VulnerabilityAlert from cals-cli but
-// duplicated so we can keep it persisted and have control
-// over changes.
-
 /**
  * A snapshot of all repos with embedded related details.
  *
@@ -34,7 +30,6 @@ export interface SnapshotMetrics {
       createdAt: string
       updatedAt: string
     }[]
-    vulnerabilityAlerts: GitHubVulnerabilityAlert[]
     renovateDependencyDashboardIssue: {
       number: number
       body: string
@@ -89,42 +84,6 @@ export interface AikidoIssueGroup {
   title: string
 }
 
-export interface GitHubVulnerabilityAlert {
-  dismissReason: string | null
-  state: "DISMISSED" | "FIXED" | "OPEN"
-  vulnerableManifestFilename: string
-  vulnerableManifestPath: string
-  vulnerableRequirements: string | null
-  securityAdvisory: {
-    description: string
-    identifiers: Array<{
-      type: string
-      value: string
-    }>
-    references: Array<{
-      url: string
-    }>
-    severity: "CRITICAL" | "HIGH" | "LOW" | "MODERATE"
-  } | null
-  securityVulnerability: {
-    package: {
-      name: string
-      ecosystem:
-        | "COMPOSER"
-        | "MAVEN"
-        | "NPM"
-        | "NUGET"
-        | "PIP"
-        | "RUBYGEMS"
-        | string
-    }
-    firstPatchedVersion: {
-      identifier: string
-    }
-    vulnerableVersionRange: string
-  } | null
-}
-
 /**
  * Data for webapp.
  */
@@ -159,11 +118,6 @@ export interface Metrics {
       author: string
       title: string
       createdAt: string
-    }[]
-    vulnerabilityAlerts: {
-      vulnerableManifestPath: string
-      severity?: "CRITICAL" | "HIGH" | "LOW" | "MODERATE"
-      packageName: string
     }[]
     availableUpdates?: {
       categoryName: string
