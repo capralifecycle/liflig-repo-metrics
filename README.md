@@ -157,7 +157,7 @@ access token (OAuth2 client-credentials grant) on each run.
 
 Credentials live in AWS Secrets Manager (region `eu-west-1`, account `liflig-incubator`):
 
-- `/incub/repo-metrics/aikido-api` — JSON `{ clientId, clientSecret }`.
+- `/incub/repo-metrics/aikido-client` — JSON `{ clientId, clientSecret }`.
 
 To populate the secret, add the values in `packages/infrastructure/load-secrets.ts`'s
 flow and run:

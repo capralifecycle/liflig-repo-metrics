@@ -110,10 +110,10 @@ export class RepoMetricsStack extends cdk.Stack {
       "/incub/repo-metrics/sonarcloud-token",
     )
 
-    const aikidoApiSecret = secretsmanager.Secret.fromSecretNameV2(
+    const aikidoClientSecret = secretsmanager.Secret.fromSecretNameV2(
       this,
-      "AikidoApiSecret",
-      "/incub/repo-metrics/aikido-api",
+      "AikidoClientSecret",
+      "/incub/repo-metrics/aikido-client",
     )
 
     const collectorFn = new lambda.Function(this, "Collector", {
@@ -126,7 +126,7 @@ export class RepoMetricsStack extends cdk.Stack {
         GITHUB_APP_SECRET_ID: githubAppSecret.secretArn,
         GITHUB_APP_ORG: "capralifecycle",
         SONARCLOUD_TOKEN_SECRET_ID: sonarCloudTokenSecret.secretArn,
-        AIKIDO_API_SECRET_ID: aikidoApiSecret.secretArn,
+        AIKIDO_API_SECRET_ID: aikidoClientSecret.secretArn,
         DATA_BUCKET_NAME: dataBucket.bucketName,
         // Lambda only has /tmp as writable, needed for CacheProvider
         XDG_CACHE_HOME: "/tmp",
@@ -135,7 +135,7 @@ export class RepoMetricsStack extends cdk.Stack {
 
     githubAppSecret.grantRead(collectorFn)
     sonarCloudTokenSecret.grantRead(collectorFn)
-    aikidoApiSecret.grantRead(collectorFn)
+    aikidoClientSecret.grantRead(collectorFn)
     dataBucket.grantReadWrite(collectorFn)
 
     const aggregatorMemoryMB = 300
