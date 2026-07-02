@@ -113,7 +113,7 @@ export class RepoMetricsStack extends cdk.Stack {
     const aikidoClientSecret = secretsmanager.Secret.fromSecretNameV2(
       this,
       "AikidoClientSecret",
-      "/incub/repo-metrics/aikido-client",
+      "/incub/repo-metrics/aikido-api",
     )
 
     const collectorFn = new lambda.Function(this, "Collector", {

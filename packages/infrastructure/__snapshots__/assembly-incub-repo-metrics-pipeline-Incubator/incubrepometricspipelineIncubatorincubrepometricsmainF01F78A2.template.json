@@ -2103,7 +2103,7 @@
                     {
                       "Ref": "AWS::Partition"
                     },
-                    ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/aikido-client-??????"
+                    ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/aikido-api-??????"
                   ]
                 ]
               }
@@ -2201,7 +2201,7 @@
                   {
                     "Ref": "AWS::Partition"
                   },
-                  ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/aikido-client"
+                  ":secretsmanager:eu-west-1:001112238813:secret:/incub/repo-metrics/aikido-api"
                 ]
               ]
             },
