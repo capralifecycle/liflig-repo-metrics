@@ -674,23 +674,15 @@ button:hover {
 
 /* ── Repo detail sidebar ── */
 
-/* Flex slot that pushes and shrinks the table rather than overlaying it.
-   Collapses to zero width when no repo is selected (panel is empty). */
+/* Static flex slot that holds the always-open detail panel, shrinking the
+   table to the remaining width rather than overlaying it. */
 .detail-panel {
   flex: 0 0 40%;
   max-width: 40%;
   overflow: hidden;
-  transition: flex-basis 0.18s ease, max-width 0.18s ease;
-}
-
-.detail-panel:empty {
-  flex-basis: 0;
-  max-width: 0;
 }
 
 .repo-sidebar {
-  /* Keep content at its target width so the reveal wipes in without
-     reflowing text as the slot animates open. */
   width: 40vw;
   min-width: 340px;
   height: 100%;
@@ -869,6 +861,13 @@ button:hover {
   margin: 0;
   font-size: 13px;
   color: var(--color-ok);
+}
+
+.repo-sidebar-coverage {
+  font-size: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
 /* Tables inside the detail panel (PRs, vulnerabilities) */

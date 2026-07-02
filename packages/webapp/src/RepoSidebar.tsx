@@ -30,6 +30,14 @@ function aikidoIssueUrl(repoId: number | null, groupId: number): string {
     : `https://app.aikido.dev/queue?sidebarIssue=${groupId}`
 }
 
+// Mirrors the main table's coverage colour thresholds.
+function coverageClass(coverage: string): string {
+  const val = Number.parseInt(coverage, 10)
+  if (val > 70) return "coverage-good"
+  if (val > 45) return "coverage-mid"
+  return "coverage-low"
+}
+
 // Human-readable labels for Aikido issue types. Unknown types fall back to a
 // title-cased version of the raw value (e.g. "some_new_type" -> "Some New Type").
 const ISSUE_TYPE_LABELS: Record<string, string> = {
@@ -257,9 +265,11 @@ export const RepoSidebar: React.FC<Props> = ({ repo, onClose }) => {
 
       <Section icon={<SonarCloudIcon />} title="Coverage (SonarCloud)">
         {coverage ? (
-          <p className="repo-sidebar-note">
-            Test coverage: <strong>{coverage}%</strong>
-          </p>
+          <span
+            className={`repo-sidebar-coverage ${coverageClass(coverage)}`}
+          >
+            {coverage}%
+          </span>
         ) : (
           <p className="repo-sidebar-empty">No coverage reported.</p>
         )}
