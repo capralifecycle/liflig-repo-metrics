@@ -273,7 +273,7 @@ export const repoColumns = (props: {
                 <li key={idx} className="detail-item">
                   <span className="detail-index">{idx + 1}</span>
                   <a
-                    href={`${AIKIDO_ISSUE_URL}${issue.issueId}`}
+                    href={aikidoIssueUrl(aikido.repoId, issue.groupId)}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -351,8 +351,13 @@ const AIKIDO_SEVERITY_ORDER: AikidoSeverity[] = [
   "low",
 ]
 
-// Deep link to a single issue in the Aikido dashboard (queue sidebar).
-const AIKIDO_ISSUE_URL = "https://app.aikido.dev/queue?sidebarIssue="
+// Deep link to an issue group in the Aikido dashboard. Prefer the repo-scoped
+// view (opens the issue in the repo's detail page); fall back to the queue.
+function aikidoIssueUrl(repoId: number | null, groupId: number): string {
+  return repoId != null
+    ? `https://app.aikido.dev/repositories/${repoId}?sidebarIssue=${groupId}`
+    : `https://app.aikido.dev/queue?sidebarIssue=${groupId}`
+}
 
 type AikidoIssue = Metrics["aikido"]["issues"][number]
 

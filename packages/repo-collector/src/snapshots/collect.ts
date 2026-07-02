@@ -20,6 +20,7 @@ import type { SnapshotsRepository } from "./snapshots-repository"
 
 const AIKIDO_DISABLED: AikidoMetrics = {
   enabled: false,
+  repoId: null,
   issueGroups: [],
   ignoredCount: 0,
 }

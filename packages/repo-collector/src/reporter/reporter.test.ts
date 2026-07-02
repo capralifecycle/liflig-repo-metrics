@@ -33,10 +33,10 @@ function repo(overrides: Partial<SnapshotMetrics> = {}): SnapshotMetrics {
 function aikidoGroups(severities: AikidoSeverity[]): SnapshotMetrics["aikido"] {
   return {
     enabled: true,
+    repoId: 1,
     ignoredCount: 0,
     issueGroups: severities.map((severity, i) => ({
       groupId: i + 1,
-      issueId: (i + 1) * 10,
       severity,
       type: "open_source",
       title: `pkg-${i}`,

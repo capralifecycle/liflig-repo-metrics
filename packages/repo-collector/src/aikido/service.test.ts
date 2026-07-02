@@ -182,8 +182,8 @@ describe("getIssueGroupsByRepo", () => {
     expect(repoA?.issueGroups).toHaveLength(2)
     const group10 = repoA?.issueGroups.find((g) => g.groupId === 10)
     expect(group10?.severity).toBe("critical") // highest severity wins
-    expect(group10?.issueId).toBe(101) // representative issue = highest severity
     expect(group10?.title).toBe("fast-uri") // title from affected package
+    expect(repoA?.repoId).toBe(1) // Aikido repo id, used for deep links
     const group11 = repoA?.issueGroups.find((g) => g.groupId === 11)
     expect(group11?.title).toBe("SQL injection") // title from rule name
     // Ignored issues are counted separately.
@@ -193,7 +193,6 @@ describe("getIssueGroupsByRepo", () => {
     expect(repoB?.issueGroups).toEqual([
       {
         groupId: 20,
-        issueId: 200,
         severity: "medium",
         type: "leaked_secret",
         title: "3 exposed secrets", // aggregated secret title
@@ -203,6 +202,7 @@ describe("getIssueGroupsByRepo", () => {
     // Onboarded repo with no issues is enabled with empty counts.
     expect(byRepo.get("repo-c")).toEqual({
       enabled: true,
+      repoId: 3,
       issueGroups: [],
       ignoredCount: 0,
     })

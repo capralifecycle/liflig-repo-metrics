@@ -48,7 +48,6 @@ interface AikidoCodeRepo {
 }
 
 interface AikidoIssue {
-  id: number
   group_id: number
   severity: AikidoSeverity
   type: string
@@ -214,6 +213,7 @@ export class AikidoService {
     for (const repo of repos) {
       const metrics: AikidoMetrics = {
         enabled: true,
+        repoId: repo.id,
         issueGroups: groupsByRepoId.get(repo.id) ?? [],
         ignoredCount: ignoredByRepoId.get(repo.id) ?? 0,
       }
@@ -235,7 +235,6 @@ function repoLookupKeys(repo: AikidoCodeRepo): string[] {
 
 interface GroupAccumulator {
   groupId: number
-  issueId: number
   severity: AikidoSeverity
   type: string
   count: number
@@ -263,7 +262,6 @@ function groupIssuesByRepo(
     if (!existing) {
       groups.set(issue.group_id, {
         groupId: issue.group_id,
-        issueId: issue.id,
         severity: issue.severity,
         type: issue.type,
         count: 1,
@@ -275,7 +273,6 @@ function groupIssuesByRepo(
       existing.count += 1
       if (SEVERITY_RANK[issue.severity] > SEVERITY_RANK[existing.severity]) {
         existing.severity = issue.severity
-        existing.issueId = issue.id
       }
     }
   }
@@ -286,7 +283,6 @@ function groupIssuesByRepo(
       repoId,
       [...groups.values()].map((g) => ({
         groupId: g.groupId,
-        issueId: g.issueId,
         severity: g.severity,
         type: g.type,
         title: deriveTitle(g),
