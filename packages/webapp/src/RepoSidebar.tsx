@@ -24,6 +24,12 @@ const AIKIDO_SEVERITY_ORDER: AikidoSeverity[] = [
 const repoBaseUrl = (repo: Repo) =>
   `https://github.com/${repo.org}/${repo.name}`
 
+// SonarCloud project keys are deterministically `<org>_<name>` (see the
+// collector's `getMetricsByProjectKey` call), so the dashboard link can be
+// reconstructed on the frontend without carrying the key through the pipeline.
+const sonarCloudProjectUrl = (repo: Repo) =>
+  `https://sonarcloud.io/summary/overall?id=${encodeURIComponent(`${repo.org}_${repo.name}`)}`
+
 function aikidoIssueUrl(repoId: number | null, groupId: number): string {
   return repoId != null
     ? `https://app.aikido.dev/repositories/${repoId}?sidebarIssue=${groupId}`
@@ -128,7 +134,8 @@ export const RepoSidebar: React.FC<Props> = ({ repo, onClose }) => {
       a.title.localeCompare(b.title),
   )
 
-  const coverage = repo.metrics.sonarCloud.testCoverage
+  const sonarCloud = repo.metrics.sonarCloud
+  const coverage = sonarCloud.testCoverage
   // Renovate's own dashboard links here for the repo's run logs (Mend portal).
   const mendUrl = `https://app.renovatebot.com/dashboard#github/${encodeURI(repo.id)}`
 
@@ -264,14 +271,29 @@ export const RepoSidebar: React.FC<Props> = ({ repo, onClose }) => {
       </Section>
 
       <Section icon={<SonarCloudIcon />} title="Coverage (SonarCloud)">
-        {coverage ? (
-          <span
-            className={`repo-sidebar-coverage ${coverageClass(coverage)}`}
-          >
-            {coverage}%
-          </span>
+        {sonarCloud.enabled ? (
+          <>
+            {coverage ? (
+              <span
+                className={`repo-sidebar-coverage ${coverageClass(coverage)}`}
+              >
+                {coverage}%
+              </span>
+            ) : (
+              <p className="repo-sidebar-empty">No coverage reported.</p>
+            )}
+            <p className="repo-sidebar-note">
+              <a
+                href={sonarCloudProjectUrl(repo)}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Open in SonarCloud
+              </a>
+            </p>
+          </>
         ) : (
-          <p className="repo-sidebar-empty">No coverage reported.</p>
+          <p className="repo-sidebar-empty">Not set up in SonarCloud.</p>
         )}
       </Section>
 
