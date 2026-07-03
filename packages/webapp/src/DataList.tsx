@@ -17,6 +17,13 @@ import { buildMarkdownSummary } from "./copyUtils"
 
 const NONE_SENTINEL = "__none__"
 
+// Filters activated by the TODO button: repos with anything to triage.
+const TODO_FILTERS: (keyof Filter)[] = [
+  "showOnlyWithPrs",
+  "showOnlyWithBotPrs",
+  "showOnlyWithVulns",
+]
+
 interface Props {
   data: WebappData
   filter: Filter
@@ -24,8 +31,14 @@ interface Props {
 
 export const DataList: React.FC<Props> = ({ data, filter }) => {
   const [state, dispatch] = React.useReducer(filterReducer, filter)
+  // Initialise the selected repo from the `?selectedRepo=<name>` URL param so
+  // the detail sidebar is deep-linkable. Matched by repo name, not id.
   const [selectedRepoId, setSelectedRepoId] = React.useState<string | null>(
-    null,
+    () => {
+      const name = new URLSearchParams(location.search).get("selectedRepo")
+      if (!name) return null
+      return data.repos.find((r) => r.name === name)?.id ?? null
+    },
   )
 
   const selectedRepo = React.useMemo(
@@ -40,9 +53,13 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
   )
 
   React.useEffect(() => {
-    const queryString = toQueryString(state)
-    history.replaceState(state, "", queryString ? `?${queryString}` : "/")
-  }, [state])
+    const parts = [toQueryString(state)].filter(Boolean)
+    if (selectedRepo) {
+      parts.push(`selectedRepo=${encodeURIComponent(selectedRepo.name)}`)
+    }
+    const queryString = parts.join("&")
+    history.replaceState(null, "", queryString ? `?${queryString}` : "/")
+  }, [state, selectedRepo])
 
   function filterRepo(repo: Repo): boolean {
     if (
@@ -344,13 +361,13 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
           </div>
           <button
             type="button"
-            className={`todo-btn${state.showOnlyWithPrs && state.showOnlyWithBotPrs ? " todo-btn-active" : ""}`}
+            className={`todo-btn${TODO_FILTERS.every((f) => state[f]) ? " todo-btn-active" : ""}`}
             onClick={() => {
-              const allOn = state.showOnlyWithPrs && state.showOnlyWithBotPrs
+              const allOn = TODO_FILTERS.every((f) => state[f])
               dispatch({
                 type: FilterActionType.SET_BOOLEANS,
                 prop: String(!allOn),
-                payload: "showOnlyWithPrs,showOnlyWithBotPrs",
+                payload: TODO_FILTERS.join(","),
               })
             }}
           >
@@ -383,41 +400,17 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
               Missing coverage
             </Checkbox>
           </div>
-          <div className="filter-group">
-            <span className="filter-group-label">Show details</span>
-            <Checkbox
-              checked={state.showPrList}
-              onCheck={createOnCheckHandler("showPrList")}
-            >
-              PRs
-            </Checkbox>
-            <Checkbox
-              checked={state.showBotPrList}
-              onCheck={createOnCheckHandler("showBotPrList")}
-            >
-              Bot PR
-            </Checkbox>
-            <Checkbox
-              checked={state.showVulAikidoList}
-              onCheck={createOnCheckHandler("showVulAikidoList")}
-            >
-              Vulnerabilities (Aikido)
-            </Checkbox>
-            <Checkbox
-              checked={state.showOrgName}
-              onCheck={createOnCheckHandler("showOrgName")}
-            >
-              GitHub organization
-            </Checkbox>
-            {ENABLE_SORT_BY_RENOVATE_DAYS && (
+          {ENABLE_SORT_BY_RENOVATE_DAYS && (
+            <div className="filter-group">
+              <span className="filter-group-label">Sort</span>
               <Checkbox
                 checked={state.sortByRenovateDays}
                 onCheck={createOnCheckHandler("sortByRenovateDays")}
               >
                 Sort by Renovate days
               </Checkbox>
-            )}
-          </div>
+            </div>
+          )}
           <div className="filter-group">
             <span className="filter-group-label">
               {state.groupBy === "system" ? "System Stats" : "Team Stats"}
@@ -479,10 +472,6 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             />
             <DataGroup
               repos={repos}
-              showPrList={state.showPrList}
-              showBotPrList={state.showBotPrList}
-              showVulAikidoList={state.showVulAikidoList}
-              showOrgName={state.showOrgName}
               sortByRenovateDays={state.sortByRenovateDays}
               filterRepoName={state.filterRepoName}
               filterUpdateName={state.filterUpdateName}

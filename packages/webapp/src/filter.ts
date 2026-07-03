@@ -5,10 +5,6 @@ export const ENABLE_GLOBAL_STATS = false
 
 export interface Filter
   extends Record<string, boolean | string | string[] | number> {
-  showPrList: boolean
-  showBotPrList: boolean
-  showVulAikidoList: boolean
-  showOrgName: boolean
   showOnlyWithPrs: boolean
   showOnlyWithBotPrs: boolean
   showOnlyWithVulns: boolean
@@ -22,10 +18,6 @@ export interface Filter
 }
 
 export const defaultValues: Filter = {
-  showPrList: false,
-  showBotPrList: false,
-  showVulAikidoList: false,
-  showOrgName: false,
   showOnlyWithPrs: false,
   showOnlyWithBotPrs: false,
   showOnlyWithVulns: false,

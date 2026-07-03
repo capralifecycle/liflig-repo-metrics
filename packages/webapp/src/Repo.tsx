@@ -10,10 +10,6 @@ import { isBotPr } from "./prUtils"
 import type { Column } from "./Table"
 
 export const repoColumns = (props: {
-  showPrList: boolean
-  showBotPrList: boolean
-  showVulAikidoList: boolean
-  showOrgName: boolean
   filterRepoName: string
   filterUpdateName: string
   filterVulName: string
@@ -25,10 +21,6 @@ export const repoColumns = (props: {
   compact?: boolean
 }): Column<Repo>[] => {
   const {
-    showPrList,
-    showBotPrList,
-    showVulAikidoList,
-    showOrgName,
     filterRepoName,
     filterUpdateName,
     filterVulName,
@@ -45,27 +37,23 @@ export const repoColumns = (props: {
       render: (repo, _isExpanded) => {
         return (
           <span className="repo-link" title={repo.name}>
-            {showOrgName && (
-              <span className="repo-org"><Highlight text={repo.org} search={filterRepoName} />/</span>
-            )}
             <span className="repo-name"><Highlight text={repo.name} search={filterRepoName} /></span>
           </span>
         )
       },
     },
     {
-      header: "PRs",
+      header: "PR",
       headerIcon: <PrIcon />,
       width: compact ? "13%" : "22%",
       align: "right",
       sortOn: (repo) =>
         repo.metrics.github.prs.filter((it) => !isBotPr(it)).length,
-      render: (repo, isExpanded) => {
+      render: (repo, _isExpanded) => {
         return (
           <PrColumnDetails
             prs={repo.metrics.github.prs.filter((it) => !isBotPr(it))}
             repoBaseUrl={repoBaseUrl(repo)}
-            showPrList={showPrList || isExpanded}
             filterUpdateName={filterUpdateName}
           />
         )
@@ -78,12 +66,11 @@ export const repoColumns = (props: {
       align: "right",
       sortOn: (repo) =>
         repo.metrics.github.prs.filter((it) => isBotPr(it)).length,
-      render: (repo, isExpanded) => {
+      render: (repo, _isExpanded) => {
         return (
           <PrColumnDetails
             prs={repo.metrics.github.prs.filter((it) => isBotPr(it))}
             repoBaseUrl={repoBaseUrl(repo)}
-            showPrList={showBotPrList || isExpanded}
             filterUpdateName={filterUpdateName}
           />
         )
@@ -96,7 +83,7 @@ export const repoColumns = (props: {
       width: compact ? "17%" : "9%",
       align: "right",
       sortOn: (repo) => aikidoSortValue(repo.metrics.aikido.issues),
-      render: (repo, isExpanded) => {
+      render: (repo, _isExpanded) => {
         const aikido = repo.metrics.aikido
         if (!aikido.enabled) {
           return <span className="state-missing" title="No data">—</span>
@@ -118,14 +105,12 @@ export const repoColumns = (props: {
               i.title.toLowerCase().includes(filterVulName.toLowerCase()),
             )
           : []
-        const showDetails =
-          showVulAikidoList || isExpanded || matchingIssues.length > 0
+        const showDetails = matchingIssues.length > 0
         if (!showDetails) {
           return summary
         }
 
-        const listed =
-          showVulAikidoList || isExpanded ? aikido.issues : matchingIssues
+        const listed = matchingIssues
         const sorted = [...listed].sort(
           (a, b) =>
             AIKIDO_SEVERITY_ORDER.indexOf(a.severity) -

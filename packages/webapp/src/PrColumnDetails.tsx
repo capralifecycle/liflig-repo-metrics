@@ -6,14 +6,12 @@ import { Highlight } from "./Highlight"
 interface Props {
   prs: Metrics["github"]["prs"]
   repoBaseUrl: string
-  showPrList: boolean
   filterUpdateName: string
 }
 
 export const PrColumnDetails: React.FC<Props> = ({
   prs,
   repoBaseUrl,
-  showPrList,
   filterUpdateName,
 }) => {
   if (prs.length === 0) {
@@ -29,9 +27,7 @@ export const PrColumnDetails: React.FC<Props> = ({
       )
     : []
 
-  const showAll = showPrList
-  const showMatches = !showAll && matchingPrs.length > 0
-  const prsToShow = showAll ? prs : showMatches ? matchingPrs : []
+  const prsToShow = matchingPrs.length > 0 ? matchingPrs : []
 
   if (prsToShow.length > 0) {
     return (
