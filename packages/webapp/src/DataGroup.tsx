@@ -5,10 +5,6 @@ import Table from "./Table"
 
 interface Props {
   repos: Repo[]
-  showPrList: boolean
-  showBotPrList: boolean
-  showVulAikidoList: boolean
-  showOrgName: boolean
   sortByRenovateDays: boolean
   filterRepoName: string
   filterUpdateName: string
@@ -20,10 +16,6 @@ interface Props {
 
 export const DataGroup: React.FC<Props> = ({
   repos,
-  showPrList,
-  showBotPrList,
-  showVulAikidoList,
-  showOrgName,
   sortByRenovateDays,
   filterRepoName,
   filterUpdateName,
@@ -65,10 +57,6 @@ export const DataGroup: React.FC<Props> = ({
           onRowClick={onSelectRepo}
           selectedKey={selectedRepoId}
           columns={repoColumns({
-            showPrList,
-            showBotPrList,
-            showVulAikidoList,
-            showOrgName,
             filterRepoName,
             filterUpdateName,
             filterVulName,
