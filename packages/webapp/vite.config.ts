@@ -1,5 +1,6 @@
 import react from "@vitejs/plugin-react"
 import checker from "vite-plugin-checker"
+import svgr from "vite-plugin-svgr"
 import { GitRevisionPlugin } from "git-revision-webpack-plugin"
 import path from "path"
 import { defineConfig } from "vite"
@@ -8,6 +9,7 @@ import packageJson from "./package.json"
 export default () => {
   return defineConfig({
     plugins: [
+      svgr(),
       react(),
       checker({
         biome: {
