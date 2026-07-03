@@ -28,20 +28,24 @@ export function buildMarkdownSummary({
     .map((repo) => {
       const prs = repo.metrics.github.prs.filter((p) => !isBotPr(p)).length
       const botPrs = repo.metrics.github.prs.filter((p) => isBotPr(p)).length
-      return { name: repo.name, prs, botPrs }
+      // Collapse the per-severity Aikido counts into a single total.
+      const vulns = repo.metrics.aikido.issues.length
+      return { name: repo.name, prs, botPrs, vulns }
     })
-    .filter((r) => r.prs > 0 || r.botPrs > 0)
+    .filter((r) => r.prs > 0 || r.botPrs > 0 || r.vulns > 0)
 
   if (rows.length === 0) {
     lines.push("No active items.")
     return lines.join("\n")
   }
 
-  lines.push("| Repo | PRs | Bot PRs |")
-  lines.push("| --- | --- | --- |")
+  lines.push("| Repo | PRs | Bot PRs | Vulns |")
+  lines.push("| --- | --- | --- | --- |")
   for (const r of rows) {
     const cell = (n: number) => (n > 0 ? String(n) : "")
-    lines.push(`| ${r.name} | ${cell(r.prs)} | ${cell(r.botPrs)} |`)
+    lines.push(
+      `| ${r.name} | ${cell(r.prs)} | ${cell(r.botPrs)} | ${cell(r.vulns)} |`,
+    )
   }
   lines.push("")
 
