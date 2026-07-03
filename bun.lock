@@ -12,7 +12,7 @@
       "name": "@liflig/repo-metrics-infrastructure",
       "version": "0.0.0-development",
       "dependencies": {
-        "@capraconsulting/webapp-deploy-lambda": "2.5.127",
+        "@capraconsulting/webapp-deploy-lambda": "2.5.128",
         "aws-cdk-lib": "2.257.0",
         "constructs": "10.6.0",
       },
@@ -208,7 +208,7 @@
 
     "@biomejs/cli-win32-x64": ["@biomejs/cli-win32-x64@2.5.1", "", { "os": "win32", "cpu": "x64" }, "sha512-6uxpR9hvaglANkZemeSiN/FhYgkGasrEGn267eXIWvjrjJ2LhDlk251IhjVJq6MXzkV2/bcXwLwSroLyPtqRZg=="],
 
-    "@capraconsulting/webapp-deploy-lambda": ["@capraconsulting/webapp-deploy-lambda@2.5.127", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" } }, "sha512-vIEN3TJMpbWpAzwuKBtWdjWgIu9qjiayTqWL1qz75MAc85MQc8nUWSqGx1qhwndx56vAosee4q56T4l+738Rlw=="],
+    "@capraconsulting/webapp-deploy-lambda": ["@capraconsulting/webapp-deploy-lambda@2.5.128", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" } }, "sha512-YBNS17oj8v3lot0wxwFIVq5OPh3wcAFP8yDTY67fJGpz5o6GZVAsMSJ18BPzLz31xPLdECWylPbcVYPo3qMCNA=="],
 
     "@emnapi/core": ["@emnapi/core@1.11.1", "", { "dependencies": { "@emnapi/wasi-threads": "1.2.2", "tslib": "^2.4.0" } }, "sha512-RSvbQmHzdKzNsLYa/wHrbc3KN4sYLKAdPZxqiM2HATqv/SBk2/ENSHpvXGaLOMcsAyz0poEGqkmmKYG3OWiJEQ=="],
 
@@ -899,6 +899,8 @@
     "@babel/traverse/@babel/code-frame": ["@babel/code-frame@7.29.7", "", { "dependencies": { "@babel/helper-validator-identifier": "^7.29.7", "js-tokens": "^4.0.0", "picocolors": "^1.1.1" } }, "sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw=="],
 
     "@babel/types/@babel/helper-validator-identifier": ["@babel/helper-validator-identifier@7.29.7", "", {}, "sha512-qehxGkRj55h/ff8EMaJ+cYhyaKlHIxqYDn682wQD7RNp9UujOQsHog2uS0r2vzr4pW+sXf90NeeayjcNaX3fFg=="],
+
+    "@liflig/cdk/@capraconsulting/webapp-deploy-lambda": ["@capraconsulting/webapp-deploy-lambda@2.5.127", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" } }, "sha512-vIEN3TJMpbWpAzwuKBtWdjWgIu9qjiayTqWL1qz75MAc85MQc8nUWSqGx1qhwndx56vAosee4q56T4l+738Rlw=="],
 
     "@rollup/pluginutils/estree-walker": ["estree-walker@2.0.2", "", {}, "sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w=="],
 
