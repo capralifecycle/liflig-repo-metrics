@@ -1,5 +1,5 @@
 import AJV from "ajv"
-import yaml from "js-yaml"
+import { load } from "js-yaml"
 import schema from "../definition-schema.json"
 import type { Definition, GetReposResponse, Project } from "./types"
 
@@ -125,7 +125,7 @@ function requireValidDefinition(definition: Definition) {
 }
 
 export function parseDefinition(value: string): Definition {
-  const result = checkAgainstSchema(yaml.load(value))
+  const result = checkAgainstSchema(load(value))
 
   if ("error" in result) {
     throw new Error(`Definition content invalid: ${result.error}`)
