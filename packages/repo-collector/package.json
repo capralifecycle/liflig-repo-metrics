@@ -23,7 +23,7 @@
     "@types/lodash-es": "4.17.12",
     "@types/node": "24.13.2",
     "typescript": "6.0.3",
-    "vitest": "4.1.9"
+    "vitest": "4.1.10"
   },
   "dependencies": {
     "@js-temporal/polyfill": "0.5.1",
