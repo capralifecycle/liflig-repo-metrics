@@ -19,7 +19,7 @@
       "devDependencies": {
         "@liflig/cdk": "3.27.34",
         "@liflig/cdk-cloudfront-auth": "1.10.12",
-        "@liflig/load-secrets": "1.1.197",
+        "@liflig/load-secrets": "1.1.198",
         "@types/node": "24.13.3",
         "aws-cdk": "2.1132.1",
         "esbuild": "0.28.1",
@@ -106,7 +106,7 @@
 
     "@aws-sdk/client-secrets-manager": ["@aws-sdk/client-secrets-manager@3.1093.0", "", { "dependencies": { "@aws-sdk/core": "^3.976.0", "@aws-sdk/credential-provider-node": "^3.972.71", "@aws-sdk/types": "^3.974.2", "@smithy/core": "^3.29.4", "@smithy/fetch-http-handler": "^5.6.6", "@smithy/node-http-handler": "^4.9.6", "@smithy/types": "^4.16.1", "tslib": "^2.6.2" } }, "sha512-mGe6xFbGmnS+zogTnn8CptM9xh+rjutY9MkMVg6ykaM5CTrYGH2ObcW5Doagwbq+7TCSG6sAj4k5uMYXH47IxQ=="],
 
-    "@aws-sdk/client-sts": ["@aws-sdk/client-sts@3.1092.0", "", { "dependencies": { "@aws-sdk/core": "^3.976.0", "@aws-sdk/credential-provider-node": "^3.972.71", "@aws-sdk/signature-v4-multi-region": "^3.996.41", "@aws-sdk/types": "^3.974.2", "@smithy/core": "^3.29.4", "@smithy/fetch-http-handler": "^5.6.6", "@smithy/node-http-handler": "^4.9.6", "@smithy/types": "^4.16.1", "tslib": "^2.6.2" } }, "sha512-EgKpb6LN/JP/3AbvxXh8c17SKsOeutJRvl3pmMdJ/jx+FqcGvYlpZdj6LVl3Y0ssv6LzbtYcMw/vIzygYRaDoA=="],
+    "@aws-sdk/client-sts": ["@aws-sdk/client-sts@3.1093.0", "", { "dependencies": { "@aws-sdk/core": "^3.976.0", "@aws-sdk/credential-provider-node": "^3.972.71", "@aws-sdk/signature-v4-multi-region": "^3.996.41", "@aws-sdk/types": "^3.974.2", "@smithy/core": "^3.29.4", "@smithy/fetch-http-handler": "^5.6.6", "@smithy/node-http-handler": "^4.9.6", "@smithy/types": "^4.16.1", "tslib": "^2.6.2" } }, "sha512-4f0JWfdIP73UwwLYI+YuNd0AlmFCV6zwAmHVECHIHEJ6NtqBacNdgY5GJybntlkpNinvCBQcSR2Vs9rKcpDyjw=="],
 
     "@aws-sdk/core": ["@aws-sdk/core@3.976.0", "", { "dependencies": { "@aws-sdk/types": "^3.974.2", "@aws-sdk/xml-builder": "^3.972.36", "@aws/lambda-invoke-store": "^0.3.0", "@smithy/core": "^3.29.4", "@smithy/signature-v4": "^5.6.5", "@smithy/types": "^4.16.1", "bowser": "^2.11.0", "tslib": "^2.6.2" } }, "sha512-0cjRaEdlVoOrsNb9pP5q1Syyc8pXw5xSj2Np2ryReRTr9FppIIRVSdZK4lbnfmc2Hvgux/xBOUU6baB7z8//uA=="],
 
@@ -268,7 +268,7 @@
 
     "@liflig/cdk-cloudfront-auth": ["@liflig/cdk-cloudfront-auth@1.10.12", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0" } }, "sha512-OKcVPENEZKAYKq2fuMSyjGHec0rD194beVQqh7ZfUExXt6BpdNJ3/Gs6Rm5cXRox0g95+BfyeoSGThwK/rvYEg=="],
 
-    "@liflig/load-secrets": ["@liflig/load-secrets@1.1.197", "", { "dependencies": { "@aws-sdk/client-secrets-manager": "3.1092.0", "@aws-sdk/client-sts": "3.1092.0", "read": "6.0.0" } }, "sha512-oG0/XT4kAUhuihSWn0e7DHj8vESHtebunsKOlSJghOAxqOU3uizWBEd4aSXY3l+agss3I8w2Z5845BGbIVj6XQ=="],
+    "@liflig/load-secrets": ["@liflig/load-secrets@1.1.198", "", { "dependencies": { "@aws-sdk/client-secrets-manager": "3.1093.0", "@aws-sdk/client-sts": "3.1093.0", "read": "6.0.0" } }, "sha512-aENzov0XMACINIhnqpgFCk9CSbZL+Mt5afn3YytMgoHb0cS2vGAo1mXvhRtVilmASOmnMnb0NvE6MW3iM9Bctg=="],
 
     "@liflig/repo-metrics-infrastructure": ["@liflig/repo-metrics-infrastructure@workspace:packages/infrastructure"],
 
@@ -891,8 +891,6 @@
     "@aws-cdk/cloud-assembly-schema/semver": ["semver@7.8.5", "", { "bundled": true, "bin": { "semver": "bin/semver.js" } }, "sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA=="],
 
     "@liflig/cdk/@capraconsulting/webapp-deploy-lambda": ["@capraconsulting/webapp-deploy-lambda@2.5.139", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" } }, "sha512-B/litisq7ce0QDzW9kS3+toZ+1LiuJ3yt0YGjoWNoH1jNfoLO3aIH0mkCcDG4ERN3St+T5mWWTN9IeO+z9UtYA=="],
-
-    "@liflig/load-secrets/@aws-sdk/client-secrets-manager": ["@aws-sdk/client-secrets-manager@3.1092.0", "", { "dependencies": { "@aws-sdk/core": "^3.976.0", "@aws-sdk/credential-provider-node": "^3.972.71", "@aws-sdk/types": "^3.974.2", "@smithy/core": "^3.29.4", "@smithy/fetch-http-handler": "^5.6.6", "@smithy/node-http-handler": "^4.9.6", "@smithy/types": "^4.16.1", "tslib": "^2.6.2" } }, "sha512-DiUnsmpt8ypPoakaVJ3VAgd3NnwMUdw3jgSizrD0H/SfjJkhBxClIyy9aA68D81s7QBDvh4fdV9ecJi5Xq0NHQ=="],
 
     "@rollup/pluginutils/estree-walker": ["estree-walker@2.0.2", "", {}, "sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w=="],
 
