@@ -4,7 +4,7 @@
   "pluginReports": [
     {
       "pluginName": "CloudFormation Validate",
-      "pluginVersion": "1.6.0",
+      "pluginVersion": "1.7.0",
       "conclusion": "success",
       "metadata": {},
       "violations": [
@@ -19,7 +19,7 @@
             {
               "constructPath": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main",
               "constructFqn": "aws-cdk-lib.Stack",
-              "libraryVersion": "2.263.0",
+              "libraryVersion": "2.265.0",
               "stackTraces": [
                 "new RepoMetricsEnv (/home/runner/work/liflig-repo-metrics/liflig-repo-metrics/packages/infrastructure/src/environment.ts:24:9)",
                 "new PipelineStack (/home/runner/work/liflig-repo-metrics/liflig-repo-metrics/packages/infrastructure/src/pipeline.ts:34:11)",
@@ -30,7 +30,7 @@
             {
               "constructPath": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main",
               "constructFqn": "aws-cdk-lib.Stack",
-              "libraryVersion": "2.263.0",
+              "libraryVersion": "2.265.0",
               "stackTraces": [
                 "new RepoMetricsEnv (/home/runner/work/liflig-repo-metrics/liflig-repo-metrics/packages/infrastructure/src/environment.ts:24:9)",
                 "new PipelineStack (/home/runner/work/liflig-repo-metrics/liflig-repo-metrics/packages/infrastructure/src/pipeline.ts:34:11)",
@@ -41,7 +41,7 @@
             {
               "constructPath": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main",
               "constructFqn": "aws-cdk-lib.Stack",
-              "libraryVersion": "2.263.0",
+              "libraryVersion": "2.265.0",
               "stackTraces": [
                 "new RepoMetricsEnv (/home/runner/work/liflig-repo-metrics/liflig-repo-metrics/packages/infrastructure/src/environment.ts:24:9)",
                 "new PipelineStack (/home/runner/work/liflig-repo-metrics/liflig-repo-metrics/packages/infrastructure/src/pipeline.ts:34:11)",
@@ -52,7 +52,7 @@
             {
               "constructPath": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main",
               "constructFqn": "aws-cdk-lib.Stack",
-              "libraryVersion": "2.263.0",
+              "libraryVersion": "2.265.0",
               "stackTraces": [
                 "new RepoMetricsEnv (/home/runner/work/liflig-repo-metrics/liflig-repo-metrics/packages/infrastructure/src/environment.ts:24:9)",
                 "new PipelineStack (/home/runner/work/liflig-repo-metrics/liflig-repo-metrics/packages/infrastructure/src/pipeline.ts:34:11)",
@@ -63,7 +63,7 @@
             {
               "constructPath": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main",
               "constructFqn": "aws-cdk-lib.Stack",
-              "libraryVersion": "2.263.0",
+              "libraryVersion": "2.265.0",
               "stackTraces": [
                 "new RepoMetricsEnv (/home/runner/work/liflig-repo-metrics/liflig-repo-metrics/packages/infrastructure/src/environment.ts:24:9)",
                 "new PipelineStack (/home/runner/work/liflig-repo-metrics/liflig-repo-metrics/packages/infrastructure/src/pipeline.ts:34:11)",
