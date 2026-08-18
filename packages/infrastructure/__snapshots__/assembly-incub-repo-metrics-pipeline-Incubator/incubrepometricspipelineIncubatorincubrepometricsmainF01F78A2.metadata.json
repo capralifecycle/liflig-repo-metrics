@@ -204,10 +204,10 @@
       "data": "RepoMetricsReporterScheduleAllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporter593FA6D5CACEAB79"
     }
   ],
-  "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterNotSuccessAlarm/Resource": [
+  "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterFailureAlarm/Resource": [
     {
       "type": "aws:cdk:logicalId",
-      "data": "ReporterNotSuccessAlarm26AEAE42"
+      "data": "ReporterFailureAlarmC4625B2F"
     }
   ],
   "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/StateMachine/Resource": [
