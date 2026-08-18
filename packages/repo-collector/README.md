@@ -7,7 +7,7 @@ This package produces 3 lambdas:
    It also invalidates the CloudFront distribution for the data read by the frontend.
 3. A reporter that notifies slack with Repo-Metrics data
 
-The collector and aggregator run sequentially in a Step Functions state machine triggered hourly by EventBridge. The reporter is triggered separately at 07:00 UTC daily.  
+The collector and aggregator run sequentially in a Step Functions state machine triggered hourly by EventBridge. The reporter is triggered separately at 07:00 UTC every Monday.  
 (This is configured in the [infra stack](../infrastructure/src/repo-metrics-stack.ts).)
 
 ## Tokens and Permissions
