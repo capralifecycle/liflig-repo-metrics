@@ -2648,7 +2648,7 @@
     "RepoMetricsReporterSchedule0DDC473C": {
       "Type": "AWS::Events::Rule",
       "Properties": {
-        "ScheduleExpression": "cron(0 7 * * ? *)",
+        "ScheduleExpression": "cron(0 7 ? * MON *)",
         "State": "ENABLED",
         "Targets": [
           {
@@ -2688,7 +2688,7 @@
         "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/RepoMetricsReporterSchedule/AllowEventRuleincubrepometricspipelineIncubatorincubrepometricsmainReporter593FA6D5"
       }
     },
-    "ReporterNotSuccessAlarm26AEAE42": {
+    "ReporterFailureAlarmC4625B2F": {
       "Type": "AWS::CloudWatch::Alarm",
       "Properties": {
         "AlarmActions": [
@@ -2696,42 +2696,31 @@
             "Ref": "SsmParameterValuelifligcdkincubplatformincubatorcommoncoreslackwarningstopicarnC96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
-        "AlarmDescription": {
-          "Fn::Join": [
-            "",
-            [
-              "Function ",
-              {
-                "Ref": "Reporter08098DAC"
-              },
-              " has not run successful for the last 1 day"
-            ]
-          ]
-        },
-        "ComparisonOperator": "LessThanOrEqualToThreshold",
+        "AlarmDescription": "Enter alarm state when the weekly reporter run could not be delivered or threw an error.",
+        "ComparisonOperator": "GreaterThanThreshold",
         "EvaluationPeriods": 1,
         "Metrics": [
           {
-            "Expression": "invocations - errors",
+            "Expression": "failedInvocations + errors",
             "Id": "expr_1",
             "ReturnData": true
           },
           {
-            "Id": "invocations",
+            "Id": "failedInvocations",
             "MetricStat": {
               "Metric": {
                 "Dimensions": [
                   {
-                    "Name": "FunctionName",
+                    "Name": "RuleName",
                     "Value": {
-                      "Ref": "Reporter08098DAC"
+                      "Ref": "RepoMetricsReporterSchedule0DDC473C"
                     }
                   }
                 ],
-                "MetricName": "Invocations",
-                "Namespace": "AWS/Lambda"
+                "MetricName": "FailedInvocations",
+                "Namespace": "AWS/Events"
               },
-              "Period": 86400,
+              "Period": 3600,
               "Stat": "Sum"
             },
             "ReturnData": false
@@ -2751,7 +2740,7 @@
                 "MetricName": "Errors",
                 "Namespace": "AWS/Lambda"
               },
-              "Period": 86400,
+              "Period": 3600,
               "Stat": "Sum"
             },
             "ReturnData": false
@@ -2763,10 +2752,10 @@
           }
         ],
         "Threshold": 0,
-        "TreatMissingData": "breaching"
+        "TreatMissingData": "notBreaching"
       },
       "Metadata": {
-        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterNotSuccessAlarm/Resource"
+        "aws:cdk:path": "incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-main/ReporterFailureAlarm/Resource"
       }
     },
     "StateMachineRoleB840431D": {
