@@ -19,7 +19,7 @@
       "devDependencies": {
         "@liflig/cdk": "3.28.8",
         "@liflig/cdk-cloudfront-auth": "1.10.13",
-        "@liflig/load-secrets": "1.1.219",
+        "@liflig/load-secrets": "1.1.220",
         "@types/node": "24.13.3",
         "aws-cdk": "2.1137.0",
         "esbuild": "0.28.2",
@@ -106,7 +106,7 @@
 
     "@aws-sdk/client-secrets-manager": ["@aws-sdk/client-secrets-manager@3.1115.0", "", { "dependencies": { "@aws-sdk/core": "^3.977.8", "@aws-sdk/credential-provider-node": "^3.972.80", "@aws-sdk/types": "^3.974.4", "@smithy/core": "^3.31.1", "@smithy/fetch-http-handler": "^5.6.13", "@smithy/node-http-handler": "^4.9.13", "@smithy/types": "^4.16.1", "tslib": "^2.6.2" } }, "sha512-FF2qDvWklCAlWyWmblBW7R0IqZXZhrgHfGijvo1ydrQB6gahteKl4TbPWQeayGcAfMFp4homcN7Tl92wfNCJKA=="],
 
-    "@aws-sdk/client-sts": ["@aws-sdk/client-sts@3.1114.0", "", { "dependencies": { "@aws-sdk/core": "^3.977.8", "@aws-sdk/credential-provider-node": "^3.972.80", "@aws-sdk/signature-v4-multi-region": "^3.996.45", "@aws-sdk/types": "^3.974.4", "@smithy/core": "^3.31.1", "@smithy/fetch-http-handler": "^5.6.13", "@smithy/node-http-handler": "^4.9.13", "@smithy/types": "^4.16.1", "tslib": "^2.6.2" } }, "sha512-BMhx1eNX1KuPmnhVfN3C4pFTmDamWeI9EGd1PcIh+t92V530bVVbU98g9nYblYQbXDVk5zoJC7PRyMSQybeBsQ=="],
+    "@aws-sdk/client-sts": ["@aws-sdk/client-sts@3.1115.0", "", { "dependencies": { "@aws-sdk/core": "^3.977.8", "@aws-sdk/credential-provider-node": "^3.972.80", "@aws-sdk/signature-v4-multi-region": "^3.996.45", "@aws-sdk/types": "^3.974.4", "@smithy/core": "^3.31.1", "@smithy/fetch-http-handler": "^5.6.13", "@smithy/node-http-handler": "^4.9.13", "@smithy/types": "^4.16.1", "tslib": "^2.6.2" } }, "sha512-qvilCCzL5BnGgiMLNnnq6lfUCvOGPLj6puP4G8pOKZGcn67qhyf5uoiKNCU8FpAxkCUZJvfExGqCDFjvEEZI6g=="],
 
     "@aws-sdk/core": ["@aws-sdk/core@3.977.8", "", { "dependencies": { "@aws-sdk/types": "^3.974.4", "@aws-sdk/xml-builder": "^3.972.39", "@aws/lambda-invoke-store": "^0.3.0", "@smithy/core": "^3.31.1", "@smithy/signature-v4": "^5.6.12", "@smithy/types": "^4.16.1", "bowser": "^2.11.0", "tslib": "^2.6.2" } }, "sha512-7+Kcrkvrk9lM/m7jRhHpT4jCdvzGHsuaSRbF8TdzzkY1mRzp/Ogwf9c7H29k4gGhey0BBWhCWr16+t0J61gwmg=="],
 
@@ -262,7 +262,7 @@
 
     "@liflig/cdk-cloudfront-auth": ["@liflig/cdk-cloudfront-auth@1.10.13", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0" } }, "sha512-2EfutUHYX5kQfiC6trYOAkBkZ+hafSx/O8myB6gYU8Wk3CkMQUG83lCneJs//CI70F97Gw2nMVSTTruZ7Ag9vQ=="],
 
-    "@liflig/load-secrets": ["@liflig/load-secrets@1.1.219", "", { "dependencies": { "@aws-sdk/client-secrets-manager": "3.1114.0", "@aws-sdk/client-sts": "3.1114.0", "read": "6.0.0" } }, "sha512-ZpOG4eqZexYo4GsEz33uO+7jFX3tcVV1IS7XORkGVTBfxMhVsY4A2Uz3a/sLWmUCm8dwsYWdxVIK91C3OaEsTA=="],
+    "@liflig/load-secrets": ["@liflig/load-secrets@1.1.220", "", { "dependencies": { "@aws-sdk/client-secrets-manager": "3.1115.0", "@aws-sdk/client-sts": "3.1115.0", "read": "6.0.0" } }, "sha512-vCXXDxGhgXHcWLcm9l5tvyb1lZwm4tgHUjLjpAp3sqoKo++zFS9UGIHSXuiIIN2dBaX/LspL3ebN5vNApF/c7w=="],
 
     "@liflig/repo-metrics-infrastructure": ["@liflig/repo-metrics-infrastructure@workspace:packages/infrastructure"],
 
@@ -879,8 +879,6 @@
     "@aws-cdk/cloud-assembly-schema/jsonschema": ["jsonschema@1.5.0", "", { "bundled": true }, "sha512-K+A9hhqbn0f3pJX17Q/7H6yQfD/5OXgdrR5UE12gMXCiN9D5Xq2o5mddV2QEcX/bjla99ASsAAQUyMCCRWAEhw=="],
 
     "@aws-cdk/cloud-assembly-schema/semver": ["semver@7.8.5", "", { "bundled": true, "bin": { "semver": "bin/semver.js" } }, "sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA=="],
-
-    "@liflig/load-secrets/@aws-sdk/client-secrets-manager": ["@aws-sdk/client-secrets-manager@3.1114.0", "", { "dependencies": { "@aws-sdk/core": "^3.977.8", "@aws-sdk/credential-provider-node": "^3.972.80", "@aws-sdk/types": "^3.974.4", "@smithy/core": "^3.31.1", "@smithy/fetch-http-handler": "^5.6.13", "@smithy/node-http-handler": "^4.9.13", "@smithy/types": "^4.16.1", "tslib": "^2.6.2" } }, "sha512-p07CDGFO7v8wi4ugD8VO+qX+wShPrXjEMYsiX7yhIK0nm9dbVhPKcJ9naBK02cqI/kN2mshT+9AV0VJw206UPg=="],
 
     "@octokit/auth-app/@octokit/types": ["@octokit/types@16.0.0", "", { "dependencies": { "@octokit/openapi-types": "^27.0.0" } }, "sha512-sKq+9r1Mm4efXW1FCk7hFSeJo4QKreL/tTbR0rz/qx/r1Oa2VV83LTA/H/MuCOX7uCIJmQVRKBcbmWoySjAnSg=="],
 
