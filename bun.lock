@@ -19,7 +19,7 @@
       "devDependencies": {
         "@liflig/cdk": "3.28.9",
         "@liflig/cdk-cloudfront-auth": "1.10.14",
-        "@liflig/load-secrets": "1.1.221",
+        "@liflig/load-secrets": "1.1.222",
         "@types/node": "24.13.3",
         "aws-cdk": "2.1137.0",
         "esbuild": "0.28.2",
@@ -262,7 +262,7 @@
 
     "@liflig/cdk-cloudfront-auth": ["@liflig/cdk-cloudfront-auth@1.10.14", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0" } }, "sha512-arXZtfKJU8zHwjAYzc6ExMgh/Ctgm20ml9jWQGCarmqcXLCB8u6fRuVkvu5wuKIcs+r8QnTPHP8fMtGWACVNAQ=="],
 
-    "@liflig/load-secrets": ["@liflig/load-secrets@1.1.221", "", { "dependencies": { "@aws-sdk/client-secrets-manager": "3.1116.0", "@aws-sdk/client-sts": "3.1116.0", "read": "6.0.0" } }, "sha512-rTNupsgl3GlysbejugLWEZ0OBGmJ6KkDXTnbvF65cWNvl/0zZ+kJg21Ot8JM+eqOpRcM6OdMB4sgNh02OS/DWw=="],
+    "@liflig/load-secrets": ["@liflig/load-secrets@1.1.222", "", { "dependencies": { "@aws-sdk/client-secrets-manager": "3.1116.0", "@aws-sdk/client-sts": "3.1116.0", "read": "6.0.0" } }, "sha512-UrOUFyWOERaPLdZGZ8vZpMPFbajE3dPFHbjVyIJXs8DZ5l1YWeYEa05cGDgoSUZqeGBTbHwQ6lUvCtrQ5bJpmw=="],
 
     "@liflig/repo-metrics-infrastructure": ["@liflig/repo-metrics-infrastructure@workspace:packages/infrastructure"],
 
