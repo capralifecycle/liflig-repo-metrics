@@ -19,7 +19,7 @@
       "devDependencies": {
         "@liflig/cdk": "3.28.9",
         "@liflig/cdk-cloudfront-auth": "1.10.14",
-        "@liflig/load-secrets": "1.1.222",
+        "@liflig/load-secrets": "1.1.223",
         "@types/node": "24.13.3",
         "aws-cdk": "2.1137.0",
         "esbuild": "0.28.2",
@@ -106,7 +106,7 @@
 
     "@aws-sdk/client-secrets-manager": ["@aws-sdk/client-secrets-manager@3.1117.0", "", { "dependencies": { "@aws-sdk/core": "^3.977.9", "@aws-sdk/credential-provider-node": "^3.972.81", "@aws-sdk/types": "^3.974.5", "@smithy/core": "^3.33.3", "@smithy/fetch-http-handler": "^5.7.2", "@smithy/node-http-handler": "^4.11.3", "@smithy/types": "^4.17.2", "tslib": "^2.6.2" } }, "sha512-nRBpwu2XHdLMoeZTA8BiemOrX4LbDiz72N7dwmI64DIZASShyboB2Qmdz8MqVjR0NcljqnQr+yGrInfcy1CZQw=="],
 
-    "@aws-sdk/client-sts": ["@aws-sdk/client-sts@3.1116.0", "", { "dependencies": { "@aws-sdk/core": "^3.977.9", "@aws-sdk/credential-provider-node": "^3.972.81", "@aws-sdk/signature-v4-multi-region": "^3.996.46", "@aws-sdk/types": "^3.974.5", "@smithy/core": "^3.33.3", "@smithy/fetch-http-handler": "^5.7.2", "@smithy/node-http-handler": "^4.11.3", "@smithy/types": "^4.17.2", "tslib": "^2.6.2" } }, "sha512-xZmNx/gTjMutVcU2sJjfuYj+n+/gGKtdDdQ0PE+RY39pf2tz1Amzcpn02owyGxNb7t8wN7x9f6eR1hlKOw3uiA=="],
+    "@aws-sdk/client-sts": ["@aws-sdk/client-sts@3.1117.0", "", { "dependencies": { "@aws-sdk/core": "^3.977.9", "@aws-sdk/credential-provider-node": "^3.972.81", "@aws-sdk/signature-v4-multi-region": "^3.996.46", "@aws-sdk/types": "^3.974.5", "@smithy/core": "^3.33.3", "@smithy/fetch-http-handler": "^5.7.2", "@smithy/node-http-handler": "^4.11.3", "@smithy/types": "^4.17.2", "tslib": "^2.6.2" } }, "sha512-aZ0ypjbIdhRW85FOCkInl28sanIz8Qc/+CApJ79DVY55MFzXEkq2yDzzazTBvtnjB4UjFBGQmMlkNzUfBxrNBQ=="],
 
     "@aws-sdk/core": ["@aws-sdk/core@3.977.9", "", { "dependencies": { "@aws-sdk/types": "^3.974.5", "@aws-sdk/xml-builder": "^3.972.40", "@aws/lambda-invoke-store": "^0.3.0", "@smithy/core": "^3.33.3", "@smithy/signature-v4": "^5.6.12", "@smithy/types": "^4.17.2", "bowser": "^2.11.0", "tslib": "^2.6.2" } }, "sha512-reqPFEQrZxDZpeGj4PFMepBeR5LGYHRqq/L0motTzgFkCRBA4rFdaVXDSLYyGHhxVz7sT2PDnPN9CluGSfgyJA=="],
 
@@ -262,7 +262,7 @@
 
     "@liflig/cdk-cloudfront-auth": ["@liflig/cdk-cloudfront-auth@1.10.14", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0" } }, "sha512-arXZtfKJU8zHwjAYzc6ExMgh/Ctgm20ml9jWQGCarmqcXLCB8u6fRuVkvu5wuKIcs+r8QnTPHP8fMtGWACVNAQ=="],
 
-    "@liflig/load-secrets": ["@liflig/load-secrets@1.1.222", "", { "dependencies": { "@aws-sdk/client-secrets-manager": "3.1116.0", "@aws-sdk/client-sts": "3.1116.0", "read": "6.0.0" } }, "sha512-UrOUFyWOERaPLdZGZ8vZpMPFbajE3dPFHbjVyIJXs8DZ5l1YWeYEa05cGDgoSUZqeGBTbHwQ6lUvCtrQ5bJpmw=="],
+    "@liflig/load-secrets": ["@liflig/load-secrets@1.1.223", "", { "dependencies": { "@aws-sdk/client-secrets-manager": "3.1117.0", "@aws-sdk/client-sts": "3.1117.0", "read": "6.0.0" } }, "sha512-1M9/dL2BW72DwopG99hEMZcgpbvhH9Lie8fDjT61zlg8TnUj5V8JJgMUZIE1E1gZ9Vvmw6kT9QmNNIaE94qSwg=="],
 
     "@liflig/repo-metrics-infrastructure": ["@liflig/repo-metrics-infrastructure@workspace:packages/infrastructure"],
 
@@ -875,8 +875,6 @@
     "@aws-cdk/cloud-assembly-schema/jsonschema": ["jsonschema@1.5.0", "", { "bundled": true }, "sha512-K+A9hhqbn0f3pJX17Q/7H6yQfD/5OXgdrR5UE12gMXCiN9D5Xq2o5mddV2QEcX/bjla99ASsAAQUyMCCRWAEhw=="],
 
     "@aws-cdk/cloud-assembly-schema/semver": ["semver@7.8.5", "", { "bundled": true, "bin": { "semver": "bin/semver.js" } }, "sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA=="],
-
-    "@liflig/load-secrets/@aws-sdk/client-secrets-manager": ["@aws-sdk/client-secrets-manager@3.1116.0", "", { "dependencies": { "@aws-sdk/core": "^3.977.9", "@aws-sdk/credential-provider-node": "^3.972.81", "@aws-sdk/types": "^3.974.5", "@smithy/core": "^3.33.3", "@smithy/fetch-http-handler": "^5.7.2", "@smithy/node-http-handler": "^4.11.3", "@smithy/types": "^4.17.2", "tslib": "^2.6.2" } }, "sha512-M2rtmVrfe0TuxCBXtGkFGgZ4WgGZGxYyVj/kAJBzMobDyvWho6SIH6KbTTOLswIzTl+2BVrGdwxxYcEFvVNTAQ=="],
 
     "@octokit/plugin-paginate-rest/@octokit/types": ["@octokit/types@16.0.0", "", { "dependencies": { "@octokit/openapi-types": "^27.0.0" } }, "sha512-sKq+9r1Mm4efXW1FCk7hFSeJo4QKreL/tTbR0rz/qx/r1Oa2VV83LTA/H/MuCOX7uCIJmQVRKBcbmWoySjAnSg=="],
 
