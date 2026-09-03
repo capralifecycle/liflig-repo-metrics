@@ -2,10 +2,10 @@
 
 Repo Metrics collects, processes and presents various metrics related to GitHub repositories.
 
-- Collection: The collector lambda collects metrics from GitHub and supplementary services like SonarCloud, and stores them in a file, `snapshot.json`.
+- Collection: The collector lambda collects metrics from GitHub and supplementary services like SonarCloud and Aikido, and stores them in a file, `snapshot.json`.
 - Aggregation: `snapshot.json` is read by the aggregation lambda, its data processed into a format suitable for presentation, and stored in another file, `webapp.json`.
 - Reporting: `snapshot.json` is read by the reporter lambda, and the sum of current vulnerabilities is sent to Slack channel `#cals-dev-info`.
-- Presentation: `webapp.json` read by the webapp and presented at <https://d2799m9v6pw1zy.cloudfront.net/>.
+- Presentation: `webapp.json` is read by the webapp and presented at <https://d2799m9v6pw1zy.cloudfront.net/>.
 
 Instance URL: <https://d2799m9v6pw1zy.cloudfront.net/>
 
@@ -21,13 +21,14 @@ subgraph Repo Metrics
   subgraph Sources
     GitHub
     SonarCloud
+    Aikido
   end
 
   subgraph "Data Processing (state machine, runs hourly)"
     subgraph Collection
       collector(Lambda: Collector)
       secrets(Secrets Manager)
-      raw_data[(S3 Bucket</br>Raw data)]
+      raw_data[(S3 Bucket<br/>Raw data)]
       collector -- Fetch API credentials --> secrets
       collector -- Fetch data --> Sources
       collector -- Write raw data --> raw_data
@@ -35,20 +36,20 @@ subgraph Repo Metrics
 
     subgraph Aggregation
       aggregator(Lambda: Aggregator)
-      processed_data[(S3 Bucket</br>Repo data)]
+      processed_data[(S3 Bucket<br/>Repo data)]
       aggregator -- Write processed data --> processed_data
     end
   end
 
   subgraph Reporting
-    report(Lambda: Reporter</br>schedule: about every 7h)
+    report(Lambda: Reporter<br/>schedule: about every 7h)
     chat(Slack)
     report -- Send report --> chat
   end
 
   subgraph Presentation
     cf(CloudFront)
-    static_files[(S3 Bucket</br>Static files)]
+    static_files[(S3 Bucket<br/>Static files)]
     user(User)
     cf -- Read static files --> static_files
     user -- Browse --> cf
@@ -86,7 +87,7 @@ To run repo-metrics locally, we must provide a data file to the webapp. This fil
 
 ### 1. Collect local data
 
-#### Alternative 1: Collect and aggregate data from live services (GitHub, ..)
+#### Alternative 1: Collect and aggregate data from live services (GitHub, SonarCloud, Aikido)
 
 This approach downloads data from remote sources to the local file system, then processes it into a webapp friendly format.
 
@@ -97,7 +98,7 @@ Requires:
 - Environment variables `AIKIDO_CLIENT_ID` and `AIKIDO_CLIENT_SECRET`.
 
 ```shell
-$ task update-local-data
+task update-local-data
 ```
 
 #### Alternative 2: Download existing data from S3
@@ -107,7 +108,7 @@ This approach downloads unprocessed (snapshot files) and processed (webapp frien
 Requires: Active shell session using administrative privileges in the liflig-incubator account, e.g. `aws-vault exec liflig-incubator-admin`.
 
 ```shell
-$ task download-s3-data
+task download-s3-data
 ```
 
 ### 2. Serve data and run webapp
@@ -159,7 +160,7 @@ Credentials live in AWS Secrets Manager (region `eu-west-1`, account `liflig-inc
 
 - `/incub/repo-metrics/aikido-api` — JSON `{ clientId, clientSecret }`.
 
-To populate the secret, add the values in `packages/infrastructure/load-secrets.ts`'s
+To populate the secret, add the values to the `packages/infrastructure/load-secrets.ts`
 flow and run:
 
 ```shell
@@ -181,7 +182,7 @@ The App's private key is a long-lived credential that can mint tokens for every 
    ```shell
    task rotate-github-app-pem PEM=./downloaded-key.pem
    ```
-   This reads the existing secret JSON, replaces only the `privateKey` field, and writes it back to Secrets Manager
+   This reads the existing secret JSON, replaces only the `privateKey` field, and writes it back to Secrets Manager.
 3. **Verify.**
    Redeploy (or wait for the next scheduled collector run) and check CloudWatch logs for the `[github-auth] using GitHub App installation (appId=…, org=…, installationId=…)` line and a successful snapshot write.
 4. **Revoke the old key.**
@@ -197,12 +198,12 @@ This repo is built and deployed automatically on pushes to master.
 
 ## Manually updating repo-metrics
 
-The lambdas used for updating data are orchestrated by an AWS Step Function state machine. This state machine runs a schedule, but we can trigger it manually to refresh existing data.
+The lambdas used for updating data are orchestrated by an AWS Step Function state machine. This state machine runs on a schedule, but we can trigger it manually to refresh existing data.
 
 Run the below command using AWS Vault and the `liflig-incubator-admin` role.
 
 ```shell
-$ task update-remote-data
+task update-remote-data
 ```
 
 ## Architecture Decision Records (ADR)
