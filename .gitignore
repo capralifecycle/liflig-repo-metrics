@@ -8,3 +8,4 @@ outfile-aggregator.json
 tsconfig.tsbuildinfo
 .envrc
 /packages/infrastructure/__snapshots__/validation-report.json
+fnox.toml
