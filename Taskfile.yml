@@ -20,9 +20,30 @@ tasks:
       - task: lint
       - task: infra.build
 
+  ci:
+    desc: Build the way CI does, failing on any file the build changes
+    deps: [install-deps-frozen]
+    cmds:
+      - task: lint
+      - task: infra.build
+      - task: check-clean
+
   install-deps:
     desc: Install project dependencies
     cmd: bun install
+
+  install-deps-frozen:
+    desc: Install project dependencies without updating the lockfile
+    cmd: bun install --frozen-lockfile
+
+  check-clean:
+    desc: Fail if the working tree holds changed or untracked files
+    cmd: |
+      if [ -n "$(git status --porcelain)" ]; then
+        echo "Working tree is dirty. In CI this means the build changed committed files, usually the CDK snapshots — run 'task build' and commit the result." >&2
+        git status --short >&2
+        exit 1
+      fi
 
   fmt:
     desc: Format project
@@ -58,7 +79,6 @@ tasks:
     cmds:
       - rm -rf node_modules
 
-  # test if AWS session exists here?
   update-local-data:
     desc: Update local data (local file system)
     cmds:
@@ -79,7 +99,6 @@ tasks:
     cmds:
       - task: webapp.start-webserver
 
-  # test if AWS session exists here?
   update-remote-data:
     desc: Update remote data (the running instance of repo-metrics)
     cmds:
@@ -127,6 +146,8 @@ tasks:
 
   rotate-github-app-pem:
     desc: "Rotates the GitHub App private key from a PEM file"
+    requires:
+      vars: [AWS_SESSION_TOKEN]
     cmds:
       - |
         test -f "{{.PEM}}" || (echo "PEM=<path> required" && exit 1)
@@ -153,6 +174,8 @@ tasks:
 
   lambdas.update-local-data:
     dir: "{{.lambdas}}"
+    requires:
+      vars: [AWS_SESSION_TOKEN]
     cmds:
       - bun run collect-locally
       - bun run aggregate-locally
@@ -168,10 +191,14 @@ tasks:
 
   lambdas.download-s3-data:
     dir: "{{.lambdas}}"
+    requires:
+      vars: [AWS_SESSION_TOKEN]
     cmd: ./fetch-s3-data.sh
 
   lambdas.update-remote-data:
     dir: "{{.lambdas}}"
+    requires:
+      vars: [AWS_SESSION_TOKEN]
     cmd: aws stepfunctions start-execution --state-machine-arn "arn:aws:states:eu-west-1:001112238813:stateMachine:StateMachine2E01A3A5-2QjhssOgQmZm"
 
   lambdas.clean:

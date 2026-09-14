@@ -1,6 +1,7 @@
 {
   "name": "@liflig/repo-metrics-infrastructure",
   "version": "0.0.0-development",
+  "private": true,
   "type": "module",
   "scripts": {
     "cdk": "cdk",
