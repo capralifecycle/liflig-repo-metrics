@@ -1,11 +1,14 @@
 # repo-metrics
 
+[![ci](https://github.com/capralifecycle/liflig-repo-metrics/actions/workflows/ci.yml/badge.svg)](https://github.com/capralifecycle/liflig-repo-metrics/actions/workflows/ci.yml)
+[![license](https://img.shields.io/github/license/capralifecycle/liflig-repo-metrics)](LICENSE)
+
 Repo Metrics collects, processes and presents various metrics related to GitHub repositories.
 
 - Collection: The collector lambda collects metrics from GitHub and supplementary services like SonarCloud and Aikido, and stores them in a file, `snapshot.json`.
 - Aggregation: `snapshot.json` is read by the aggregation lambda, its data processed into a format suitable for presentation, and stored in another file, `webapp.json`.
 - Reporting: `snapshot.json` is read by the reporter lambda, and the sum of current vulnerabilities is sent to Slack channel `#cals-dev-info`.
-- Presentation: `webapp.json` is read by the webapp and presented at <https://d2799m9v6pw1zy.cloudfront.net/>.
+- Presentation: `webapp.json` is read by the webapp and rendered as a dashboard.
 
 Instance URL: <https://d2799m9v6pw1zy.cloudfront.net/>
 
@@ -42,7 +45,7 @@ subgraph Repo Metrics
   end
 
   subgraph Reporting
-    report(Lambda: Reporter<br/>schedule: about every 7h)
+    report(Lambda: Reporter<br/>schedule: weekly)
     chat(Slack)
     report -- Send report --> chat
   end
@@ -83,7 +86,7 @@ task infra.build
 
 ## Run
 
-To run repo-metrics locally, we must provide a data file to the webapp. This file is located in `packages/repo-collector/data/webapp.json`, and may be produced using either of the two approaches outlined below.
+Running locally requires a data file at `packages/repo-collector/data/webapp.json`. Produce it in one of the two ways below.
 
 ### 1. Collect local data
 
@@ -103,9 +106,9 @@ task update-local-data
 
 #### Alternative 2: Download existing data from S3
 
-This approach downloads unprocessed (snapshot files) and processed (webapp friendly) data from S3 to the local file system.
+This approach downloads both unprocessed snapshot files and processed webapp data from S3.
 
-Requires: Active shell session using administrative privileges in the liflig-incubator account, e.g. `aws-vault exec liflig-incubator-admin`.
+Requires: Administrative privileges in the `liflig-incubator` account, e.g. `aws-vault exec liflig-incubator-admin`.
 
 ```shell
 task download-s3-data
@@ -113,7 +116,7 @@ task download-s3-data
 
 ### 2. Serve data and run webapp
 
-After data has been collected and aggregated into `packages/repo-collector/data/webapp.json`, we serve it to the webapp. Do this in two separate windows/panes, as data must be served while the webserver runs.
+Once the data file exists, serve it to the webapp. It must stay served while the webserver runs, so use two separate windows or panes.
 
 1. Serve local data: `task serve-local-data`
 2. Start webserver: `task start-webserver`
@@ -153,7 +156,7 @@ Set the following in `.envrc`:
 
 Aikido has no long-lived tokens. A workspace admin creates a REST API client under
 [Settings → Integrations → API](https://app.aikido.dev/settings/integrations/api/aikido/rest),
-which yields a client id + secret. The collector exchanges these for a short-lived
+which yields a client id and secret. The collector exchanges these for a short-lived
 access token (OAuth2 client-credentials grant) on each run.
 
 Credentials live in AWS Secrets Manager (region `eu-west-1`, account `liflig-incubator`):
@@ -198,9 +201,9 @@ This repo is built and deployed automatically on pushes to master.
 
 ## Manually updating repo-metrics
 
-The lambdas used for updating data are orchestrated by an AWS Step Function state machine. This state machine runs on a schedule, but we can trigger it manually to refresh existing data.
+The lambdas that update data are orchestrated by an AWS Step Functions state machine. It runs on a schedule, but can also be triggered manually to refresh existing data.
 
-Run the below command using AWS Vault and the `liflig-incubator-admin` role.
+Run the following command using AWS Vault and the `liflig-incubator-admin` role.
 
 ```shell
 task update-remote-data
@@ -208,10 +211,8 @@ task update-remote-data
 
 ## Architecture Decision Records (ADR)
 
-Architecture Decision Records in this project are stored in the `./doc/adr` directory.
-
-Refer to the [first ADR](doc/adr/0001-record-architecture-decisions.md) for more information.
+Architecture Decision Records are stored in `doc/adr`. See the [first ADR](doc/adr/0001-record-architecture-decisions.md) for background.
 
 ## Contributing
 
-This project accepts contributions. To get started, please contact the maintainers at [Slack](https://liflig.slack.com/archives/C02T4KTPYS2).
+This project accepts contributions. Contact the maintainers on [Slack](https://liflig.slack.com/archives/C02T4KTPYS2) to get started.
