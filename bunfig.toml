@@ -1,4 +1,5 @@
 [install]
+exact = true
 minimumReleaseAge = 259200 # 3 days in seconds
 minimumReleaseAgeExcludes = [
   "@capraconsulting/webapp-deploy-lambda",
