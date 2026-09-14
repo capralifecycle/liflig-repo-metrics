@@ -1,14 +1,13 @@
 import type * as React from "react"
-import AikidoSvg from "./assets/icons/aikido.svg?react"
-import GitHubSvg from "./assets/icons/github.svg?react"
-import PrSvg from "./assets/icons/pr.svg?react"
-import RenovateSvg from "./assets/icons/renovate.svg?react"
-import SonarCloudSvg from "./assets/icons/sonarcloud.svg?react"
+import AikidoSvg from "./assets/icons/aikido"
+import GitHubSvg from "./assets/icons/github"
+import PrSvg from "./assets/icons/pr"
+import RenovateSvg from "./assets/icons/renovate"
+import SonarCloudSvg from "./assets/icons/sonarcloud"
 
-// SVGs are imported via vite-plugin-svgr (`?react`), which inlines them as
-// React components. Inline SVG (not a PNG/data-URI <img>) so they aren't
-// blocked by the deployed `img-src 'self'` CSP, and `currentColor` icons
-// still inherit the surrounding text color.
+// Inline SVG components (not a PNG or data-URI <img>) so they aren't blocked
+// by the deployed `img-src 'self'` CSP, and `currentColor` icons still inherit
+// the surrounding text color.
 const iconProps = {
   width: 18,
   height: 18,
