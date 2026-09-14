@@ -18,14 +18,10 @@
     "module": "preserve",
     "noEmit": true,
 
-    // Running in the DOM
+    // Running in the DOM, built and served by Bun
     "lib": ["es2022", "dom", "dom.iterable"],
+    "types": ["bun"],
     "jsx": "react-jsx"
   },
-  "include": ["src"],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+  "include": ["src", "build.ts", "dev.ts"]
 }
