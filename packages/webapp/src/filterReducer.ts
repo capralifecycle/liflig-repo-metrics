@@ -51,10 +51,8 @@ export function filterReducer(state: Filter, action: FilterAction): Filter {
     }
 
     case FilterActionType.CHANGE_SEARCH_FILTER: {
-      // Null check
       if (action.payload === null || action.payload === undefined) return state
 
-      // Non-null search filter values update filter state
       const newFilterValue: string = action.payload
       const newFilterState = {
         ...state,

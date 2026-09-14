@@ -1,4 +1,5 @@
 [install]
+exact = true
 minimumReleaseAge = 259200 # 3 days in seconds
 minimumReleaseAgeExcludes = [
   "@capraconsulting/webapp-deploy-lambda",
@@ -6,6 +7,4 @@ minimumReleaseAgeExcludes = [
   "@liflig/cdk-cloudfront-auth",
   "@liflig/load-secrets",
   "@liflig/repo-metrics-repo-collector-types",
-  # Temporary: critical SSRF fix in 1.15.0, remove once it clears the 3-day window (after 11. april 2026)
-  "axios",
 ]

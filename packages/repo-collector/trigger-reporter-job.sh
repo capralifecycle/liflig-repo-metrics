@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -euo pipefail
 
 aws-vault exec liflig-incubator-admin -- \
   aws lambda invoke \

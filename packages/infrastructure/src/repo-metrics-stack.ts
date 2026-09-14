@@ -261,7 +261,6 @@ export class RepoMetricsStack extends cdk.Stack {
     alarm.addAlarmAction(corePlatform.slackWarningsAction)
     alarm.addOkAction(corePlatform.slackWarningsAction)
 
-    // State machine schedule
     new events.Rule(this, "RepoMetricsSchedule", {
       schedule: events.Schedule.cron({
         minute: "0",
