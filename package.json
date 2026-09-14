@@ -9,9 +9,6 @@
     "fmt:check": "biome format",
     "upgrade-deps": "bun update"
   },
-  "overrides": {
-    "@types/webpack": "^5.18.0"
-  },
   "workspaces": [
     "packages/repo-collector-types",
     "packages/repo-collector",

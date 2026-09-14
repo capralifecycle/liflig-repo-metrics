@@ -14,6 +14,9 @@ import { isActionableRepo } from "./Repo"
 import { RepoSidebar } from "./RepoSidebar"
 import { isBotPr } from "./prUtils"
 import { buildMarkdownSummary } from "./copyUtils"
+import { commitHash } from "./commitHash" with { type: "macro" }
+
+const build = commitHash()
 
 const NONE_SENTINEL = "__none__"
 
@@ -454,7 +457,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
             Last updated: {formatLocalTimestamp(data.aggregatedAt)}
           </p>
           <p className="timestamps">
-            Build: <a href={`https://github.com/capralifecycle/liflig-repo-metrics/commit/${__BUILD_INFO__.commitHash}`}>{__BUILD_INFO__.commitHash}</a>
+            Build: <a href={`https://github.com/capralifecycle/liflig-repo-metrics/commit/${build}`}>{build}</a>
           </p>
         </>,
         footerEl,

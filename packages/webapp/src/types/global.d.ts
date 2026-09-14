@@ -1,9 +1,6 @@
-/// <reference types="vite-plugin-svgr/client" />
-
-declare const __BUILD_INFO__: {
-  appBuildTime: string
-  appName: string
-  commitHash: string
+declare module "*.css" {
+  const url: string
+  export default url
 }
 
 declare module "*.module.css" {
