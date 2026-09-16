@@ -30,8 +30,6 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: capralifecycle/actions-lib/check-runtime-dependencies@6258aea8b6e2815cdd4f247e4cb9f2b116510780 # v1.16.0
-
       - uses: capralifecycle/actions-lib/parse-config@6258aea8b6e2815cdd4f247e4cb9f2b116510780 # v1.16.0
         id: config
         with:
