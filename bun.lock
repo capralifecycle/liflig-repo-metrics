@@ -20,7 +20,7 @@
         "@liflig/cdk": "3.30.30",
         "@liflig/cdk-cloudfront-auth": "1.10.18",
         "@liflig/load-secrets": "1.1.251",
-        "@types/node": "24.19.1",
+        "@types/node": "24.19.2",
         "aws-cdk": "2.1144.0",
         "esbuild": "0.28.2",
         "typescript": "7.0.2",
@@ -51,7 +51,7 @@
         "@types/bun": "1.4.2",
         "@types/js-yaml": "4.0.9",
         "@types/lodash-es": "4.17.12",
-        "@types/node": "24.19.1",
+        "@types/node": "24.19.2",
         "typescript": "7.0.2",
         "vitest": "5.0.3",
       },
@@ -60,7 +60,7 @@
       "name": "@liflig/repo-metrics-repo-collector-types",
       "version": "0.0.0-development",
       "devDependencies": {
-        "@types/node": "24.19.1",
+        "@types/node": "24.19.2",
         "typescript": "7.0.2",
       },
     },
@@ -328,7 +328,7 @@
 
     "@types/lodash-es": ["@types/lodash-es@4.17.12", "", { "dependencies": { "@types/lodash": "*" } }, "sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ=="],
 
-    "@types/node": ["@types/node@24.19.1", "", { "dependencies": { "undici-types": ">=7.24.0 <7.24.7" } }, "sha512-aS3/DG0oM05K0RIXXP+hKjinGG5IgSSVGzswZxW3O0sS3pH4/fycXundUC9XsszgKCk4gHXylTEK6hyFxVxnoQ=="],
+    "@types/node": ["@types/node@24.19.2", "", { "dependencies": { "undici-types": ">=7.24.0 <7.24.7" } }, "sha512-93d49wCWJkCyN87MxLpNN6KXPCwFw7bVUg79mGUV1OS40JGWwVCr8n61DXCSqz7CV6/VfPkb7xec7uP2M+QHWQ=="],
 
     "@types/react": ["@types/react@19.3.0", "", { "dependencies": { "csstype": "^3.2.2" } }, "sha512-N0rFCuH9YoxG9/m61l9MfpJKfmLOVU0em7ipIz6TRgSSkvReLB9vL85GB+yr8Bs5leqpvg96JSwF4ZS1s4viQg=="],
 
@@ -624,7 +624,7 @@
 
     "aws-cdk-lib/@aws-cdk/cloud-assembly-api": ["@aws-cdk/cloud-assembly-api@2.3.0", "", { "dependencies": { "json-source-map": "^0.6.1", "jsonschema": "^1.5.0", "semver": "^7.8.5" }, "peerDependencies": { "@aws-cdk/cloud-assembly-schema": ">=54.12.0" }, "bundled": true }, "sha512-Z+TYWH9YJGDQSwjORTWvfRFHGK5Gzdp73ElVO8mmZrgndlZgNV2LJOcX1HYRlU/OuR7I+Qo5GLpfc/PM1s7JlQ=="],
 
-    "aws-cdk-lib/@aws-cdk/cloud-assembly-schema": ["@aws-cdk/cloud-assembly-schema@54.20.0", "", { "dependencies": { "jsonschema": "^1.5.0", "semver": "^7.8.5" } }, "sha512-ts2dVBi0VUXOLKcqyLYsHUWYpwGPFd+xm4q+6Y4jjP8orwodjRi2mJrmpy9b0gHnbv8e/hFnmEbqrD0bBJOnPA=="],
+    "aws-cdk-lib/@aws-cdk/cloud-assembly-schema": ["@aws-cdk/cloud-assembly-schema@54.26.0", "", { "dependencies": { "jsonschema": "^1.5.0", "semver": "^7.8.5" } }, "sha512-zYI3XhQ/bpuSXuPaF77f7u2q6rZBPwdrPh8a0v+e/B3IxbRQAtQv0fmacQ8uYh9RPVuIVnExE6IsFJBSALH7BA=="],
 
     "aws-cdk-lib/@aws/cloudformation-validate": ["@aws/cloudformation-validate@1.12.1", "", { "bundled": true }, "sha512-syZyTZQ1JPubKfzkfxQ8AoLEhma+2Upsz/ESLiosVnncdo4cdWDhsLp5Bxol3Wi94j8gJkch8H4rsYZWk4K0OQ=="],
 
