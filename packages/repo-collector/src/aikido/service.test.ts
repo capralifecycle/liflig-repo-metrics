@@ -154,11 +154,30 @@ function exportResponse(url: string, open: unknown, ignored: unknown) {
     : jsonResponse(open)
 }
 
+function coverageResponse(repos: unknown[]) {
+  return jsonResponse({ code_coverage_repositories: repos })
+}
+
+function coverage(repo: number, percentage: number) {
+  return {
+    code_repo_id: repo,
+    code_repo_name: `repo-${repo}`,
+    total_lines: 100,
+    covered_lines: percentage,
+    partial_lines: 0,
+    missed_lines: 100 - percentage,
+    coverage_percentage: percentage,
+    branch: "main",
+    updated_at: 1792540800,
+  }
+}
+
 afterEach(() => {
   vi.unstubAllGlobals()
+  vi.restoreAllMocks()
 })
 
-describe("getIssueGroupsByRepo", () => {
+describe("getMetricsByRepo", () => {
   test("filters types, dedupes by group id, derives titles, counts ignored", async () => {
     vi.stubGlobal(
       "fetch",
@@ -170,11 +189,12 @@ describe("getIssueGroupsByRepo", () => {
         if (url.includes("/issues/export")) {
           return exportResponse(url, ISSUES, IGNORED)
         }
+        if (url.includes("/code-coverage/")) return coverageResponse([])
         throw new Error(`unexpected url ${url}`)
       }),
     )
 
-    const byRepo = await service().getIssueGroupsByRepo()
+    const byRepo = await service().getMetricsByRepo()
 
     const repoA = byRepo.get("repo-a")
     expect(repoA?.enabled).toBe(true)
@@ -227,11 +247,12 @@ describe("getIssueGroupsByRepo", () => {
           ])
         }
         if (url.includes("/issues/export")) return jsonResponse([])
+        if (url.includes("/code-coverage/")) return coverageResponse([])
         throw new Error(`unexpected url ${url}`)
       }),
     )
 
-    const byRepo = await service().getIssueGroupsByRepo()
+    const byRepo = await service().getMetricsByRepo()
     expect(byRepo.get("actual-slug")?.enabled).toBe(true)
     expect(byRepo.get("display name")?.enabled).toBe(true)
   })
@@ -255,11 +276,12 @@ describe("getIssueGroupsByRepo", () => {
           return jsonResponse(REPOS)
         }
         if (url.includes("/issues/export")) return jsonResponse([])
+        if (url.includes("/code-coverage/")) return coverageResponse([])
         throw new Error(`unexpected url ${url}`)
       }),
     )
 
-    const byRepo = await service().getIssueGroupsByRepo()
+    const byRepo = await service().getMetricsByRepo()
     expect(reposCalls).toBe(2)
     expect(byRepo.get("repo-a")?.enabled).toBe(true)
   })
@@ -275,8 +297,59 @@ describe("getIssueGroupsByRepo", () => {
       }),
     )
 
-    await expect(service().getIssueGroupsByRepo()).rejects.toThrow(
+    await expect(service().getMetricsByRepo()).rejects.toThrow(
       /token exchange failed/,
     )
+  })
+
+  test("attaches coverage to the matching repo by Aikido id", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => {
+        if (url.includes("/oauth/token")) {
+          return jsonResponse({ access_token: "tok" })
+        }
+        if (url.includes("/repositories/code")) return jsonResponse(REPOS)
+        if (url.includes("/issues/export")) return jsonResponse([])
+        if (url.includes("/code-coverage/repositories")) {
+          return coverageResponse([coverage(2, 81.5)])
+        }
+        throw new Error(`unexpected url ${url}`)
+      }),
+    )
+
+    const byRepo = await service().getMetricsByRepo()
+
+    expect(byRepo.get("repo-b")?.coverage).toEqual({
+      percentage: 81.5,
+      branch: "main",
+      updatedAt: "2026-10-21T00:00:00.000Z",
+    })
+    expect(byRepo.get("repo-a")?.coverage).toBeUndefined()
+  })
+
+  test("keeps issue data when coverage cannot be fetched", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {})
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => {
+        if (url.includes("/oauth/token")) {
+          return jsonResponse({ access_token: "tok" })
+        }
+        if (url.includes("/repositories/code")) return jsonResponse(REPOS)
+        if (url.includes("/issues/export")) {
+          return exportResponse(url, ISSUES, IGNORED)
+        }
+        if (url.includes("/code-coverage/")) {
+          return jsonResponse({ error: "missing scope" }, { status: 403 })
+        }
+        throw new Error(`unexpected url ${url}`)
+      }),
+    )
+
+    const byRepo = await service().getMetricsByRepo()
+
+    expect(byRepo.get("repo-a")?.issueGroups).toHaveLength(2)
+    expect(byRepo.get("repo-a")?.coverage).toBeUndefined()
   })
 })
