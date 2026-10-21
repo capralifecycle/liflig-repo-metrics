@@ -669,6 +669,13 @@ button:hover {
 .coverage-mid { color: var(--color-coverage-mid); }
 .coverage-low { color: var(--color-coverage-low); }
 
+.coverage-source {
+  display: block;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--color-mute);
+}
+
 .coverage-missing {
   color: var(--color-mute);
   font-size: 12px;

@@ -6,6 +6,7 @@ import * as React from "react"
 import { createPortal } from "react-dom"
 import { AikidoIcon, GitHubIcon, PrIcon, RenovateIcon, SonarCloudIcon } from "./Icons"
 import { isBotPr } from "./prUtils"
+import { COVERAGE_SOURCE_LABEL, coverageClass } from "./Repo"
 
 /**
  * Repo detail panel shown on the right of the table. Selecting a repo fills
@@ -30,18 +31,21 @@ const repoBaseUrl = (repo: Repo) =>
 const sonarCloudProjectUrl = (repo: Repo) =>
   `https://sonarcloud.io/summary/overall?id=${encodeURIComponent(`${repo.org}_${repo.name}`)}`
 
+const aikidoRepoUrl = (repoId: number) =>
+  `https://app.aikido.dev/repositories/${repoId}`
+
+function CoverageValue({ percentage }: { percentage: number }) {
+  return (
+    <span className={`repo-sidebar-coverage ${coverageClass(percentage)}`}>
+      {percentage}%
+    </span>
+  )
+}
+
 function aikidoIssueUrl(repoId: number | null, groupId: number): string {
   return repoId != null
     ? `https://app.aikido.dev/repositories/${repoId}?sidebarIssue=${groupId}`
     : `https://app.aikido.dev/queue?sidebarIssue=${groupId}`
-}
-
-// Mirrors the main table's coverage colour thresholds.
-function coverageClass(coverage: string): string {
-  const val = Number.parseInt(coverage, 10)
-  if (val > 70) return "coverage-good"
-  if (val > 45) return "coverage-mid"
-  return "coverage-low"
 }
 
 // Human-readable labels for Aikido issue types. Unknown types fall back to a
@@ -135,7 +139,7 @@ export const RepoSidebar: React.FC<Props> = ({ repo, onClose }) => {
   )
 
   const sonarCloud = repo.metrics.sonarCloud
-  const coverage = sonarCloud.testCoverage
+  const coverage = repo.metrics.coverage
   // Renovate's own dashboard links here for the repo's run logs (Mend portal).
   const mendUrl = `https://app.renovatebot.com/dashboard#github/${encodeURI(repo.id)}`
 
@@ -270,32 +274,50 @@ export const RepoSidebar: React.FC<Props> = ({ repo, onClose }) => {
         )}
       </Section>
 
-      <Section icon={<SonarCloudIcon />} title="Coverage (SonarCloud)">
-        {sonarCloud.enabled ? (
-          <>
-            {coverage ? (
-              <span
-                className={`repo-sidebar-coverage ${coverageClass(coverage)}`}
-              >
-                {coverage}%
-              </span>
-            ) : (
-              <p className="repo-sidebar-empty">No coverage reported.</p>
-            )}
+      {coverage?.source === "aikido" ? (
+        <Section icon={<AikidoIcon />} title="Coverage (Aikido)">
+          <CoverageValue percentage={coverage.percentage} />
+          {aikido.repoId != null && (
             <p className="repo-sidebar-note">
               <a
-                href={sonarCloudProjectUrl(repo)}
+                href={aikidoRepoUrl(aikido.repoId)}
                 target="_blank"
                 rel="noreferrer"
               >
-                Open in SonarCloud
+                Open in Aikido
               </a>
             </p>
-          </>
-        ) : (
-          <p className="repo-sidebar-empty">Not set up in SonarCloud.</p>
-        )}
-      </Section>
+          )}
+        </Section>
+      ) : (
+        <Section
+          icon={<SonarCloudIcon />}
+          title={`Coverage (${COVERAGE_SOURCE_LABEL.sonarcloud})`}
+        >
+          {sonarCloud.enabled ? (
+            <>
+              {coverage ? (
+                <CoverageValue percentage={coverage.percentage} />
+              ) : (
+                <p className="repo-sidebar-empty">No coverage reported.</p>
+              )}
+              <p className="repo-sidebar-note">
+                <a
+                  href={sonarCloudProjectUrl(repo)}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Open in SonarCloud
+                </a>
+              </p>
+            </>
+          ) : (
+            <p className="repo-sidebar-empty">
+              No coverage in SonarCloud or Aikido.
+            </p>
+          )}
+        </Section>
+      )}
 
       <Section
         icon={<RenovateIcon />}

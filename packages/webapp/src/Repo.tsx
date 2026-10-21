@@ -1,5 +1,6 @@
 import type {
   AikidoSeverity,
+  CoverageSource,
   Metrics,
   Repo,
 } from "@liflig/repo-metrics-repo-collector-types"
@@ -145,20 +146,23 @@ export const repoColumns = (props: {
     },
     {
       header: "Coverage",
-      subheader: "SonarCloud",
+      subheader: "SonarCloud / Aikido",
+      subheaderTitle: "Aikido is shown when a repo has coverage in both",
       headerIcon: <SonarCloudIcon />,
       width: compact ? "19%" : "4%",
       align: "right",
-      sortOn: (repo) =>
-        repo.metrics.sonarCloud.testCoverage
-          ? Number(repo.metrics.sonarCloud.testCoverage)
-          : undefined,
+      sortOn: (repo) => repo.metrics.coverage?.percentage,
       render: (repo, _isExpanded) => {
-        return repo.metrics.sonarCloud.testCoverage ? (
+        const coverage = repo.metrics.coverage
+        return coverage ? (
           <span
-            className={`test-coverage ${coverageClass(repo.metrics.sonarCloud.testCoverage)}`}
+            className={`test-coverage ${coverageClass(coverage.percentage)}`}
+            title={`Coverage (${COVERAGE_SOURCE_LABEL[coverage.source]})`}
           >
-            {repo.metrics.sonarCloud.testCoverage}
+            {coverage.percentage}
+            {coverage.source === "aikido" && (
+              <span className="coverage-source">Aikido</span>
+            )}
           </span>
         ) : (
           <span className="coverage-missing">missing</span>
@@ -251,10 +255,14 @@ export function isActionableRepo(repo: Metrics): boolean {
   )
 }
 
-function coverageClass(coverage: string): string {
-  const val = Number.parseInt(coverage, 10)
-  if (val > 70) return "coverage-good"
-  if (val > 45) return "coverage-mid"
+export const COVERAGE_SOURCE_LABEL: Record<CoverageSource, string> = {
+  aikido: "Aikido",
+  sonarcloud: "SonarCloud",
+}
+
+export function coverageClass(percentage: number): string {
+  if (percentage > 70) return "coverage-good"
+  if (percentage > 45) return "coverage-mid"
   return "coverage-low"
 }
 

@@ -170,6 +170,10 @@ The client needs these scopes:
 Without `code_coverage:read` the collector logs the failure and collects no
 Aikido coverage; vulnerability data is unaffected.
 
+Coverage is read from both Aikido and SonarCloud while repos move their
+coverage uploads to Aikido. When both have a value, the webapp shows Aikido's
+and labels it "Coverage (Aikido)"; otherwise it shows whichever source has one.
+
 Credentials live in AWS Secrets Manager (region `eu-west-1`, account `liflig-incubator`):
 
 - `/incub/repo-metrics/aikido-api` — JSON `{ clientId, clientSecret }`.
