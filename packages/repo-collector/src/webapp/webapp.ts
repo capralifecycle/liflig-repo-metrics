@@ -1,5 +1,6 @@
 import { Temporal } from "@js-temporal/polyfill"
 import type {
+  Coverage,
   Metrics,
   SnapshotData,
   SnapshotMetrics,
@@ -61,10 +62,8 @@ function mapSnapshotMetricToWebappMetrics(
     },
     sonarCloud: {
       enabled: !!snapshotMetrics.sonarCloud,
-      testCoverage: snapshotMetrics.sonarCloud?.component?.measures?.find(
-        (el) => el.metric === "coverage",
-      )?.value,
     },
+    coverage: selectCoverage(snapshotMetrics),
     aikido: {
       enabled: snapshotMetrics.aikido?.enabled ?? false,
       repoId: snapshotMetrics.aikido?.repoId ?? null,
@@ -77,6 +76,31 @@ function mapSnapshotMetricToWebappMetrics(
       })),
     },
   }
+}
+
+/**
+ * Picks the coverage to show for a repo. Aikido wins whenever it has data;
+ * SonarCloud is the fallback while repos migrate their coverage uploads.
+ */
+export function selectCoverage(
+  snapshotMetrics: Pick<SnapshotMetrics, "aikido" | "sonarCloud">,
+): Coverage | null {
+  const aikido = snapshotMetrics.aikido?.coverage
+  if (aikido) {
+    return { source: "aikido", percentage: roundToTenth(aikido.percentage) }
+  }
+
+  const sonarValue = snapshotMetrics.sonarCloud?.component?.measures?.find(
+    (el) => el.metric === "coverage",
+  )?.value
+  if (!sonarValue) return null
+  const sonar = Number(sonarValue)
+  if (!Number.isFinite(sonar)) return null
+  return { source: "sonarcloud", percentage: roundToTenth(sonar) }
+}
+
+function roundToTenth(value: number): number {
+  return Math.round(value * 10) / 10
 }
 
 /**

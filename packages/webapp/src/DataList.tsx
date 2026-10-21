@@ -79,7 +79,7 @@ export const DataList: React.FC<Props> = ({ data, filter }) => {
       const matchesPrs = state.showOnlyWithPrs && repo.metrics.github.prs.some((p) => !isBotPr(p))
       const matchesBotPrs = state.showOnlyWithBotPrs && repo.metrics.github.prs.some((p) => isBotPr(p))
       const matchesVulns = state.showOnlyWithVulns && repo.metrics.aikido.issues.length > 0
-      const matchesMissingCoverage = state.showOnlyMissingCoverage && !repo.metrics.sonarCloud.testCoverage
+      const matchesMissingCoverage = state.showOnlyMissingCoverage && !repo.metrics.coverage
       if (!matchesPrs && !matchesBotPrs && !matchesVulns && !matchesMissingCoverage) return false
     }
     return true

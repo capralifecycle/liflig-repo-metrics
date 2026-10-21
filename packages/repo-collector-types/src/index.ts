@@ -122,6 +122,14 @@ export interface Repo {
   metrics: Metrics
 }
 
+export type CoverageSource = "aikido" | "sonarcloud"
+
+export interface Coverage {
+  source: CoverageSource
+  /** Line coverage, 0-100, rounded to one decimal. */
+  percentage: number
+}
+
 export interface Metrics {
   github: {
     renovateDependencyDashboard: {
@@ -148,11 +156,12 @@ export interface Metrics {
      * Describes whether SonarCloud is configured for the GitHub repository in question.
      */
     enabled: boolean
-    /**
-     * Undefined means that no test coverage has been set up
-     */
-    testCoverage?: string
   }
+  /**
+   * Test coverage from whichever source has it, preferring Aikido over
+   * SonarCloud. Null when neither reports coverage.
+   */
+  coverage: Coverage | null
   aikido: {
     /** Whether the repo is onboarded in Aikido. `false` renders as "no data". */
     enabled: boolean
