@@ -1,5 +1,6 @@
 import type { Agent } from "node:https"
 import type {
+  AikidoCoverage,
   AikidoIssueGroup,
   AikidoMetrics,
   AikidoSeverity,
@@ -16,6 +17,7 @@ const API_BASE = `${AIKIDO_BASE_URL}/api/public/v1`
 
 const REPOS_PER_PAGE = 200
 const ISSUES_PER_PAGE = 5000
+const COVERAGE_PER_PAGE = 100
 const MAX_RETRIES = 5
 
 /**
@@ -57,6 +59,14 @@ interface AikidoIssue {
   affected_package: string | null
   /** Name of the rule that produced the finding, e.g. "SQL injection". */
   rule: string | null
+}
+
+interface AikidoCodeCoverage {
+  code_repo_id: number
+  coverage_percentage: number
+  branch: string
+  /** Unix timestamp, seconds. */
+  updated_at: number
 }
 
 type IssueStatus = "open" | "ignored" | "snoozed" | "closed"
@@ -191,23 +201,61 @@ export class AikidoService {
   }
 
   /**
-   * Fetch all onboarded repos, their open issues, and their ignored issues,
-   * then aggregate into per-repo metrics. Issues are filtered to
+   * Latest coverage per repo, for the default branch. Requires the
+   * `code_coverage:read` scope and a paid plan.
+   */
+  private async listCodeCoverage(): Promise<AikidoCodeCoverage[]> {
+    const results: AikidoCodeCoverage[] = []
+    for (let page = 0; ; page++) {
+      const batch = await this.apiGet<{
+        code_coverage_repositories: AikidoCodeCoverage[]
+      }>(
+        `/code-coverage/repositories?page=${page}&per_page=${COVERAGE_PER_PAGE}`,
+      )
+      results.push(...batch.code_coverage_repositories)
+      if (batch.code_coverage_repositories.length < COVERAGE_PER_PAGE) break
+    }
+    return results
+  }
+
+  /**
+   * Coverage is optional enrichment: a failure (e.g. missing scope) is logged
+   * and yields no coverage rather than discarding the issue data.
+   */
+  private async listCodeCoverageOrEmpty(): Promise<AikidoCodeCoverage[]> {
+    try {
+      return await this.listCodeCoverage()
+    } catch (e) {
+      console.error(
+        "Failed to fetch Aikido coverage, continuing without it:",
+        e,
+      )
+      return []
+    }
+  }
+
+  /**
+   * Fetch all onboarded repos, their open issues, ignored issues and code
+   * coverage, then aggregate into per-repo metrics. Issues are filtered to
    * security-relevant `ISSUE_TYPES` and deduplicated by `group_id` (keeping the
    * highest severity).
    *
    * Returns a map keyed by lowercased repo name (both the Aikido repo name and
    * the repo slug from its URL, so lookups by GitHub repo name resolve).
    */
-  public async getIssueGroupsByRepo(): Promise<Map<string, AikidoMetrics>> {
-    const [repos, openIssues, ignoredIssues] = await Promise.all([
+  public async getMetricsByRepo(): Promise<Map<string, AikidoMetrics>> {
+    const [repos, openIssues, ignoredIssues, coverage] = await Promise.all([
       this.listCodeRepos(),
       this.exportIssues("open"),
       this.exportIssues("ignored"),
+      this.listCodeCoverageOrEmpty(),
     ])
 
     const groupsByRepoId = groupIssuesByRepo(openIssues)
     const ignoredByRepoId = countGroupsByRepo(ignoredIssues)
+    const coverageByRepoId = new Map(
+      coverage.map((c) => [c.code_repo_id, toCoverage(c)]),
+    )
 
     const byName = new Map<string, AikidoMetrics>()
     for (const repo of repos) {
@@ -216,12 +264,21 @@ export class AikidoService {
         repoId: repo.id,
         issueGroups: groupsByRepoId.get(repo.id) ?? [],
         ignoredCount: ignoredByRepoId.get(repo.id) ?? 0,
+        coverage: coverageByRepoId.get(repo.id),
       }
       for (const key of repoLookupKeys(repo)) {
         byName.set(key, metrics)
       }
     }
     return byName
+  }
+}
+
+function toCoverage(c: AikidoCodeCoverage): AikidoCoverage {
+  return {
+    percentage: c.coverage_percentage,
+    branch: c.branch,
+    updatedAt: new Date(c.updated_at * 1000).toISOString(),
   }
 }
 

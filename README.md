@@ -159,6 +159,17 @@ Aikido has no long-lived tokens. A workspace admin creates a REST API client und
 which yields a client id and secret. The collector exchanges these for a short-lived
 access token (OAuth2 client-credentials grant) on each run.
 
+The client needs these scopes:
+
+| Scope                | Used for                                     |
+| -------------------- | -------------------------------------------- |
+| `repositories:read`  | Listing onboarded code repositories          |
+| `issues:read`        | Exporting open and ignored issues            |
+| `code_coverage:read` | Test coverage uploaded to Aikido (paid plan) |
+
+Without `code_coverage:read` the collector logs the failure and collects no
+Aikido coverage; vulnerability data is unaffected.
+
 Credentials live in AWS Secrets Manager (region `eu-west-1`, account `liflig-incubator`):
 
 - `/incub/repo-metrics/aikido-api` — JSON `{ clientId, clientSecret }`.

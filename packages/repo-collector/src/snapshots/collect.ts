@@ -154,7 +154,7 @@ async function fetchAikidoByRepo(
   aikidoService: aikido.AikidoService,
 ): Promise<Map<string, AikidoMetrics>> {
   try {
-    return await aikidoService.getIssueGroupsByRepo()
+    return await aikidoService.getMetricsByRepo()
   } catch (e) {
     console.error("Failed to fetch Aikido data, continuing without it:", e)
     return new Map()

@@ -72,6 +72,21 @@ export interface AikidoMetrics {
   issueGroups: AikidoIssueGroup[]
   /** Number of ignored (open but muted) issue groups for the repo. */
   ignoredCount: number
+  /**
+   * Latest uploaded code coverage for the repo's default branch. Absent when
+   * no report has been uploaded, when coverage could not be fetched, and on
+   * snapshots collected before coverage was added (2026-10).
+   */
+  coverage?: AikidoCoverage
+}
+
+export interface AikidoCoverage {
+  /** Line coverage, 0-100. */
+  percentage: number
+  /** Branch the coverage report was uploaded for. */
+  branch: string
+  /** When Aikido last received a coverage report, ISO-8601. */
+  updatedAt: string
 }
 
 export interface AikidoIssueGroup {
