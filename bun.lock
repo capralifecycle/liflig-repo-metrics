@@ -19,7 +19,7 @@
       "devDependencies": {
         "@liflig/cdk": "3.31.5",
         "@liflig/cdk-cloudfront-auth": "1.10.18",
-        "@liflig/load-secrets": "1.1.260",
+        "@liflig/load-secrets": "1.1.261",
         "@types/node": "24.19.2",
         "aws-cdk": "2.1146.1",
         "esbuild": "0.28.2",
@@ -100,7 +100,7 @@
 
     "@aws-sdk/client-ssm": ["@aws-sdk/client-ssm@3.1155.0", "", { "dependencies": { "@aws-sdk/core": "^3.978.5", "@aws-sdk/credential-provider-node": "^3.972.88", "@aws-sdk/types": "^3.975.0", "@smithy/core": "^3.36.1", "@smithy/fetch-http-handler": "^5.8.0", "@smithy/node-http-handler": "^4.12.1", "@smithy/types": "^4.19.0", "tslib": "^2.6.2" } }, "sha512-B1njOLpCtc/rG8QZdpc7miZcxqc8cVLI8sGKGuerJQNlZwK8Xzqy0bab1SSd/DmUx49anG58QSWnr5dygGSExw=="],
 
-    "@aws-sdk/client-sts": ["@aws-sdk/client-sts@3.1155.0", "", { "dependencies": { "@aws-sdk/core": "^3.978.5", "@aws-sdk/credential-provider-node": "^3.972.88", "@aws-sdk/signature-v4-multi-region": "^3.996.49", "@aws-sdk/types": "^3.975.0", "@smithy/core": "^3.36.1", "@smithy/fetch-http-handler": "^5.8.0", "@smithy/node-http-handler": "^4.12.1", "@smithy/types": "^4.19.0", "tslib": "^2.6.2" } }, "sha512-ukqYITBCII6M9jBrRHSz0AApbQE+i3vRUbxsV735N2Q8PzV5kaBchoum4FiZc/jJnkyaMlfcndFURkPOn9lBEw=="],
+    "@aws-sdk/client-sts": ["@aws-sdk/client-sts@3.1156.0", "", { "dependencies": { "@aws-sdk/core": "^3.978.5", "@aws-sdk/credential-provider-node": "^3.972.88", "@aws-sdk/signature-v4-multi-region": "^3.996.49", "@aws-sdk/types": "^3.975.0", "@smithy/core": "^3.36.1", "@smithy/fetch-http-handler": "^5.8.0", "@smithy/node-http-handler": "^4.12.1", "@smithy/types": "^4.19.0", "tslib": "^2.6.2" } }, "sha512-emJli57W8F9wPykDPhYRvXTpiI13/IsZOqXnCOoODhBpY/El/HoZDWIoQNzN9N9UOMILVh3T86EOjfI/6bqumA=="],
 
     "@aws-sdk/core": ["@aws-sdk/core@3.978.5", "", { "dependencies": { "@aws-sdk/types": "^3.975.0", "@aws-sdk/xml-builder": "^3.972.41", "@aws/lambda-invoke-store": "^0.3.0", "@smithy/core": "^3.36.1", "@smithy/signature-v4": "^5.7.4", "@smithy/types": "^4.19.0", "bowser": "^2.11.0", "tslib": "^2.6.2" } }, "sha512-ruI0AWqcrfL20XDS6SwZIJFPOBZ6N0ADa9nLzWlBhxk1aoUjbUX3JkTR9vEmk7o35XpAHi68ahZ4T6RE2U9XyA=="],
 
@@ -222,7 +222,7 @@
 
     "@liflig/cdk-cloudfront-auth": ["@liflig/cdk-cloudfront-auth@1.10.18", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0" } }, "sha512-nPoq03sxM19HzR/XJXy9ToeICJHkhe7S/Z4woArbiQ+95gKlKkXs2mMfKZYuvS2gnbE2mWi483rEsQqCfpmNIA=="],
 
-    "@liflig/load-secrets": ["@liflig/load-secrets@1.1.260", "", { "dependencies": { "@aws-sdk/client-secrets-manager": "3.1155.0", "@aws-sdk/client-sts": "3.1155.0", "read": "6.0.0" } }, "sha512-ulfWokPXmQf4YGPR+yjbUBprpa7eJ1Ns75Re0egYsvfBLxuvTjlQNk/uY3bJWppmVjaag7cXkLXUlERN7eGYRg=="],
+    "@liflig/load-secrets": ["@liflig/load-secrets@1.1.261", "", { "dependencies": { "@aws-sdk/client-secrets-manager": "3.1156.0", "@aws-sdk/client-sts": "3.1156.0", "read": "6.0.0" } }, "sha512-OINWszUe4GeqN3F9oBOsDimVW+jCye4DUv7mcNg0KBQAjfaN8tFjGiN7R3YdglkiS777WitN6+jfO1d4G1V0JQ=="],
 
     "@liflig/repo-metrics-infrastructure": ["@liflig/repo-metrics-infrastructure@workspace:packages/infrastructure"],
 
@@ -607,6 +607,8 @@
     "@jridgewell/trace-mapping/@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.5", "", {}, "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og=="],
 
     "@liflig/cdk/@capraconsulting/webapp-deploy-lambda": ["@capraconsulting/webapp-deploy-lambda@2.5.192", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" } }, "sha512-RPS6xemfZmJwHfvRFfevOWqYTHgA+pCuWkl6B9oxYAGdkUghhdLXrX/AMmeOqJMZBLkqFY1jlhqxriyC/XlY0Q=="],
+
+    "@liflig/load-secrets/@aws-sdk/client-secrets-manager": ["@aws-sdk/client-secrets-manager@3.1156.0", "", { "dependencies": { "@aws-sdk/core": "^3.978.5", "@aws-sdk/credential-provider-node": "^3.972.88", "@aws-sdk/types": "^3.975.0", "@smithy/core": "^3.36.1", "@smithy/fetch-http-handler": "^5.8.0", "@smithy/node-http-handler": "^4.12.1", "@smithy/types": "^4.19.0", "tslib": "^2.6.2" } }, "sha512-poP++IuNmZZ6e79fesFn9qTy/IScNiH9I9bCWyevlOFQMI+ZfZQ0Sfz3dsc+c0uMtYVpofRIAd1WO7lCAKhxxg=="],
 
     "@octokit/core/@octokit/request": ["@octokit/request@10.0.15", "", { "dependencies": { "@octokit/endpoint": "^11.0.3", "@octokit/request-error": "^7.1.1", "@octokit/types": "^17.0.0", "content-type": "^3.0.0", "json-with-bigint": "^3.5.12", "universal-user-agent": "^7.0.2" } }, "sha512-3CBg9aJ0hO9Pjyij8LbK/xYtEaPws9SW7xKz67daPNxQB1q5Y9OMA7DDOG0A6Hwf9ygGu3tvzusg0LXQ8/wAjA=="],
 
