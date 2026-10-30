@@ -2765,6 +2765,25 @@
           "Statement": [
             {
               "Action": "sts:AssumeRole",
+              "Condition": {
+                "ArnLike": {
+                  "aws:SourceArn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":states:eu-west-1:001112238813:stateMachine:*"
+                      ]
+                    ]
+                  }
+                },
+                "StringEquals": {
+                  "aws:SourceAccount": "001112238813"
+                }
+              },
               "Effect": "Allow",
               "Principal": {
                 "Service": "states.amazonaws.com"
