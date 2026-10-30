@@ -1,6 +1,10 @@
 {
   "/incub-repo-metrics-pipeline/Incubator/incub-repo-metrics-edge": [
     {
+      "type": "aws:cdk:templateFile",
+      "data": "incubrepometricspipelineIncubatorincubrepometricsedgeBA3B1DD0.template.json"
+    },
+    {
       "type": "aws:cdk:stack-tags",
       "data": [
         {

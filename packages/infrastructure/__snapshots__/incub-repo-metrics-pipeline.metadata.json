@@ -1,6 +1,10 @@
 {
   "/incub-repo-metrics-pipeline": [
     {
+      "type": "aws:cdk:templateFile",
+      "data": "incub-repo-metrics-pipeline.template.json"
+    },
+    {
       "type": "aws:cdk:stack-tags",
       "data": [
         {

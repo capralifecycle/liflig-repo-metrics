@@ -1,6 +1,10 @@
 {
   "/cross-region-stack-001112238813:us-east-1": [
     {
+      "type": "aws:cdk:templateFile",
+      "data": "cross-region-stack-001112238813_us-east-1.template.json"
+    },
+    {
       "type": "aws:cdk:stack-tags",
       "data": [
         {
