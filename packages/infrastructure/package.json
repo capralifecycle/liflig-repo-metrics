@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@liflig/cdk": "3.31.10",
-    "@liflig/cdk-cloudfront-auth": "1.10.18",
+    "@liflig/cdk-cloudfront-auth": "1.10.19",
     "@liflig/load-secrets": "1.1.263",
     "@types/node": "24.19.2",
     "aws-cdk": "2.1146.1",
