@@ -9,3 +9,4 @@ tsconfig.tsbuildinfo
 .envrc
 /packages/infrastructure/__snapshots__/validation-report.json
 fnox.toml
+/packages/repo-collector/coverage/
