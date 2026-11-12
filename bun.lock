@@ -36,7 +36,7 @@
         "@octokit/rest": "22.0.1",
         "ajv": "8.20.0",
         "axios": "1.21.0",
-        "date-holidays": "3.38.0",
+        "date-holidays": "3.39.1",
         "js-yaml": "5.5.0",
         "lodash-es": "4.18.1",
         "p-limit": "7.3.3",
@@ -411,7 +411,7 @@
 
     "ast-v8-to-istanbul": ["ast-v8-to-istanbul@1.0.8", "", { "dependencies": { "@jridgewell/trace-mapping": "^0.3.31", "estree-walker": "^3.0.3", "js-tokens": "^10.0.0" } }, "sha512-lPdpagk13ANXV+HClJEpCZM7kUsl5XcvgqKzZhaj6Ve1ZFICcY2sGhAN1n1vT0tML6EclT7bfVgTxqL57Gkpow=="],
 
-    "astronomia": ["astronomia@4.2.0", "", {}, "sha512-mTvpBGyXB80aSsDhAAiuwza5VqAyqmj5yzhjBrFhRy17DcWDzJrb8Vdl4Sm+g276S+mY7bk/5hi6akZ5RQFeHg=="],
+    "astronomia": ["astronomia@4.3.0", "", {}, "sha512-kD87oezczQTJYp6SW07l9X/fyssEg4/GSFmxBN1Xk8TRN7h4tkQddRK/VJnlHkbzmK1w16s/7dUtUO4EUKLDpA=="],
 
     "asynckit": ["asynckit@0.4.0", "", {}, "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q=="],
 
@@ -443,17 +443,17 @@
 
     "csstype": ["csstype@3.2.3", "", {}, "sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ=="],
 
-    "date-bengali-revised": ["date-bengali-revised@2.0.2", "", {}, "sha512-q9iDru4+TSA9k4zfm0CFHJj6nBsxP7AYgWC/qodK/i7oOIlj5K2z5IcQDtESfs/Qwqt/xJYaP86tkazd/vRptg=="],
+    "date-bengali-revised": ["date-bengali-revised@2.1.0", "", {}, "sha512-A/+Bo0lQY8ZaOjIgqxF+qii3b5911HyBGzfYkjQpa3EWsH+kj8gks675D73vzTp4XIuEQqtTg4h+7pJh0sHbuw=="],
 
-    "date-chinese": ["date-chinese@2.1.4", "", { "dependencies": { "astronomia": "^4.1.0" } }, "sha512-WY+6+Qw92ZGWFvGtStmNQHEYpNa87b8IAQ5T8VKt4wqrn24lBXyyBnWI5jAIyy7h/KVwJZ06bD8l/b7yss82Ww=="],
+    "date-chinese": ["date-chinese@2.2.0", "", { "dependencies": { "astronomia": "^4.3.0" } }, "sha512-P8F1dvF6p1jCAl6JcErKFEMi9elaMmxs2LHySO2kYi2i4OoqpRg23L8vEjxRl6Mbx/UKq29vIElJ/UCBfzEJqA=="],
 
-    "date-easter": ["date-easter@1.0.3", "", {}, "sha512-aOViyIgpM4W0OWUiLqivznwTtuMlD/rdUWhc5IatYnplhPiWrLv75cnifaKYhmQwUBLAMWLNG4/9mlLIbXoGBQ=="],
+    "date-easter": ["date-easter@1.1.0", "", {}, "sha512-uy13sHOXDrw9ewFdBhHWdLOcDOE3Hk08Bn5DrVYGdcCPy524D86BaaDtKKlpW7IqfI5btOzsTYxnCq+eZQe+Gg=="],
 
     "date-fns": ["date-fns@4.4.0", "", {}, "sha512-+1UMbeh68lH1SegH83CGWwpb6OHHbpSgr3+s5Eww5M4CAgswBpoWS0AjTOfEJ33HiYKz1hdj/KTFprzXHmq/6w=="],
 
-    "date-holidays": ["date-holidays@3.38.0", "", { "dependencies": { "date-holidays-parser": "^3.4.7", "js-yaml": "^5.5.0", "lodash": "^4.18.1", "prepin": "^1.0.3" }, "bin": { "holidays2json": "scripts/holidays2json.cjs" } }, "sha512-5Y22xxJM1+p/wbHBjUTiD4NxGwNNzy+Gq7IPcMns9p62I11SHKY9Wfuh8Z/PLE9pYItkncFtQGHUAXvVPC+p7w=="],
+    "date-holidays": ["date-holidays@3.39.1", "", { "dependencies": { "date-holidays-parser": "^3.7.0", "js-yaml": "^5.5.0", "lodash": "^4.18.1", "prepin": "^1.0.3" }, "bin": { "holidays2json": "scripts/holidays2json.cjs" } }, "sha512-/eJPKI84IZ+DFydE/kMnRNp0WfAVEoqCCVL6vTYOQ7z7r/y1oTJrRp1AP8l0goso67vaUVLWBU/skZXVbc2e8A=="],
 
-    "date-holidays-parser": ["date-holidays-parser@3.6.0", "", { "dependencies": { "@hnw/date-tibetan": "^1.0.2", "astronomia": "^4.2.0", "caldate": "^2.0.5", "date-bengali-revised": "^2.0.2", "date-chinese": "^2.1.4", "date-easter": "^1.0.3", "deepmerge": "^4.3.1", "jalaali-js": "^2.0.1", "moment-timezone": "^0.6.6" } }, "sha512-6Mchy0i5nk0P5xuOx2kVcx5H0SFtIOaDBMi5wSkOKnQfgc75OAcLdi8lcJrj/aTl6pAdk7J2Ly0CWvP4ZAmy+w=="],
+    "date-holidays-parser": ["date-holidays-parser@3.7.0", "", { "dependencies": { "@hnw/date-tibetan": "^1.0.2", "astronomia": "^4.3.0", "caldate": "^2.1.0", "date-bengali-revised": "^2.1.0", "date-chinese": "^2.2.0", "date-easter": "^1.1.0", "deepmerge": "^4.3.1", "jalaali-js": "^2.0.1", "moment-timezone": "^0.6.6" } }, "sha512-41qmuFwuiOE7qwIQCbmF+/WyHc7+eeBWje/3yMiT8pGdSXs+RpXAfY1i6ZD+/6x4ZJPiorwd8V2B4jbjQL09iw=="],
 
     "debug": ["debug@4.4.3", "", { "dependencies": { "ms": "^2.1.3" }, "peerDependencies": { "supports-color": "*" }, "optionalPeers": ["supports-color"] }, "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA=="],
 
@@ -630,6 +630,8 @@
     "@aws-cdk/cloud-assembly-schema/jsonschema": ["jsonschema@1.5.0", "", { "bundled": true }, "sha512-K+A9hhqbn0f3pJX17Q/7H6yQfD/5OXgdrR5UE12gMXCiN9D5Xq2o5mddV2QEcX/bjla99ASsAAQUyMCCRWAEhw=="],
 
     "@aws-cdk/cloud-assembly-schema/semver": ["semver@7.8.6", "", { "bundled": true, "bin": { "semver": "bin/semver.js" } }, "sha512-9lpSSU4Mly3mrtruwLs1eLK6+gzbzqeBFwRNjIjE+9LuDpWdYctrQlQ3ej1Ilgi7gknpsTRnPoLP8DpCHqHIJw=="],
+
+    "@hnw/date-tibetan/astronomia": ["astronomia@4.2.0", "", {}, "sha512-mTvpBGyXB80aSsDhAAiuwza5VqAyqmj5yzhjBrFhRy17DcWDzJrb8Vdl4Sm+g276S+mY7bk/5hi6akZ5RQFeHg=="],
 
     "@octokit/plugin-paginate-rest/@octokit/types": ["@octokit/types@16.0.0", "", { "dependencies": { "@octokit/openapi-types": "^27.0.0" } }, "sha512-sKq+9r1Mm4efXW1FCk7hFSeJo4QKreL/tTbR0rz/qx/r1Oa2VV83LTA/H/MuCOX7uCIJmQVRKBcbmWoySjAnSg=="],
 
