@@ -30,7 +30,7 @@ jobs:
         with:
           persist-credentials: false
 
-      - uses: capralifecycle/actions-lib/parse-config@7426f1e30354d5dc42fc701dfd45fac5f494a9cc # v1.22.3
+      - uses: capralifecycle/actions-lib/parse-config@5290f8a689b2f46b45265653a10b3b19ad38273d # v1.22.4
         id: config
         with:
           config-file: ".ldp.json"
@@ -46,7 +46,7 @@ jobs:
         with:
           bun-version-file: ".bun-version"
 
-      - uses: capralifecycle/actions-lib/configure-aws-credentials@7426f1e30354d5dc42fc701dfd45fac5f494a9cc # v1.22.3
+      - uses: capralifecycle/actions-lib/configure-aws-credentials@5290f8a689b2f46b45265653a10b3b19ad38273d # v1.22.4
         id: aws
         with:
           aws-account-id: ${{ steps.config.outputs.accountId }}
@@ -56,7 +56,7 @@ jobs:
       - name: build project
         run: task ci
 
-      - uses: capralifecycle/actions-lib/aikido-upload-coverage@7426f1e30354d5dc42fc701dfd45fac5f494a9cc # v1.22.3
+      - uses: capralifecycle/actions-lib/aikido-upload-coverage@5290f8a689b2f46b45265653a10b3b19ad38273d # v1.22.4
         if: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
         with:
           file-paths: "packages/repo-collector/coverage/lcov.info"
@@ -64,7 +64,7 @@ jobs:
       - name: create and upload cloud assembly archive and metadata
         if: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
         id: upload-cloud-assembly
-        uses: capralifecycle/actions-lib/upload-cloud-assembly@7426f1e30354d5dc42fc701dfd45fac5f494a9cc # v1.22.3
+        uses: capralifecycle/actions-lib/upload-cloud-assembly@5290f8a689b2f46b45265653a10b3b19ad38273d # v1.22.4
         with:
           aws-s3-bucket-name: ${{ steps.config.outputs.artifactBucket }}
           cdk-app-dir: "./packages/infrastructure"
@@ -74,7 +74,7 @@ jobs:
           AWS_SESSION_TOKEN: ${{ steps.aws.outputs.aws-session-token }}
 
       - name: trigger production deployment pipelines
-        uses: capralifecycle/actions-lib/trigger-deployment-pipeline@7426f1e30354d5dc42fc701dfd45fac5f494a9cc # v1.22.3
+        uses: capralifecycle/actions-lib/trigger-deployment-pipeline@5290f8a689b2f46b45265653a10b3b19ad38273d # v1.22.4
         if: ${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
         env:
           AWS_ACCESS_KEY_ID: ${{ steps.aws.outputs.aws-access-key-id }}
