@@ -60,10 +60,7 @@ function mapSnapshotMetricToWebappMetrics(
         createdAt: pr.createdAt,
       })),
     },
-    sonarCloud: {
-      enabled: !!snapshotMetrics.sonarCloud,
-    },
-    coverage: selectCoverage(snapshotMetrics),
+    coverage: aikidoCoverage(snapshotMetrics),
     aikido: {
       enabled: snapshotMetrics.aikido?.enabled ?? false,
       repoId: snapshotMetrics.aikido?.repoId ?? null,
@@ -78,25 +75,12 @@ function mapSnapshotMetricToWebappMetrics(
   }
 }
 
-/**
- * Picks the coverage to show for a repo. Aikido wins whenever it has data;
- * SonarCloud is the fallback while repos migrate their coverage uploads.
- */
-export function selectCoverage(
-  snapshotMetrics: Pick<SnapshotMetrics, "aikido" | "sonarCloud">,
+/** The repo's latest Aikido coverage, rounded to one decimal. */
+export function aikidoCoverage(
+  snapshotMetrics: Pick<SnapshotMetrics, "aikido">,
 ): Coverage | null {
-  const aikido = snapshotMetrics.aikido?.coverage
-  if (aikido) {
-    return { source: "aikido", percentage: roundToTenth(aikido.percentage) }
-  }
-
-  const sonarValue = snapshotMetrics.sonarCloud?.component?.measures?.find(
-    (el) => el.metric === "coverage",
-  )?.value
-  if (!sonarValue) return null
-  const sonar = Number(sonarValue)
-  if (!Number.isFinite(sonar)) return null
-  return { source: "sonarcloud", percentage: roundToTenth(sonar) }
+  const coverage = snapshotMetrics.aikido?.coverage
+  return coverage ? { percentage: roundToTenth(coverage.percentage) } : null
 }
 
 function roundToTenth(value: number): number {

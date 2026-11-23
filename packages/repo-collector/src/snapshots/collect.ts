@@ -13,8 +13,6 @@ import * as definition from "../definition/definition"
 import type { GetReposResponse } from "../definition/types"
 import * as github from "../github/service"
 import type { GitHubAuthProvider } from "../github/token"
-import * as sonarCloud from "../sonarcloud/service"
-import type { SonarCloudTokenProvider } from "../sonarcloud/token"
 import { GithubDefinitionProvider } from "./definition-provider"
 import type { SnapshotsRepository } from "./snapshots-repository"
 
@@ -27,7 +25,6 @@ const AIKIDO_DISABLED: AikidoMetrics = {
 
 async function createSnapshotData(
   githubService: github.GitHubService,
-  sonarCloudService: sonarCloud.SonarCloudService,
   aikidoByRepo: Map<string, AikidoMetrics>,
   repos: GetReposResponse[],
   systemsMapping: Map<string, { customer: string; system: string }>,
@@ -41,9 +38,6 @@ async function createSnapshotData(
           it.orgName,
           it.repo.name,
         ),
-      sonarCloudMetrics: sonarCloudService.getMetricsByProjectKey(
-        `${it.orgName}_${it.repo.name}`,
-      ),
     }))
 
   const pullRequests = groupBy(
@@ -85,7 +79,6 @@ async function createSnapshotData(
         renovateDependencyDashboardIssue:
           (await repo.renovateDependencyDashboardIssue) ?? null,
       },
-      sonarCloud: await repo.sonarCloudMetrics,
       aikido:
         aikidoByRepo.get(repo.repo.repo.name.toLowerCase()) ?? AIKIDO_DISABLED,
     })
@@ -108,7 +101,6 @@ async function createSnapshotData(
 export async function collect(
   snapshotsRepository: SnapshotsRepository,
   githubTokenProvider?: GitHubAuthProvider,
-  sonarCloudTokenProvider?: SonarCloudTokenProvider,
   aikidoCredentialsProvider?: AikidoCredentialsProvider,
 ) {
   const config = new Config()
@@ -124,11 +116,6 @@ export async function collect(
 
   const definitionProvider = new GithubDefinitionProvider(githubService)
 
-  const sonarCloudService = sonarCloud.createSonarCloudService({
-    config,
-    tokenProvider: sonarCloudTokenProvider,
-  })
-
   const aikidoService = aikido.createAikidoService({
     config,
     credentialsProvider: aikidoCredentialsProvider,
@@ -136,7 +123,6 @@ export async function collect(
 
   const snapshotData = await createSnapshotData(
     githubService,
-    sonarCloudService,
     await fetchAikidoByRepo(aikidoService),
     await definitionProvider.getRepos(),
     await definitionProvider.getSystemsMapping(),

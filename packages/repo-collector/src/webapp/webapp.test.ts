@@ -1,18 +1,6 @@
 import type { SnapshotMetrics } from "@liflig/repo-metrics-repo-collector-types"
 import { describe, expect, test } from "vitest"
-import { selectCoverage } from "./webapp"
-
-function sonar(value?: string): SnapshotMetrics["sonarCloud"] {
-  return {
-    component: {
-      id: "id",
-      key: "org_repo",
-      name: "repo",
-      qualifier: "TRK",
-      measures: value === undefined ? [] : [{ metric: "coverage", value }],
-    },
-  }
-}
+import { aikidoCoverage } from "./webapp"
 
 function aikido(percentage?: number): SnapshotMetrics["aikido"] {
   return {
@@ -27,44 +15,29 @@ function aikido(percentage?: number): SnapshotMetrics["aikido"] {
   }
 }
 
-describe("selectCoverage", () => {
+describe("aikidoCoverage", () => {
   test.each([
     {
-      claim: "prefers Aikido when both sources report coverage",
-      input: { aikido: aikido(62), sonarCloud: sonar("80.0") },
-      expected: { source: "aikido", percentage: 62 },
+      claim: "keeps a whole percentage as is",
+      input: { aikido: aikido(62) },
+      expected: { percentage: 62 },
     },
     {
-      claim: "falls back to SonarCloud when Aikido has no coverage",
-      input: { aikido: aikido(), sonarCloud: sonar("80.4") },
-      expected: { source: "sonarcloud", percentage: 80.4 },
-    },
-    {
-      claim: "falls back to SonarCloud on snapshots without Aikido data",
-      input: { sonarCloud: sonar("55") },
-      expected: { source: "sonarcloud", percentage: 55 },
-    },
-    {
-      claim: "uses Aikido when SonarCloud is not set up",
+      claim: "rounds to one decimal",
       input: { aikido: aikido(71.25) },
-      expected: { source: "aikido", percentage: 71.3 },
+      expected: { percentage: 71.3 },
     },
     {
-      claim: "is null when SonarCloud is set up without a coverage measure",
-      input: { sonarCloud: sonar() },
-      expected: null,
-    },
-    {
-      claim: "is null when SonarCloud reports a non-numeric value",
-      input: { sonarCloud: sonar("n/a") },
-      expected: null,
-    },
-    {
-      claim: "is null when neither source reports coverage",
+      claim: "is null when Aikido has no coverage for the repo",
       input: { aikido: aikido() },
       expected: null,
     },
+    {
+      claim: "is null on snapshots without Aikido data",
+      input: {},
+      expected: null,
+    },
   ])("$claim", ({ input, expected }) => {
-    expect(selectCoverage(input)).toEqual(expected)
+    expect(aikidoCoverage(input)).toEqual(expected)
   })
 })

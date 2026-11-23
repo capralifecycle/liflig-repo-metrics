@@ -5,7 +5,7 @@
 
 Repo Metrics collects, processes and presents various metrics related to GitHub repositories.
 
-- Collection: The collector lambda collects metrics from GitHub and supplementary services like SonarCloud and Aikido, and stores them in a file, `snapshot.json`.
+- Collection: The collector lambda collects metrics from GitHub and Aikido, and stores them in a file, `snapshot.json`.
 - Aggregation: `snapshot.json` is read by the aggregation lambda, its data processed into a format suitable for presentation, and stored in another file, `webapp.json`.
 - Reporting: `snapshot.json` is read by the reporter lambda, and the sum of current vulnerabilities is sent to Slack channel `#cals-dev-info`.
 - Presentation: `webapp.json` is read by the webapp and rendered as a dashboard.
@@ -23,7 +23,6 @@ subgraph Repo Metrics
 
   subgraph Sources
     GitHub
-    SonarCloud
     Aikido
   end
 
@@ -90,14 +89,13 @@ Running locally requires a data file at `packages/repo-collector/data/webapp.jso
 
 ### 1. Collect local data
 
-#### Alternative 1: Collect and aggregate data from live services (GitHub, SonarCloud, Aikido)
+#### Alternative 1: Collect and aggregate data from live services (GitHub, Aikido)
 
 This approach downloads data from remote sources to the local file system, then processes it into a webapp friendly format.
 
 Requires:
 
 - Active AWS credentials for `liflig-incubator` (used to fetch the GitHub App credentials from Secrets Manager — see [API Key setup](#api-key-setup)).
-- Environment variable `SONARCLOUD_TOKEN`.
 - Environment variables `AIKIDO_CLIENT_ID` and `AIKIDO_CLIENT_SECRET`.
 
 ```shell
@@ -146,12 +144,6 @@ bun load-secrets.ts
 
 The PEM is handled separately — see [Rotating the GitHub App private key](#rotating-the-github-app-private-key) below.
 
-### SonarCloud — environment variables
-
-Set the following in `.envrc`:
-
-- `SONARCLOUD_TOKEN`
-
 ### Aikido — REST API client credentials
 
 Aikido has no long-lived tokens. A workspace admin creates a REST API client under
@@ -169,10 +161,6 @@ The client needs these scopes:
 
 Without `code_coverage:read` the collector logs the failure and collects no
 Aikido coverage; vulnerability data is unaffected.
-
-Coverage is read from both Aikido and SonarCloud while repos move their
-coverage uploads to Aikido. When both have a value, the webapp shows Aikido's
-and labels it "Coverage (Aikido)"; otherwise it shows whichever source has one.
 
 Credentials live in AWS Secrets Manager (region `eu-west-1`, account `liflig-incubator`):
 

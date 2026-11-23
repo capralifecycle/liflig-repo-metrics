@@ -37,7 +37,3 @@ The collector and aggregator run sequentially in a Step Functions state machine 
 | Administration                           | ?      |
 | Members                                  | ?      |
 | Organization dependabot secrets          | ?      |
-
-## SonarCloud
-
-?

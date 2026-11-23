@@ -1,11 +1,10 @@
 import type {
   AikidoSeverity,
-  CoverageSource,
   Metrics,
   Repo,
 } from "@liflig/repo-metrics-repo-collector-types"
 import { Highlight } from "./Highlight"
-import { AikidoIcon, GitHubIcon, PrIcon, SonarCloudIcon } from "./Icons"
+import { AikidoIcon, GitHubIcon, PrIcon } from "./Icons"
 import { PrColumnDetails } from "./PrColumnDetails"
 import { isBotPr } from "./prUtils"
 import type { Column } from "./Table"
@@ -146,9 +145,8 @@ export const repoColumns = (props: {
     },
     {
       header: "Coverage",
-      subheader: "SonarCloud / Aikido",
-      subheaderTitle: "Aikido is shown when a repo has coverage in both",
-      headerIcon: <SonarCloudIcon />,
+      subheader: "Aikido",
+      headerIcon: <AikidoIcon />,
       width: compact ? "19%" : "4%",
       align: "right",
       sortOn: (repo) => repo.metrics.coverage?.percentage,
@@ -157,12 +155,8 @@ export const repoColumns = (props: {
         return coverage ? (
           <span
             className={`test-coverage ${coverageClass(coverage.percentage)}`}
-            title={`Coverage (${COVERAGE_SOURCE_LABEL[coverage.source]})`}
           >
             {coverage.percentage}
-            {coverage.source === "aikido" && (
-              <span className="coverage-source">Aikido</span>
-            )}
           </span>
         ) : (
           <span className="coverage-missing">missing</span>
@@ -253,11 +247,6 @@ export function isActionableRepo(repo: Metrics): boolean {
       .length > 0 ||
     repo.github.prs.filter((it) => isBotPr(it)).length > 0
   )
-}
-
-export const COVERAGE_SOURCE_LABEL: Record<CoverageSource, string> = {
-  aikido: "Aikido",
-  sonarcloud: "SonarCloud",
 }
 
 export function coverageClass(percentage: number): string {

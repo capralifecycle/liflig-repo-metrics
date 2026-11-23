@@ -4,9 +4,9 @@ import type {
 } from "@liflig/repo-metrics-repo-collector-types"
 import * as React from "react"
 import { createPortal } from "react-dom"
-import { AikidoIcon, GitHubIcon, PrIcon, RenovateIcon, SonarCloudIcon } from "./Icons"
+import { AikidoIcon, GitHubIcon, PrIcon, RenovateIcon } from "./Icons"
 import { isBotPr } from "./prUtils"
-import { COVERAGE_SOURCE_LABEL, coverageClass } from "./Repo"
+import { coverageClass } from "./Repo"
 
 /**
  * Repo detail panel shown on the right of the table. Selecting a repo fills
@@ -24,12 +24,6 @@ const AIKIDO_SEVERITY_ORDER: AikidoSeverity[] = [
 
 const repoBaseUrl = (repo: Repo) =>
   `https://github.com/${repo.org}/${repo.name}`
-
-// SonarCloud project keys are deterministically `<org>_<name>` (see the
-// collector's `getMetricsByProjectKey` call), so the dashboard link can be
-// reconstructed on the frontend without carrying the key through the pipeline.
-const sonarCloudProjectUrl = (repo: Repo) =>
-  `https://sonarcloud.io/summary/overall?id=${encodeURIComponent(`${repo.org}_${repo.name}`)}`
 
 const aikidoRepoUrl = (repoId: number) =>
   `https://app.aikido.dev/repositories/${repoId}`
@@ -138,7 +132,6 @@ export const RepoSidebar: React.FC<Props> = ({ repo, onClose }) => {
       a.title.localeCompare(b.title),
   )
 
-  const sonarCloud = repo.metrics.sonarCloud
   const coverage = repo.metrics.coverage
   // Renovate's own dashboard links here for the repo's run logs (Mend portal).
   const mendUrl = `https://app.renovatebot.com/dashboard#github/${encodeURI(repo.id)}`
@@ -274,50 +267,24 @@ export const RepoSidebar: React.FC<Props> = ({ repo, onClose }) => {
         )}
       </Section>
 
-      {coverage?.source === "aikido" ? (
-        <Section icon={<AikidoIcon />} title="Coverage (Aikido)">
+      <Section icon={<AikidoIcon />} title="Coverage (Aikido)">
+        {coverage ? (
           <CoverageValue percentage={coverage.percentage} />
-          {aikido.repoId != null && (
-            <p className="repo-sidebar-note">
-              <a
-                href={aikidoRepoUrl(aikido.repoId)}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Open in Aikido
-              </a>
-            </p>
-          )}
-        </Section>
-      ) : (
-        <Section
-          icon={<SonarCloudIcon />}
-          title={`Coverage (${COVERAGE_SOURCE_LABEL.sonarcloud})`}
-        >
-          {sonarCloud.enabled ? (
-            <>
-              {coverage ? (
-                <CoverageValue percentage={coverage.percentage} />
-              ) : (
-                <p className="repo-sidebar-empty">No coverage reported.</p>
-              )}
-              <p className="repo-sidebar-note">
-                <a
-                  href={sonarCloudProjectUrl(repo)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Open in SonarCloud
-                </a>
-              </p>
-            </>
-          ) : (
-            <p className="repo-sidebar-empty">
-              No coverage in SonarCloud or Aikido.
-            </p>
-          )}
-        </Section>
-      )}
+        ) : (
+          <p className="repo-sidebar-empty">No coverage uploaded.</p>
+        )}
+        {aikido.repoId != null && (
+          <p className="repo-sidebar-note">
+            <a
+              href={aikidoRepoUrl(aikido.repoId)}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open in Aikido
+            </a>
+          </p>
+        )}
+      </Section>
 
       <Section
         icon={<RenovateIcon />}

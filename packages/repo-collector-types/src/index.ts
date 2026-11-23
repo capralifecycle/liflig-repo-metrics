@@ -37,18 +37,6 @@ export interface SnapshotMetrics {
       lastUpdatedByRenovate?: string | null
     } | null
   }
-  sonarCloud?: {
-    component: {
-      id: string
-      key: string
-      name: string
-      qualifier: string
-      measures: {
-        metric: string
-        value: string
-      }[]
-    }
-  }
   // Added 2026-07: Aikido security. Absent on snapshots collected before the
   // integration; consumers must treat it as optional.
   aikido?: AikidoMetrics
@@ -122,10 +110,7 @@ export interface Repo {
   metrics: Metrics
 }
 
-export type CoverageSource = "aikido" | "sonarcloud"
-
 export interface Coverage {
-  source: CoverageSource
   /** Line coverage, 0-100, rounded to one decimal. */
   percentage: number
 }
@@ -151,16 +136,7 @@ export interface Metrics {
       }[]
     }[]
   }
-  sonarCloud: {
-    /**
-     * Describes whether SonarCloud is configured for the GitHub repository in question.
-     */
-    enabled: boolean
-  }
-  /**
-   * Test coverage from whichever source has it, preferring Aikido over
-   * SonarCloud. Null when neither reports coverage.
-   */
+  /** Test coverage uploaded to Aikido. Null when none has been uploaded. */
   coverage: Coverage | null
   aikido: {
     /** Whether the repo is onboarded in Aikido. `false` renders as "no data". */
