@@ -3,7 +3,6 @@ import AikidoSvg from "./assets/icons/aikido"
 import GitHubSvg from "./assets/icons/github"
 import PrSvg from "./assets/icons/pr"
 import RenovateSvg from "./assets/icons/renovate"
-import SonarCloudSvg from "./assets/icons/sonarcloud"
 
 // Inline SVG components (not a PNG or data-URI <img>) so they aren't blocked
 // by the deployed `img-src 'self'` CSP, and `currentColor` icons still inherit
@@ -17,5 +16,4 @@ const iconProps = {
 export const AikidoIcon: React.FC = () => <AikidoSvg {...iconProps} />
 export const GitHubIcon: React.FC = () => <GitHubSvg {...iconProps} />
 export const RenovateIcon: React.FC = () => <RenovateSvg {...iconProps} />
-export const SonarCloudIcon: React.FC = () => <SonarCloudSvg {...iconProps} />
 export const PrIcon: React.FC = () => <PrSvg {...iconProps} />

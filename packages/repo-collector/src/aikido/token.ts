@@ -5,8 +5,7 @@ export interface AikidoCredentials {
 
 /**
  * Supplies the Aikido REST API client credentials (client id + secret). The
- * short-lived access token exchange itself lives in `AikidoService`, mirroring
- * how the SonarCloud service owns its request auth.
+ * short-lived access token exchange itself lives in `AikidoService`.
  */
 export interface AikidoCredentialsProvider {
   getCredentials(): Promise<AikidoCredentials>
@@ -14,7 +13,7 @@ export interface AikidoCredentialsProvider {
 
 /**
  * Reads credentials from `AIKIDO_CLIENT_ID` / `AIKIDO_CLIENT_SECRET`, for local
- * CLI runs. Mirrors `SonarCloudTokenCliProvider`.
+ * CLI runs.
  */
 export class AikidoCredentialsCliProvider implements AikidoCredentialsProvider {
   async getCredentials(): Promise<AikidoCredentials> {

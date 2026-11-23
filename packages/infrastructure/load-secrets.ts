@@ -23,17 +23,6 @@ const githubAppSecret: loadSecrets.Secret = {
   ],
 }
 
-const sonarCloudTokenSecret: loadSecrets.Secret = {
-  name: "sonarcloud-token",
-  description: "SonarCloud token",
-  type: "json",
-  fields: [
-    {
-      key: "token",
-    },
-  ],
-}
-
 const aikidoClientSecret: loadSecrets.Secret = {
   name: "aikido-api",
   description: "Aikido REST API client credentials (client id + secret)",
@@ -71,7 +60,6 @@ loadSecrets.loadSecretsCli({
         githubAppSecret,
         reporterSlackWebhookUrlSecret,
         slackPipelineNotificationWebhookUrl,
-        sonarCloudTokenSecret,
       ],
     },
   ],

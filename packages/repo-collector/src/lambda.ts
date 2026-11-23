@@ -11,7 +11,6 @@ import {
 } from "./reporter/reporter"
 import { collect } from "./snapshots/collect"
 import { S3SnapshotsRepository } from "./snapshots/snapshots-repository"
-import type { SonarCloudTokenProvider } from "./sonarcloud/token"
 import {
   createWebappFriendlyFormat,
   retrieveSnapshotsForWebappAggregation,
@@ -41,16 +40,6 @@ function requireEnv(name: string): string {
   return result
 }
 
-async function getSonarCloudTokenProvider(): Promise<SonarCloudTokenProvider> {
-  const sonarCloudTokenSecretId = requireEnv("SONARCLOUD_TOKEN_SECRET_ID")
-  const sonarCloudToken = (await getSecretValue(sonarCloudTokenSecretId)).token
-
-  return {
-    getToken: () => Promise.resolve(sonarCloudToken),
-    markInvalid: () => Promise.resolve(),
-  }
-}
-
 async function getAikidoCredentialsProvider(): Promise<AikidoCredentialsProvider> {
   const aikidoApiSecretId = requireEnv("AIKIDO_API_SECRET_ID")
   const { clientId, clientSecret } = await getSecretValue(aikidoApiSecretId)
@@ -74,7 +63,6 @@ export const collectHandler: Handler = async () => {
   await collect(
     snapshotsRepository,
     await loadGitHubAppProviderFromSecrets(),
-    await getSonarCloudTokenProvider(),
     await getAikidoCredentialsProvider(),
   )
   console.log("Done.")
