@@ -808,6 +808,14 @@ button:hover {
   padding-bottom: 4px;
 }
 
+.repo-sidebar-section-source {
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--color-mute);
+}
+
 .repo-sidebar-section-count {
   margin-left: auto;
   font-size: 12px;

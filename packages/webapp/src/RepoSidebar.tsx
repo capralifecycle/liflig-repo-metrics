@@ -164,7 +164,12 @@ export const RepoSidebar: React.FC<Props> = ({ repo, onClose }) => {
         <MetaItem label="Customer" value={repo.customer} />
       </div>
 
-      <Section icon={<PrIcon />} title="PRs" count={allPrs.length}>
+      <Section
+        icon={<PrIcon />}
+        title="PRs"
+        source="GitHub"
+        count={allPrs.length}
+      >
         {allPrs.length === 0 ? (
           <p className="repo-sidebar-empty">No open PRs.</p>
         ) : (
@@ -212,7 +217,8 @@ export const RepoSidebar: React.FC<Props> = ({ repo, onClose }) => {
 
       <Section
         icon={<AikidoIcon />}
-        title="Vulnerabilities (Aikido)"
+        title="Vulnerabilities"
+        source="Aikido"
         count={aikido.enabled ? aikidoIssues.length : undefined}
       >
         {!aikido.enabled ? (
@@ -267,7 +273,7 @@ export const RepoSidebar: React.FC<Props> = ({ repo, onClose }) => {
         )}
       </Section>
 
-      <Section icon={<AikidoIcon />} title="Coverage (Aikido)">
+      <Section icon={<AikidoIcon />} title="Coverage" source="Aikido">
         {coverage ? (
           <CoverageValue percentage={coverage.percentage} />
         ) : (
@@ -289,6 +295,7 @@ export const RepoSidebar: React.FC<Props> = ({ repo, onClose }) => {
       <Section
         icon={<RenovateIcon />}
         title="Dependencies"
+        source="Renovate"
         count={actionableUpdates.length}
       >
         {github.renovateDependencyDashboard == null ? (
@@ -369,13 +376,16 @@ const Section: React.FC<
   React.PropsWithChildren<{
     icon: React.ReactNode
     title: string
+    /** The system the section's data comes from, shown beside the title. */
+    source: string
     count?: number
   }>
-> = ({ icon, title, count, children }) => (
+> = ({ icon, title, source, count, children }) => (
   <section className="repo-sidebar-section">
     <h3 className="repo-sidebar-section-title">
       {icon}
       {title}
+      <span className="repo-sidebar-section-source">{source}</span>
       {count != null && count > 0 && (
         <span className="repo-sidebar-section-count">{count}</span>
       )}

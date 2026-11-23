@@ -44,6 +44,7 @@ export const repoColumns = (props: {
     },
     {
       header: "PR",
+      subheader: "GitHub",
       headerIcon: <PrIcon />,
       width: compact ? "13%" : "22%",
       align: "right",
@@ -61,6 +62,7 @@ export const repoColumns = (props: {
     },
     {
       header: "Bot PR",
+      subheader: "GitHub",
       headerIcon: <PrIcon />,
       width: compact ? "15%" : "18%",
       align: "right",
