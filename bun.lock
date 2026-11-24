@@ -46,7 +46,7 @@
         "@aws-sdk/client-s3": "3.1172.0",
         "@aws-sdk/client-secrets-manager": "3.1172.0",
         "@octokit/types": "18.0.0",
-        "@slack/types": "3.3.0",
+        "@slack/types": "3.3.1",
         "@types/aws-lambda": "8.10.164",
         "@types/bun": "1.4.5",
         "@types/js-yaml": "4.0.9",
@@ -315,7 +315,7 @@
 
     "@rolldown/pluginutils": ["@rolldown/pluginutils@1.0.1", "", {}, "sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw=="],
 
-    "@slack/types": ["@slack/types@3.3.0", "", {}, "sha512-11r2kM9Zy/UlaV6OwPibZueVlyNJ5xtHEHK/iYDnPLyhQcxRtsifNAwNhJ1Lm0nszW4jrWCHThXCHCNJC/hvqg=="],
+    "@slack/types": ["@slack/types@3.3.1", "", {}, "sha512-F4JJd1SY5Nro1O6O4izMrBv0/IOpr+a8GGewr23tnP8zO1t9mWFLBjpNPv6nxuxhhw4JVRM9CPltBnLkZj7Ucw=="],
 
     "@smithy/core": ["@smithy/core@3.40.0", "", { "dependencies": { "@smithy/types": "^4.20.0", "tslib": "^2.6.2" } }, "sha512-DssGno52pzZ5m6RlDtyKuBIpZNPg9pqgs0CnNDKz9IatxCsmvNmJNn5Zn6rf77MthZo9wf89OvZFhTY/RwxhxQ=="],
 
