@@ -147,15 +147,35 @@ function issue(opts: {
   }
 }
 
-// Routes an /issues/export request to open vs ignored fixtures by filter_status.
-function exportResponse(url: string, open: unknown, ignored: unknown) {
-  return url.includes("filter_status=ignored")
-    ? jsonResponse(ignored)
-    : jsonResponse(open)
+/**
+ * The slice of `items` for the request's `page`, sized by its `per_page` but
+ * never larger than `cap`, the way Aikido caps page sizes server-side.
+ */
+function paged<T>(url: string, items: T[], cap = Number.POSITIVE_INFINITY) {
+  const params = new URL(url).searchParams
+  const page = Number(params.get("page"))
+  const size = Math.min(cap, Number(params.get("per_page")))
+  return items.slice(page * size, (page + 1) * size)
 }
 
-function coverageResponse(repos: unknown[]) {
-  return jsonResponse({ code_coverage_repositories: repos })
+function listResponse(url: string, items: unknown[]) {
+  return jsonResponse(paged(url, items))
+}
+
+// Routes an /issues/export request to open vs ignored fixtures by filter_status.
+function exportResponse(url: string, open: unknown[], ignored: unknown[]) {
+  return listResponse(
+    url,
+    url.includes("filter_status=ignored") ? ignored : open,
+  )
+}
+
+const COVERAGE_PAGE_CAP = 20
+
+function coverageResponse(url: string, repos: unknown[]) {
+  return jsonResponse({
+    code_coverage_repositories: paged(url, repos, COVERAGE_PAGE_CAP),
+  })
 }
 
 function coverage(repo: number, percentage: number) {
@@ -166,7 +186,7 @@ function coverage(repo: number, percentage: number) {
     covered_lines: percentage,
     partial_lines: 0,
     missed_lines: 100 - percentage,
-    coverage_percentage: percentage,
+    coverage_percentage: percentage.toFixed(2),
     branch: "main",
     updated_at: 1792540800,
   }
@@ -185,11 +205,11 @@ describe("getMetricsByRepo", () => {
         if (url.includes("/oauth/token")) {
           return jsonResponse({ access_token: "tok", token_type: "bearer" })
         }
-        if (url.includes("/repositories/code")) return jsonResponse(REPOS)
+        if (url.includes("/repositories/code")) return listResponse(url, REPOS)
         if (url.includes("/issues/export")) {
           return exportResponse(url, ISSUES, IGNORED)
         }
-        if (url.includes("/code-coverage/")) return coverageResponse([])
+        if (url.includes("/code-coverage/")) return coverageResponse(url, [])
         throw new Error(`unexpected url ${url}`)
       }),
     )
@@ -236,7 +256,7 @@ describe("getMetricsByRepo", () => {
           return jsonResponse({ access_token: "tok" })
         }
         if (url.includes("/repositories/code")) {
-          return jsonResponse([
+          return listResponse(url, [
             {
               id: 9,
               name: "Display Name",
@@ -246,8 +266,8 @@ describe("getMetricsByRepo", () => {
             },
           ])
         }
-        if (url.includes("/issues/export")) return jsonResponse([])
-        if (url.includes("/code-coverage/")) return coverageResponse([])
+        if (url.includes("/issues/export")) return listResponse(url, [])
+        if (url.includes("/code-coverage/")) return coverageResponse(url, [])
         throw new Error(`unexpected url ${url}`)
       }),
     )
@@ -258,7 +278,7 @@ describe("getMetricsByRepo", () => {
   })
 
   test("retries on 429 honoring Retry-After", async () => {
-    let reposCalls = 0
+    let firstPageCalls = 0
     vi.stubGlobal(
       "fetch",
       vi.fn(async (url: string) => {
@@ -266,23 +286,23 @@ describe("getMetricsByRepo", () => {
           return jsonResponse({ access_token: "tok" })
         }
         if (url.includes("/repositories/code")) {
-          reposCalls++
-          if (reposCalls === 1) {
+          if (url.includes("page=0&")) firstPageCalls++
+          if (firstPageCalls === 1) {
             return jsonResponse(
               { error: "rate limited" },
               { status: 429, headers: { "retry-after": "0" } },
             )
           }
-          return jsonResponse(REPOS)
+          return listResponse(url, REPOS)
         }
-        if (url.includes("/issues/export")) return jsonResponse([])
-        if (url.includes("/code-coverage/")) return coverageResponse([])
+        if (url.includes("/issues/export")) return listResponse(url, [])
+        if (url.includes("/code-coverage/")) return coverageResponse(url, [])
         throw new Error(`unexpected url ${url}`)
       }),
     )
 
     const byRepo = await service().getMetricsByRepo()
-    expect(reposCalls).toBe(2)
+    expect(firstPageCalls).toBe(2)
     expect(byRepo.get("repo-a")?.enabled).toBe(true)
   })
 
@@ -309,10 +329,10 @@ describe("getMetricsByRepo", () => {
         if (url.includes("/oauth/token")) {
           return jsonResponse({ access_token: "tok" })
         }
-        if (url.includes("/repositories/code")) return jsonResponse(REPOS)
-        if (url.includes("/issues/export")) return jsonResponse([])
+        if (url.includes("/repositories/code")) return listResponse(url, REPOS)
+        if (url.includes("/issues/export")) return listResponse(url, [])
         if (url.includes("/code-coverage/repositories")) {
-          return coverageResponse([coverage(2, 81.5)])
+          return coverageResponse(url, [coverage(2, 81.5)])
         }
         throw new Error(`unexpected url ${url}`)
       }),
@@ -328,6 +348,39 @@ describe("getMetricsByRepo", () => {
     expect(byRepo.get("repo-a")?.coverage).toBeUndefined()
   })
 
+  test("collects coverage from every page when Aikido caps the page size", async () => {
+    const ids = Array.from({ length: 45 }, (_, i) => i + 1)
+    const repos = ids.map((id) => ({
+      id,
+      name: `repo-${id}`,
+      provider: "github",
+      external_repo_id: `R_${id}`,
+      url: `https://github.com/capralifecycle/repo-${id}`,
+    }))
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => {
+        if (url.includes("/oauth/token")) {
+          return jsonResponse({ access_token: "tok" })
+        }
+        if (url.includes("/repositories/code")) return listResponse(url, repos)
+        if (url.includes("/issues/export")) return listResponse(url, [])
+        if (url.includes("/code-coverage/repositories")) {
+          return coverageResponse(
+            url,
+            ids.map((id) => coverage(id, 50)),
+          )
+        }
+        throw new Error(`unexpected url ${url}`)
+      }),
+    )
+
+    const byRepo = await service().getMetricsByRepo()
+
+    const missing = ids.filter((id) => !byRepo.get(`repo-${id}`)?.coverage)
+    expect(missing).toEqual([])
+  })
+
   test("keeps issue data when coverage cannot be fetched", async () => {
     vi.spyOn(console, "error").mockImplementation(() => {})
     vi.stubGlobal(
@@ -336,7 +389,7 @@ describe("getMetricsByRepo", () => {
         if (url.includes("/oauth/token")) {
           return jsonResponse({ access_token: "tok" })
         }
-        if (url.includes("/repositories/code")) return jsonResponse(REPOS)
+        if (url.includes("/repositories/code")) return listResponse(url, REPOS)
         if (url.includes("/issues/export")) {
           return exportResponse(url, ISSUES, IGNORED)
         }

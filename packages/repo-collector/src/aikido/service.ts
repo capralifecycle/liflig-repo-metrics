@@ -17,7 +17,7 @@ const API_BASE = `${AIKIDO_BASE_URL}/api/public/v1`
 
 const REPOS_PER_PAGE = 200
 const ISSUES_PER_PAGE = 5000
-const COVERAGE_PER_PAGE = 100
+const COVERAGE_PER_PAGE = 20
 const MAX_RETRIES = 5
 
 /**
@@ -63,7 +63,8 @@ interface AikidoIssue {
 
 interface AikidoCodeCoverage {
   code_repo_id: number
-  coverage_percentage: number
+  /** Decimal string, e.g. "93.69". */
+  coverage_percentage: string
   branch: string
   /** Unix timestamp, seconds. */
   updated_at: number
@@ -176,46 +177,35 @@ export class AikidoService {
     throw new Error(`Aikido request to ${path} exhausted retries`)
   }
 
-  private async listCodeRepos(): Promise<AikidoCodeRepo[]> {
-    const repos: AikidoCodeRepo[] = []
-    for (let page = 0; ; page++) {
-      const batch = await this.apiGet<AikidoCodeRepo[]>(
+  private listCodeRepos(): Promise<AikidoCodeRepo[]> {
+    return fetchAllPages((page) =>
+      this.apiGet<AikidoCodeRepo[]>(
         `/repositories/code?page=${page}&per_page=${REPOS_PER_PAGE}&include_inactive=false`,
-      )
-      repos.push(...batch)
-      if (batch.length < REPOS_PER_PAGE) break
-    }
-    return repos
+      ),
+    )
   }
 
-  private async exportIssues(status: IssueStatus): Promise<AikidoIssue[]> {
-    const issues: AikidoIssue[] = []
-    for (let page = 0; ; page++) {
-      const batch = await this.apiGet<AikidoIssue[]>(
+  private exportIssues(status: IssueStatus): Promise<AikidoIssue[]> {
+    return fetchAllPages((page) =>
+      this.apiGet<AikidoIssue[]>(
         `/issues/export?format=json&filter_status=${status}&page=${page}&per_page=${ISSUES_PER_PAGE}`,
-      )
-      issues.push(...batch)
-      if (batch.length < ISSUES_PER_PAGE) break
-    }
-    return issues
+      ),
+    )
   }
 
   /**
    * Latest coverage per repo, for the default branch. Requires the
    * `code_coverage:read` scope and a paid plan.
    */
-  private async listCodeCoverage(): Promise<AikidoCodeCoverage[]> {
-    const results: AikidoCodeCoverage[] = []
-    for (let page = 0; ; page++) {
-      const batch = await this.apiGet<{
+  private listCodeCoverage(): Promise<AikidoCodeCoverage[]> {
+    return fetchAllPages(async (page) => {
+      const response = await this.apiGet<{
         code_coverage_repositories: AikidoCodeCoverage[]
       }>(
         `/code-coverage/repositories?page=${page}&per_page=${COVERAGE_PER_PAGE}`,
       )
-      results.push(...batch.code_coverage_repositories)
-      if (batch.code_coverage_repositories.length < COVERAGE_PER_PAGE) break
-    }
-    return results
+      return response.code_coverage_repositories
+    })
   }
 
   /**
@@ -274,9 +264,24 @@ export class AikidoService {
   }
 }
 
+/**
+ * Concatenates pages 0, 1, 2, ... until one comes back empty. Aikido silently
+ * caps `per_page` on some endpoints, so a short page does not mark the end.
+ */
+async function fetchAllPages<T>(
+  fetchPage: (page: number) => Promise<T[]>,
+): Promise<T[]> {
+  const items: T[] = []
+  for (let page = 0; ; page++) {
+    const batch = await fetchPage(page)
+    if (batch.length === 0) return items
+    items.push(...batch)
+  }
+}
+
 function toCoverage(c: AikidoCodeCoverage): AikidoCoverage {
   return {
-    percentage: c.coverage_percentage,
+    percentage: Number(c.coverage_percentage),
     branch: c.branch,
     updatedAt: new Date(c.updated_at * 1000).toISOString(),
   }
