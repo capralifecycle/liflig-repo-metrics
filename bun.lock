@@ -12,7 +12,7 @@
       "name": "@liflig/repo-metrics-infrastructure",
       "version": "0.0.0-development",
       "dependencies": {
-        "@capraconsulting/webapp-deploy-lambda": "2.5.208",
+        "@capraconsulting/webapp-deploy-lambda": "2.5.210",
         "aws-cdk-lib": "2.276.0",
         "constructs": "10.8.1",
       },
@@ -167,7 +167,7 @@
 
     "@biomejs/cli-win32-x64": ["@biomejs/cli-win32-x64@2.6.8", "", { "os": "win32", "cpu": "x64" }, "sha512-cD6HvGczZUiAYsY8s2TxxXj2AHFzEdMomvVJfEjzOjBM45nGqIDfBpbtvwGQzDCN8X2yKKk9u1jnDZisT2nxIg=="],
 
-    "@capraconsulting/webapp-deploy-lambda": ["@capraconsulting/webapp-deploy-lambda@2.5.208", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" } }, "sha512-LLHB1AE7vNDpQdetT6RyiWpk5yBp4lMUO7LRevvwEF2X++7MrTmD0orIvVokKgsxIu/2fk9tX3P4FNwzCpPxGg=="],
+    "@capraconsulting/webapp-deploy-lambda": ["@capraconsulting/webapp-deploy-lambda@2.5.210", "", { "peerDependencies": { "aws-cdk-lib": "^2.0.0", "constructs": "^10.0.0" } }, "sha512-RP9f8UrhOPJpBb6wnt4rlyabVlSSPiFpvItRgrR1llD7L/7OcHykJb02fYYyzLsN6SX0IUoB/5GkvJ753sePgg=="],
 
     "@esbuild/aix-ppc64": ["@esbuild/aix-ppc64@0.28.2", "", { "os": "aix", "cpu": "ppc64" }, "sha512-XExcO+dvLKvVtNTibSTBej1NCAbaGhWn9Ww1ZPx80qsahhPFe/8jgWP0IchNe0F3HwkU7n8ejhH8bjonqht8mQ=="],
 
